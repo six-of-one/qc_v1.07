@@ -164,32 +164,6 @@ void() monster_go =
 void(float flg) monster_start =
 {
 
-
-// TEST - REMOVE
-	#ifdef local_test
-// temp remove for map hack testing
-		#define local_test_2
-	#endifdef
-	
-	#ifdef local_test_2
-
-	if (autocvar_frmon == self.classname && !framechk) 
-	{
-
-		framechk = self;
-	}
-	if (autocvar_frmon)// != string_null)
-	if (self != framechk)
-	{
-		remove(self);
-		return;
-	}
-	#else
-		#message         			-- compile: autocvar_frmon == self.classname  DEACTIVATED 
-	#endifdef
-
-// TEST - REMOVE
-
 // this fires specific code in monster_go
 	self.flags = self.flags | flg
 #ifdef HIPNOTIC

@@ -581,10 +581,6 @@ void() W_FireLightning =
 
 
 //=============================================================================
-// TEST REMOVE
-#ifdef local_test
-string(entity ent) etos = #65;
-#endifdef
 
 void() GrenadeExplode =
 {
@@ -598,20 +594,6 @@ void() GrenadeExplode =
 #else
 	T_RadiusDamage (self, self.owner, self.dmg, world);
 #endifdef
-
-
-// TEST REMOVE
-	#ifdef local_test
-						bprint ("  --- explode dmg: ");
-						bprint (ftos(self.dmg));
-						bprint ("  - class: ");
-						bprint (self.classname);
-						bprint ("  - other: ");
-						bprint (etos(other));
-						bprint ("\n");
-	#endifdef
-// TEST REMOVE
-
 
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
@@ -870,14 +852,6 @@ void() spike_touch =
 
 	if (!self.dmg) self.dmg = 9;
 
-
-// TEST REMOVE
-	#ifdef local_test
-			self.spike_type = -1;
-	#endifdef
-
-
-
 // hit something that bleeds
 // need to qualify doors / triggers and other damageables that should _not_ bleed
 	if (other.takedamage)
@@ -907,16 +881,6 @@ void() spike_touch =
 		WriteCoord (MSG_BROADCAST, self.origin_y);
 		WriteCoord (MSG_BROADCAST, self.origin_z);
 	}
-
-// TEST REMOVE
-	#ifdef local_test_2
-						bprint ("  --- spike impact dmg: ");
-						bprint (ftos(self.dmg));
-						bprint ("  - TE_*: ");
-						bprint (ftos(self.spike_type));
-						bprint ("\n");
-	#endifdef
-// TEST REMOVE
 
 	remove(self);
 

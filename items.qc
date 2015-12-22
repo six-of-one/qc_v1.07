@@ -78,18 +78,6 @@ void() PlaceItem =
 	local float	oldz;
 #endifdef
 
-// TEST - REMOVE
-#ifdef local_test
-
-	if (autocvar_frmon != string_null) // testing monsters - no items
-	{
-		remove(self);
-		return;
-	}
-	
-#endifdef
-// TEST - REMOVE
-
 	self.mdl = self.model;		// so it can be restored on respawn
 	self.flags = FL_ITEM;		// make extra wide
 	self.solid = SOLID_TRIGGER;

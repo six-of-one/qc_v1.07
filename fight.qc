@@ -171,15 +171,6 @@ float(entity targ) range;
 
 void(float d) ai_charge =
 {
-// TEST - REMOVE
-	#ifdef local_test
-ai_id(ai_charge,d);
-	
-	return;
-	#endifdef
-
-// TEST - REMOVE
-
 	ai_face ();	
 	movetogoal (d);		// done in C code...
 };

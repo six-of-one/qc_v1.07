@@ -1639,50 +1639,6 @@ void() PlayerPostThink =
 //	local	float	mspeed, aspeed;	// fx_warning
 //	local	float	r;	// fx_warning
 
-// TEST - REMOVE
-#ifdef local_test
-float f;
-string ss;
-// TEST TEST - twiggle point
-	if (!autocvar_frtwig)
-	if (framechk)
-	if (framechk.frame != frameon)
-	{
-			ss = " - ";
-			if (fabs(framechk.frame - frameon) > 1)
-			{
-				if (framejump)
-				{
-					framejump = 0; // switching sets - one allowed jump
-					ss = " * ";
-				}
-				else
-				{
-					bprint ("      * frames jumped by: ");
-					bprint (ftos(fabs(framechk.frame - frameon)));
-					bprint ("\n");
-				}
-			}
-			if (frtrace)
-				bprint(" --- framer - trace on:  ");
-			else
-				bprint (" --- trace on:  ");
-				bprint (framechk.classname);
-				bprint (" - frame:  ");
-				bprint (ftos(framechk.frame));
-				bprint (ss);
-				bprint ("in:  ");
-		f = time - framet;
-				bprint (ftos(f));
-		if ((f > 0.095) && (f < 0.12))  bprint (" ~ 0.1");
-				bprint ("\n");
-		frameon = framechk.frame;
-		framet = time;
-	}
-
-#endifdef
-// TEST - REMOVE
-
 #ifdef hip_mapent
 	earthquake_postthink();
 #endifdef

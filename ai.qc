@@ -616,34 +616,11 @@ float() FindTarget =
 
 void(float dist) ai_forward =
 {
-// TEST - REMOVE
-	#ifdef local_test
-ai_id(ai_forward,dist);
-	#endifdef
-
-// TEST - REMOVE
 	walkmove (self.angles_y, dist);
 };
 
 void(float dist) ai_back =
 {
-
-
-
-// TEST - REMOVE
-	#ifdef local_test
-
-ai_id(ai_back,dist); // REMOVE
-
-// so ai_run doesnt bork frame tests
-	if (self == framechk) return;
-
-	#endifdef
-
-// TEST - REMOVE
-
-
-
 	walkmove ( (self.angles_y+180), dist);
 };
 
@@ -681,13 +658,6 @@ stagger back a bit
 */
 void(float dist) ai_painforward =
 {
-	
-// TEST - REMOVE
-	#ifdef local_test
-ai_id(ai_painforward,dist);
-	#endifdef
-
-// TEST - REMOVE
 	walkmove (self.ideal_yaw, dist);
 };
 
@@ -702,13 +672,6 @@ void(float dist) ai_walk =
 {
 //	local vector		mtemp;	// fx_warning
 
-// TEST - REMOVE
-	#ifdef local_test
-ai_id(ai_walk,dist);
-	#endifdef
-
-// TEST - REMOVE
-	
 	movedist = dist;
 
 #ifdef xmonsters
@@ -946,22 +909,6 @@ void(float dist) ai_run =
 //	local	vector	delta;	// fx_warning
 //	local	float	axis;	// fx_warning
 //	local	float	direct, ang_rint, ang_floor, ang_ceil;	// fx_warning
-
-
-
-// TEST - REMOVE
-	#ifdef local_test
-
-ai_id(ai_run,dist); // REMOVE
-
-// so ai_run doesnt bork frame tests
-	if (self == framechk) return;
-
-	#endifdef
-
-// TEST - REMOVE
-
-
 
 	movedist = dist;
 // see if the enemy is dead

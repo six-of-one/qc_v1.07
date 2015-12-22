@@ -1,37 +1,4 @@
 
-// TEST - REMOVE
-#ifdef local_test
-var string autocvar_frmon;
-var float autocvar_frtwig;
-entity framechk;
-float frameon, framet, framejump, frtrace;
-
-#define ai_id(fnw,dis) aid(self.frame, dis, self.classname, #fnw)
-
-void(float frm, float ds, string cls, string cfn) aid =
-{
-// TEST TEST - twiggle point
-		if (autocvar_frtwig)
-		{
-			if (frtrace)
-				bprint (" -- (fr) ai: ");
-			else
-				bprint (" --- ai: ");
-				bprint (cls);
-				bprint (" - fr: ");
-				bprint (ftos(frm));
-				bprint (" - d: ");
-				bprint (ftos(ds));
-				bprint (" - call( ");
-				bprint (cfn);
-				bprint (" )");
-				bprint ("\n");
-		}
-}
-
-#endifdef
-// TEST - REMOVE
-
 void() SUB_Null = {};
 
 void() SUB_Remove = {remove(self);};

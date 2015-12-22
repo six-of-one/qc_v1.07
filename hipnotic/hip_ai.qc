@@ -216,13 +216,7 @@ don't move, but turn towards ideal_yaw
 void() ai_turn_in_place =
 {
 	local float delta;
-// TEST - REMOVE
-	#ifdef local_test
-ai_id(ai_turn_in_place,0);
-	return;
-	#endifdef
 
-// TEST - REMOVE
 	self.nextthink = time + 0.1;
 	enemy_yaw = vectoyaw(self.enemy.origin - self.origin);
 	delta = fabs(self.angles_y - enemy_yaw);
