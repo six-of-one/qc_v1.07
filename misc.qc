@@ -109,37 +109,6 @@ void() light_globe =
 void() FireAmbient =
 {
 	precache_sound ("ambience/fire1.wav");
-/*
-#ifdef map_hack
-
-// no ambients with maphack no persist - these will all have to copy to correct locs
-if (mh.spawnflags & NOPERSIST)
-{
-	self.effects = EF_FULLBRIGHT; // always lit
-	s = self;
-	self = spawn(); // need a 2nd ent - the first is the model
-	self.origin = s.origin;
-	fa_sound("ambience/fire1.wav", 0.5);
-
-
-	#ifdef warning
-																			if (WARNING & 524288)
-																			{
-																				bprint(" *** fa_sound ent: ");
-																				bprint(item_ident(self));
-																				bprint(" - hear: ");
-																				bprint(self.noise);
-																				bprint(" org: ");
-																				bprint(vtos(self.origin));
-																				bprint("\n");
-																			}
-	#endifdef
-
-
-	return;
-}
-#endifdef
-*/
 // attenuate fast
 	ambientsound (self.origin, "ambience/fire1.wav", 0.5, ATTN_STATIC);
 	makestatic(self);
