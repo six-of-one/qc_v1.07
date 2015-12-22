@@ -1,0 +1,42 @@
+./progs.dat
+
+/// v1.07 qc++
+
+// control file
+compiler.qc
+
+// darkplaces extensions
+dpext.qc
+
+defs.qc
+subs.qc
+fight.qc
+ai.qc
+combat.qc
+items.qc
+weapons.qc
+world.qc
+client.qc
+player.qc
+monsters.qc
+doors.qc
+buttons.qc
+triggers.qc
+plats.qc
+misc.qc
+
+// main monster module
+quake_monsters.qc
+
+// extra monsters module
+monster_x/x_monsters.qc
+
+// hipnotic
+
+hipnotic/hip_code.qc
+
+debug.qc
+
+// q-hack
+
+maphack.qc
