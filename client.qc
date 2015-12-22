@@ -685,6 +685,7 @@ entity() SelectSpawnPoint =
 	local	float  pcount;
 
 #ifdef map_hack
+	if (self.movetarget.oh)
 	if (self.movetarget.classname == "trigger_respawn")
 	{
 		spot = self.movetarget; // if cloned from info_player_start, we are good...if put in a map via editor, set origin, angle
@@ -751,7 +752,7 @@ entity() SelectSpawnPoint =
 		if (!spot) spot = find (world, classname, "info_intermission");
 		if (!spot)
 		{
-			spot = spawn(); // bounce player in at 0, 0, 0 - might be a bad move
+			spot = spawn(); // bounce player in at 0, 0, 0 - might be a bad move, maybe create temp plat & message trigger
 			spot.classname =  "info_player_start"; // save for DM / coop spawns
 		}
 
