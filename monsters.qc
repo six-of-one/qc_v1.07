@@ -160,6 +160,9 @@ void() monster_go =
 // a think() to this will default to walkmonster - self.flags will have to be set as specced below for fly or swim
 // flg - FL_SWIM or FL_FLY
 
+#ifdef local_test
+void() remove_monster;
+#endifdef
 
 void(float flg) monster_start =
 {
@@ -176,6 +179,11 @@ void(float flg) monster_start =
 	self.nextthink = self.nextthink + random()*0.5;
 	self.think = monster_go;
 	total_monsters = total_monsters + 1;
+
+#ifdef local_test
+	self.think = remove_monster;
+#endifdef
+
 };
 
 //============================================================================

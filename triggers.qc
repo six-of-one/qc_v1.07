@@ -302,6 +302,12 @@ void() trigger_counter =
 		self.count = 2;
 
 	self.use = counter_use;
+
+#ifdef map_hack
+// do this or these will have visual appearance in hacks
+	self.modelindex = 0;
+	self.model = string_null;
+#endifdef
 };
 
 

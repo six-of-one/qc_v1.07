@@ -281,7 +281,7 @@ this is fixed with
 
 // dev warning system - uncomment to use independent of debug code - should be removed from gold / release code
 
-//#define warning
+#define warning
 
 /*
 warning ideas
@@ -309,7 +309,7 @@ spec track by cvar
 
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
-//#define local_test
+#define local_test
 
 // we always tell if local test or debug are compiled in
 

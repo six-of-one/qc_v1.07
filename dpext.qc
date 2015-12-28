@@ -48,6 +48,12 @@ string(string search, string replace, string subject) strreplace = #484;
 //string(float chars, string s, ...) strpad = #225;
 // effect of #nondp here
 
+//wasfreed returns whether an entity slot is currently free (entities that have never spawned are free, entities that have had remove called on them are also free).
+float(entity ent) wasfreed = #353; // same as in EXT_CSQC extension
+
+//TESTING
+//Function to get the number of an entity - a clean way.
+float(entity num) num_for_edict = #512;
 
 // load any entites contained in a file
 
