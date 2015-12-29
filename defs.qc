@@ -779,6 +779,10 @@ string dh;
 // the owning hack
 .entity oh;
 
+// dist to nearest player
+// used to hide hacks / sub ents when player is far away with sv_hide
+.float hack_pdist;
+
 // ent / sub-ent copy of id system_hash
 #define l_hash		button12
 

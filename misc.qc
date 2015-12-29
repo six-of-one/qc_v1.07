@@ -189,8 +189,19 @@ void() fire_fly =
 {
 //#define fireball 	newmis
 //local entity	fireball;
+#ifdef map_hack
+	self.nextthink = time + (random() * 5) + 3;
+	self.think = fire_fly;
+
+// dont fire if player is farther awa
+// this is really clipped by hack_pdist, which is not set until biome.lefty is reached
+// idea: add live player dist checks
+	if (self.oh)
+	if (self.oh.hack_pdist > cvar("sv_firefly_hide")) return;
+#endifdef
+
 local_ent(fire_fly)
-	#define fireball e0__
+#define fireball e0__
 
 	fireball = spawn();
 	fireball.solid = SOLID_TRIGGER;
@@ -207,8 +218,10 @@ local_ent(fire_fly)
 	fireball.think = SUB_Remove;
 	fireball.touch = fire_touch;
 	
+#ifndef map_hack
 	self.nextthink = time + (random() * 5) + 3;
 	self.think = fire_fly;
+#endifdef
 
 #undef fireball
 local_ent_exit(fire_fly)
