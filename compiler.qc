@@ -403,9 +403,13 @@ void()	frd1;
 // this is for the sequencing of maps - the end of episode and finale texts
 // these take up a bit of space (~3700 bytes), and if your mod does not require playing through q1 (such as DM mods), you might not want them
 // if you comment this out - a GotoNextMap() will be called instead of displaying the end text
+// now wrapped in opgrade - new method using cvar_string is used
 
-//#define q_mapseq
+#ifndef opgrade
 
+	#define q_mapseq
+
+#endifdef
 
 
 // mission pack 1

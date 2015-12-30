@@ -866,7 +866,7 @@ void() PutClientInServer =
 
 	spawn_tdeath (self.origin, self);
 
-// map supplied cfg file
+// map supplied cfg file in .group field
 	if (world.group)
 	{
 		stuffcmd(self, "exec ");
