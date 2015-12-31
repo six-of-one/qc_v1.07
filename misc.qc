@@ -193,7 +193,7 @@ void() fire_fly =
 	self.nextthink = time + (random() * 5) + 3;
 	self.think = fire_fly;
 
-// dont fire if player is farther awa
+// dont fire if player is farther away
 // this is really clipped by hack_pdist, which is not set until biome.lefty is reached
 // idea: add live player dist checks
 	if (self.oh)

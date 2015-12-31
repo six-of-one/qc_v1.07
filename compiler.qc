@@ -281,7 +281,7 @@ this is fixed with
 
 // dev warning system - uncomment to use independent of debug code - should be removed from gold / release code
 
-#define warning
+//#define warning
 
 /*
 warning ideas
