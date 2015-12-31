@@ -867,6 +867,7 @@ void() PutClientInServer =
 	spawn_tdeath (self.origin, self);
 
 // map supplied cfg file in .group field
+// note: map is already loaded at this point
 	if (world.group)
 	{
 		stuffcmd(self, "exec ");
@@ -1424,7 +1425,7 @@ void() CheckPowerups =
 
 		if (self.invisible_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_INVISIBILITY;
+			self.items = self.items - (self.items & IT_INVISIBILITY);
 			self.invisible_finished = 0;
 			self.invisible_time = 0;
 		}
@@ -1464,7 +1465,7 @@ void() CheckPowerups =
 		
 		if (self.invincible_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_INVULNERABILITY;
+			self.items = self.items - (self.items & IT_INVULNERABILITY);
 			self.invincible_time = 0;
 			self.invincible_finished = 0;
 		}
@@ -1499,7 +1500,7 @@ void() CheckPowerups =
 
 		if (self.super_damage_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_QUAD;
+			self.items = self.items - (self.items & IT_QUAD);
 			self.super_damage_finished = 0;
 			self.super_time = 0;
 		}
@@ -1534,7 +1535,7 @@ void() CheckPowerups =
 
 		if (self.radsuit_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_SUIT;
+			self.items = self.items - (self.items & IT_SUIT);
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
 		}

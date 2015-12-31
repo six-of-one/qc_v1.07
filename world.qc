@@ -382,7 +382,6 @@ void() worldspawn =
 // test for maphack stuff
 //WARNING = 229376;
 
-
 #endifdef
 
 // init hash - should NOT be here - temp, remove

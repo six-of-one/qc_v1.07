@@ -271,7 +271,8 @@ void() door_touch =
 		return;
 	}
 
-	other.items = other.items - self.items;
+// maphack adj - dont blindly sub off .items
+	other.items = other.items - (self.items & other.items);
 	self.touch = SUB_Null;
 	if (self.enemy)
 		self.enemy.touch = SUB_Null;	// get paired door

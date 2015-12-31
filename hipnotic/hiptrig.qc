@@ -60,7 +60,9 @@ void() keytrigger_use =
 		return;
 	}
 
-	activator.items = activator.items - self.items;
+// maphack adj - dont blindly sub off .items
+
+	activator.items = activator.items - (self.items & activator.items);
 
 	// we can't just remove (self) here, because this is a touch function
 	// called while C code is looping through area links...
