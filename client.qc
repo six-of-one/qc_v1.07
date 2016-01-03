@@ -1929,6 +1929,7 @@ void(entity targ, entity attacker) ClientObituary =
 			// killed by a montser?
 			if (attacker.flags & FL_MONSTER)
 			{
+/// qc++: replace with strcat + cvar_string deal
 #ifdef quakemonsters
 				if (attacker.classname == "monster_army")
 					bprint (" was shot by a Grunt\n");

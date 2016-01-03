@@ -229,6 +229,7 @@ void() door_touch =
 	if (!self.items)
 		return;
 
+/// qc++: make this a strcat and cvar_string deal
 // FIXME: blink key on player's status bar
 	if ( (self.items & other.items) != self.items )
 	{

@@ -764,6 +764,7 @@ float(entity targ, entity inflictor) CanDamage;
 
 #define EF_FULLBRIGHT			512
 
+/// put this in seperate file
 #ifdef map_hack
 
 // attempting to fix vp after intermiss

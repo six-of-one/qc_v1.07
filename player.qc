@@ -770,8 +770,10 @@ void() PlayerDie =
 
 #ifdef opgrade
 
+// logic:
+//		define glowcorpse --- corpse with quad / pent will glow  - code below is not compiled in
+//		undef glowcorsep --- corpse with quad / pent will glow if svx_glowcorpse != 0
 	#ifndef glowcorpse
-// note: by this ifdef logic, we dont get the svx_ control unless glowcorpse is undefined
 		#ifdef xvars2
 	if (!cvar("svx_glowcorpse"))
 		#endifdef

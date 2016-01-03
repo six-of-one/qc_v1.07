@@ -180,6 +180,7 @@ void(float flg) monster_start =
 	self.think = monster_go;
 	total_monsters = total_monsters + 1;
 
+/// NOT for frame testing !!! - remove when resuming frd1
 #ifdef local_test
 	self.think = remove_monster;
 #endifdef
