@@ -384,7 +384,7 @@ void() worldspawn =
 
 #endifdef
 
-// init hash - should NOT be here - temp, remove
+/// init hash - should NOT be here - temp -> move
 	if (!system_hash) system_hash = 10000 + rint(random() * 3);
 	local_ent(world); // base ent, so we can use it from get-go
 
