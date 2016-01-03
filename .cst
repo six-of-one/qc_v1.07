@@ -1,0 +1,115 @@
+Source file: progs.src
+outputfile: progs.dat
+compiling compiler.qc
+#message:          			-- version 1.07 qc++ quake-c -- compile with fteqcc
+#message:          			-- (c) 1996 iD software, (c) 2014 Number Six
+#message:          			-- GPL - see LICENSE for rights and details
+#message:          
+#message:          			-- compile: qc++ v1.07 included
+#message:          			-- compile: operation upgrade v1.07 included
+#message:          			-- compile: objerror() and error() statements removed
+#message:          			-- compile: xvars level 0 control package
+#message: include   hipnotic/hip_control.qc
+#message: include   incl/local_ent.qc
+compiling dpext.qc
+compiling defs.qc
+#message: compiling hipnotic/hipdefs.qc
+#message: include   incl/use_dest.qc
+#message: include   incl/use_waitmax.qc
+#message: include   incl/use_distance.qc
+#message: include   incl/use_volume.qc
+#message: include   incl/use_writelong.qc
+#message: include   incl/use_nextent.qc
+#message: include   incl/use_vtos.qc
+compiling subs.qc
+compiling fight.qc
+compiling ai.qc
+compiling combat.qc
+compiling items.qc
+compiling weapons.qc
+compiling world.qc
+#message: include   hipnotic/hip_precache.qc
+compiling client.qc
+compiling player.qc
+#message: compiling hipnotic/hip_player.qc
+compiling monsters.qc
+compiling doors.qc
+compiling buttons.qc
+compiling triggers.qc
+compiling plats.qc
+compiling misc.qc
+compiling quake_monsters.qc
+#message:          			-- compile: quake monsters
+#message: compiling ogre.qc
+#message: compiling demon.qc
+#message: compiling shambler.qc
+#message: compiling knight.qc
+#message: compiling soldier.qc
+#message: compiling wizard.qc
+#message: compiling dog.qc
+#message: compiling zombie.qc
+#message: compiling boss.qc
+#message: compiling tarbaby.qc
+#message: compiling hknight.qc
+#message: compiling fish.qc
+#message: compiling shalrath.qc
+#message: compiling enforcer.qc
+#message: compiling oldone.qc
+compiling monster_x/x_monsters.qc
+compiling hipnotic/hip_code.qc
+#message:          			-- compile: hipnotic version 3.12.97_update
+#message: compiling hipnotic/hipsubs.qc
+#message: include   incl/use_copyentity.qc
+#message: compiling hipnotic/hip_ai.qc
+#message: compiling hipnotic/hipholes.qc
+#message: compiling hipnotic/hipspike.qc
+#message: compiling hipnotic/hipdecoy.qc
+#message: compiling hipnotic/hipmisc.qc
+#message: compiling hipnotic/hip_brk.qc
+#message: compiling hipnotic/hip_expl.qc
+#message: compiling hipnotic/hipquake.qc
+#message: compiling hipnotic/hiprubbl.qc
+#message: compiling hipnotic/hip_push.qc
+#message: compiling hipnotic/hip_part.qc
+#message: compiling hipnotic/hipwater.qc
+#message: compiling hipnotic/hiptrain.qc
+#message: compiling hipnotic/hipcount.qc
+#message: compiling hipnotic/hiptrig.qc
+#message: compiling hipnotic/hiprot.qc
+#message: compiling hipnotic/hipclock.qc
+#message: compiling hipnotic/hipitems.qc
+#message: compiling hipnotic/hipspawn.qc
+#message: compiling hipnotic/hip_weapon.qc
+#message: compiling hipnotic/hipscrge.qc
+in function scourge_run1 (line 277),
+hipnotic//hipscrge.qc:287: warning: too many parameters
+#message: compiling hipnotic/hipgrem.qc
+#message: compiling hipnotic/hiparma.qc
+#message: include   hipnotic/hip_xlate.qc
+compiling debug.qc
+compiling maphack.qc
+#message: include   incl/use_copyentity.qc
+#message: include   incl/use_vtos.qc
+Warning: progs CRC not recognised from quake nor clones
+Progs should run on any Quake executor
+at global scope,
+ 65204 strofs (of 1000000)
+ 35321 numstatements (of 524288)
+   982 numfunctions (of 16384)
+  3417 numglobaldefs (of 32768)
+   322 numfielddefs (292 unique) (of 2048)
+  3773 numpr_globals (of 65536)
+Writing progs.dat
+428260 TOTAL SIZE
+Writing progs.lno
+ 84 unique precache_models
+Compile Complete
+
+optres_shortenifnots 255
+optres_overlaptemps 20372
+optres_constantarithmatic 228
+optres_nonvec_parms 5405
+optres_assignments 751
+optres_unreferenced 40
+numtemps 245
+85 warnings
