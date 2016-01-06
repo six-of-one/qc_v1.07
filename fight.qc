@@ -236,6 +236,7 @@ void() ai_melee_side =
 	
 //	delta = self.enemy.origin - self.origin;
 
+// 2 comment out sections are done in ai_melee(); call
 //	if (vlen(self.enemy.origin - self.origin) > 60)
 //		return;
 	if (!CanDamage (self.enemy, self))

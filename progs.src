@@ -37,6 +37,9 @@ hipnotic/hip_code.qc
 
 debug.qc
 
+// escher physics
+//sv_user.qc
+
 // q-hack
 
 maphack.qc

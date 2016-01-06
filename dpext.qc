@@ -29,6 +29,22 @@ float(string name) cvar_type = #495;
 
 .float scale;
 
+// escher uses sv_user.qc
+
+//min returns the lowest of all the supplied numbers.
+//max returns the highest of all the supplied numbers.
+float(float a, float b, ...) min = #94;
+float(float a, float b, ...) max = #95;
+
+//bound clamps the value to the range and returns it.
+float(float minimum, float val, float maximum) bound = #96;
+.vector movement;
+
+// regrav areas of levels on a trigger
+.vector vgravity;
+
+#define escher
+
 // map_hack does much string manipulating
 
 float(string s) strlen = #114; // returns how many characters are in a string

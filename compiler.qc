@@ -64,7 +64,7 @@
 
 #ifdef message_all
 #message         			-- (c) 1996 iD software, (c) 2014 Number Six 
-#message         			-- GPL - see license.txt for rights and details 
+#message         			-- GPL - see LICENSE for rights and details 
 #message          
 #endifdef
 

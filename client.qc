@@ -1315,6 +1315,26 @@ void() PlayerPreThink =
 	if (!self.view_ofs) // == '0 0 0')
 		return;		// intermission or finale
 
+// escher gravity code
+
+	if (!self.vgravity) self.vgravity_z = cvar("sv_gravity") / 4;
+
+	if ( !( self.flags & FL_ONGROUND ) )
+	{
+		self.velocity = self.velocity - self.vgravity * frametime;
+	}
+	else
+	{
+		f0__ = 0;
+		if (self.vgravity_x)
+			if (self.velocity_x) f0__ = 5;
+
+		if (self.vgravity_y)
+			if (self.velocity_y) f0__ = 5;
+
+		self.velocity = self.velocity - self.vgravity * frametime * f0__;
+	}
+
 #ifdef hip_traps
 //JIM
 // Kill player on Edge of Oblivion
