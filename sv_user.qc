@@ -1,3 +1,5 @@
+#ifdef escher
+
 float lastclientthink, sv_maxspeed, sv_friction, sv_accelerate, sv_stopspeed;
 float sv_edgefriction, cl_rollangle, cl_divspeed;
 
@@ -14,7 +16,7 @@ float sv_edgefriction, cl_rollangle, cl_divspeed;
 
 void() SV_PlayerPhysics =
 {
-	local vector wishvel, wishdir, v;
+	local vector wishvel, wishdir, v, e_move, e_vel;
 	local float wishspeed, f;
 
 	if (self.movetype == MOVETYPE_NONE)
@@ -56,6 +58,30 @@ void() SV_PlayerPhysics =
 		self.angles_x = (self.v_angle_x + self.punchangle_x) * -0.333;
 		self.angles_y = self.v_angle_y + self.punchangle_y;
 	}
+
+// escher gravity code
+	if (self.vgravity_x)
+	{
+		e_move = self.movement;
+		e_vel = self.velocity;
+
+		e_move_x = self.movement_z;
+		e_vel_x = self.velocity_z;
+		e_move_z = self.movement_x;
+		e_vel_z = self.velocity_x;
+	}
+
+	if (self.vgravity_y)
+	{
+		e_move = self.movement;
+		e_vel = self.velocity;
+
+		e_move_y = self.movement_z;
+		e_vel_y = self.velocity_z;
+		e_move_z = self.movement_y;
+		e_vel_z = self.velocity_y;
+	}
+
 
 	if (self.flags & FL_WATERJUMP )
 	{
@@ -110,19 +136,19 @@ void() SV_PlayerPhysics =
 	}
 
 	// hack to not let you back into teleporter
-	if (time < self.teleport_time && self.movement_x < 0)
-		wishvel = v_right * self.movement_y;
+	if (time < self.teleport_time && e_move_x < 0)
+		wishvel = v_right * e_move_y;
 	else
 	{
 		// LordHavoc: this NOCLIP check is a fix for the 'not moving while looking straight up/down when noclipping' bug in Quake
 		if ((self.flags & FL_ONGROUND) || (self.movetype == MOVETYPE_NOCLIP))
 			makevectors (self.v_angle_y * '0 1 0');
 
-		wishvel = v_forward * self.movement_x + v_right * self.movement_y;
+		wishvel = v_forward * e_move_x + v_right * e_move_y;
 	}
 
 	if (self.movetype != MOVETYPE_WALK)
-		wishvel_z = self.movement_z;
+		wishvel_z = e_move_z;
 	else
 		wishvel_z = 0;
 
@@ -134,14 +160,14 @@ void() SV_PlayerPhysics =
 	if (self.movetype == MOVETYPE_NOCLIP) // noclip
 	{
 		self.flags = self.flags - (self.flags & FL_ONGROUND);
-		self.velocity = wishdir * wishspeed;
+		e_vel = wishdir * wishspeed;
 	}
 	else if (self.flags & FL_ONGROUND) // walking
 	{
 		// friction
-		if (self.velocity_x || self.velocity_y)
+		if (e_vel_x || e_vel_y)
 		{
-			v = self.velocity;
+			v = e_vel;
 			v_z = 0;
 			f = vlen(v);
 
@@ -167,32 +193,27 @@ void() SV_PlayerPhysics =
 			}
 
 			if (f < 0)
-				self.velocity = '0 0 0';
+				e_vel = '0 0 0';
 			else
-				self.velocity = self.velocity * f;
+				e_vel = e_vel * f;
 		}
 
 		// acceleration
-		f = wishspeed - (self.velocity * wishdir);
+		f = wishspeed - (e_vel * wishdir);
 		if (f > 0)
-			self.velocity = self.velocity + wishdir * min(f, sv_accelerate * frametime * wishspeed)
-#ifdef escher
-				- self.vgravity * frametime;
-#endifdef
-			;
+			e_vel = e_vel + wishdir * min(f, sv_accelerate * frametime * wishspeed);
+			self.velocity = e_vel;
 	}
 	else // airborn
 	{
 		if (wishspeed < 30)
-			f = wishspeed - (self.velocity * wishdir);
+			f = wishspeed - (e_vel * wishdir);
 		else
-			f = 30 - (self.velocity * wishdir);
+			f = 30 - (e_vel * wishdir);
 		if (f > 0)
-			self.velocity = self.velocity + wishdir * (min(f, sv_accelerate) * wishspeed * frametime)
-#ifdef escher
-				- self.vgravity * frametime;
-#endifdef
-			;
+			e_vel = e_vel + wishdir * (min(f, sv_accelerate) * wishspeed * frametime);
+			self.velocity = e_vel;
 	}
 }
 
+#endifdef

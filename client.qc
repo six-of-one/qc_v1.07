@@ -1127,7 +1127,22 @@ void() PlayerJump =
 	self.button2 = 0;
 // player jumping sound
 	sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
+
+// escher gravity code
+#ifdef escher
+
+/// FIX: make this the appr 270 value here instead of factored
+	if (self.vgravity_x)
+		self.velocity_x = self.velocity_x + self.vgravity_x * 1.35;
+	else
+	if (self.vgravity_y)
+		self.velocity_y = self.velocity_y + self.vgravity_y * 1.35;
+	else
+	self.velocity_z = self.velocity_z + self.vgravity_z * 1.35;
+#else
+// normal jump
 	self.velocity_z = self.velocity_z + 270;
+#endifdef
 };
 
 
@@ -1316,16 +1331,19 @@ void() PlayerPreThink =
 		return;		// intermission or finale
 
 // escher gravity code
-
+#ifdef escher
 	if (!self.vgravity) self.vgravity_z = cvar("sv_gravity") / 4;
 
 	if ( !( self.flags & FL_ONGROUND ) )
 	{
+// this seems to work fine during jumps
 		self.velocity = self.velocity - self.vgravity * frametime;
 	}
 	else
 	{
-		f0__ = 0;
+// this is a mere hack to enforce a non _z positive gravity, it only works when player has velocity
+/// FIX: its possible to "stall" in midair if velo is '0 0 0' and we dont want run state when on "ground"
+		f0__ = 0; // grav factor - if moving cause a "fall" towards "ground"
 		if (self.vgravity_x)
 			if (self.velocity_x) f0__ = 5;
 
@@ -1334,6 +1352,7 @@ void() PlayerPreThink =
 
 		self.velocity = self.velocity - self.vgravity * frametime * f0__;
 	}
+#endifdef
 
 #ifdef hip_traps
 //JIM
