@@ -757,81 +757,14 @@ float(entity targ, entity inflictor) CanDamage;
 
 #endifdef
 
+#ifdef map_hack
+
+#messagecompiling mhdefs.qc 
+#include <mhdefs.qc>
+
+#endifdef
+
 
 //============================================================================
 
-// map hack defines
 
-#define EF_FULLBRIGHT			512
-
-/// put this in seperate file
-#ifdef map_hack
-
-// attempting to fix vp after intermiss
-#define SVC_SETVIEWPORT		5
-#define SVC_SETANGLE		10
-
-// hacks master ent - the current map hack
-entity mh, biome;
-
-// default hack file name
-string dh;
-
-// the owning hack
-.entity oh;
-
-// dist to nearest player
-// used to hide hacks / sub ents when player is far away with sv_hide
-.float hack_pdist;
-
-// ent / sub-ent copy of id system_hash
-#define l_hash		button12
-
-// wrap ambient / makestatic so hacks can be 100% deletable
-void(vector pos, string samp, float vol, float atten) _ambientsound = #74;
-void(vector pos, string samp, float vol, float atten) ambientsound;
-void(entity e) _makestatic		= #69;
-void(entity e) makestatic;
-
-void() teleport_touch;
-void() eoe_scroll; // for end of episode text in infobar option
-
-#ifndef unused
-.float		light_lev;		// not used by game, but parsed by light util					// qc++ - seems not used in v1.06
-#endifdef
-
-#ifndef HIPNOTIC
-// in hip code
-.float gravity;
-.string group;
-#define	SVC_CUTSCENE  					34
-// note add trigger_grav
-#endifdef
-
-#define		NOPERSIST			32
-#define		RANDOMH				64
-
-// some entity field nums
-float e_model;
-
-float(entity hent, string match, string srch) cnt_ent;
-entity(float mvt, float sd, float flg, float ct, vector org, vector smin, vector smax, vector an, vector vel, string cname, string md, void() tch, float tht, void() thk, void() thd, entity ow, entity reset) chaos_spawn;
-void() maphack_trigger;
-void() hack_gthk;
-void() ltarget;
-void() mh_drop_key;
-
-// needs to be somewhere else
-
-.string stack1, stack2, stack3, stack4, stack5, stack6, stack7, stack8, stack9, stack10, stack11, stack12, stack13, stack14, stack15, stack16;
-.float button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16;
-
-
-#endifdef
-
-// move this
-float system_hash;
-
-void() target_speaker;
-void() q3_play_sound;
-string(entity e) item_ident;

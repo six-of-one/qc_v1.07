@@ -76,9 +76,6 @@ float(entity ent) wasfreed = #353; // same as in EXT_CSQC extension
 //Function to get the number of an entity - a clean way.
 float(entity num) num_for_edict = #512;
 
-// load any entites contained in a file
-
-void(string s) ent_load = #101;
 
 // to set entity string fields in code - you cant do an assign with temp strings, you get:
 // PRVM_GetString: invalid temp-string

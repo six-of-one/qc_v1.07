@@ -427,10 +427,13 @@ void()	frd1;
 
 // mission pack 2
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
-#define code_rogue
+#define ROGUE
 
 
 // ******************************************************************************************************************
+
+// painkeep
+#define code_painkeep
 
 // use pk bots
 #define code_pkbots

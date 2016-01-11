@@ -602,7 +602,6 @@ void() trigger_teleport =
 	{
 		precache_sound("ambience/hum1.wav");
 		o = (self.mins + self.maxs)*0.5;
-
 		ambientsound(
 
 #ifdef map_hack

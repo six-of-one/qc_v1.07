@@ -472,7 +472,7 @@ void() ExitIntermission =
 #endifdef
 
 	}
-// else from map_hack
+// else from opgrade in map_hack level code
 #endifdef
 
 	GotoNextMap();
