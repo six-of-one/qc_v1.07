@@ -1,6 +1,6 @@
 /*
 ======================================
-FrikBot X (Version 0.10.1)
+FrikBot X (Version 0.10.2)
 ======================================
 
 This program is in the Public Domain. My crack legal
