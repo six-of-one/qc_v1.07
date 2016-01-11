@@ -315,9 +315,11 @@ spec track by cvar
 
 	#ifdef local_test
 	#message         			-- compile: local test code activated *** 
+
+//void()	frd1;
+
 	#endifdef
 
-void()	frd1;
 
 // ******************************************************************************************************************
 
@@ -436,7 +438,7 @@ void()	frd1;
 #define code_painkeep
 
 // use pk bots
-#define code_pkbots
+//#define code_pkbots
 
 
 // ******************************************************************************************************************

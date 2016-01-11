@@ -18,30 +18,19 @@
 #endifdef
 
 
-// code affecting monsters, weapons and items
-// translate hipnotic to id1 selections
-// this can be left defined - any modules loaded will turn off  its xlate in hip_code.qc
-
-#define hipitem_xlate
-
-// nullify all hipnotic items / weapons / monsters
-// they wont load anyway, but you can load hipnotic maps without engine warnings
-// this takes up globals
-
-//#define hipitem_null
+// translate hipnotic - now handled by cfg scripts - see svx_model_ld_fail for details
 
 
 
 /*
 sub-modules
 
--	defining HIPNOTIC includes all
+-	defining HIPNOTIC activates all code
 
--	to use only selected modules, you could:
-	1. leave HIPNOTIC undefined and define the modules you want - there may be lost interdependencies
-	2. define HIPNOTIC and comment out all the modules you DONT want
+these are intended as section ids now
+to control what gets excluded on a case basis see cfg script controls
 
-hip_maps - controls end of level text
+hip_mapseq - controls end of level text
 hip_monsters - monster code
 hip_weapons - wep code
 hip_items - rest of item code
@@ -111,25 +100,3 @@ hip_footsteps - the hipnotic player footstep sound
 
 #endifdef
 
-
-// --------------------------------------------------------------------------------------------------------------------------
-#ifdef hipitem_xlate
-
-	#define hipitem_xlate_item
-	#define hipitem_xlate_weapon
-	#define hipitem_xlate_monster
-	
-#endifdef
-
-// --------------------------------------------------------------------------------------------------------------------------
-#ifdef hipitem_null
-
-// these two are NOT compatible, and this one will take priority if defined
-	#undef hipitem_xlate
-
-// the same section headers get used the same way - if the hip code block is used these are undefined
-	#define hipitem_xlate_item
-	#define hipitem_xlate_weapon
-	#define hipitem_xlate_monster
-	
-#endifdef

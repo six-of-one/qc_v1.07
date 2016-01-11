@@ -33,7 +33,15 @@ monster_x/x_monsters.qc
 
 // hipnotic
 
-hipnotic/hip_code.qc
+hipnotic/_code.qc
+
+// painkeep
+
+painkeep/_code.qc
+
+// bots
+
+frikbot/_code.qc
 
 debug.qc
 
