@@ -180,6 +180,11 @@ void() worldspawn =
 	if (time > 2) return;
 
 	lastspawn = world;
+#ifdef code_frikbots
+		BotInit ();
+//		CamSpawn ();
+#endifdef
+
 	InitBodyQue ();
 
 #ifdef hip_bulletholes
@@ -308,6 +313,9 @@ void() worldspawn =
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_model ("progs/v_light.mdl");
+#ifdef code_pkbots
+	setBotGravity (); // *bot
+#endifdef
 
 #ifdef HIPNOTIC
 
@@ -392,9 +400,14 @@ void() worldspawn =
 
 void() StartFrame =
 {
+#ifdef code_frikbots
+	BotFrame();
+#endifdef
 	teamplay = cvar("teamplay");
 	skill = cvar("skill");
 	framecount = framecount + 1;
+// Cataboligne - 11.2.12 - this caused a bunch of condition test fails in new code because the increment stops at 16777216
+	if (framecount >= 16777216) framecount  = 1;
 };
 
 /*

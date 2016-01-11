@@ -435,7 +435,7 @@ spec track by cvar
 // ******************************************************************************************************************
 
 // painkeep
-#define code_painkeep
+//#define code_painkeep
 
 // use pk bots
 //#define code_pkbots
@@ -446,11 +446,15 @@ spec track by cvar
 // use frik bots
 #define code_frikbots
 
+	#ifdef code_frikbots
+// include general bot code - enable later when support code is done
+	#define code_bots
+	#endifdef
 
 // ******************************************************************************************************************
 
 // rune server
-#define code_runes
+//#define code_runes
 
 
 // ******************************************************************************************************************

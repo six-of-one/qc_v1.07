@@ -487,6 +487,20 @@ When the player presses attack or jump, change to the next level
 */
 void() IntermissionThink =
 {
+// there is one + bot(s) - make sure they do a level reload, may not be any humans
+/*
+#ifdef code_bots
+	if (!bot_lvlreload)
+	if (find(world, class_select, "class_bot"))
+	{
+		bot_lvlreload = spawn();
+		bot_lvlreload.classname = "bot_lvlreload";
+		bot_lvlreload.think = GotoNextMap;
+		bot_lvlreload.nextthink = time + 60 + (random() * 20);
+	}
+#endifdef
+*/
+
 	if (time < intermission_exittime)
 		return;
 
@@ -534,6 +548,10 @@ void() execute_changelevel =
 		setorigin (other, pos.origin);
 		other = find (other, classname, "player");
 	}	
+
+#ifdef code_pkbots
+	if (find(world,classname,"pk*bot")) bot_changelevel(); // *bot - reload bots on next level, handle intermission
+#endifdef
 
 #ifdef map_hack
 	if (mh) ExitIntermission();
@@ -1317,6 +1335,9 @@ void() PlayerPreThink =
 {
 //	local	float	mspeed, aspeed;	// fx_warning
 //	local	float	r;	// fx_warning
+#ifdef code_frikbots
+	if (BotPreFrame ()) return ;
+#endifdef
 
 	if (intermission_running)
 	{
@@ -1680,6 +1701,11 @@ void() PlayerPostThink =
 //	local	float	mspeed, aspeed;	// fx_warning
 //	local	float	r;	// fx_warning
 
+#ifdef code_frikbots
+	if (BotPostFrame ())
+		return ;
+#endifdef
+
 #ifdef hip_mapent
 	earthquake_postthink();
 #endifdef
@@ -1726,6 +1752,10 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
+#ifdef code_frikbots
+	ClientInRankings();
+#endifdef
+
 	bprint (self.netname);
 	bprint (" entered the game\n");
 	
@@ -1744,6 +1774,10 @@ called when a player disconnects from a server
 */
 void() ClientDisconnect =
 {
+#ifdef code_frikbots
+	ClientDisconnected();
+#endifdef
+
 	if (gameover)
 		return;
 	// if the level end trigger has been activated, just return

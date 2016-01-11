@@ -9,6 +9,11 @@ compiler.qc
 dpext.qc
 
 defs.qc
+
+// bots
+
+frikbot/_code.qc
+
 subs.qc
 fight.qc
 ai.qc
@@ -39,9 +44,6 @@ hipnotic/_code.qc
 
 painkeep/_code.qc
 
-// bots
-
-frikbot/_code.qc
 
 debug.qc
 

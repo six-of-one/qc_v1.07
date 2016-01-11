@@ -149,7 +149,7 @@ void() bot_dodge_stuff =
 			}
 		}
 	}
-	if (coop || DM_MONSTER) // Cataboligne - 10.16.11 - help frik avoid dm monstere
+	if (coop || total_monsters > 0) // Cataboligne - 011.10.16 - help frik avoid dm monstere -- 016.1.11 - update, just use total
 	{
 		if (!self.enemy)
 		{
@@ -370,7 +370,8 @@ void() bot_fight_style =
 	local float foedist, mysz, foesz;
 
 
-	if (self.enemy.classname == OBSERVER) // Cataboligne - 8.13.9 - dont attack jafo
+//	if (self.enemy.classname == OBSERVER) // Cataboligne - 8.13.9 - dont attack jafo
+	if (self.enemy.classname != "player") // Cataboligne - 8.13.9 - dont attack jafo
 	{
 		self.enemy = world;
 		return;
@@ -430,12 +431,12 @@ void() bot_fight_style =
 				}
 			}
 
-
+#ifdef code_painkeep
 // try some pk items while retreating - Cataboligne - 9.29.9
 	if (random() < 0.8)
 		use_pkitem();
 // end pk item,s
-
+#endifdef
 
 			return;
 		}
@@ -457,7 +458,7 @@ void() bot_fight_style =
 			else
 				frik_walkmove(v1);
 		}
-		else if (!self.enemy.flags & FL_MONSTER)
+		else if (!(self.enemy.flags & FL_MONSTER))
 		{
 			if (foedist + 32 <  v_x)
 				frik_walkmove(self.origin - org);

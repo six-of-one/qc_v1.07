@@ -2,7 +2,7 @@
  *
  * Cataboligne
  *
- * file: pk_code.qc 
+ * file: _code.qc 
  *
  * date: 016.1.10
  *
@@ -15,8 +15,8 @@
 
 
 
-// HIPNOTIC is defined or not defined in compiler.qc, the master control file
-//						  module options are set in hipnotic/hip_control.qc
+// code_painkeep is defined or not defined in compiler.qc, the master control file
+//						  module options, if any, are set here
 
 #ifdef code_painkeep
 
@@ -40,9 +40,9 @@
 
 // main pk modules
 
-// moved to defs.qc
-//#messagecompiling painkeep/pk_defs.qc 
-//#include </pk_defs.qc>
+// call moved to defs.qc
+//#messagecompiling painkeep/_defs.qc 
+//#include </_defs.qc>
 
 
 //	#messagecompiling painkeep/pk.qc 
@@ -61,16 +61,7 @@
 estimated cost of painkeep package
 compiled on 016.1. with fteqcc 1.0
 
- 66680 strofs (of 1000000)
- 29097 numstatements (of 524288)
-   987 numfunctions (of 16384)
-  3177 numglobaldefs (of 32768)
-   321 numfielddefs (291 unique) (of 2048)
-  3592 numpr_globals (of 65536)
-Writing ./progs.dat
-377470 TOTAL SIZE
-Writing ./progs.lno
- 81 unique precache_models
+
 
 vs.
 

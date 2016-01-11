@@ -83,7 +83,8 @@ void(entity ent) target_add =
 {
 	if (ent == world)
 		return;
-	if (ent.classname == OBSERVER) return; // Cataboligne - 8.13.9 - dont target jafo, he's a nice guy
+//	if (ent.classname == OBSERVER) return; // Cataboligne - 8.13.9 - dont target jafo, he's a nice guy
+	if (ent.classname != "player") return; // Cataboligne - 8.13.9 - dont target jafo, he's a nice guy
 	if (target_onstack(ent))
 		return;
 	self.target4 = self.target3;
@@ -171,7 +172,7 @@ void(entity targ, float success) bot_lost =
                 
                 if (targ.flags & FL_ITEM)
                 {
-                        if (targ.model == null_string)
+                        if (targ.model == string_null)
                                 targ._last = world;
                         else
                                 targ._last = self;
@@ -207,7 +208,7 @@ void(entity targ) bot_check_lost =
 	{
 		if (vlen(targ.origin - self.origin) < 32)
 			bot_lost(targ, TRUE);
-		else if (targ.model == null_string)
+		else if (targ.model == string_null)
 			bot_lost(targ, TRUE);
 	}
 	else if (targ.classname == "waypoint")
@@ -612,17 +613,19 @@ float(entity thing) priority_for_thing =
 	thisp = 0;
 	// This is the most executed function in the bot. Careful what you do here.
 
-	if (thing.flags & FL_ITEM) //  && thing.model != null_string && thing.search_time < time) // Cataboligne - pre tested now
+	if (thing.flags & FL_ITEM) //  && thing.model != string_null && thing.search_time < time) // Cataboligne - pre tested now
 	{
 		// ugly hack
                 if (thing._last != self)
                         thisp = 20;
 
 
+#ifdef code_runes
 // rune server - Cataboligne - 10.11.11
 		if (RUNES && thing.map  == "rune" &&  thing.classname == "item_sigil")
 			thisp = 80;
 // end rune support
+#endifdef
 
 // painkeep hub support - Cataboligne - 9.29.9
 
@@ -767,7 +770,7 @@ void(float scope) bot_look_for_crap =
 		f = FALSE; // no way!
 		if (foe != self)
 		if (pointcontents(foe.origin) >= -3) //< -3) - in water or empty, exclude lava, slime, sky
-		if ((foe.flags & FL_ITEM) && foe.model != null_string && foe.search_time < time) f = TRUE;
+		if ((foe.flags & FL_ITEM) && foe.model != string_null && foe.search_time < time) f = TRUE;
 		else if (foe.classname == "waypoint") f = TRUE;
 		else if (foe.health > 0)
 		{
@@ -925,15 +928,19 @@ void() BotAI =
 	// health < 1 is used because fractional healths show up as 0 on normal player
 	// status bars, and the mod probably already compensated for that
 
+#ifdef code_painkeep
 	if (self.solid == SOLID_NOT)
-	if (inHubMap && self.map != null_string)						// Cataboligne - 5.12.10 - bot voted for a level in pk hub, mostly stay voted
+	if (inHubMap && self.map != string_null)						// Cataboligne - 5.12.10 - bot voted for a level in pk hub, mostly stay voted
 	if (random() < 0.96) return;
+#endifdef
 
 	if (self.health < 1)
 	{
+#ifdef code_painkeep
 		if (time > 15)
 		if (inHubMap)
 		if (bot_vote(0.7)) return;
+#endifdef
 
 		if (time < 20)						// Cataboligne - 2.27.11 - spawn frag bork fix
 		{
@@ -1034,10 +1041,13 @@ void() BotAI =
 	}
 
 
+
+#ifdef code_painkeep
 // try some pk items randomly - Cataboligne - 9.29.9
 	else if (random() < 0.1)
 		use_pkitem();
 // end pk items
+#endifdef
 
 
 	bot_dodge_stuff();

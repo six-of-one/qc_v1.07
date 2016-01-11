@@ -585,7 +585,9 @@ void(entity e, vector min, vector max) setsize = #4;
 void() break						= #6;																							// qc++ - seems not used in v1.06
 #endifdef
 float() random						= #7;		// returns 0 - 1
+#ifndef code_bots
 void(entity e, float chan, string samp, float vol, float atten) sound = #8;
+#endifdef
 vector(vector v) normalize			= #9;
 #ifndef noobjerr
 void(string e) error				= #10;
@@ -605,10 +607,16 @@ void(vector v1, vector v2, float nomonsters, entity forent) traceline = #16;
 
 entity() checkclient				= #17;	// returns a client to look for
 entity(entity start, .string fld, string match) find = #18;
+
+#ifndef code_bots
 void(entity client, string s)stuffcmd = #21;
+#endifdef
+
 entity(vector org, float rad) findradius = #22;
 void(string s) bprint				= #23;
+#ifndef code_bots
 void(entity client, string s) sprint = #24;
+#endifdef
 #ifndef nodprint
 void(string s) dprint				= #25;
 // currently this is only used in dprints
@@ -635,13 +643,15 @@ float(vector v) pointcontents		= #41;		// returns a CONTENT_*
 // #42 was removed
 float(float f) fabs = #43;
 
-#ifdef noautoaim
+#ifndef code_bots
+	#ifdef noautoaim
 // qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
 // note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
 #define aim(ign,igntwo) v_forward
-#else
+	#else
 // may be affected by sv_aim
 vector(entity e, float speed) aim = #44;		// returns the shooting vector
+	#endifdef
 #endifdef
 
 float(string s) cvar = #45;						// return cvar.value
@@ -662,11 +672,11 @@ vector(vector v) vectoangles			= #51;
 void(float to, float f) WriteByte		= #52;
 #ifdef unused
 void(float to, float f) WriteChar		= #53;																		// qc++ - seems not used in v1.06
-void(float to, float f) WriteShort		= #54;
 #include <incl/use_writelong.qc>
 //void(float to, float f) WriteLong		= #55;
 void(float to, float f) WriteAngle		= #57;
 #endifdef
+void(float to, float f) WriteShort		= #54; // used by frikbot
 void(float to, float f) WriteCoord		= #56;
 void(float to, string s) WriteString	= #58;
 void(float to, entity s) WriteEntity	= #59;
@@ -692,7 +702,9 @@ void(string s) changelevel = #70;
 
 void(string var, string val) cvar_set = #72;	// sets cvar.value
 
+#ifndef code_bots
 void(entity client, string s) centerprint = #73;	// sprint, but in middle
+#endifdef
 
 #ifndef map_hack
 void(entity e) makestatic		= #69;
@@ -719,7 +731,9 @@ string(string s) precache_file2		= #77;		// registered version only
 
 #endifdef
 
+#ifndef code_bots
 void(entity e) setspawnparms		= #78;		// set parm1... to the
+#endifdef
 												// values at level start
 												// for coop respawn
 

@@ -119,7 +119,9 @@ for all variable in the bot...
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
-#define FRIKBOT TRUE // set to true for frikbot access
+//#define FRIKBOT TRUE // set to true for frikbot access
+
+#define noway_radius 108 // no new waypoint in this radius
 
 // ----- entity fields ---
 .float	wallhug, keys, oldkeys, ishuman;
@@ -265,7 +267,9 @@ vector(entity ent)		realorigin;
 void(entity ent)			target_drop;
 void(entity ent)			target_add;
 void()				KickABot;
+#ifdef local_test
 void()				BotImpulses;
+#endifdef
 void(entity targ, float success) bot_lost;
 string(float r)			BotName;
 float(float v)			frik_anglemod;
@@ -280,12 +284,21 @@ void(float tpic) bot_start_topic;
 
 
 // ----------Commands---------
-void(entity e, float chan, string samp, float vol, float atten) frik_sound = #8;
-void(entity client, string s)	frik_stuffcmd = #21;
-void(entity client, string s)	frik_sprint = #24;
-vector(entity e, float sped)	frik_aim = #44;	
-void(entity client, string s)	frik_centerprint = #73;
-void(entity e)			frik_setspawnparms = #78;
+void(entity e, float chan, string samp, float vol, float atten) _b_sound = #8;
+void(entity client, string s)	_b_stuffcmd = #21;
+void(entity client, string s)	_b_sprint = #24;
+void(entity client, string s)	_b_centerprint = #73;
+void(entity e)			_b_setspawnparms = #78;
+
+#ifdef noautoaim
+// qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
+// note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
+#define _b_aim(ign,igntwo) v_forward
+#else
+vector(entity e, float sped)	_b_aim = #44;		// returns the shooting vector	
+#endifdef
+
+/*
 void(float to, float f)		frik_WriteByte = #52;
 void(float to, float f)		frik_WriteChar = #53;
 void(float to, float f)		frik_WriteShort = #54;
@@ -294,9 +307,9 @@ void(float to, float f)		frik_WriteCoord = #56;
 void(float to, float f)		frik_WriteAngle = #57;
 void(float to, string s)	frik_WriteString	= #58;
 void(float to, entity s)	frik_WriteEntity	= #59;
-
+*/
 void(entity client, string s1, string s2, string s3, string s4, string s5, string s6, string s7)
-frik_big_centerprint = #73;
+_b_big_centerprint = #73;
 
 //----------------------------------------------------------------------------
 
@@ -318,7 +331,7 @@ void(entity	client, string s) stuffcmd =
 {
 	if (client.classname == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
-		frik_stuffcmd(client, s);
+		_b_stuffcmd(client, s);
 	b_temp1 = player_head;
 
 	while(b_temp1)
@@ -326,7 +339,7 @@ void(entity	client, string s) stuffcmd =
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				frik_stuffcmd(b_temp1, s);
+				_b_stuffcmd(b_temp1, s);
 		}
 		b_temp1 = b_temp1._next;
 	}
@@ -335,7 +348,7 @@ void(entity	client, string s) stuffcmd =
 void(entity	e) setspawnparms =
 {
 	if (e.ishuman == 1)
-		frik_setspawnparms(e);
+		_b_setspawnparms(e);
 	else
 	{
 		b_temp1 = player_head;
@@ -343,7 +356,7 @@ void(entity	e) setspawnparms =
 		{
 			if (b_temp1.ishuman)
 			{
-				frik_setspawnparms(b_temp1);
+				_b_setspawnparms(b_temp1);
 				return;
 			}
 			b_temp1 = b_temp1._next;
@@ -355,7 +368,7 @@ void(entity	client, string s) sprint =
 {
 	if (client.classname == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
-		frik_sprint(client, s);
+		_b_sprint(client, s);
 	b_temp1 = player_head;
 
 	while(b_temp1)
@@ -363,7 +376,7 @@ void(entity	client, string s) sprint =
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				frik_sprint(b_temp1, s);
+				_b_sprint(b_temp1, s);
 		}
 		b_temp1 = b_temp1._next;
 	}
@@ -373,7 +386,7 @@ void(entity	client, string s) centerprint =
 {
 	if (client.classname == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
-		frik_centerprint(client, s);
+		_b_centerprint(client, s);
 	b_temp1 = player_head;
 
 	while(b_temp1)
@@ -381,7 +394,7 @@ void(entity	client, string s) centerprint =
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				frik_centerprint(b_temp1, s);
+				_b_centerprint(b_temp1, s);
 		}
 		b_temp1 = b_temp1._next;
 	}
@@ -390,14 +403,14 @@ void(entity	client, string s) centerprint =
 vector(entity e, float sped) aim =
 {
 	e.missile_speed = sped;
-	return frik_aim(e, sped);
+	return _b_aim(e, sped);
 };
 
 void(entity e, float chan, string samp, float vol, float atten) sound = 
 {
 
-//	frik_sound(e, chan, samp, vol, atten);
-	pk_sound(e, chan, samp, vol, atten);
+	_b_sound(e, chan, samp, vol, atten);
+//	pk_sound(e, chan, samp, vol, atten);
 	
 	if (samp == "items/inv3.wav")
 		return;
@@ -407,6 +420,10 @@ void(entity e, float chan, string samp, float vol, float atten) sound =
 		other.b_sound = time + 1;
 
 };
+
+/*
+
+																				--- done in maphack engine - * only * runs under maphack!
 
 void(float to, float f) WriteByte =
 {
@@ -456,6 +473,8 @@ void(float to, entity s) WriteEntity =
 		return;
 	frik_WriteEntity(to, s);
 };
+
+*/
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -463,7 +482,7 @@ Bot Cam, see what the bot sees (or any other player)
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
-
+#ifdef botcam
 float() botcam =
 {
 	if (self.classname != "botcam")
@@ -547,7 +566,7 @@ void() botcam_u =
 	sprint(self, "\n");
 };
 
-
+#endifdef
 
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -644,6 +663,7 @@ float () BotPreFrame =
 	{
 		if (self.switch_wallhug)
 			ClientFixRankings();
+#ifdef botcam
 		if (self.classname == "botcam")
 		{
 			if (!BOTCAM ) // cam toggle off for server - force exit
@@ -655,6 +675,7 @@ float () BotPreFrame =
 			}
 			return TRUE;
 		}
+#endifdef
 	}
 	if (self.b_frags != self.frags)
 	{
@@ -684,13 +705,17 @@ float () BotPostFrame =
 //		if (waypoint_mode > WM_LOADED)
 //			bot_menu_display();
 
-		if (self.admin) // || (serverflags & UNRESTRICTED)) // *pk - admin restriction on bot controls
+#ifdef local_test
+//		if (self.admin) // *pk - admin restriction on bot controls
 		if (self.impulse)
 			BotImpulses();
+#endifdef
 
+#ifdef botcam
 		if (BOTCAM)
 		if (botcam())
 			return TRUE;
+#endifdef
 	}
 	return FALSE;
 };
@@ -900,6 +925,13 @@ float() ClientNextAvailable =
 };
 
 
+#ifdef debug
+// way point editor
+#define way_edit
+#endifdef
+
+#ifdef way_edit
+
 void(entity e1, entity e2, float flag) DeveloperLightning =
 {
 	// used to show waypoint links for debugging
@@ -916,6 +948,7 @@ void(entity e1, entity e2, float flag) DeveloperLightning =
 	WriteCoord (MSG_BROADCAST, e2.origin_y);
 	WriteCoord (MSG_BROADCAST, e2.origin_z); 
 };
+#endifdef
 
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -1083,12 +1116,12 @@ void(entity bot) BotDisconnect =
 		// must remove it's entry in the rankings
 		// Quake engine sets all fields to 0, can only do the most important here
 		self.b_frags = self.frags = 0;
-		self.netname = null_string;
-		self.classname = null_string;
+		self.netname = string_null;
+		self.classname = string_null;
 		self.health = 0;
 		self.items = 0;
 		self.armorvalue = 0;
-		self.weaponmodel = null_string;
+		self.weaponmodel = string_null;
 		self.b_pants = 0;
 		self.b_shirt = 0;
 		self.ammo_shells = self.ammo_nails = self.ammo_rockets = self.ammo_cells = 0;
@@ -1265,6 +1298,7 @@ related functions.
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
+#ifdef local_test
 
 void() BotImpulses =
 {
@@ -1282,8 +1316,10 @@ void() BotImpulses =
 	}
 	else if (self.impulse == 102)
 		KickABot();
+	#ifdef botcam
 	else if (self.impulse == 103)
 		botcam_u();
+	#endifdef
 //	else if (self.impulse == 104)
 //		bot_way_edit();
 	else
@@ -1291,6 +1327,6 @@ void() BotImpulses =
 
 	self.impulse = 0;
 };
-
+#endifdef
 
 

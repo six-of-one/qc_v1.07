@@ -196,6 +196,8 @@ Finds the closest, fisible, waypoint to e
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
+// loop safety var, fbk v2
+#define		gsf		locus.button3
 
 entity(entity start) FindWayPoint =
 {
@@ -260,7 +262,8 @@ entity(vector org) make_waypoint =
 
 // added to pk 2.1 code 7/13/10 - fixes issues with waypoints made by observers and bots fallen out of level
 // note - 2 changes below if this returns world
-	if (self.classname == OBSERVER) // Cataboligne - 6.5.10 - none of these for jafo
+//	if (self.classname == OBSERVER) // Cataboligne - 6.5.10 - none of these for jafo
+	if (self.classname != "player") // Cataboligne - 6.5.10 - none of these for jafo
 	{
 		return(world);
 	}
@@ -290,7 +293,7 @@ entity(vector org) make_waypoint =
 	if (noway_radius)
 	{
 		local vector v1, v2;
-		v1 = v2 = v0;
+		v1 = v2 = '0 0 0';
 		v1_z = org_z;
 		point = findradius(org, noway_radius);
 		while (point)
@@ -347,7 +350,7 @@ void() DynamicWaypoint =
 
 	if (self.teleport_time > self.portal_time)
 	{
-		if (!self.flags & FL_WATERJUMP)
+		if (!(self.flags & FL_WATERJUMP))
 		{
 			self.dyn_flags = 2;
 			if (!self.ishuman)
@@ -431,6 +434,7 @@ void() DynamicWaypoint =
 	self.dyn_time = time + 0.2;
 
 // display the links for editor mode
+#ifdef way_edit
 	if (editor)
 	{
 		if (self.current_way)
@@ -447,6 +451,7 @@ void() DynamicWaypoint =
 		if (self.b_aiflags & AI_HOLD_SELECT)
 			return;
 	}
+#endifdef
 
 	t = FindWayPoint(self.current_way);
 	if (t)

@@ -78,7 +78,7 @@ void() CL_KeyMove = // CL_BaseMove + CL_AdjustAngles
 		// 200 is the default cl_upspeed
 		self.movevect_z = self.movevect_z - (200 * CL_KeyState(KEY_MOVEDOWN)); 
 		// 200 is the default cl_upspeed
-		if (!self.b_aiflags & AI_PRECISION)
+		if (!(self.b_aiflags & AI_PRECISION))
 			self.movevect = self.movevect * 2; 
 		// 2 is the default cl_movespeedkey & bot always has +speed
 	}
@@ -446,7 +446,7 @@ void() SV_CheckOnGround =
 		self.flags = self.flags - FL_ONGROUND;
 	else if ((trace_plane_normal_z <= 0.7) && (trace_fraction != 1))
 		self.flags = self.flags - FL_ONGROUND;
-        else if (!droptofloor(0,0))
+        else if (!droptofloor())
 		self.flags = self.flags - FL_ONGROUND;
 	else if (org_z - self.origin_z < 2)
 		self.flags = self.flags | FL_ONGROUND;
@@ -468,7 +468,7 @@ float(vector dir) botCheckForStep =
 	yaw = vectoyaw(dir); 
 	if (walkmove(yaw, 3))
 	{	
-		if (droptofloor(0,0))
+		if (droptofloor())
 		{	
 			stepdistance = self.origin_z - currentorigin_z;
 			v = self.origin - currentorigin;
@@ -584,7 +584,7 @@ void() SV_FlyMove =
 {
 	// This is nothing like the Quake function.
 
-	if (!self.flags & FL_CLIENT && self.class_select != "class_bot")
+	if (!(self.flags & FL_CLIENT) && self.class_select != "class_bot")
 	{
 		return;
 	}
@@ -606,7 +606,7 @@ void() SV_FlyMove =
 		}
 	}
 
-	setmodel (self.phys_obj, null_string);
+	setmodel (self.phys_obj, string_null);
 	self.phys_obj.movetype = MOVETYPE_STEP;
 	
 	self.phys_obj.solid = SOLID_TRIGGER;
