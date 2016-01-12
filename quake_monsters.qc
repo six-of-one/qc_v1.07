@@ -217,13 +217,14 @@ void() monster_zombie =
 	self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 };
 
-
+	#ifndef hip_monsters
 // NOTE: hipnotic monster, move this ***
 void() monster_scourge =
 {
 	self.think = remove_monster;
 	self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 };
+	#endifdef
 
 
 

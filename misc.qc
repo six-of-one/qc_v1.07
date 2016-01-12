@@ -200,8 +200,12 @@ void() fire_fly =
 	if (self.oh.hack_pdist > cvar("sv_firefly_hide")) return;
 #endifdef
 
+#ifdef use_local_ent
 local_ent(fire_fly)
 #define fireball e0__
+#else
+#define fireball newmis
+#endifdef
 
 	fireball = spawn();
 	fireball.solid = SOLID_TRIGGER;
@@ -224,7 +228,9 @@ local_ent(fire_fly)
 #endifdef
 
 #undef fireball
+#ifdef use_local_ent
 local_ent_exit(fire_fly)
+#endifdef
 };
 
 

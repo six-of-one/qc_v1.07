@@ -585,9 +585,6 @@ void(entity e, vector min, vector max) setsize = #4;
 void() break						= #6;																							// qc++ - seems not used in v1.06
 #endifdef
 float() random						= #7;		// returns 0 - 1
-#ifndef code_bots
-void(entity e, float chan, string samp, float vol, float atten) sound = #8;
-#endifdef
 vector(vector v) normalize			= #9;
 #ifndef noobjerr
 void(string e) error				= #10;
@@ -608,15 +605,9 @@ void(vector v1, vector v2, float nomonsters, entity forent) traceline = #16;
 entity() checkclient				= #17;	// returns a client to look for
 entity(entity start, .string fld, string match) find = #18;
 
-#ifndef code_bots
-void(entity client, string s)stuffcmd = #21;
-#endifdef
 
 entity(vector org, float rad) findradius = #22;
 void(string s) bprint				= #23;
-#ifndef code_bots
-void(entity client, string s) sprint = #24;
-#endifdef
 #ifndef nodprint
 void(string s) dprint				= #25;
 // currently this is only used in dprints
@@ -666,20 +657,6 @@ void() ChangeYaw = #49;						// turn towards self.ideal_yaw
 // #50 was removed
 vector(vector v) vectoangles			= #51;
 
-//
-// direct client message generation
-//
-void(float to, float f) WriteByte		= #52;
-#ifdef unused
-void(float to, float f) WriteChar		= #53;																		// qc++ - seems not used in v1.06
-#include <incl/use_writelong.qc>
-//void(float to, float f) WriteLong		= #55;
-void(float to, float f) WriteAngle		= #57;
-#endifdef
-void(float to, float f) WriteShort		= #54; // used by frikbot
-void(float to, float f) WriteCoord		= #56;
-void(float to, string s) WriteString	= #58;
-void(float to, entity s) WriteEntity	= #59;
 
 //
 // broadcast client message generation
@@ -701,10 +678,6 @@ void(string s) changelevel = #70;
 //#71 was removed
 
 void(string var, string val) cvar_set = #72;	// sets cvar.value
-
-#ifndef code_bots
-void(entity client, string s) centerprint = #73;	// sprint, but in middle
-#endifdef
 
 #ifndef map_hack
 void(entity e) makestatic		= #69;
@@ -732,6 +705,26 @@ string(string s) precache_file2		= #77;		// registered version only
 #endifdef
 
 #ifndef code_bots
+//
+// direct client message generation
+//
+
+void(float to, float f) WriteByte		= #52;
+#ifdef unused
+void(float to, float f) WriteChar		= #53;																		// qc++ - seems not used in v1.06
+#include <incl/use_writelong.qc>
+//void(float to, float f) WriteLong		= #55;
+void(float to, float f) WriteAngle		= #57;
+#endifdef
+void(float to, float f) WriteShort		= #54; // used by frikbot
+void(float to, float f) WriteCoord		= #56;
+void(float to, string s) WriteString	= #58;
+void(float to, entity s) WriteEntity	= #59;
+
+void(entity client, string s) centerprint = #73;	// sprint, but in middle
+void(entity e, float chan, string samp, float vol, float atten) sound = #8;
+void(entity client, string s)stuffcmd = #21;
+void(entity client, string s) sprint = #24;
 void(entity e) setspawnparms		= #78;		// set parm1... to the
 #endifdef
 												// values at level start
@@ -776,6 +769,11 @@ float(entity targ, entity inflictor) CanDamage;
 #messagecompiling mhdefs.qc 
 #include <mhdefs.qc>
 
+#endifdef
+
+#ifndef HIPNOTIC
+// in hip code - used to load default map cfg in client.qc
+.string group;
 #endifdef
 
 

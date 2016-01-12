@@ -119,14 +119,17 @@ for all variable in the bot...
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
+
+#include <../../_bots.qc>
+
 //#define FRIKBOT TRUE // set to true for frikbot access
 
 #define noway_radius 108 // no new waypoint in this radius
 
 // ----- entity fields ---
-.float	wallhug, keys, oldkeys, ishuman;
-.float	b_frags, b_clientno, b_shirt, b_pants; 
-.float	priority, ai_time, b_sound, missile_speed;
+.float	wallhug, keys, oldkeys; //, ishuman;
+//.float	b_frags, b_clientno, b_shirt, b_pants; 
+//.float	priority, ai_time, b_sound, missile_speed;
 .float	portal_time, b_skill, switch_wallhug;
 .float	b_aiflags, b_num, b_chattime;
 //.float	b_menu, b_menu_time, b_menu_value;
@@ -134,7 +137,7 @@ for all variable in the bot...
 .float dyn_plat;
 .entity	temp_way, last_way, phys_obj;
 .entity	target1_, target2_, target3, target4;
-.entity	_next, _last;
+//.entity	_next, _last;
 .entity	current_way;
 .vector	b_angle, mouse_emu, obs_dir;
 .vector	movevect, b_dir;
@@ -213,8 +216,8 @@ float		sv_friction, sv_gravity;
 float		sv_accelerate, sv_maxspeed, sv_stopspeed;
 entity	fixer;
 entity	route_table;
-entity	b_temp1, b_temp2, b_temp3;
-entity 	player_head, phys_head, way_head;
+//entity	b_temp1, b_temp2, b_temp3;
+//entity 	player_head, phys_head, way_head;
 float		busy_waypoints;
 float		saved_bots, saved_skills1, saved_skills2, current_bots;
 
@@ -282,199 +285,8 @@ void(float tpic) bot_start_topic;
 //void()				bot_way_edit;
 //void()				bot_menu_display;
 
+// wrapper fns moved to _bots.qc
 
-// ----------Commands---------
-void(entity e, float chan, string samp, float vol, float atten) _b_sound = #8;
-void(entity client, string s)	_b_stuffcmd = #21;
-void(entity client, string s)	_b_sprint = #24;
-void(entity client, string s)	_b_centerprint = #73;
-void(entity e)			_b_setspawnparms = #78;
-
-#ifdef noautoaim
-// qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
-// note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
-#define _b_aim(ign,igntwo) v_forward
-#else
-vector(entity e, float sped)	_b_aim = #44;		// returns the shooting vector	
-#endifdef
-
-/*
-void(float to, float f)		frik_WriteByte = #52;
-void(float to, float f)		frik_WriteChar = #53;
-void(float to, float f)		frik_WriteShort = #54;
-void(float to, float f)		frik_WriteLong = #55;
-void(float to, float f)		frik_WriteCoord = #56;
-void(float to, float f)		frik_WriteAngle = #57;
-void(float to, string s)	frik_WriteString	= #58;
-void(float to, entity s)	frik_WriteEntity	= #59;
-*/
-void(entity client, string s1, string s2, string s3, string s4, string s5, string s6, string s7)
-_b_big_centerprint = #73;
-
-//----------------------------------------------------------------------------
-
-/*
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-Function redclarations. These allow function 
-designed to work for clients (sprint, so forth)
-to mainly not complain when working with a bot
-
-Although these shouldn't be needed anymore,
-as the bots truly are clients now, if you don't
-stop the SZ_ buffer from filling up by disabling
-direct messages to the bots, it crashes quake :-(
-
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-*/
-void(entity	client, string s) stuffcmd =
-{
-	if (client.classname == "pk*bot") return; // *bot
-	if (client.ishuman == 1)
-		_b_stuffcmd(client, s);
-	b_temp1 = player_head;
-
-	while(b_temp1)
-	{
-		if (b_temp1.classname == "botcam")
-		{
-			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				_b_stuffcmd(b_temp1, s);
-		}
-		b_temp1 = b_temp1._next;
-	}
-};
-
-void(entity	e) setspawnparms =
-{
-	if (e.ishuman == 1)
-		_b_setspawnparms(e);
-	else
-	{
-		b_temp1 = player_head;
-		while(b_temp1)
-		{
-			if (b_temp1.ishuman)
-			{
-				_b_setspawnparms(b_temp1);
-				return;
-			}
-			b_temp1 = b_temp1._next;
-		}
-		SetNewParms();
-	}
-};
-void(entity	client, string s) sprint =
-{
-	if (client.classname == "pk*bot") return; // *bot
-	if (client.ishuman == 1)
-		_b_sprint(client, s);
-	b_temp1 = player_head;
-
-	while(b_temp1)
-	{
-		if (b_temp1.classname == "botcam")
-		{
-			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				_b_sprint(b_temp1, s);
-		}
-		b_temp1 = b_temp1._next;
-	}
-
-};
-void(entity	client, string s) centerprint =
-{
-	if (client.classname == "pk*bot") return; // *bot
-	if (client.ishuman == 1)
-		_b_centerprint(client, s);
-	b_temp1 = player_head;
-
-	while(b_temp1)
-	{
-		if (b_temp1.classname == "botcam")
-		{
-			if ((b_temp1.enemy == client) && b_temp1.ishuman)
-				_b_centerprint(b_temp1, s);
-		}
-		b_temp1 = b_temp1._next;
-	}
-};
-
-vector(entity e, float sped) aim =
-{
-	e.missile_speed = sped;
-	return _b_aim(e, sped);
-};
-
-void(entity e, float chan, string samp, float vol, float atten) sound = 
-{
-
-	_b_sound(e, chan, samp, vol, atten);
-//	pk_sound(e, chan, samp, vol, atten);
-	
-	if (samp == "items/inv3.wav")
-		return;
-	else if (e.classname == "player")
-		e.b_sound = time + 1;
-	else if (other.classname == "player")
-		other.b_sound = time + 1;
-
-};
-
-/*
-
-																				--- done in maphack engine - * only * runs under maphack!
-
-void(float to, float f) WriteByte =
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteByte(to, f);
-};
-void(float to, float f) WriteChar =		
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteChar(to, f);
-};
-void(float to, float f) WriteShort =	
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteShort(to, f);
-};
-void(float to, float f) WriteLong = 
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteLong(to, f);
-};
-void(float to, float f) WriteCoord = 
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteCoord(to, f);
-};
-void(float to, float f) WriteAngle = 
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteAngle(to, f);
-};
-void(float to, string s) WriteString = 
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteString(to, s);
-};
-void(float to, entity s) WriteEntity = 
-{
-	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
-		return;
-	frik_WriteEntity(to, s);
-};
-
-*/
 /*
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

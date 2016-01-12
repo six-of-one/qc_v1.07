@@ -45,15 +45,18 @@ $frame lgrunatt1 lgrunatt2 lgrunatt3 lgrunatt4 lgrunatt5 lgrunatt6 lgrunatt7 lgr
 
 //============================================================================
 
-#ifdef testset
-float YOUNG_LIFE_SM = 10; // rels for a small youngling
-float YOUNG_LIFE_MD = 20; // rels for a med youngling
+#ifdef local_test
+#define	YOUNG_LIFE_SM		10
+#define	YOUNG_LIFE_MD		20
 #else
-float YOUNG_LIFE_SM = 30; // rels for a small youngling
-float YOUNG_LIFE_MD = 65; // rels for a med youngling
+ // rels for a small youngling
+#define	YOUNG_LIFE_SM		30
+ // rels for a med youngling
+#define	YOUNG_LIFE_MD		65
 #endifdef
 
-float YOUNG_LIFE_LG = 125; // rels for a large youngling
+// rels for a large youngling
+#define	YOUNG_LIFE_LG		125
 
 
 // hrm - this should be genericed in watermove dealy

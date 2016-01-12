@@ -75,7 +75,17 @@
 //#pragma COPYRIGHT v1.06 iD (c)1996 v1.07 Number Six (c)2014 -GPL- www.moddb.com/groups/qc
 
 
+// version history tally														[ includes major / minor code sections by define control ]
 
+// 1.0.7				- qc++															[ opgrade, codefix, unused, pointless_warning, noobjerr, debug, warning, nodprint, noautoaim, xvars?, nondp, glowcorpse ]
+// 1.0.7.1			- quake monsters now optional, x monsters +8 pack		[ local_test ]
+// 1.0.7.2			- hipnotic code base shoehorn
+// 1.0.7.3			- map_hack										+	[ q_mapseq, hip_mapseq, has_issues, no_bossgate, no_epgate ]
+// 1.0.7.4			- code_bots, code_frikbots
+// 1.0.7.5			- code_painkeep
+
+
+#define VERSION 1.0.7.4 qc++
 
 //#define qcvers
 
@@ -88,7 +98,7 @@
 //		localcmd(vers);
 // to be run once somewhere in worldspawn()
 
-string vers						= "alias version \"echo quake-c: 1.0.7 qc++\"\n";
+string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 
 // this is better off being placed in a config file - for instance default.cfg like so:
 // alias version "echo quake-c: 1.0.7 qc++"
@@ -214,7 +224,7 @@ this is fixed with
 // these are bits of quake-c that are:
 //		- vars never referenced - not even in the engine
 //		- code that serves no purpose
-#define unused
+//#define unused
 
 
 // end not using qc++
@@ -309,7 +319,7 @@ spec track by cvar
 
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
-#define local_test
+//#define local_test
 
 // we always tell if local test or debug are compiled in
 
@@ -352,7 +362,7 @@ spec track by cvar
 // note: these use up global vars and are designed to operate in a 3 (or 4) tiered system
 //				 level 0 is the only level really necessary if server ops are agreeable with developer selected defaults
 
-//#define xvars
+#define xvars
 
 #ifdef xvars
 
@@ -429,7 +439,7 @@ spec track by cvar
 
 // mission pack 2
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
-#define ROGUE
+//#define ROGUE
 
 
 // ******************************************************************************************************************
@@ -440,6 +450,12 @@ spec track by cvar
 // use pk bots
 //#define code_pkbots
 
+	#ifdef code_pkbots
+// include general bot code
+		#ifndef code_bots
+#define code_bots
+		#endifdef
+	#endifdef
 
 // ******************************************************************************************************************
 
@@ -447,8 +463,10 @@ spec track by cvar
 #define code_frikbots
 
 	#ifdef code_frikbots
-// include general bot code - enable later when support code is done
-	#define code_bots
+// include general bot code
+		#ifndef code_bots
+#define code_bots
+		#endifdef
 	#endifdef
 
 // ******************************************************************************************************************
@@ -645,3 +663,302 @@ void() t_on
 // ent var fn call sub
 
 #define call__		blocked
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+	--- compile stats ---
+
+016.1.11:
+
+everything turned off			- there are no monsters, this is the most optimal sequence
+
+ 32744 strofs (of 1000000)
+ 10338 numstatements (of 524288)
+   402 numfunctions (of 16384)
+  1567 numglobaldefs (of 32768)
+   214 numfielddefs (191 unique) (of 2048)
+  1721 numpr_globals (of 65536)
+Writing progs.dat
+151184 TOTAL SIZE
+Writing progs.lno
+ 50 unique precache_models
+Compile Complete
+
+optres_shortenifnots 112
+optres_overlaptemps 5546
+optres_constantarithmatic 33
+optres_nonvec_parms 1515
+optres_assignments 226
+optres_unreferenced 10
+numtemps 103
+54 warnings
+
+
+qc++ turned on		(from base)
+
+ 32744 strofs (of 1000000)
+ 10338 numstatements (of 524288)
+   402 numfunctions (of 16384)
+  1567 numglobaldefs (of 32768)
+   214 numfielddefs (191 unique) (of 2048)
+  1721 numpr_globals (of 65536)
+Writing progs.dat
+151184 TOTAL SIZE
+Writing progs.lno
+ 50 unique precache_models
+Compile Complete
+
+optres_shortenifnots 112
+optres_overlaptemps 5546
+optres_constantarithmatic 33
+optres_nonvec_parms 1515
+optres_assignments 226
+optres_unreferenced 10
+numtemps 103
+54 warnings
+
+
+opgrade turned on		(from base)
+- requires local_ent support
+
+ 29424 strofs (of 1000000)
+ 10237 numstatements (of 524288)
+   398 numfunctions (of 16384)
+  1547 numglobaldefs (of 32768)
+   214 numfielddefs (191 unique) (of 2048)
+  1692 numpr_globals (of 65536)
+Writing progs.dat
+146636 TOTAL SIZE
+Writing progs.lno
+ 50 unique precache_models
+Compile Complete
+
+optres_shortenifnots 113
+optres_overlaptemps 5573
+optres_constantarithmatic 35
+optres_nonvec_parms 1443
+optres_assignments 228
+optres_unreferenced 10
+numtemps 92
+
+
+xvars turned on		(from base)
+
+ 32820 strofs (of 1000000)
+ 10468 numstatements (of 524288)
+   402 numfunctions (of 16384)
+  1570 numglobaldefs (of 32768)
+   214 numfielddefs (191 unique) (of 2048)
+  1725 numpr_globals (of 65536)
+Writing progs.dat
+152340 TOTAL SIZE
+Writing progs.lno
+ 50 unique precache_models
+Compile Complete
+
+optres_shortenifnots 112
+optres_overlaptemps 5572
+optres_constantarithmatic 33
+optres_nonvec_parms 1545
+optres_assignments 226
+optres_unreferenced 10
+numtemps 104
+54 warnings
+
+
+
+quake monsters turned on		(from base)
+
+ 44520 strofs (of 1000000)
+ 18655 numstatements (of 524288)
+   628 numfunctions (of 16384)
+  2125 numglobaldefs (of 32768)
+   215 numfielddefs (192 unique) (of 2048)
+  2372 numpr_globals (of 65536)
+Writing progs.dat
+244708 TOTAL SIZE
+Writing progs.lno
+ 69 unique precache_models
+Compile Complete
+
+optres_shortenifnots 137
+optres_overlaptemps 9876
+optres_constantarithmatic 157
+optres_nonvec_parms 3211
+optres_assignments 285
+optres_unreferenced 14
+numtemps 151
+75 warnings
+
+
+frikbot turned on		(from base)
+- requires local_ent support
+
+ 43108 strofs (of 1000000)
+ 17181 numstatements (of 524288)
+   527 numfunctions (of 16384)
+  2397 numglobaldefs (of 32768)
+   275 numfielddefs (246 unique) (of 2048)
+  2549 numpr_globals (of 65536)
+Writing progs.dat
+231232 TOTAL SIZE
+Writing progs.lno
+ 50 unique precache_models
+Compile Complete
+
+optres_shortenifnots 187
+optres_overlaptemps 9370
+optres_constantarithmatic 38
+optres_nonvec_parms 2228
+optres_assignments 562
+optres_unreferenced 14
+numtemps 143
+54 warnings
+
+
+hipnotic turned on		(from base)
+- requires local_ent support
+
+ 56724 strofs (of 1000000)
+ 24050 numstatements (of 524288)
+   718 numfunctions (of 16384)
+  2753 numglobaldefs (of 32768)
+   272 numfielddefs (243 unique) (of 2048)
+  3000 numpr_globals (of 65536)
+Writing progs.dat
+311304 TOTAL SIZE
+Writing progs.lno
+ 65 unique precache_models
+Compile Complete
+
+optres_shortenifnots 217
+optres_overlaptemps 14182
+optres_constantarithmatic 98
+optres_nonvec_parms 3339
+optres_assignments 595
+optres_unreferenced 35
+numtemps 193
+70 warnings
+
+
+most stuff - no bots, no map_hack
+
+ 62100 strofs (of 1000000)
+ 32439 numstatements (of 524288)
+   944 numfunctions (of 16384)
+  3213 numglobaldefs (of 32768)
+   273 numfielddefs (244 unique) (of 2048)
+  3526 numpr_globals (of 65536)
+Writing progs.dat
+397720 TOTAL SIZE
+Writing progs.lno
+ 84 unique precache_models
+Compile Complete
+
+optres_shortenifnots 244
+optres_overlaptemps 18623
+optres_constantarithmatic 228
+optres_nonvec_parms 4955
+optres_assignments 654
+optres_unreferenced 37
+numtemps 218
+86 warnings
+
+
+qc++ everything to date		- 016.1.11
+
+ 80964 strofs (of 1000000)
+ 46717 numstatements (of 524288)
+  1215 numfunctions (of 16384)
+  4489 numglobaldefs (of 32768)
+   379 numfielddefs (343 unique) (of 2048)
+  4857 numpr_globals (of 65536)
+Writing progs.dat
+556944 TOTAL SIZE
+Writing progs.lno
+ 93 unique precache_models
+Compile Complete
+
+optres_shortenifnots 345
+optres_overlaptemps 26522
+optres_constantarithmatic 293
+optres_nonvec_parms 6994
+optres_assignments 1140
+optres_unreferenced 48
+numtemps 300
+96 warnings
+
+
+
+
+v106.0		(original release)
+
+ 88540 strofs (of 1000000)
+ 20507 numstatements (of 524288)
+  2091 numfunctions (of 16384)
+  4290 numglobaldefs (of 32768)
+   218 numfielddefs (195 unique) (of 2048)
+  4327 numpr_globals (of 65536)
+Writing ../progs.dat
+381432 TOTAL SIZE
+Writing ../progs.lno
+225 unique precache_sounds
+ 95 unique precache_models
+104 unique precache_files
+Compile Complete
+
+optres_shortenifnots 115
+optres_overlaptemps 7237
+optres_constantarithmatic 17
+optres_nonvec_parms 3898
+optres_assignments 408
+optres_unreferenced 68
+optres_dupconstdefs 101
+numtemps 117
+13 warnings
+
+
+archon 1.2 beta
+
+359556 strofs (of 1000000)
+171474 numstatements (of 524288)
+  5329 numfunctions (of 16384)
+ 17817 numglobaldefs (of 32768)
+   580 numfielddefs (538 unique) (of 2048)
+ 18897 numpr_globals (of 65536)
+Writing progs.dat
+2146144 TOTAL SIZE
+Writing progs.lno
+645 unique precache_sounds
+569 unique precache_models
+104 unique precache_files
+Compile Complete
+
+optres_shortenifnots 1523
+optres_overlaptemps 80088
+optres_constantarithmatic 912
+optres_nonvec_parms 23889
+optres_assignments 4763
+optres_unreferenced 74
+optres_dupconstdefs 160
+numtemps 811
+233 warnings
+
+*/

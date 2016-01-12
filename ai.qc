@@ -376,7 +376,10 @@ void() SightSound =
 #endifdef
 #ifdef hip_monsters
 //MED
-	else if (self.classname == "monster_gremlin")
+#ifdef quakemonsters
+	else
+#endifdef	
+			if (self.classname == "monster_gremlin")
 		{
 		if (self.stoleweapon == 0)
 			sound (self, CHAN_VOICE, "grem/sight1.wav", 1, ATTN_NORM);

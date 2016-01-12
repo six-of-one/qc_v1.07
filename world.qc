@@ -390,11 +390,16 @@ void() worldspawn =
 // test for maphack stuff
 //WARNING = 229376;
 
+/// init hash - should NOT be here - temp -> move
+// may be used by code other than maphack
+	if (!system_hash) system_hash = 10000 + rint(random() * 3);
+
 #endifdef
 
-/// init hash - should NOT be here - temp -> move
-	if (!system_hash) system_hash = 10000 + rint(random() * 3);
+
+#ifdef use_local_ent
 	local_ent(world); // base ent, so we can use it from get-go
+#endifdef
 
 };
 
