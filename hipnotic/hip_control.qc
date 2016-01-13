@@ -68,7 +68,7 @@ hip_footsteps - the hipnotic player footstep sound
 // this is for the sequencing of hip maps - the end of episode and finale texts - ~2900 bytes
 // now wrapped in opgrade - new method using cvar_string is used
 
-#ifndef opgrade
+#ifndef opgrade__
 
 	#define hip_mapseq
 

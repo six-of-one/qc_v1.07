@@ -196,6 +196,9 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 	#endifdef
 	#define modulein
 
+// controls advanced intermission message load - !nondp must turn this off
+#define opgrade__
+
 //	part of opgrade - fix some q1 code issues - many also fix compiler warnings
 /// SWITCH
 #define codefix
@@ -433,7 +436,7 @@ spec track by cvar
 // this is just a placeholder for certain bits of code that will only be optional in early releases
 // uncomment the next line and certain darkplaces only code will not be compiled
 /// SWITCH
-//#define nondp
+#define nondp
 
 #ifdef nondp
 
@@ -442,6 +445,8 @@ spec track by cvar
 	#endifdef
 	#define modulein
 
+// turn off intermis msg update
+	#undef opgrade__
 #endifdef
 
 /// remove the above section for dp only releases
@@ -520,7 +525,7 @@ spec track by cvar
 // if you comment this out - a GotoNextMap() will be called instead of displaying the end text
 // now wrapped in opgrade - new method using cvar_string is used
 
-#ifndef opgrade
+#ifndef opgrade__
 
 /// SWITCH
 	#define q_mapseq
@@ -672,8 +677,10 @@ spec track by cvar
 
 // maphack system
 
+#ifndef nondp
 /// SWITCH
 #define map_hack
+#endifdef
 
 #ifdef map_hack
 	#ifdef module_list

@@ -236,11 +236,12 @@ void() ExitIntermission =
 	intermission_running = intermission_running + 1;
 
 // map hack has to accomodate special seq
-#ifdef opgrade
+#ifdef opgrade__
 	if (intermission_running == 2 || intermission_running == 3)
 	{
 		s1__ = world.model;
 #ifdef has_issues
+// the issue here is that after intermis exit viewport is messed up
 		if (mh) s1__ = strcat("maps/", mh.netname,".bsp");
 #endifdef
 			if (intermission_running == 3) // the extra end message - after all 4 runes are gotten
@@ -609,8 +610,10 @@ void() trigger_changelevel =
 		self.map = "start"; // DM or SP - we default here if a mapper forgot a map link
 
 	#ifdef xvars1
+		#ifndef nondp
 // future add cvar_string("svx_tc_rndmap") - random map selected from list
 		if (cvar_string("svx_tc_defmap")) self.map = cvar_string("svx_tc_defmap");
+		#endifdef
 	#endifdef
 	}
 #else
