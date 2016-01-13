@@ -173,9 +173,11 @@
 
 #else
 
+	#ifdef HIPNOTIC
 		#ifdef message_top
 		#message         			-- exclude: hipnotic monsters NOT compiled 
 		#endifdef
+	#endifdef
 
 #endifdef
 

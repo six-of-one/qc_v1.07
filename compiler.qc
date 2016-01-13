@@ -17,7 +17,7 @@
 		quake-c can not be more complicated
 
 		The vision of this code base is the ability to include various secitons simply by
-		using the defines below to control what is compiled in.
+		using the defines below to control what is compiled in.  SWITCH indicates module controls.
 
 		Some major changes have sub-section includes such as the hipnotic mission pack
 
@@ -46,7 +46,7 @@
 #define message_top
 
 // display only warning #message - these are NOT compiler warnings
-// and non have been assigned as yet
+// and none have been assigned as yet
 //#define message_warn
 
 // define parms to show include files on compile
@@ -59,13 +59,31 @@
 
 
 #ifdef message_top
-#message         			-- version 1.07 qc++ quake-c -- compile with fteqcc 
+#define modinfo
+#message         			code identity: 
+#message         			-- version 2.0 qc++ -- compile with fteqcc 
 #endifdef
 
 #ifdef message_all
+	#ifndef modinfo
+	#define modinfo
+#message         			code identity: 
+	#endifdef
+	#define module_list
+
 #message         			-- (c) 1996 iD software, (c) 2014 Number Six 
 #message         			-- GPL - see LICENSE for rights and details 
 #message          
+
+#else
+
+// list modules included
+//#define module_list
+
+#endifdef
+
+#ifdef module_list
+#message         			code modules: 
 #endifdef
 
 // this is 50 bytes shorter
@@ -85,24 +103,7 @@
 // 1.0.7.5			- code_painkeep
 
 
-#define VERSION 1.0.7.4 qc++
-
-//#define qcvers
-
-// takes up a global var (and string space), but gives the progs.dat code a qc version in the console		- requires localcmd(vers); somewhere in code
-
-#ifdef qcvers
-// if this alias is set, when you type "version" in the console it will respond with the string
-// with darkplaces this will display the darkplaces version first then this string
-// requires an addtional instruciton thus:
-//		localcmd(vers);
-// to be run once somewhere in worldspawn()
-
-string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
-
-// this is better off being placed in a config file - for instance default.cfg like so:
-// alias version "echo quake-c: 1.0.7 qc++"
-#endifdef
+#define VERSION 	"1.0.7.4 qc++"
 
 /// **************************************
 /// code weaver section
@@ -126,15 +127,47 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 // ******************************************************************************************************************
 
 // main ka-hoona
+// note: (to self) - this no longer has any effect ?  when did this happen
 
+/// SWITCH
 #define qc++
 
 #ifdef qc++
-	#ifdef message_all
-	#message         			-- compile: qc++ v1.07 included 
+	#ifdef module_list
+	#message         			- qc++ 
 	#endifdef
+	#define modulein
 #endifdef
 
+
+// ******************************************************************************************************************
+
+/// SWITCH
+//#define qcvers
+
+// takes up a global var (and string space), but gives the progs.dat code a qc version in the console		- requires localcmd(vers); somewhere in code
+
+#ifdef qcvers
+
+	#ifdef module_list
+	#message         			- qcvers 
+	#endifdef
+	#define modulein
+
+// if this alias is set, when you type "version" in the console it will respond with the string
+// with darkplaces this will display the darkplaces version first then this string
+// requires an addtional instruciton thus:
+//		localcmd(vers);
+// to be run once somewhere in worldspawn()
+
+string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
+
+// this is better off being placed in a config file - for instance default.cfg like so:
+// alias version "echo quake-c: 1.0.7 qc++"
+#endifdef
+
+
+// ******************************************************************************************************************
 
 /*
 	an operation upgrade to vanilla qc 1.06
@@ -147,11 +180,9 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 	//    defs.qc:401: warning: empty_float  no references
 
 
-
-// ******************************************************************************************************************
-
 // quake one operation upgrade
 
+/// SWITCH
 #define opgrade
 /// opgrade turned ON
 
@@ -160,11 +191,13 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 // do all the opgrade sub-items
 #ifdef opgrade
 
-	#ifdef message_all
-	#message         			-- compile: operation upgrade v1.07 included 
+	#ifdef module_list
+	#message         			- opgrade 
 	#endifdef
+	#define modulein
 
 //	part of opgrade - fix some q1 code issues - many also fix compiler warnings
+/// SWITCH
 #define codefix
 /*
 
@@ -186,8 +219,8 @@ this is fixed with
 // this is done by translating all aim() calls as v_forward, which is set in PlayerPreThink() from v_angle
 // more properly this should re-calculate v_forward every time aim() is called - see defs.qc
 
+/// SWITCH
 #define noautoaim
-
 
 
 // instead of a regular function
@@ -197,9 +230,10 @@ this is fixed with
 #define crandom() 2*(random() - 0.5)
 
 // quake 1 optioned sections
-/// NOTE: if these are enabled standard singleplayer may be broken!
+/// NOTE: if these are defined standard singleplayer may be broken!
 
 // if you want to remove rune controlled gate code
+/// SWITCH
 //#define no_bossgate
 //#define no_epgate
 
@@ -213,33 +247,67 @@ this is fixed with
 
 // if we turn off opgrade and qc++ we have (mostly) v106 behavior in the base code
 // in theory anyway
-#ifndef qc++
-
-	#ifdef message_all
-	#message         			-- compile: quake-c v1.06 behavior 
-	#endifdef
-
+	#ifndef qc++
 
 // compile in un-used code sections
 // these are bits of quake-c that are:
 //		- vars never referenced - not even in the engine
 //		- code that serves no purpose
+/// SWITCH
 //#define unused
 
-
 // end not using qc++
-#endifdef
+	#endifdef
 
 
 // end of opgrade not used
 #endifdef
 
 
+#ifdef codefix
+	#ifdef module_list
+	#message         			- codefix 
+	#endifdef
+	#define modulein
+#endifdef
+
+#ifdef unused
+	#ifdef module_list
+	#message         			- unused 
+	#endifdef
+	#define modulein
+#endifdef
+
+#ifdef noautoaim
+	#ifdef module_list
+	#message         			- noautoaim 
+	#endifdef
+#endifdef
+
+#ifdef no_bossgate
+	#ifdef module_list
+	#message         			- no_bossgate 	* 
+	#endifdef
+	#ifndef breaker
+	#define breaker
+	#endifdef
+#endifdef
+
+#ifdef no_epgate
+	#ifdef module_list
+	#message         			- no_epgate 	* 
+	#endifdef
+	#ifndef breaker
+	#define breaker
+	#endifdef
+#endifdef
+
 
 // ******************************************************************************************************************
 
 // some code is pointless, but removing it creates warnings			- mostly these are return FALSE; };
 // comment this out to remove the pointless code, the following bit removes the warnings!
+/// SWITCH
 //#define pointless_warning
 
 /// NOTE: this masks off no return value compiler WARNINGS !
@@ -255,12 +323,14 @@ this is fixed with
 // part of opgrade - remove objerror if possible to continue, also removes error()
 // but we do this always - there is no reason for map spudge to break the server
 // "spudge" - crap in a map that shouldnt be - like missing targets, broken trains and such
+/// SWITCH
 #define noobjerr
 
 #ifdef noobjerr
-	#ifdef message_all
-	#message         			-- compile: objerror() and error() statements removed 
+	#ifdef module_list
+	#message         			- noobjerr 
 	#endifdef
+	#define modulein
 #endifdef
 
 
@@ -271,26 +341,34 @@ this is fixed with
 // this includes _cheat_ impulses
 // includes special map spawns
 
-/// all code wrapped with #ifdef debug MUST be deleted from live server / release code !
+/// * all code wrapped with #ifdef debug MUST be deleted from live server / release code !
 
+/// SWITCH
 //#define debug
 
 #ifdef debug
-//#message         			-- compile: debug code, warnings and options included 
 
-// optional warning code display system
-//#define warning
+	#ifdef module_list
+	#message         			- debug 	* 
+	#endifdef
+	#define modulein
+	#ifndef breaker
+	#define breaker
+	#endifdef
+
+// optional warning code display system - see below
+/// SWITCH
+	#define warning
 
 #else
-// remove all dprints - they use globals --- comment this #define out to compile dprint code, also you must set the developer cvar to have them print to console
-/// remove dprint segments for final or gold release
+// dont compile dprints - they use globals --- comment this #define out to compile dprint code, also you must set the developer cvar to have them print to console
+/// cut dprint segments for final or gold release
+/// SWITCH
 #define nodprint
-
-#endifdef
-
 
 // dev warning system - uncomment to use independent of debug code - should be removed from gold / release code
 
+/// SWITCH
 //#define warning
 
 /*
@@ -304,11 +382,20 @@ spec track by cvar
 
 */
 
-#ifdef warning
+#endifdef
 
-	#ifdef message_all
-	#message         			-- compile: warning system active 
+
+#ifdef nodprint
+	#ifdef module_list
+	#message         			- nodprint 
 	#endifdef
+#endifdef
+
+#ifdef warning
+	#ifdef module_list
+	#message         			- warning 
+	#endifdef
+	#define modulein
 
 	float WARNING;
 
@@ -319,16 +406,23 @@ spec track by cvar
 
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
+/// SWITCH
 #define local_test
 
 // we always tell if local test or debug are compiled in
 
-	#ifdef local_test
-	#message         			-- compile: local test code activated *** 
+#ifdef local_test
+	#ifdef module_list
+	#message         			- local_test 	* 
+	#endifdef
+	#define modulein
+	#ifndef breaker
+	#define breaker
+	#endifdef
 
 //void()	frd1;
 
-	#endifdef
+#endifdef
 
 
 // ******************************************************************************************************************
@@ -338,13 +432,15 @@ spec track by cvar
 
 // this is just a placeholder for certain bits of code that will only be optional in early releases
 // uncomment the next line and certain darkplaces only code will not be compiled
+/// SWITCH
 //#define nondp
 
 #ifdef nondp
 
-	#ifdef message_all
-	#message         			-- compile: darkplaces __not__ required - runs on any engine (in theory) 
+	#ifdef module_list
+	#message         			- nondp 
 	#endifdef
+	#define modulein
 
 #endifdef
 
@@ -362,6 +458,7 @@ spec track by cvar
 // note: these use up global vars and are designed to operate in a 3 (or 4) tiered system
 //				 level 0 is the only level really necessary if server ops are agreeable with developer selected defaults
 
+/// SWITCH
 #define xvars
 
 #ifdef xvars
@@ -381,20 +478,26 @@ spec track by cvar
 
 #define xvars2
 
-	#ifdef message_all
-	#message         			-- compile: xvars total (level 0 - 3) control package 
+	#ifdef module_list
+	#message         			- xvars 
 	#endifdef
+	#define modulein
 
 #else
 
 // high priority - still want these
+/// SWITCH
 #define xvars0
 
-	#ifdef message_all
-	#message         			-- compile: xvars level 0 control package 
+#endifdef
+
+#ifndef xvars
+#ifdef xvars0
+	#ifdef module_list
+	#message         			- xvars0 
 	#endifdef
-
-
+	#define modulein
+#endifdef
 #endifdef
 
 
@@ -419,61 +522,120 @@ spec track by cvar
 
 #ifndef opgrade
 
+/// SWITCH
 	#define q_mapseq
 
 #endifdef
 
+#ifdef q_mapseq
+	#ifdef module_list
+	#message         			- q_mapseq 
+	#endifdef
+	#define modulein
+#endifdef
 
 // mission pack 1
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
 //					default behavior with HIPNOTIC turned OFF will replace ents with missing models, deactivate some freatures - etc
 
+/// SWITCH
 //#define HIPNOTIC
 
 // control file
 
 #include <hipnotic/hip_control.qc>
 
+#ifdef HIPNOTIC
+	#ifdef module_list
+	#message         			- hipnotic 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
 // mission pack 2
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
+/// SWITCH
 //#define ROGUE
 
+#ifdef ROGUE
+	#ifdef module_list
+	#message         			- rogue 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
 // painkeep
+/// SWITCH
 //#define code_painkeep
 
+#ifdef code_painkeep
+	#ifdef module_list
+	#message         			- code_painkeep 
+	#endifdef
+	#define modulein
+#endifdef
+
 // use pk bots
+/// SWITCH
 //#define code_pkbots
 
-	#ifdef code_pkbots
+#ifdef code_pkbots
+	#ifdef module_list
+	#message         			- code_pkbots 
+	#endifdef
+	#define modulein
 // include general bot code
 		#ifndef code_bots
 #define code_bots
 		#endifdef
-	#endifdef
+#endifdef
 
 // ******************************************************************************************************************
 
 // use frik bots
+/// SWITCH
 #define code_frikbots
 
-	#ifdef code_frikbots
+#ifdef code_frikbots
+	#ifdef module_list
+	#message         			- code_frikbots 
+	#endifdef
+	#define modulein
 // include general bot code
 		#ifndef code_bots
 #define code_bots
 		#endifdef
-	#endifdef
+#endifdef
 
 // ******************************************************************************************************************
 
 // rune server
+/// SWITCH
 //#define code_runes
 
+#ifdef code_runes
+	#ifdef module_list
+	#message         			- code_runes 
+	#endifdef
+	#define modulein
+#endifdef
+
+// ******************************************************************************************************************
+
+// visible weapons - show player model with actual selected weapon
+/// SWITCH
+//#define code_viswep
+
+#ifdef code_viswep
+	#ifdef module_list
+	#message         			- code_viswep 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
@@ -482,20 +644,43 @@ spec track by cvar
 // note: removing map monsters makes the attempt to allow all single player maps to be completed.  Say if you are playing with a random monster maker.
 //				this references maps that have a trigger on a monster the causes some map action, such as a door to open
 
+/// SWITCH
 #define quakemonsters
+
+#ifdef quakemonsters
+	#ifdef module_list
+	#message         			- quakemonsters 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
 // extra monsters
 
+/// SWITCH
 //#define xmonsters
+
+#ifdef xmonsters
+	#ifdef module_list
+	#message         			- xmonsters 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
 // maphack system
 
+/// SWITCH
 #define map_hack
 
+#ifdef map_hack
+	#ifdef module_list
+	#message         			- map_hack 
+	#endifdef
+	#define modulein
+#endifdef
 
 // ******************************************************************************************************************
 
@@ -503,10 +688,41 @@ spec track by cvar
 // it might be cool to run this code, but it just doesnt work quite right
 // all code in this wrapper SHOULD be removed for release
 
-// 1. quake 1 standard end of episode win text -- currently text is ignored, or displayed in infobar
+// 1. quake 1 standard end of episode win text diaplay in Q-one -- currently text is ignored, or displayed in infobar
 
 // uncomment this to compile code that has issues
+/// SWITCH
 //#define has_issues
+
+#ifdef has_issues
+	#ifdef module_list
+	#message         			- has_issues 	* 
+	#endifdef
+	#define modulein
+	#ifndef breaker
+	#define breaker
+	#endifdef
+#endifdef
+
+
+// ******************************************************************************************************************
+
+#ifndef modulein
+	#ifdef message_all
+	#message         			- NO MODULES 	* 
+	#endifdef
+	#ifndef breaker
+	#define breaker
+	#endifdef
+#endifdef
+
+#ifdef breaker
+	#ifdef message_all
+	#message          
+	#message         			* code has compiled that may break or adversly alter game play 
+	#endifdef
+#endifdef
+
 
 // ******************************************************************************************************************
 

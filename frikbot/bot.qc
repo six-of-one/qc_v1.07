@@ -1110,6 +1110,8 @@ related functions.
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
+
+// deprecated - use proper rcon admin calls
 #ifdef local_test
 
 void() BotImpulses =

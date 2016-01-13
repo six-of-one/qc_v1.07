@@ -22,7 +22,7 @@
 #ifdef debug
 
 //	#ifdef message_all
-	#message         				-- compile: debug code, warnings, options and cheats included 
+	#message         			-- compile: debug code, warnings, options and cheats included 
 //	#endifdef
 
 
@@ -61,7 +61,7 @@
 #ifdef idtest
 
 	#ifdef message_all
-	#message         				-- compile: debug - iD test codes
+	#message         			-- compile: debug - iD test codes
 	#endifdef
 
 // code uses .dest vector
