@@ -333,7 +333,7 @@ void () PoisonDamage =
 	}
 	else 
 */
-	if ( ! self.enemy.flags & FL_POISONED) // || self.enemy.classname == OBSERVER)
+	if ( ! (self.enemy.flags & FL_POISONED)) // || self.enemy.classname == OBSERVER)
 	{
 		remove(self);   // if no longer poisoned, return
 	}

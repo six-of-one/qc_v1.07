@@ -90,6 +90,7 @@ float(string s) findentityfield;
 entity(entity start, .entity fld, entity match) findentity = #98;
 
 void(string s) callfunction = #605;
+float(string s) isfunction = #607;
 
 // for testing file existence
 

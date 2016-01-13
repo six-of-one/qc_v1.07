@@ -1114,17 +1114,13 @@ related functions.
 
 void() BotImpulses =
 {
-	local float f;
-
 	if (self.impulse == 100)
 	{
-		f = cvar("skill");
-		BotConnect(0, 0, f);
+		BotConnect(0, 0, cvar("skill"));
 	}
 	else if (self.impulse == 101)
 	{
-		f = cvar("skill");
-		BotConnect(1, 0, f);
+		BotConnect(1, 0, cvar("skill"));
 	}
 	else if (self.impulse == 102)
 		KickABot();

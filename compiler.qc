@@ -319,7 +319,7 @@ spec track by cvar
 
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
-//#define local_test
+#define local_test
 
 // we always tell if local test or debug are compiled in
 
@@ -428,7 +428,7 @@ spec track by cvar
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
 //					default behavior with HIPNOTIC turned OFF will replace ents with missing models, deactivate some freatures - etc
 
-#define HIPNOTIC
+//#define HIPNOTIC
 
 // control file
 
