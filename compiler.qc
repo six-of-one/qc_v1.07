@@ -436,7 +436,7 @@ spec track by cvar
 // this is just a placeholder for certain bits of code that will only be optional in early releases
 // uncomment the next line and certain darkplaces only code will not be compiled
 /// SWITCH
-#define nondp
+//#define nondp
 
 #ifdef nondp
 
@@ -546,10 +546,6 @@ spec track by cvar
 /// SWITCH
 //#define HIPNOTIC
 
-// control file
-
-#include <hipnotic/hip_control.qc>
-
 #ifdef HIPNOTIC
 	#ifdef module_list
 	#message         			- hipnotic 
@@ -632,8 +628,10 @@ spec track by cvar
 // ******************************************************************************************************************
 
 // visible weapons - show player model with actual selected weapon
+#ifndef nondp
 /// SWITCH
-//#define code_viswep
+#define code_viswep
+#endifdef
 
 #ifdef code_viswep
 	#ifdef module_list
@@ -730,8 +728,16 @@ spec track by cvar
 	#endifdef
 #endifdef
 
+#ifdef message_all
+	#message          
+#endifdef
 
 // ******************************************************************************************************************
+
+// control file(s)
+
+#include <hipnotic/hip_control.qc>
+
 
 /// **************************************
 /// ops section

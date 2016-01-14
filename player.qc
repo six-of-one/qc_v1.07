@@ -79,6 +79,25 @@ $frame axattc1 axattc2 axattc3 axattc4 axattc5 axattc6
 
 $frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
 
+// vw extended model
+// crouching & prone frames
+#ifdef code_viswep
+
+$frame crouchdown1 crouchdown2 crouchdown3
+$frame crouch1 crouch2 crouch3 crouch4 crouch5
+$frame prone1 prone2 prone3 prone4 prone5 prone6 prone7
+
+// weapon access
+
+$frame dropull1 dropull2 dropull3 dropull4 dropull5 dropull6 dropull7
+
+$frame viswadd // additive for multi positon weps
+
+float viswaddf = $viswadd;
+float range_frames = $axrun1;
+float melee_frames = $crouchdown1;
+
+#endifdef
 
 /*
 ==============================================================================

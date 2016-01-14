@@ -211,12 +211,17 @@ void(float to, float f) WriteShort =
 		return;
 	_b_WriteShort(to, f);
 };
+
+#ifndef use_WriteLong
+#define use_WriteLong
 void(float to, float f) WriteLong = 
 {
 	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))
 		return;
 	_b_WriteLong(to, f);
 };
+#endifdef
+
 void(float to, float f) WriteCoord = 
 {
 	if ((to == MSG_ONE) && (msg_entity.ishuman != TRUE))

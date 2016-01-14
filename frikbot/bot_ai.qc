@@ -629,6 +629,7 @@ float(entity thing) priority_for_thing =
 
 // painkeep hub support - Cataboligne - 9.29.9
 
+#ifdef code_painkeep
 		else if (thing.classname == "hub_teleport")
 			thisp = 75;
 		else if (thing.classname == "hub_custom")
@@ -641,6 +642,8 @@ float(entity thing) priority_for_thing =
 				thisp = 50;
 
 		else
+#endifdef
+
 // end painkeep * support
 
 

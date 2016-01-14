@@ -762,19 +762,21 @@ float(entity targ, entity inflictor) CanDamage;
 #messagecompiling hipnotic/hipdefs.qc 
 #include <hipnotic/hipdefs.qc>
 
-#endifdef
-
-#ifdef map_hack
-
-#messagecompiling mhdefs.qc 
-#include <mhdefs.qc>
-
-#endifdef
-
-#ifndef HIPNOTIC
+#else
 // in hip code - used to load default map cfg in client.qc
 .string group;
 #endifdef
+
+#ifdef map_hack
+#messagecompiling mhdefs.qc 
+#include <mhdefs.qc>
+#endifdef
+
+#ifdef code_viswep
+#messagecompiling xwep/vwdefs.qc 
+#include <xwep/vwdefs.qc>
+#endifdef
+
 
 
 //============================================================================

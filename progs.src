@@ -46,6 +46,9 @@ hipnotic/_code.qc
 
 painkeep/_code.qc
 
+// viswep
+
+xwep/_code.qc
 
 debug.qc
 

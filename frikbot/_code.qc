@@ -15,8 +15,8 @@
 
 
 
-// HIPNOTIC is defined or not defined in compiler.qc, the master control file
-//						  module options are set in hipnotic/hip_control.qc
+// code_frikbots is defined or not defined in compiler.qc, the master control file
+//						  module options are set here
 
 #ifdef code_frikbots
 
