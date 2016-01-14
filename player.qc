@@ -63,9 +63,21 @@ $frame deathe8 deathe9
 //
 // attacks
 //
+#ifdef code_viswep
+
+// light fire frames
+//$frame lightfatt1 lightfatt2 lightfatt3 lightfatt4
+
 $frame nailatt1 nailatt2
 
 $frame light1 light2
+
+
+#else
+$frame nailatt1 nailatt2
+
+$frame light1 light2
+#endifdef
 
 $frame rockatt1 rockatt2 rockatt3 rockatt4 rockatt5 rockatt6
 
