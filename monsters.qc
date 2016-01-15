@@ -185,6 +185,8 @@ void(float flg) monster_start =
 	self.think = remove_monster;
 #endifdef
 
+	if (self.classname == "monster_start") self.classname = self.classvn;
+
 };
 
 //============================================================================
