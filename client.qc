@@ -867,7 +867,12 @@ void() PutClientInServer =
 	modelindex_eyes = self.modelindex;
 
 #ifdef code_viswep
+	#ifdef xvars2
+// control var - turns off viswep - note: NOT a live change, server has to restart or players have to respawn
+	setmodel (self, cvar_string("svx_player.mdl"));
+	#else
 	setmodel (self, "progs/vw_player.mdl");
+	#endifdef
 #else
 	setmodel (self, "progs/player.mdl");
 #endifdef
