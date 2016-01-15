@@ -119,6 +119,8 @@ void(float fhandle, string s, ...) fputs = #113; // writes a line of text to the
 
 	#ifdef code_viswep
 
+#define		  EF_NODRAW      		16
+
 .entity tag_entity; // entity this is attached to (call setattachment to set this)
 .float tag_index; // which tag on that entity (0 is relative to the entity, > 0 is an index into the tags on the model if it has any) (call setattachment to set this)
 //builtin definitions:
