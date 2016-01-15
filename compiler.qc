@@ -511,7 +511,7 @@ spec track by cvar
 // possible options - permanent compile in
 // these should ifndef on xvars*
 
-//#define glowcorpse // dead with quad glows
+//#define glowcorpse // dead with quad glows - fix code not compiled
 
 
 // ******************************************************************************************************************
@@ -1134,6 +1134,53 @@ optres_unreferenced 48
 numtemps 300
 96 warnings
 
+
+viswep		- 016.1.14			(from below)
+
+ 59340 strofs (of 1000000)
+ 30636 numstatements (of 524288)
+   803 numfunctions (of 16384)
+  3559 numglobaldefs (of 32768)
+   340 numfielddefs (309 unique) (of 2048)
+  4401 numpr_globals (of 65536)
+Writing progs.dat
+382264 TOTAL SIZE
+Writing progs.lno
+ 71 unique precache_models
+Compile Complete
+
+optres_shortenifnots 246
+optres_overlaptemps 16392
+optres_constantarithmatic 192
+optres_nonvec_parms 4474
+optres_assignments 748
+optres_unreferenced 28
+optres_dupconstdefs 1
+numtemps 212
+71 warnings
+
+-----------------------------------------------------
+ 54764 strofs (of 1000000)
+ 28596 numstatements (of 524288)
+   785 numfunctions (of 16384)
+  3125 numglobaldefs (of 32768)
+   329 numfielddefs (298 unique) (of 2048)
+  3405 numpr_globals (of 65536)
+Writing progs.dat
+353176 TOTAL SIZE
+Writing progs.lno
+ 69 unique precache_models
+Compile Complete
+
+optres_shortenifnots 226
+optres_overlaptemps 15531
+optres_constantarithmatic 164
+optres_nonvec_parms 4373
+optres_assignments 719
+optres_unreferenced 21
+numtemps 205
+69 warnings
+-----------------------------------------------------
 
 
 

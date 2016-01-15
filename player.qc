@@ -14,6 +14,8 @@ $origin 0 -6 24
 $base base		
 $skin skin
 
+// temp until we are on new system
+#ifdef 0
 //
 // running
 //
@@ -98,6 +100,96 @@ float range_frames = $axrun1;
 float melee_frames = $crouchdown1;
 
 #endifdef
+
+// temp until
+#else
+// running
+$frame rockrun1 rockrun2 rockrun3 rockrun4 rockrun5 rockrun6
+
+// standing
+$frame stand1 stand2 stand3 stand4 stand5
+
+// pain
+$frame pain1 pain2 pain3 pain4 pain5 pain6
+
+//
+// fire wep attacks
+//
+// light fire frames
+//$frame lightfatt1 lightfatt2 lightfatt3 lightfatt4
+$frame nailatt1 nailatt2
+
+$frame light1 light2
+
+// *** duplicate of player.mdl frames above - not really necc... in fact dont use, some vw_ were not animated here
+$frame dont_use1 dont_use2 dont_use3 dont_use4
+
+$frame rockatt1 rockatt2 rockatt3 rockatt4 rockatt5 rockatt6
+
+$frame shotatt1 shotatt2 shotatt3 shotatt4 shotatt5 shotatt6
+
+// crouching & prone frames
+
+$frame crouchdown1 crouchdown2 crouchdown3
+$frame crouch1 crouch2 crouch3 crouch4 crouch5
+$frame prone1 prone2 prone3 prone4 prone5 prone6 prone7
+
+// weapon access
+
+$frame dropull1 dropull2 dropull3 dropull4 dropull5 dropull6 dropull7
+
+// axe animation
+
+$frame axrun1 axrun2 axrun3 axrun4 axrun5 axrun6
+$frame axstnd1 axstnd2 axstnd3 axstnd4 axstnd5 axstnd6
+$frame axstnd7 axstnd8 axstnd9 axstnd10 axstnd11 axstnd12
+$frame axpain1 axpain2 axpain3 axpain4 axpain5 axpain6
+
+// axe attacks
+
+$frame axatt1 axatt2 axatt3 axatt4 axatt5 axatt6
+
+$frame axattb1 axattb2 axattb3 axattb4 axattb5 axattb6
+
+$frame axattc1 axattc2 axattc3 axattc4 axattc5 axattc6
+
+$frame axattd1 axattd2 axattd3 axattd4 axattd5 axattd6
+
+//
+// death
+//
+
+$frame axdeth1 axdeth2 axdeth3 axdeth4 axdeth5 axdeth6
+$frame axdeth7 axdeth8 axdeth9
+
+$frame deatha1 deatha2 deatha3 deatha4 deatha5 deatha6 deatha7 deatha8
+$frame deatha9 deatha10 deatha11
+
+$frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8
+$frame deathb9
+
+$frame deathc1 deathc2 deathc3 deathc4 deathc5 deathc6 deathc7 deathc8
+$frame deathc9 deathc10 deathc11 deathc12 deathc13 deathc14 deathc15
+
+$frame deathd1 deathd2 deathd3 deathd4 deathd5 deathd6 deathd7
+$frame deathd8 deathd9
+
+$frame deathe1 deathe2 deathe3 deathe4 deathe5 deathe6 deathe7
+$frame deathe8 deathe9
+
+// viswep stuff - not found in player mdl - should not go past frame deathe9
+
+$frame dthrow1 dthrow2 dthrow3 dthrow4 dthrow5
+//$frame firerun1 firerun2 firerun3 firerun4 firerun5 firerun6 // moved to end of all range frames = viswaddf + dropull7 + 1
+
+$frame viswadd // additive for multi positon weps
+
+float viswaddf = $viswadd;
+float range_frames = $axrun1;
+float melee_frames = $crouchdown1;
+
+#endifdef
+
 
 /*
 ==============================================================================
@@ -787,14 +879,18 @@ void() PlayerDie =
 	self.super_damage_finished = 0;
 	self.radsuit_finished = 0;
 
+#ifdef code_viswep
+	viswep_ld(self, -2); // still have visweps
+#endifdef
+
 #ifdef opgrade
 
 // logic:
 //		define glowcorpse --- corpse with quad / pent will glow  - code below is not compiled in
-//		undef glowcorsep --- corpse with quad / pent will glow if svx_glowcorpse != 0
+//		undef glowcorsep --- corpse with quad / pent will glow if svx_noglowcorpse = 0						 --- requires xvars2
 	#ifndef glowcorpse
 		#ifdef xvars2
-	if (!cvar("svx_glowcorpse"))
+	if (cvar("svx_noglowcorpse"))
 		#endifdef
 	self.effects = 0;	// 1998-07-23 Glowing corpse of players which had quad/pentagram until respawn fix by Maddes
 	#endifdef
@@ -868,10 +964,12 @@ void() set_suicide_frame =
 {	// used by klill command and diconnect command
 #ifdef code_viswep
 	if (self.model != "progs/vw_player.mdl")
+		return;
+	viswep_ld(self, -2);
 #else
 	if (self.model != "progs/player.mdl")
-#endifdef
 		return;	// allready gibbed
+#endifdef
 	self.frame = $deatha11;
 	self.solid = SOLID_NOT;
 	self.movetype = MOVETYPE_TOSS;

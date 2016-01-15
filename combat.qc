@@ -96,7 +96,11 @@ void(entity targ, entity attacker) Killed =
 
 	monster_death_use();
 	self.th_die ();
-	
+
+#ifdef code_viswep
+	if (self.vwepent) viswep_ld(self, -2); // still have visweps
+#endifdef
+
 	self = oself;
 };
 

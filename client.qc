@@ -1717,6 +1717,11 @@ void() PlayerPostThink =
 	earthquake_postthink();
 #endifdef
 
+#ifdef code_viswep
+	if (self.vw_frame != framecount)
+		viswep_post(); // Cataboligne - 9.26.9 - viswep code link - always have to run this for 1 player + pk*bots deal
+#endifdef
+
 	if (!self.view_ofs) // == '0 0 0')
 		return;		// intermission or finale
 	if (self.deadflag)

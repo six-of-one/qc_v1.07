@@ -941,6 +941,13 @@ void() W_SetCurrentAmmo =
 	self.items = self.items - ( self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS) );
 	self.weaponframe = 0; // this always happens
 
+	if ((self.prevweapon != self.weapon) || (self.forcewchange == 1))
+	{
+//		self.lastweapon = self.prevweapon;
+		self.prevweapon = self.weapon;
+		self.forcewchange = FALSE;
+	}
+
 	if (self.weapon == IT_AXE)
 	{
 		self.currentammo = 0;
