@@ -866,7 +866,11 @@ void() PutClientInServer =
 	setmodel (self, "progs/eyes.mdl");
 	modelindex_eyes = self.modelindex;
 
+#ifdef code_viswep
+	setmodel (self, "progs/vw_player.mdl");
+#else
 	setmodel (self, "progs/player.mdl");
+#endifdef
 	modelindex_player = self.modelindex;
 
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
