@@ -1,4 +1,18 @@
- 59324 strofs (of 1000000)
+                	       code modules:
+                		- qc++
+                		- opgrade
+                		- codefix
+                		- noautoaim
+                		- noobjerr
+                		- nodprint
+                		- local_test 	*
+                		- xvars
+                		- code_frikbots
+                		- code_viswep
+                		- quakemonsters
+                		- map_hack
+
+59324 strofs (of 1000000)
  30648 numstatements (of 524288)
    802 numfunctions (of 16384)
   3546 numglobaldefs (of 32768)
