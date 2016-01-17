@@ -1503,7 +1503,10 @@ void() CheckPowerups =
 		}
 		
 	// use the eyes
-		self.frame = 0;
+// this was screwing framer when invisible - player_shot1 was never ending and muzzleflash loop
+// whats more this does nothing for eyes, since they only have one frame
+// this fix will work until eyes have more frames
+//		self.frame = 0; 
 		self.modelindex = modelindex_eyes;
 	}
 #ifdef hip_weapons

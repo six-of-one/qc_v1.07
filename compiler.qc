@@ -767,12 +767,15 @@ spec track by cvar
 
 #define framerloop(sframe,eframe,t_on,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; excode;}
 
+///framer($shotatt1, $shotatt6, player_shot1, player_run, 0.1,
+
 /*
 
 // code layout
 // note logic change - if current self.frame is beyond start frame or end frame in either direction, we reset to start frame
 // freset has been removed - no longer needed, if we re-enter, looping to self and see the endframe, that is a reset
 // remove t_to and this line for framerloop: if (self.frame == eframe) { self.think = t_to; }
+
 
 void() t_on 
 {
