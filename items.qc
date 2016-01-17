@@ -116,7 +116,7 @@ void() StartItem =
 	{
 		self.classname = self.classvn;
 		setmodel(self, self.model); // pre load doesnt set these - this sets box size, so
-		if (self.pos2) setsize(self, self.pos1, self.pos2); // pos? used for size override
+		if (self.pos2) setsize(self, self.pos1, self.pos2); // if defined pos{1,2} used for size override
 	}
 };
 
