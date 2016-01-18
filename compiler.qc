@@ -767,8 +767,6 @@ spec track by cvar
 
 #define framerloop(sframe,eframe,t_on,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; excode;}
 
-///framer($shotatt1, $shotatt6, player_shot1, player_run, 0.1,
-
 /*
 
 // code layout
