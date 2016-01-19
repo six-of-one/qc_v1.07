@@ -24,5 +24,6 @@
 
 #define use_vtos
 string(vector v) vtos				= #27;
+vector(string s) stov = #117; // returns vector value from a string
 
 #endifdef
