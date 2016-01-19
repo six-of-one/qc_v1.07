@@ -112,12 +112,14 @@ void() StartItem =
 	self.nextthink = time + 0.2;	// items start after other solids
 	self.think = PlaceItem;
 
+#ifdef code_xents
 	if (self.classname == "StartItem")
 	{
 		self.classname = self.classvn;
 		setmodel(self, self.model); // pre load doesnt set these - this sets box size, so
 		if (self.pos2) setsize(self, self.pos1, self.pos2); // if defined pos{1,2} used for size override
 	}
+#endifdef
 };
 
 /*

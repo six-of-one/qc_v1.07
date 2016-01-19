@@ -84,8 +84,6 @@ string(float fieldnum) entityfieldname = #497;
 float() numentityfields = #496;
 string(float fieldnum, entity ent) getentityfieldstring = #499; // TESTING
 
-float(string s) findentityfield;
-
 //finds an entity or float field value, similar to find(), but for entity and float fields.
 entity(entity start, .entity fld, entity match) findentity = #98;
 

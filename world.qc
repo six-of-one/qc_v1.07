@@ -382,9 +382,6 @@ void() worldspawn =
 #endifdef
 
 #ifdef map_hack
-// ids for  putentityfieldstring(...)
-
-	e_model = findentityfield("model");
 
 // REMOVE
 // test for maphack stuff

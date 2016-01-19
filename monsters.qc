@@ -185,12 +185,14 @@ void(float flg) monster_start =
 	self.think = remove_monster;
 #endifdef
 
+#ifdef code_xents
 	if (self.classname == "monster_start")
 	{
 		self.classname = self.classvn;
 		setmodel(self, self.model); // pre load doesnt set this
 		if (self.pos2) setsize(self, self.pos1, self.pos2); // if defined pos{1,2} used for size override
 	}
+#endifdef
 
 };
 
