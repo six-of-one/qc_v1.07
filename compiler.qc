@@ -689,6 +689,30 @@ spec track by cvar
 
 // ******************************************************************************************************************
 
+// extra entities - used by map_hack and viswep, required by "weapon system 6"
+
+#ifndef nondp
+/// SWITCH
+#define code_xents
+#endifdef
+
+// requirements block
+#ifdef map_hack
+#define code_xents
+#endifdef
+#ifdef code_viswep
+#define code_xents
+#endifdef
+
+#ifdef code_xents
+	#ifdef module_list
+	#message         			- code_xents 
+	#endifdef
+	#define modulein
+#endifdef
+
+// ******************************************************************************************************************
+
 // new code that... well, has issues
 // it might be cool to run this code, but it just doesnt work quite right
 // all code in this wrapper SHOULD be removed for release

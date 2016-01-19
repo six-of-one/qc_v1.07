@@ -773,10 +773,14 @@ float(entity targ, entity inflictor) CanDamage;
 #endifdef
 
 #ifdef code_viswep
-#messagecompiling xwep/vwdefs.qc 
-#include <xwep/vwdefs.qc>
+#messagecompiling x_wep/vwdefs.qc 
+#include <x_wep/vwdefs.qc>
 #endifdef
 
+#ifdef code_xents
+#messagecompiling x_ent/x_defs.qc 
+#include <x_ent/x_defs.qc>
+#endifdef
 
 
 //============================================================================
