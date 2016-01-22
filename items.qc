@@ -39,7 +39,8 @@ void(float tim) touched =
 
 // note: dm > 2 rule upgrade implement later
 //	if (deathmatch && deathmatch != 2 && tim > 0)
-	if (deathmatch == 1 && tim > 0)
+// code detects all dm 1 bits, 1, 3, 5, etc - all 2 level will act as 2
+	if ((deathmatch & 1) && tim > 0)
 	{
 		self.nextthink = time + tim;
 		self.think = SUB_regen;
@@ -248,12 +249,14 @@ void() health_touch =
 	}
 	else
 	{
-		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
-		{
-			if (deathmatch)
+//		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
+//		{
+			if (deathmatch & 1)
+			{
 				self.nextthink = time + 20;
-			self.think = SUB_regen;
-		}
+				self.think = SUB_regen;
+			}
+//		}
 	}
 	
 //	activator = other;
@@ -275,7 +278,7 @@ void() item_megahealth_rot =
 // just blindly subtract the flag off
 	other.items = other.items - (other.items & IT_SUPERHEALTH);
 	
-	if (deathmatch == 1)	// deathmatch 2 is silly old rules
+	if (deathmatch & 1)	// deathmatch 2 is silly old rules
 	{
 		self.nextthink = time + 20;
 		self.think = SUB_regen;
@@ -496,7 +499,7 @@ void() weapon_touch =
 // logic change to eliminate extra statements - use "stemp" as weapon ent, "self" is player
 //	self = stemp;
 
-	if (deathmatch == 2 || (coop
+	if (deathmatch & 2 || (coop
 #ifdef map_hack
 // hack to make coop play like sp for qone / quake-hack
 	 &&  (!cvar("mh_sp_coop_hack"))
