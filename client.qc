@@ -201,7 +201,7 @@ void() GotoNextMap =
 			other.solid = SOLID_SLIDEBOX;
 			other.movetype = MOVETYPE_WALK;
 			other.modelindex = modelindex_player;
-			centerprint(other, "");
+			centerprint(other, string_null);
 //			msg_entity = other;                         // target of message
 //			WriteByte (MSG_ONE, SVC_SETVIEWPORT);
 //			WriteEntity (MSG_ONE, other);           // view port

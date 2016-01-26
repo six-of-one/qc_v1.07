@@ -111,6 +111,8 @@ T_Damage
 
 The damage is coming from inflictor, but get mad at attacker
 This should be the only function that ever reduces health.
+
+note: negative damage value will add health !
 ============
 */
 void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=

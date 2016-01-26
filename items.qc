@@ -499,6 +499,8 @@ void() weapon_touch =
 // logic change to eliminate extra statements - use "stemp" as weapon ent, "self" is player
 //	self = stemp;
 
+// handles pk logic - if (deathmatch == 2 || deathmatch == 3 || coop)
+
 	if (deathmatch & 2 || (coop
 #ifdef map_hack
 // hack to make coop play like sp for qone / quake-hack
