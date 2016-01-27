@@ -11,24 +11,25 @@
                 		- code_viswep
                 		- quakemonsters
                 		- map_hack
+                		- code_xents
 
-59324 strofs (of 1000000)
- 30648 numstatements (of 524288)
+ 59588 strofs (of 1000000)
+ 30895 numstatements (of 524288)
    802 numfunctions (of 16384)
-  3546 numglobaldefs (of 32768)
-   342 numfielddefs (311 unique) (of 2048)
-  4384 numpr_globals (of 65536)
+  3560 numglobaldefs (of 32768)
+   350 numfielddefs (318 unique) (of 2048)
+  4396 numpr_globals (of 65536)
 Writing progs.dat
-382152 TOTAL SIZE
+384616 TOTAL SIZE
 Writing progs.lno
  69 unique precache_models
 Compile Complete
 
-optres_shortenifnots 242
-optres_overlaptemps 16407
+optres_shortenifnots 241
+optres_overlaptemps 16540
 optres_constantarithmatic 191
-optres_nonvec_parms 4478
-optres_assignments 749
-optres_unreferenced 23
-numtemps 209
+optres_nonvec_parms 4533
+optres_assignments 762
+optres_unreferenced 20
+numtemps 211
 69 warnings
