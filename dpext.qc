@@ -14,6 +14,9 @@
 
 #ifndef nondp
 
+//adds a new console cvar to the server console (in singleplayer this is the player's console), the cvar exists until the mod is unloaded or the game quits.
+float(string name, string value) registercvar = #93;
+
 // read cvar as strings
 string (string s) cvar_string = #448;
 
@@ -82,7 +85,7 @@ float(entity num) num_for_edict = #512;
 float(float fieldnum, entity ent, string s) putentityfieldstring = #500;
 string(float fieldnum) entityfieldname = #497;
 float() numentityfields = #496;
-string(float fieldnum, entity ent) getentityfieldstring = #499; // TESTING
+string(float fieldnum, entity ent) getentityfieldstring = #499;
 
 //finds an entity or float field value, similar to find(), but for entity and float fields.
 entity(entity start, .entity fld, entity match) findentity = #98;
