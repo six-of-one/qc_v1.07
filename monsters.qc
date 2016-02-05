@@ -185,6 +185,7 @@ void(float flg) monster_start =
 	self.think = remove_monster;
 #endifdef
 
+// IMP: monster DM override goes here - use overload on norm monsters
 #ifdef code_xents
 	if (self.classname == "monster_start")
 	{

@@ -73,6 +73,15 @@ void(entity targ, entity attacker) Killed =
 	}
 #endifdef
 
+#ifndef code_xents
+// only need if xents is not compiled - only cvar_fields set ents are protected though
+#ifdef codefix
+// block improperly set up killable from scuttling server
+	if (!self.th_die) self.th_die = SUB_Null;
+#endifdef
+#endifdef
+
+
 	if (self.movetype == MOVETYPE_PUSH || self.movetype == MOVETYPE_NONE)
 	{	// doors, triggers, etc
 		self.th_die ();

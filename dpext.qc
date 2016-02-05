@@ -80,12 +80,37 @@ float(entity ent) wasfreed = #353; // same as in EXT_CSQC extension
 float(entity num) num_for_edict = #512;
 
 
+//Versatile functions intended for storing data from specific entities between level changes, but can be customized for some kind of partial savegame.
+//WARNING: .entity fields cannot be saved and restored between map loads as they will leave dangling pointers.
+//numentityfields returns the number of entity fields. NOT offsets. Vectors comprise 4 fields: v, v_x, v_y and v_z.
+//entityfieldname returns the name as a string, eg. "origin" or "classname" or whatever.
+//entityfieldtype returns a value that the constants represent, but the field may be of another type in more exotic progs.dat formats or compilers.
 // to set entity string fields in code - you cant do an assign with temp strings, you get:
 // PRVM_GetString: invalid temp-string
+
+// note: putent* used by map_hack - which is xents dependent
+#ifdef code_xents
 float(float fieldnum, entity ent, string s) putentityfieldstring = #500;
 string(float fieldnum) entityfieldname = #497;
 float() numentityfields = #496;
 string(float fieldnum, entity ent) getentityfieldstring = #499;
+float(float fieldnum) entityfieldtype = #498;
+//constants:
+//Returned by entityfieldtype
+#define		FIELD_STRING  		1
+#define		FIELD_FLOAT   		2
+#define		FIELD_VECTOR  		3
+#define		FIELD_ENTITY  		4
+#define		FIELD_FUNCTION		6
+//description:
+#endifdef
+
+
+
+
+
+
+
 
 //finds an entity or float field value, similar to find(), but for entity and float fields.
 entity(entity start, .entity fld, entity match) findentity = #98;
@@ -96,8 +121,8 @@ float(string s) isfunction = #607;
 // for testing file existence
 
 //constants:
-#define FILE_READ	 		0
-#define FILE_APPEND		1
+#define FILE_READ	 			0
+#define FILE_APPEND			1
 #define FILE_WRITE		 	2
 
 float(string filename, float mode) fopen = #110; // opens a file inside quake/gamedir/data/ (mode is FILE_READ, FILE_APPEND, or FILE_WRITE), returns fhandle >= 0 if successful, or fhandle < 0 if unable to open file for any reason
