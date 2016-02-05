@@ -19,20 +19,24 @@ void() SUB_regen =
 
 // self - touched item
 // other - touching ent
-// tim - respawn time for dm
+
+// tim - respawn time for dm - if <= 0 item will not respawn
+// 		- this is self.wait in item fields
+// -1 = weapon "leave" option in dm == 2 (bit value now, so 2, 4, 6, etc.)
+// -2 = use targets but no bf\n, no respawn
+// -3 = monster picked up - no bf, no targets, no respawn -- item will kick out when monster dies & have targets
 
 void(float tim) touched =
 {
-// tim code <= -1 is for not a player touching - note: no respawn on this
-// -1 = use targets but no bf\n
-// expand - future code for mark 3 if monsters can pick up items - uncomment next code to "if" -1 }
-//	if (tim > -2)
+// expand - future code for mark 3 if monsters can pick up items - uncomment next code to "if" -3 }
+//	if (tim > -3)
 //	{
-//		if (tim > -1) 
+//		if (tim > -2) 
 			stuffcmd(other, "bf\n");
 		activator = other;
 		SUB_UseTargets();				// fire all targets / killtargets	
 //	}
+	if (tim == -1) return;
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;

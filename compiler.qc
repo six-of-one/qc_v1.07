@@ -734,6 +734,22 @@ spec track by cvar
 #endifdef
 
 
+// this code must be removed or changed
+
+/// SWITCH
+#define remove_code
+
+#ifdef remove_code
+	#ifdef module_list
+	#message         			- remove_code 	* !! 
+	#endifdef
+	#define modulein
+	#ifndef breaker
+	#define breaker
+	#endifdef
+#endifdef
+
+
 // ******************************************************************************************************************
 
 #ifndef modulein
