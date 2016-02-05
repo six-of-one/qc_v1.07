@@ -115,6 +115,7 @@ float(float fieldnum) entityfieldtype = #498;
 //finds an entity or float field value, similar to find(), but for entity and float fields.
 entity(entity start, .entity fld, entity match) findentity = #98;
 
+// sv_prvm_warn if 0 will cause callfunction to error out if s is not a valid function
 void(string s) callfunction = #605;
 float(string s) isfunction = #607;
 
