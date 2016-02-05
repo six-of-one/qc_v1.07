@@ -1036,6 +1036,28 @@ void() W_SetCurrentAmmo =
 		self.weaponmodel = string_null;
 //		self.weaponframe = 0;
 	}
+
+#ifdef code_xents
+// extra weapons ammo setting
+	if (self.eweapon)
+	{
+		s3__ = strcat("__msk_",self.eweapon.model);
+		s2__ =  cvar_string(s3__);
+		s3__ = getentityfieldstring(findentityfield(s2__), self);
+		if (s3__ != string_null)
+		{
+			self.currentammo = stof(s3__);
+		}
+		self.weaponframe = 0;
+		self.weaponmodel = self.eweapon.weaponmodel;
+
+		if (self.eweapon.grap_state == 666000) // fists
+		{
+			self.weaponmodel = string_null;
+			self.currentammo = 0;
+		}
+	}
+#endifdef
 };
 
 #ifndef hip_weapons
@@ -1110,6 +1132,40 @@ void() W_Attack =
 
 	makevectors	(self.v_angle);			// calculate forward angle for velocity
 	self.show_hostile = time + 1;	// wake monsters up
+
+#ifdef code_morph
+	if (self.morphy != IMP_MENF) // m-enf has an internal ewa, and always uses his frames
+	if (self.eweapon)
+	{
+		e_weap_Attack();
+		return;
+	}
+
+	if (self._attack != SUB_Null) // morph built in weapons
+	{
+#ifdef code_painkeep
+		if ( (self.pk_currentitem != PK_IT_AXE) && (self.builtin & self.weapon) ) // fire a pk item
+		{
+			e = self._attack;
+			self._attack = SUB_Null;
+			r = self.weapon;
+			self.weapon = IT_AXE;
+			PK_Attack();
+			self._attack = e;			
+			self.weapon = r;
+		}
+		else
+#endifdef
+			self._attack();
+		return;
+	}
+#else
+	if (self.eweapon)
+	{
+//		e_weap_Attack();
+		return;
+	}
+#endifdef
 
 	if (self.weapon == IT_AXE)
 	{

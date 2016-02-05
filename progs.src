@@ -48,8 +48,8 @@ painkeep/_code.qc
 
 // viswep
 
-x_ent/x_ent.qc
 x_wep/_code.qc
+x_ent/x_ent.qc
 
 debug.qc
 
