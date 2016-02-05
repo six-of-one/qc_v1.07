@@ -1162,7 +1162,7 @@ void() W_Attack =
 #else
 	if (self.eweapon)
 	{
-//		e_weap_Attack();
+		e_weap_Attack();
 		return;
 	}
 #endifdef
