@@ -12,24 +12,25 @@
                 		- quakemonsters
                 		- map_hack
                 		- code_xents
+                		- remove_code 	* !!
 
- 59588 strofs (of 1000000)
- 30895 numstatements (of 524288)
-   802 numfunctions (of 16384)
-  3560 numglobaldefs (of 32768)
-   350 numfielddefs (318 unique) (of 2048)
-  4396 numpr_globals (of 65536)
+ 60872 strofs (of 1000000)
+ 31736 numstatements (of 524288)
+   814 numfunctions (of 16384)
+  3651 numglobaldefs (of 32768)
+   370 numfielddefs (336 unique) (of 2048)
+  4501 numpr_globals (of 65536)
 Writing progs.dat
-384616 TOTAL SIZE
+394368 TOTAL SIZE
 Writing progs.lno
  69 unique precache_models
 Compile Complete
 
-optres_shortenifnots 241
-optres_overlaptemps 16540
+optres_shortenifnots 245
+optres_overlaptemps 17003
 optres_constantarithmatic 191
-optres_nonvec_parms 4533
-optres_assignments 762
-optres_unreferenced 20
-numtemps 211
+optres_nonvec_parms 4661
+optres_assignments 796
+optres_unreferenced 21
+numtemps 227
 69 warnings
