@@ -1041,12 +1041,11 @@ void() W_SetCurrentAmmo =
 // extra weapons ammo setting
 	if (self.eweapon)
 	{
-		s3__ = strcat("__msk_",self.eweapon.model);
-		s2__ =  cvar_string(s3__);
-		s3__ = getentityfieldstring(findentityfield(s2__), self);
-		if (s3__ != string_null)
+		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
+		s0__ = getentityfieldstring(findentityfield(s0__), self);
+		if (s0__ != string_null)
 		{
-			self.currentammo = stof(s3__);
+			self.currentammo = stof(s0__);
 		}
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
