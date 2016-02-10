@@ -411,7 +411,8 @@ void() worldspawn =
 			registercvar(s2__,ftos(f0__));
 		}
 /// REMOVE
-	registercvar(strcat("__field_total_",s4__,"_",ftos(f0__)),ftos(f0__));
+else
+	registercvar(strcat("__field_",s4__,"_bogus_",ftos(f0__)),ftos(f0__));
 
 		f0__ = f0__ + 1;
 		s4__ = entityfieldname(f0__);
