@@ -393,9 +393,27 @@ void() worldspawn =
 
 #endifdef
 
-
 #ifdef use_local_ent
 	local_ent(world); // base ent, so we can use it from get-go
+#endifdef
+
+// build a set of valid entity field
+//		- because entityfieldname returns the same field for diff values of f0__
+//		- so we grab the first of each & validate all loops using this code
+#ifdef code_xents
+	s4__ = entityfieldname(1);
+	f0__ = 1;
+	while (s4__ != string_null)
+	{
+		s2__ = strcat("__field_",s4__);
+		if (!(cvar_type(s2__) & CVAR_TYPEFLAG_EXISTS))
+		{
+			registercvar(s2__,ftos(f1__));
+		}
+
+		f0__ = f0__ + 1;
+		s4__ = entityfieldname(f0__);
+	}	
 #endifdef
 
 };
