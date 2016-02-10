@@ -101,9 +101,11 @@
 // 1.0.7.3			- map_hack										+	[ q_mapseq, hip_mapseq, has_issues, no_bossgate, no_epgate ]
 // 1.0.7.4			- code_bots, code_frikbots
 // 1.0.7.5			- code_painkeep
+// 1.0.7.6			- code_xents
+// 1.0.7.7			- code_viswep
 
 
-#define VERSION 	"1.0.7.4 qc++"
+#define VERSION 	"1.0.7.7 qc++"
 
 /// **************************************
 /// code weaver section
@@ -599,7 +601,7 @@ spec track by cvar
 
 // use frik bots
 /// SWITCH
-#define code_frikbots
+//#define code_frikbots
 
 #ifdef code_frikbots
 	#ifdef module_list
@@ -638,6 +640,7 @@ spec track by cvar
 	#message         			- code_viswep 
 	#endifdef
 	#define modulein
+	#define code_w_chg
 #endifdef
 
 // ******************************************************************************************************************

@@ -42,6 +42,8 @@ monster_x/x_monsters.qc
 
 hipnotic/_code.qc
 
+environment.qc
+
 // painkeep
 
 painkeep/_code.qc

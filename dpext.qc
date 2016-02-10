@@ -106,6 +106,30 @@ float(float fieldnum) entityfieldtype = #498;
 #endifdef
 
 
+//DP_QC_GETSURFACE
+//float(entity e, float s) getsurfacenumpoints = #434;
+//vector(entity e, float s, float n) getsurfacepoint = #435;
+//vector(entity e, float s) getsurfacenormal = #436;
+string(entity e, float s) getsurfacetexture = #437;
+float(entity e, vector p) getsurfacenearpoint = #438;
+//vector(entity e, float s, vector p) getsurfaceclippedpoint = #439;
+
+//DP_QC_GETSURFACEPOINTATTRIBUTE
+#define		SPA_POSITION		0
+#define		SPA_S_AXIS		1
+#define		SPA_T_AXIS		2
+#define		SPA_R_AXIS		3 // same as SPA_NORMAL
+#define		SPA_TEXCOORDS0		4
+#define		SPA_LIGHTMAP0_TEXCOORDS		5
+#define		SPA_LIGHTMAP0_COLOR		6
+//builtin definitions:
+//vector(entity e, float s, float n, float a) getsurfacepointattribute = #486;
+
+//function to query extended information about a point on a certain surface
+
+//DP_QC_GETSURFACETRIANGLE
+//float(entity e, float s) getsurfacenumtriangles = #628;
+//vector(entity e, float s, float n) getsurfacetriangle = #629;
 
 
 
