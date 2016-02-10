@@ -408,8 +408,10 @@ void() worldspawn =
 		s2__ = strcat("__field_",s4__);
 		if (!(cvar_type(s2__) & CVAR_TYPEFLAG_EXISTS))
 		{
-			registercvar(s2__,ftos(f1__));
+			registercvar(s2__,ftos(f0__));
 		}
+/// REMOVE
+	registercvar(strcat("__field_total_",s4__,"_",ftos(f0__)),ftos(f0__));
 
 		f0__ = f0__ + 1;
 		s4__ = entityfieldname(f0__);
