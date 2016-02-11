@@ -414,7 +414,7 @@ void() worldspawn =
 else
 	registercvar(strcat("__field_",s4__,"_bogus_",ftos(f0__)),ftos(f0__));
 
-		f0__ = f0__ + 1;
+		f0__++;
 		s4__ = entityfieldname(f0__);
 	}	
 #endifdef

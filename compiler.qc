@@ -641,6 +641,7 @@ spec track by cvar
 	#endifdef
 	#define modulein
 	#define code_w_chg
+//	#define vw_armor
 #endifdef
 
 // ******************************************************************************************************************
