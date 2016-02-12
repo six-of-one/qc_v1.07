@@ -91,6 +91,9 @@ entity locus;
 #define		s4__		locus.noise4
 #define		s5__		locus.wad
 #define		s6__		locus.deathtype
+#define		s7__		locus.group
+#define		s8__		locus.message
+#define		s9__		locus.netname
 
 // pre selected entity
 
@@ -101,6 +104,8 @@ entity locus;
 #define		e4__		locus.goalentity
 #define		e5__		locus.groundentity
 #define		e6__		locus.trigger_field
+#define		e7__		locus.movetarget
+#define		e8__		locus.dmg_inflictor
 
 // TESTING
 
