@@ -713,6 +713,7 @@ spec track by cvar
 	#message         			- code_xents 
 	#endifdef
 	#define modulein
+	#define HUD_support
 #endifdef
 
 // ******************************************************************************************************************

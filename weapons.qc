@@ -1047,6 +1047,7 @@ void() W_SetCurrentAmmo =
 		{
 			self.currentammo = stof(s0__);
 		}
+		else self.currentammo = self.eweapon.aflag;
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
 
@@ -1059,9 +1060,32 @@ void() W_SetCurrentAmmo =
 #endifdef
 };
 
+#ifdef code_xents
+// TDO: builtin rank test
+
+float() W_BestWeapon =
+{
+	f0__ = 10;
+	f1__ = IT_AXE;
+	e0__ = self.vwepent;
+	while (e0__)
+	{
+		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
+		if (e0__.distance > f0__)
+		if (ammo_con(e0__.weapon, self, "pwep") || e0__.aflag)
+		{
+			f0__ = e0__.distance;
+			f1__ = e0__.items;
+		}
+		e0__ = e0__.vwepent;
+	}
+	return(f1__);
+};
+#else
 #ifndef hip_weapons
 float() W_BestWeapon =
 {
+// new code - will not auto switch to anything with a rank < 10 - the axe
 	local	float	it;
 	
 	it = self.items;
@@ -1079,6 +1103,7 @@ float() W_BestWeapon =
 	return IT_AXE;
 };
 #endifdef
+#endifdef
 
 float() W_CheckNoAmmo =
 {
@@ -1087,7 +1112,12 @@ float() W_CheckNoAmmo =
 
 	if (self.weapon == IT_AXE)
 		return TRUE;
-	
+
+#ifdef code_xents
+	if (ammo_con(self.weapon, self, "pwep")) // see if its inf ammo wep
+		return TRUE;
+ #endifdef
+
 #ifdef hip_weapons 
 //MED
 	if (self.weapon == IT_MJOLNIR)
@@ -1385,7 +1415,7 @@ void() CycleWeaponCommand =
 #endifdef
 
 // going to the axe
-		if (!(self.weapon & 127)) self.weapon = IT_AXE;
+		if (!(self.weapon & 255)) self.weapon = IT_AXE;
 
 // weapon select logic
 #ifdef hip_weapons

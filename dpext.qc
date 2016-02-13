@@ -103,6 +103,13 @@ float(float fieldnum) entityfieldtype = #498;
 #define		FIELD_ENTITY  		4
 #define		FIELD_FUNCTION		6
 //description:
+
+	#ifdef HUD_support
+// add stats to hud
+// #232 void(float index, float type, .void field) SV_AddStat (EXT_CSQC)
+void(float index, float type, ...) addstat = #232;
+	#endifdef
+
 #endifdef
 
 

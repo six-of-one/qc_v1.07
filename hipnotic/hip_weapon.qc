@@ -794,7 +794,7 @@ PLAYER WEAPON USE
 ===============================================================================
 */
 
-
+#ifndef code_xents
 float() W_BestWeapon =
 {
 	local	float	it;
@@ -820,6 +820,7 @@ float() W_BestWeapon =
 
 	return IT_AXE;
 };
+#endifdef
 
 
 

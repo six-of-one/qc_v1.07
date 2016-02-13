@@ -417,6 +417,56 @@ else
 		f0__++;
 		s4__ = entityfieldname(f0__);
 	}	
+
+#ifdef HUD_support
+// csqc - HUD - pass these server vars to the client
+
+// AST_STRING = 1
+// AST_FLOAT = 2
+
+		addstat(33, 2, mcode);
+#ifdef code_runes
+		addstat(34, 2, rune_flag);
+#endifdef
+// pk 
+#ifdef code_painkeep
+		addstat(35, 2, pk_explode_ammo);
+		addstat(36, 2, pk_items); // only detects 3 inv weps
+		addstat(37, 2, pk_currentitem); // current wep
+		addstat(38, 2, pk_gravitywellammo); // pk ammos
+		addstat(39, 2, pk_turretammo); // pk ammos
+		addstat(40, 2, pk_beartrapammo); // pk ammos
+		addstat(41, 2, pk_canpabammo); // pk ammos
+		addstat(42, 2, pkplus_tombammo); // pk ammos
+		addstat(43, 2, pkplus_egoammo); // pk ammos
+		addstat(44, 2, pkplus_phoneammo); // pk ammos
+		addstat(45, 2, pkplus_actorammo); // pk ammos
+#endifdef
+// enhanced
+		addstat(46, 2, ammo_bullet); // enh ammos
+		addstat(47, 2, ammo_slug); // enh ammos
+		addstat(48, 2, ammo_gaspr); // enh ammos
+
+#ifdef code_fix
+		addstat(49, 2, wetsuit_finished); // enh powers
+		addstat(53, 2, silencer_finished); // for silencer
+#endifdef
+		addstat(50, 2, x_items); // enh powers
+		addstat(52, 2, deadflag); // for bones
+//		addstat(51, 2, xp); // xp for stuff
+
+//		addstat(50, 1, stack1); // target string
+//		addstat(51, 1, stack2); // target string
+
+		addstat(64, 2, volume);
+#ifdef code_morph
+		addstat(65, 2, morphy);
+#endifdef
+#ifdef code_archon
+		addstat(66, 2, archon);
+#endifdef
+
+#endifdef
 #endifdef
 
 };
