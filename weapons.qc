@@ -1417,6 +1417,8 @@ void() CycleWeaponCommand =
 // going to the axe
 		if (!(self.weapon & 255)) self.weapon = IT_AXE;
 
+/// IMP: vwep select here
+
 // weapon select logic
 #ifdef hip_weapons
 		if (self.weapon == IT_LASER_CANNON && self.ammo_cells < 1) am = 1;

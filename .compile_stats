@@ -7,30 +7,29 @@
                 		- nodprint
                 		- local_test 	*
                 		- xvars
-                		- code_frikbots
                 		- code_viswep
                 		- quakemonsters
                 		- map_hack
                 		- code_xents
                 		- remove_code 	* !!
 
- 60872 strofs (of 1000000)
- 31736 numstatements (of 524288)
-   814 numfunctions (of 16384)
-  3651 numglobaldefs (of 32768)
-   370 numfielddefs (336 unique) (of 2048)
-  4501 numpr_globals (of 65536)
+ 53312 strofs (of 1000000)
+ 26207 numstatements (of 524288)
+   730 numfunctions (of 16384)
+  3019 numglobaldefs (of 32768)
+   316 numfielddefs (288 unique) (of 2048)
+  3876 numpr_globals (of 65536)
 Writing progs.dat
-394368 TOTAL SIZE
+331564 TOTAL SIZE
 Writing progs.lno
  69 unique precache_models
 Compile Complete
 
-optres_shortenifnots 245
-optres_overlaptemps 17003
-optres_constantarithmatic 191
-optres_nonvec_parms 4661
-optres_assignments 796
-optres_unreferenced 21
-numtemps 227
+optres_shortenifnots 178
+optres_overlaptemps 13892
+optres_constantarithmatic 190
+optres_nonvec_parms 4172
+optres_assignments 504
+optres_unreferenced 17
+numtemps 196
 69 warnings
