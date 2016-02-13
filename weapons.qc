@@ -1072,7 +1072,7 @@ float() W_BestWeapon =
 	{
 		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
 		if (e0__.distance > f0__)
-		if (ammo_con(e0__.weapon, self, "pwep") || e0__.aflag)
+		if (e0__.currentammo || e0__.aflag)
 		{
 			f0__ = e0__.distance;
 			f1__ = e0__.items;
@@ -1114,7 +1114,8 @@ float() W_CheckNoAmmo =
 		return TRUE;
 
 #ifdef code_xents
-	if (ammo_con(self.weapon, self, "pwep")) // see if its inf ammo wep
+	if (self.eweapon)
+	if (self.eweapon.aflag) // see if its inf ammo wep
 		return TRUE;
  #endifdef
 
@@ -1398,10 +1399,16 @@ void() CycleWeaponCommand =
 // note: no loop protection! - this code assumes the player _always_ has an axe
 	while (1)
 	{
-		am = 0;
+//		am = 0;
 
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
+
+																																												bprint("*** checking wep: ");
+																																												bprint(ftos(self.weapon));
+																																												bprint("\n");
+
+
 
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
@@ -1411,13 +1418,15 @@ void() CycleWeaponCommand =
 // up from hammer - thru prox / laser then to shotgun
 		if (self.weapon == 256 ) self.weapon = IT_PROXIMITY_GUN;
 #else
+#ifdef code_xents
+		if (self.weapon == 2048 ) self.weapon = 128;
+#else
 		if (self.weapon == 2048 ) self.weapon = IT_LIGHTNING;
+#endifdef
 #endifdef
 
 // going to the axe
 		if (!(self.weapon & 255)) self.weapon = IT_AXE;
-
-/// IMP: vwep select here
 
 // weapon select logic
 #ifdef hip_weapons
@@ -1431,7 +1440,25 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_NAILGUN && self.ammo_nails < 1) am = 1;
 		if (self.weapon == IT_SUPER_SHOTGUN && self.ammo_shells < 2) am = 1;
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
-	
+
+#ifdef code_morph
+		if (self.weapon & self.builtin) am = 0; // can always select morph builtins
+#endifdef
+
+// check to see if an eweapon is being selected
+		e0__ = self.vwepent;
+		while (e0__)
+		{
+
+																																												bprint("*** checking ewep: ");
+																																												bprint(ftos(e0__.items));
+																																												bprint("\n");
+
+			if (e0__.items == self.weapon)
+			if (e0__.currentammo || e0__.aflag) am = 0;
+			e0__ = e0__.vwepent;
+		}
+
 		if ( (self.items & self.weapon) && ! am)
 		{
 			W_SetCurrentAmmo ();
