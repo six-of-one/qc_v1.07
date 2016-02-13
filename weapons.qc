@@ -1040,9 +1040,17 @@ void() W_SetCurrentAmmo =
 #ifdef code_xents
 // extra weapons ammo setting
 	if (self.eweapon)
+	if (self.weapon == self.eweapon.weapon)
 	{
+																																												bprint(" * ewep SCA: ");
 		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
+																																												bprint("msk: ");
+																																												bprint(strcat("__msk_",self.eweapon.model));
+																																												bprint(" = ");
+																																												bprint(s0__);
 		s0__ = getentityfieldstring(findentityfield(s0__), self);
+																																												bprint(" pull: ");
+																																												bprint(s0__);
 		if (s0__ != string_null)
 		{
 			self.currentammo = stof(s0__);
@@ -1050,6 +1058,9 @@ void() W_SetCurrentAmmo =
 		else self.currentammo = self.eweapon.aflag;
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
+																																												bprint(" wepmdl: ");
+																																												bprint(self.weaponmodel);
+																																												bprint("\n");
 
 		if (self.eweapon.grap_state == 666000) // fists
 		{
@@ -1396,17 +1407,19 @@ void() CycleWeaponCommand =
 {
 	local	float	am;
 
+																																												bprint("\n\ninit\n");
+																																												bprint("*** checking wep: ");
+
 // note: no loop protection! - this code assumes the player _always_ has an axe
 	while (1)
 	{
-//		am = 0;
+		am = 0;
 
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
 
-																																												bprint("*** checking wep: ");
 																																												bprint(ftos(self.weapon));
-																																												bprint("\n");
+																																												bprint(" ");
 
 
 
@@ -1450,12 +1463,18 @@ void() CycleWeaponCommand =
 		while (e0__)
 		{
 
-																																												bprint("*** checking ewep: ");
+																																												if (e0__.weapon == self.weapon){
+																																												bprint("*");
 																																												bprint(ftos(e0__.items));
-																																												bprint("\n");
+																																												bprint(" ");}
 
-			if (e0__.items == self.weapon)
-			if (e0__.currentammo || e0__.aflag) am = 0;
+			if (e0__.weapon == self.weapon)
+			if (e0__.currentammo || e0__.aflag)
+			{
+				self.eweapon = e0__;
+				self.forcewchange = 1;
+				am = 0;
+			}
 			e0__ = e0__.vwepent;
 		}
 
@@ -1463,6 +1482,7 @@ void() CycleWeaponCommand =
 		{
 			W_SetCurrentAmmo ();
 			self.impulse = 0;
+																																												bprint("\n");
 			return;
 		}
 // dont cycle single select
@@ -1644,6 +1664,11 @@ void() ImpulseCommands =
 	if (dump_coord == 1)
 		DumpCoordinates();
 	#endifdef
+#endifdef
+
+#ifdef code_xents
+// allow weps to be switched on touch
+	if (self.impulse == 29) self.aflag = IGN_INV;
 #endifdef
 
 	self.impulse = 0;
