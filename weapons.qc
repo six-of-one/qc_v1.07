@@ -64,6 +64,15 @@ void() W_FireAxe =
 		WriteCoord (MSG_BROADCAST, org_y);
 		WriteCoord (MSG_BROADCAST, org_z);
 	}
+
+#ifdef code_xents
+	if (self.eweapon.grap_state == 666000)
+	{
+//	extra blood for fists hitting something
+		SpawnBlood (org, '0 0 0', 10);
+		sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
+	}
+#endifdef
 };
 
 
@@ -943,11 +952,23 @@ void() W_SetCurrentAmmo =
 
 // viswep needs this
 #ifdef code_viswep
-	if ((self.prevweapon != self.weapon) || (self.forcewchange == 1))
+	if ((self.prevweapon != self.weapon) || (self.forcewchange == 1)
+	#ifdef code_painkeep
+														|| (self.pkprevweapon != self.pk_currentitem)
+	#endifdef
+			)
 	{
 		self.lastweapon = self.prevweapon;
 		self.prevweapon = self.weapon;
 		self.forcewchange = FALSE;
+
+	#ifdef code_morph
+		if (self.weapon & self.builtin) // otherwise morph cant cycle to pki
+			self.eweapon = world;
+	#endifdef
+
+// x_ents
+		ominous_hum(string_null, 1);
 	}
 #endifdef
 
@@ -1187,12 +1208,12 @@ void() W_Attack =
 #ifdef code_painkeep
 		if ( (self.pk_currentitem != PK_IT_AXE) && (self.builtin & self.weapon) ) // fire a pk item
 		{
-			e = self._attack;
+			self.call__ = self._attack;
 			self._attack = SUB_Null;
 			r = self.weapon;
 			self.weapon = IT_AXE;
 			PK_Attack();
-			self._attack = e;			
+			self._attack = self.call__;			
 			self.weapon = r;
 		}
 		else
