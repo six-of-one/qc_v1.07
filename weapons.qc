@@ -1065,15 +1065,8 @@ void() W_SetCurrentAmmo =
 	if (self.eweapon)
 	if (self.weapon == self.eweapon.weapon)
 	{
-																																												bprint(" * ewep SCA: ");
 		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
-																																												bprint("msk: ");
-																																												bprint(strcat("__msk_",self.eweapon.model));
-																																												bprint(" = ");
-																																												bprint(s0__);
 		s0__ = getentityfieldstring(findentityfield(s0__), self);
-																																												bprint(" pull: ");
-																																												bprint(s0__);
 		if (s0__ != string_null)
 		{
 			self.currentammo = stof(s0__);
@@ -1081,9 +1074,6 @@ void() W_SetCurrentAmmo =
 		else self.currentammo = self.eweapon.aflag;
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
-																																												bprint(" wepmdl: ");
-																																												bprint(self.weaponmodel);
-																																												bprint("\n");
 
 		if (self.eweapon.grap_state == 666000) // fists
 		{
@@ -1430,9 +1420,6 @@ void() CycleWeaponCommand =
 {
 	local	float	am;
 
-																																												bprint("\n\ninit\n");
-																																												bprint("*** checking wep: ");
-
 // note: no loop protection! - this code assumes the player _always_ has an axe
 	while (1)
 	{
@@ -1440,11 +1427,6 @@ void() CycleWeaponCommand =
 
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
-
-																																												bprint(ftos(self.weapon));
-																																												bprint(" ");
-
-
 
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
@@ -1485,12 +1467,6 @@ void() CycleWeaponCommand =
 		e0__ = self.vwepent;
 		while (e0__)
 		{
-
-																																												if (e0__.weapon == self.weapon){
-																																												bprint("*");
-																																												bprint(ftos(e0__.items));
-																																												bprint(" ");}
-
 			if (e0__.weapon == self.weapon)
 			if (e0__.currentammo || e0__.aflag)
 			{
@@ -1505,7 +1481,6 @@ void() CycleWeaponCommand =
 		{
 			W_SetCurrentAmmo ();
 			self.impulse = 0;
-																																												bprint("\n");
 			return;
 		}
 // dont cycle single select
