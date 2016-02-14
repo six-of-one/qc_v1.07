@@ -576,11 +576,8 @@ void() HIP_FireMjolnir =
 
 };
 
-/*
-Six - replaced with include module
-or not...that fails - wtf
-
 // called by worldspawn
+#ifdef nondp
 void() HIP_Precache =
 {
 	precache_sound ("weapons/r_exp3.wav");	// new rocket explosion
@@ -608,8 +605,7 @@ void() HIP_Precache =
 	precache_sound ("hipweap/mjolslap.wav");	// mjolnir
 	precache_sound ("hipweap/mjoltink.wav");	// mjolnir
 };
-
-*/
+#endifdef
 
 
 //============================================================================

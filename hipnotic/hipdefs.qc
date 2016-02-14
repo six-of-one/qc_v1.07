@@ -249,3 +249,8 @@ float modelindex_hammer;
 #endifdef
 
 void(float num_bubbles) DeathBubbles;
+
+
+#ifdef nondp
+void() HIP_Precache;
+#endifdef

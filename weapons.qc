@@ -8,6 +8,7 @@ void() SuperDamageSound;
 
 
 // called by worldspawn
+#ifdef nondp
 void() W_Precache =
 {
 	precache_sound ("weapons/r_exp3.wav");	// new rocket explosion
@@ -23,6 +24,7 @@ void() W_Precache =
 	precache_sound ("weapons/bounce.wav");		// grenade bounce
 	precache_sound ("weapons/shotgn2.wav");	// super shotgun
 };
+#endifdef
 
 #ifndef opgrade
 //replaced with define

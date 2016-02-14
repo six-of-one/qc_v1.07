@@ -209,6 +209,7 @@ void() worldspawn =
 // the area based ambient sounds MUST be the first precache_sounds
 
 // player precaches	
+#ifdef nondp
 	W_Precache ();			// get weapon precaches
 
 // sounds used from C physics code
@@ -313,14 +314,18 @@ void() worldspawn =
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_model ("progs/v_light.mdl");
+#endifdef
+
 #ifdef code_pkbots
 	setBotGravity (); // *bot
 #endifdef
 
+#ifdef nondp
 #ifdef HIPNOTIC
 
-#include <hipnotic/hip_precache.qc>
+	HIP_Precache();
 
+#endifdef
 #endifdef
 //
 // Setup light animation tables. 'a' is total darkness, 'z' is maxbright.
@@ -466,7 +471,10 @@ else
 		addstat(66, 2, archon);
 #endifdef
 
+// HUD
 #endifdef
+
+// x_ents
 #endifdef
 
 };
