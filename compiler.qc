@@ -698,7 +698,6 @@ spec track by cvar
 #ifndef nondp
 /// SWITCH
 #define code_xents
-#endifdef
 
 // requirements block
 #ifdef map_hack
@@ -706,6 +705,7 @@ spec track by cvar
 #endifdef
 #ifdef code_viswep
 #define code_xents
+#endifdef
 #endifdef
 
 #ifdef code_xents

@@ -1214,11 +1214,13 @@ void() W_Attack =
 		return;
 	}
 #else
+#ifdef code_xents
 	if (self.eweapon)
 	{
 		e_weap_Attack();
 		return;
 	}
+#endifdef
 #endifdef
 
 	if (self.weapon == IT_AXE)
@@ -1464,6 +1466,7 @@ void() CycleWeaponCommand =
 #endifdef
 
 // check to see if an eweapon is being selected
+#ifdef code_xents
 		e0__ = self.vwepent;
 		while (e0__)
 		{
@@ -1476,6 +1479,7 @@ void() CycleWeaponCommand =
 			}
 			e0__ = e0__.vwepent;
 		}
+#endifdef
 
 		if ( (self.items & self.weapon) && ! am)
 		{
@@ -1483,7 +1487,8 @@ void() CycleWeaponCommand =
 			self.impulse = 0;
 			return;
 		}
-// dont cycle single select
+
+		// dont cycle single select
 //		if (self.impulse < 10) return; // fails under mission pack / expansion
 		if (self.f__ == 1) return;
 	}
