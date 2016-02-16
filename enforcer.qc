@@ -32,16 +32,20 @@ void() Laser_Touch =
 
 	if (other.health)
 	{
-		SpawnBlood (self.v__, self.velocity*0.2, 15);
+		SpawnBlood (other, self.v__, self.velocity*0.2, 15);
 		T_Damage (other, self, self.owner, 15);
 	}
 	else
 	{
+#ifdef nondp		
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, self.v___x);
 		WriteCoord (MSG_BROADCAST, self.v___y);
 		WriteCoord (MSG_BROADCAST, self.v___z);
+#else
+		te_gunshot(self.v__);
+#endifdef
 	}
 
 	remove(self);	

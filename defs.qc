@@ -782,6 +782,8 @@ float(entity targ, entity inflictor) CanDamage;
 #include <x_ent/x_defs.qc>
 #endifdef
 
+// perm new code
+float spawn_particle; // for SpawnBlood particle takeover
 
 //============================================================================
 

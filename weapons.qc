@@ -3,7 +3,7 @@
 void (entity targ, entity inflictor, entity attacker, float damage) T_Damage;
 void () player_run;
 void(entity bomb, entity attacker, float rad, entity ignore) T_RadiusDamage;
-void(vector org, vector vel, float damage) SpawnBlood;
+void(entity e, vector org, vector vel, float damage) SpawnBlood;
 void() SuperDamageSound;
 
 
@@ -54,24 +54,28 @@ void() W_FireAxe =
 	if (trace_ent.takedamage)
 	{
 		trace_ent.axhitme = 1;
-		SpawnBlood (org, '0 0 0', 20);
+		SpawnBlood(trace_ent, org, '0 0 0', 20);
 		T_Damage (trace_ent, self, self, 20);
 	}
 	else
 	{	// hit wall
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
+#ifdef nondp		
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, org_x);
 		WriteCoord (MSG_BROADCAST, org_y);
 		WriteCoord (MSG_BROADCAST, org_z);
+#else
+		te_gunshot(org);
+#endifdef
 	}
 
 #ifdef code_xents
 	if (self.eweapon.grap_state == 666000)
 	{
-//	extra blood for fists hitting something
-		SpawnBlood (org, '0 0 0', 10);
+//	extra blood for fists hitting anything
+		SpawnBlood (self, org, '0 0 0', 10);
 		sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
 	}
 #endifdef
@@ -132,22 +136,35 @@ void(vector org, vector vel) SpawnMeatSpray =
 SpawnBlood
 ================
 */
-void(vector org, vector vel, float damage) SpawnBlood =
+void(entity e, vector org, vector vel, float damage) SpawnBlood =
 {
-	particle (org, vel*0.1, 73, damage*2);
+#ifdef code_xents
+	if (e.solid == SOLID_SLIDEBOX || !e) // BLOODCHECK
+	if (e.netname != "Crate")
+#ifdef code_morph
+	if (!e.mask_x & MORPH_ARCHON) // dont let them see you bleed
+#endifdef
+#endifdef
+		particle (org, vel*0.1, spawn_particle, damage*2);
+
+	spawn_particle = 73; // always default - dp makes this blood
 };
 
 /*
 ================
 spawn_touchblood
 ================
+
+in the case of every call for this fn(), other is the ent
+this will have to be maintained, or change this code
+
 */
 void(float damage) spawn_touchblood =
 {
 	local vector	vel;
 
 	vel = wall_velocity () * 0.2;
-	SpawnBlood (self.origin + vel*0.01, vel, damage);
+	SpawnBlood (other, self.origin + vel*0.01, vel, damage);
 };
 
 
@@ -229,16 +246,20 @@ void(float damage, vector dir) TraceAttack =
 
 	if (trace_ent.takedamage)
 	{
-		SpawnBlood (org, vel*0.2, damage);
+		SpawnBlood (trace_ent, org, vel*0.2, damage);
 		AddMultiDamage (trace_ent, damage);
 	}
 	else
 	{
+#ifdef nondp		
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, org_x);
 		WriteCoord (MSG_BROADCAST, org_y);
 		WriteCoord (MSG_BROADCAST, org_z);
+#else
+		te_gunshot(org);
+#endifdef
 	}
 };
 
@@ -1067,7 +1088,7 @@ void() W_SetCurrentAmmo =
 	{
 		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
 		s0__ = getentityfieldstring(findentityfield(s0__), self);
-		if (s0__ != string_null)
+		if (s0__)
 		{
 			self.currentammo = stof(s0__);
 		}

@@ -38,6 +38,12 @@ float(string name) cvar_type = #495;
 // used by other code
 .vector movement;
 
+
+// simplify repeated code, trade for a couple globals
+
+void(vector org) te_gunshot = #418;
+
+
 #ifdef escher
 
 //min returns the lowest of all the supplied numbers.
@@ -53,7 +59,7 @@ float(float minimum, float val, float maximum) bound = #96;
 
 #endifdef
 
-// map_hack does much string manipulating
+// map_hack, x_ents do much string manipulating
 
 float(string s) strlen = #114; // returns how many characters are in a string
 string(string s1, string s2, ...) strcat = #115; // concatenates two or more strings (for example "abc", "def" would return "abcdef") and returns as a tempstring

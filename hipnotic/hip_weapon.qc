@@ -59,11 +59,15 @@ local_ent(HIP_LaserTouch)
 	}
 	else if ((self.cnt == LASER_BOUNCE) || (random() < LASER_BOUNCE_RND_DIE))
 	{
+#ifdef nondp		
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, self.origin_x);
 		WriteCoord (MSG_BROADCAST, self.origin_y);
 		WriteCoord (MSG_BROADCAST, self.origin_z);
+#else
+		te_gunshot(self.origin);
+#endifdef
 	}
 	else
 	{
@@ -552,20 +556,23 @@ void() HIP_FireMjolnir =
 		if (trace_ent.classname == "monster_zombie")
 			damage = 70;
 		trace_ent.axhitme = 1;
-		SpawnBlood (self.v__, v_forward, damage);
+		SpawnBlood (trace_ent, self.v__, v_forward, damage);
 		T_Damage (trace_ent, self, self, damage);
 	}
 	else
 	{  // hit wall
 		if (trace_fraction != 1.0)
 		{
-//			sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
 			sound (self, CHAN_WEAPON, "hipweap/mjoltink.wav", 1, ATTN_NORM);
+#ifdef nondp		
 			WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 			WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 			WriteCoord (MSG_BROADCAST, self.v___x);
 			WriteCoord (MSG_BROADCAST, self.v___y);
 			WriteCoord (MSG_BROADCAST, self.v___z);
+#else
+		te_gunshot(self.v__);
+#endifdef
 		}
 		else
 		{

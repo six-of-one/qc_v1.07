@@ -408,7 +408,7 @@ void() worldspawn =
 #ifdef code_xents
 	s4__ = entityfieldname(1);
 	f0__ = 1;
-	while (s4__ != string_null)
+	while (s4__)
 	{
 		s2__ = strcat("__field_",s4__);
 		if (!(cvar_type(s2__) & CVAR_TYPEFLAG_EXISTS))

@@ -234,13 +234,13 @@ void(entity targ) bot_check_lost =
 		if (vlen(targ.origin - self.origin) < 32)
 			bot_lost(targ, TRUE);
 	}
-	else if (targ.classname == "player" || targ.classname == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	else if (targ.classname == "player" || targ.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 	{
 		if (targ.health <= 0)
 			bot_lost(targ, TRUE);
 		else if ((coop) || (teamplay && targ.team == self.team))
 		{
-			if (targ.target1_.classname == "player" || targ.target1_.classname == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+			if (targ.target1_.classname == "player" || targ.target1_.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 			{
 				if (!targ.target1_.ishuman)
 					bot_lost(targ, TRUE);
@@ -613,7 +613,7 @@ float(entity thing) priority_for_thing =
 	thisp = 0;
 	// This is the most executed function in the bot. Careful what you do here.
 
-	if (thing.flags & FL_ITEM) //  && thing.model != string_null && thing.search_time < time) // Cataboligne - pre tested now
+	if (thing.flags & FL_ITEM) //  && thing.model && thing.search_time < time) // Cataboligne - pre tested now
 	{
 		// ugly hack
                 if (thing._last != self)
@@ -701,7 +701,7 @@ float(entity thing) priority_for_thing =
 	}
 	else if (thing.flags & FL_MONSTER) // && thing.health > 0) // Cataboligne - pre tested now
 		thisp = 45;
-	else if (thing.classname == "player" || thing.classname == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	else if (thing.classname == "player" || thing.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 	{
 //		if (thing.health > 0) // Cataboligne - pre tested now
 //		{
@@ -714,14 +714,14 @@ float(entity thing) priority_for_thing =
 				else if (coop)
 				{
 					thisp = 100;
-					if (thing.target1_.classname == "player")// || thing.target1_.classname == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, dont need pk here - this is a human search
+					if (thing.target1_.classname == "player")// || thing.target1_.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, dont need pk here - this is a human search
 						if (!thing.target1_.ishuman)
 							return 0;
 				}
 				else if (teamplay && thing.team == self.team)
 				{
 					thisp = 100;
-					if (thing.target1_.classname == "player" || thing.target1_.classname == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, exclude team bots
+					if (thing.target1_.classname == "player" || thing.target1_.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, exclude team bots
 						return 0;
 				}
 				else thisp = 30;
@@ -773,11 +773,11 @@ void(float scope) bot_look_for_crap =
 		f = FALSE; // no way!
 		if (foe != self)
 		if (pointcontents(foe.origin) >= -3) //< -3) - in water or empty, exclude lava, slime, sky
-		if ((foe.flags & FL_ITEM) && foe.model != string_null && foe.search_time < time) f = TRUE;
+		if ((foe.flags & FL_ITEM) && foe.model && foe.search_time < time) f = TRUE;
 		else if (foe.classname == "waypoint") f = TRUE;
 		else if (foe.health > 0)
 		{
-			if (foe.classname == "player" || foe.classname == "pk*bot") f = TRUE;
+			if (foe.classname == "player" || foe.class_select == "class_pk*bot") f = TRUE;
 			else if (foe.flags & FL_MONSTER) f = TRUE;
 		}
 
@@ -933,7 +933,7 @@ void() BotAI =
 
 #ifdef code_painkeep
 	if (self.solid == SOLID_NOT)
-	if (inHubMap && self.map != string_null)						// Cataboligne - 5.12.10 - bot voted for a level in pk hub, mostly stay voted
+	if (inHubMap && self.map)						// Cataboligne - 5.12.10 - bot voted for a level in pk hub, mostly stay voted
 	if (random() < 0.96) return;
 #endifdef
 
