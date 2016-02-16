@@ -1088,7 +1088,7 @@ void() W_SetCurrentAmmo =
 	{
 		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
 		s0__ = getentityfieldstring(findentityfield(s0__), self);
-		if (s0__)
+		if (s0__ != string_null)
 		{
 			self.currentammo = stof(s0__);
 		}
