@@ -474,6 +474,13 @@ else
 // HUD
 #endifdef
 
+
+#ifdef hooks
+	HOOK_RANGE = 1200;
+	HOOK_SPEED = 600;
+	MAX_CHAIN_LEN = HOOK_RANGE;
+#endifdef
+
 // x_ents
 #endifdef
 

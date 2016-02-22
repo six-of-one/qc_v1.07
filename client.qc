@@ -1739,6 +1739,11 @@ void() PlayerPostThink =
 
 	W_WeaponFrame ();
 
+#ifdef hooks
+	if (!(self.hook & HOOK_ON)) // Cataboligne 9.11.3 purify
+	{
+#endifdef
+
 // check to see if player landed and play landing sound	
 	if ((self.jump_flag < -300) && (self.flags & FL_ONGROUND) && (self.health > 0))
 	{
@@ -1747,14 +1752,31 @@ void() PlayerPostThink =
 		else if (self.jump_flag < -650)
 		{
 			T_Damage (self, world, world, 5); 
+
+#ifdef code_runes
+			// chance to knock a rune loose
+			rune_pull(self, FALL_PULL);
+#endifdef
+
 			sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
 			self.deathtype = "falling";
 		}
 		else
+#ifdef code_morph
+			if (self.mask_x == CB_HUMAN)
+#endifdef
 			sound (self, CHAN_VOICE, "player/land.wav", 1, ATTN_NORM);
 
 		self.jump_flag = 0;
 	}
+#ifdef hooks
+	}
+	else // Cataboligne 9.11.3 purify - this is damage from your own hook activities - i.e. skullcrack
+	{
+		hook_dmg_check(); // IDEA: server flag?
+		self.finaldest = self.velocity;
+	}
+#endifdef
 
 	if (!(self.flags & FL_ONGROUND))
 		self.jump_flag = self.velocity_z;

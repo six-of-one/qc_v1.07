@@ -43,6 +43,8 @@ float(string name) cvar_type = #495;
 
 void(vector org) te_gunshot = #418;
 
+void(entity own, vector start, vector end) te_lightning2 = #429;
+
 
 #ifdef escher
 
@@ -201,6 +203,26 @@ void(entity e, entity tagentity, string tagname) setattachment = #443; // attach
 //the entity is visible to all clients with one exception: if the specified client is using first person view (not using chase_active) the entity will not be shown.  Also if tag attachments are supported any entities attached to the player entity will not be drawn in first person.
 
 	#endifdef
+
+
+// first use in turret
+
+//DP_SV_MODELFLAGS_AS_EFFECTS
+.float modelflags;
+
+//constant definitions:
+#define		EF_NOMODELFLAGS		8388608 // ignore any effects in a model file and substitute your own
+#define		MF_ROCKET 		  1 // leave a trail
+#define		MF_GRENADE		  2 // leave a trail
+#define		MF_GIB    		  4 // leave a trail
+#define		MF_ROTATE 		  8 // rotate (bonus items)
+#define		MF_TRACER 		 16 // green split trail
+#define		MF_ZOMGIB 		 32 // small blood trail
+#define		MF_TRACER2		 64 // orange split trail
+#define		MF_TRACER3		128 // purple trail
+
+//this extension allows model flags to be specified on entities so you can add a rocket trail and glow to any entity, etc.
+//setting any of these will override the flags the model already has, to disable the model's flags without supplying any of your own you must use EF_NOMODELFLAGS.
 
 // nondp
 #endifdef

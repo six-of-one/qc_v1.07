@@ -82,6 +82,10 @@ entity locus;
 #define		v3___y		locus.pos2_y
 #define		v3___z		locus.pos2_z
 
+#define		v9___x		locus.absmax_x
+#define		v9___y		locus.absmax_y
+#define		v9___z		locus.absmax_z
+
 // pre selected string
 
 #define		s0__		locus.noise

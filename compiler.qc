@@ -374,7 +374,7 @@ this is fixed with
 // dev warning system - uncomment to use independent of debug code - should be removed from gold / release code
 
 /// SWITCH
-//#define warning
+#define warning
 
 /*
 warning ideas
@@ -575,7 +575,10 @@ spec track by cvar
 /// SWITCH
 //#define code_painkeep
 
-#ifdef code_painkeep
+/// REMOVE - reset all affected
+#define code_painkeep_
+
+#ifdef code_painkeep_
 	#ifdef module_list
 	#message         			- code_painkeep 
 	#endifdef

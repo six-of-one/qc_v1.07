@@ -782,6 +782,11 @@ float(entity targ, entity inflictor) CanDamage;
 #include <x_ent/x_defs.qc>
 #endifdef
 
+#ifdef code_painkeep_
+#messagecompiling painkeep/_defs.qc 
+#include <painkeep/_defs.qc>
+#endifdef
+
 // perm new code
 float spawn_particle; // for SpawnBlood particle takeover
 

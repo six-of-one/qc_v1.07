@@ -481,9 +481,10 @@ local vector	org;
 			return;
 		}
 	#endifdef
-// later - randomize dest
-		t = find(world, classname, "info_player_deathmatch");
-		if (!t) t = find(world, classname, "info_player_start");
+
+		t = find_tdest(0);
+//		t = find(world, classname, "info_player_deathmatch");
+//		if (!t) t = find(world, classname, "info_player_start");
 		if (!t) return; // total fail
 
 	}

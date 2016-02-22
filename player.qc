@@ -204,8 +204,13 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 	self.weaponframe=0;
 	if (self.velocity_x || self.velocity_y)
 	{
-		self.walkframe=0;
-		player_run();
+#ifdef hooks
+		if (!(self.hook & HOOK_IN) || (self.flags & FL_ONGROUND))
+#endifdef
+		{
+			self.walkframe=0;
+			player_run();
+		}
 		return;
 	}
 
@@ -244,6 +249,19 @@ void()	player_run =[	$rockrun1,	player_run	]
 	self.aflag = 0;
 
 	self.weaponframe=0;
+
+#ifdef hooks
+	if (self.hook & HOOK_IN)
+	{
+		if (!(self.flags & FL_ONGROUND) )
+		{
+			self.walkframe=0;
+			self.think = player_stand1;
+		}
+		return;
+	}
+#endifdef
+
 	if (!self.velocity_x && !self.velocity_y)
 	{
 		self.walkframe=0;

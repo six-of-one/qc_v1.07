@@ -18,13 +18,14 @@
 // code_painkeep is defined or not defined in compiler.qc, the master control file
 //						  module options, if any, are set here
 
-#ifdef code_painkeep
+#ifdef code_painkeep_
 
 	#ifdef message_top
 	#message         			-- compile: painkeep version 3.0 
 	#endifdef
 
-
+// compile in pk plus modules
+//#define code_pkplus
 
 
 	#ifdef xvars0
@@ -48,6 +49,8 @@
 //	#messagecompiling painkeep/pk.qc 
 //	#include </pk.qc>
 
+#messagecompiling painkeep/turret.qc 
+#include </turret.qc>
 
 #endifdef
 

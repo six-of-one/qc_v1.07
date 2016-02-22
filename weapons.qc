@@ -57,6 +57,15 @@ void() W_FireAxe =
 		SpawnBlood(trace_ent, org, '0 0 0', 20);
 		T_Damage (trace_ent, self, self, 20);
 	}
+#ifdef code_xents
+	else
+	if (self.eweapon.grap_state == 66600)
+	{
+//	extra blood for fists hitting anything
+		SpawnBlood (self, org, '0 0 0', 10);
+		sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
+	}
+#endifdef
 	else
 	{	// hit wall
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
@@ -71,14 +80,6 @@ void() W_FireAxe =
 #endifdef
 	}
 
-#ifdef code_xents
-	if (self.eweapon.grap_state == 666000)
-	{
-//	extra blood for fists hitting anything
-		SpawnBlood (self, org, '0 0 0', 10);
-		sound (self, CHAN_WEAPON, "player/axhit1.wav", 1, ATTN_NORM);
-	}
-#endifdef
 };
 
 
@@ -1096,7 +1097,7 @@ void() W_SetCurrentAmmo =
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
 
-		if (self.eweapon.grap_state == 666000) // fists
+		if (self.eweapon.grap_state == 66600) // fists
 		{
 			self.weaponmodel = string_null;
 			self.currentammo = 0;
@@ -1336,7 +1337,39 @@ void() W_ChangeWeapon =
 	was = self.weapon;
 
 // select a new wep
-	if (self.impulse == 1) self.weapon = IT_AXE;
+	if (self.impulse == 1) 
+	{
+#ifdef code_xents
+// swap pistol & axe
+		if (self.weapon == IT_AXE)
+		{
+#ifdef code_painkeep_
+// NOTE: this needs to "cycle" till a new wep is selected or it goes full circle to 1
+			self.pk_currentitem = self.pk_currentitem * 2;
+			if (!(self.pk_currentitem & PK_ITEM_MASK)) self.pk_currentitem = 1;
+			if (self.pk_currentitem == 1)
+#endifdef
+			if (self.eweapon.mcode == MC_D_PISTOL)
+			{
+				if (self.eweapon.grap_state != 66600) // set fists
+				{
+					self.eweapon.grap_state = 66600;
+//					self.eweapon.modelindex_morph = self.eweapon.modelindex; // done in the assigning
+					self.eweapon.modelindex = 0;
+					self.eweapon.noise3 = "weapons/ax1.wav"; // swish
+					return;
+				}
+				else
+				{
+					self.eweapon.grap_state = 0;
+					self.eweapon.modelindex = self.eweapon.modelindex_morph;
+					self.eweapon.noise3 = "doom/dspistol.wav";
+				}
+			}
+		}
+#endifdef
+		self.weapon = IT_AXE;
+	}
 	if (self.impulse == 2) self.weapon = IT_SHOTGUN;
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
 	if (self.impulse == 4) self.weapon = IT_NAILGUN;
@@ -1492,6 +1525,10 @@ void() CycleWeaponCommand =
 		while (e0__)
 		{
 			if (e0__.weapon == self.weapon)
+// needs an alternate set for weps (like tallball that use pk settings)
+#ifdef code_painkeep_
+			if (self.weapon != IT_AXE || e0__.pk_currentitem == self.pk_currentitem)
+#endifdef
 			if (e0__.currentammo || e0__.aflag)
 			{
 				self.eweapon = e0__;
@@ -1640,6 +1677,22 @@ ImpulseCommands
 
 void() ImpulseCommands =
 {
+#ifdef code_xents
+	if (self.impulse == ALT_FIRE_IMP)
+	{
+		if (self.eweapon)
+		{
+			if (self.eweapon._alt_fire) self.eweapon._alt_fire(self.eweapon);
+		}
+#ifdef code_morph
+		else // no eweapon - give morph builtins alternate fire
+			if (self._attack) self._attack();
+#endifdef
+		self.impulse = 0;
+		return;
+	}
+#endifdef
+
 	if (self.impulse >= 1 && self.impulse <= 8
 #ifdef hip_weapons
 		|| (self.impulse >= 225 && self.impulse <= 226)
@@ -1658,6 +1711,25 @@ void() ImpulseCommands =
 		CycleWeaponCommand();
 	}
 //		CycleWeaponReverseCommand();
+
+#ifdef hooks
+	else if (self.impulse >= 94 && self.impulse <= 98) // Cataboligne 8.29.11 purify - hook - this is only the vector for give-away hook, item hooks vector via fire code
+	{
+		if (HOOK
+#ifdef code_morph
+						|| (self.mask_x & MORPH_HOOK) // morphs with hooks too
+#endifdef
+							)
+			hook_impulse_check();
+
+		if (self.eweapon)
+		if (self.eweapon.netname == "Grappling hook") // holding a hook - check impulses
+			hook_impulse_check();
+
+//		return;
+	}
+#endifdef
+
 
 #ifdef debug
 /// cheat impulses are now only active in debug mode - which should *** NEVER *** (EVER!) be on in live server / released game code
@@ -1707,6 +1779,21 @@ Called every frame so impulse events can be handled as well as possible
 */
 void() W_WeaponFrame =
 {
+#ifdef hooks
+	if (self.button2)
+		CheckGrapHookJump (); // cataboligne - 8.29.11 - hook check
+#endifdef
+
+#ifdef code_xents
+	if (WEPHUM)
+	if (self.eweapon)
+	if (self.eweapon.fly_sound != HUMLOCAL)
+	if (self.eweapon.noise2 != string_null)
+	if (self.chaosweptime < time)
+//		if (self.eweapon.weapon != MC_AIRGUN)
+		ominous_hum(self.eweapon.noise2, self.eweapon.chaosweptime);
+#endifdef
+
 	if (time < self.attack_finished)
 		return;
 
