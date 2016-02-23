@@ -29,8 +29,10 @@ float DEF_PK_ITEMS; // pk bit flags
 #define PK_IT_RANGE				112 // range weps - grap, airgun, chainthunder
 
 .float pk_gravitywellammo, pk_turretammo, pk_canpabammo, pk_beartrapammo;
+.float pk_explode_ammo;
 .float pk_currentInventory;
 .float pk_currentitem;
+.float pk_items;
 
 // air cannon
 
@@ -50,7 +52,7 @@ float PK_TUR_AMMO; // base cells to fire, 0 = infinite
 float PK_TUR_HEAL; // health we get - base = 2/3 this, < 0 = no limit
 float PK_TUR_QUADCON;
 float PK_TURRETAMMO_MAX;
-float PK_TUR_SET; // set non 0 when vars loaded
+float PK_TUR_SET; // set non 0 when vars loaded1
 float PK_TUR_TARGOWN; // time after which turret shoots owner, 0 = dont target owner
 float PK_TUR_TIME; // time to live, after which explode, 0 = no timeout
 float PK_TUR_VARIETY; // a variety of turrets - 

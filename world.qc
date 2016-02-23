@@ -434,7 +434,7 @@ else
 		addstat(34, 2, rune_flag);
 #endifdef
 // pk 
-#ifdef code_painkeep
+#ifdef code_painkeep_
 		addstat(35, 2, pk_explode_ammo);
 		addstat(36, 2, pk_items); // only detects 3 inv weps
 		addstat(37, 2, pk_currentitem); // current wep
@@ -442,10 +442,12 @@ else
 		addstat(39, 2, pk_turretammo); // pk ammos
 		addstat(40, 2, pk_beartrapammo); // pk ammos
 		addstat(41, 2, pk_canpabammo); // pk ammos
+	#ifdef code_pkplus
 		addstat(42, 2, pkplus_tombammo); // pk ammos
 		addstat(43, 2, pkplus_egoammo); // pk ammos
 		addstat(44, 2, pkplus_phoneammo); // pk ammos
 		addstat(45, 2, pkplus_actorammo); // pk ammos
+	#endifdef
 #endifdef
 // enhanced
 		addstat(46, 2, ammo_bullet); // enh ammos
