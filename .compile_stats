@@ -5,31 +5,33 @@
                 		- noautoaim
                 		- noobjerr
                 		- nodprint
+                		- warning
                 		- local_test 	*
                 		- xvars
+                		- code_painkeep
                 		- code_viswep
                 		- quakemonsters
                 		- map_hack
                 		- code_xents
                 		- remove_code 	* !!
 
- 54900 strofs (of 1000000)
- 27241 numstatements (of 524288)
-   758 numfunctions (of 16384)
-  3108 numglobaldefs (of 32768)
-   317 numfielddefs (289 unique) (of 2048)
-  3975 numpr_globals (of 65536)
+ 65084 strofs (of 1000000)
+ 33080 numstatements (of 524288)
+   823 numfunctions (of 16384)
+  3719 numglobaldefs (of 32768)
+   335 numfielddefs (307 unique) (of 2048)
+  4611 numpr_globals (of 65536)
 Writing progs.dat
-343548 TOTAL SIZE
+410360 TOTAL SIZE
 Writing progs.lno
- 71 unique precache_models
+ 76 unique precache_models
 Compile Complete
 
-optres_shortenifnots 189
-optres_overlaptemps 14565
-optres_constantarithmatic 197
-optres_nonvec_parms 4272
-optres_assignments 535
-optres_unreferenced 11
-numtemps 213
-72 warnings
+optres_shortenifnots 226
+optres_overlaptemps 18029
+optres_constantarithmatic 230
+optres_nonvec_parms 5204
+optres_assignments 817
+optres_unreferenced 15
+numtemps 268
+76 warnings
