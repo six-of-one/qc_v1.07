@@ -1345,8 +1345,16 @@ void() W_ChangeWeapon =
 		{
 #ifdef code_painkeep_
 // NOTE: this needs to "cycle" till a new wep is selected or it goes full circle to 1
-			self.pk_currentitem = self.pk_currentitem * 2;
-			if (!(self.pk_currentitem & PK_ITEM_MASK)) self.pk_currentitem = 1;
+			f0__ = 2;
+			e0__ = self.vwepent;
+			while ((f0__ != 1) && e0__)
+			{
+				self.pk_currentitem = self.pk_currentitem * 2;
+				if (e0__.pk_currentitem == self.pk_currentitem) f0__ = 1;
+				else e0__ = e0__.vwepent;
+				if (!(self.pk_currentitem & PK_ITEM_MASK)) self.pk_currentitem = 1;
+				f0__ = self.pk_currentitem;
+			}
 			if (self.pk_currentitem == 1)
 #endifdef
 			if (self.eweapon.mcode == MC_D_PISTOL)
