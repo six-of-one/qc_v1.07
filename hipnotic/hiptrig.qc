@@ -19,7 +19,7 @@ void() keytrigger_use =
 // FIXME: blink key on player's status bar
 	if ( (self.items & activator.items) != self.items )
 	{
-		if (self.message) // != string_null)
+		if (self.message != string_null)
 		{
 			centerprint (activator, self.message);
 		}

@@ -219,7 +219,7 @@ void() door_touch =
 
 	self.owner.attack_finished = time + 2;
 
-	if (self.owner.message) // != string_null)
+	if (self.owner.message != string_null)
 	{
 		centerprint (other, self.owner.message);
 		sound (other, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
@@ -373,7 +373,7 @@ void() LinkDoors =
 			starte.health = self.health;
 		if (self.targetname)
 			starte.targetname = self.targetname;
-		if (self.message) // != string_null)
+		if (self.message != string_null)
 			starte.message = self.message;
 
 		t = find (t, classname, self.classname);	

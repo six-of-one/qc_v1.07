@@ -664,7 +664,7 @@ void() trigger_onlyregistered_touch =
 	}
 	else
 	{
-		if (self.message)// != string_null)
+		if (self.message != string_null)
 		{
 			centerprint (other, self.message);
 			sound(other, CHAN_BODY, "misc/talk.wav", 1, ATTN_NORM);
