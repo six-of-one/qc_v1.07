@@ -832,13 +832,28 @@ void() PutClientInServer =
 	//JIM
 	// Clear out velocity so you're not launched into the air
 	// when you respawn.
+#ifndef opgrade
 	self.velocity = '0 0 0';
+#endifdef
 #endifdef
 
 // oh, this is a hack!
 #ifdef hip_weapons
 	setmodel (self, "progs/playham.mdl");
 	modelindex_hammer = self.modelindex;
+#endifdef
+
+#ifdef code_painkeep_
+	self.pk_currentitem = 
+	self.pkprevweapon = PK_IT_AXE;
+
+#ifdef painkeep_splash
+	AddToSplash(self);
+#endifdef
+#endifdef
+
+#ifdef code_xents
+	ominous_hum(string_null, 1); // clear any stray hum
 #endifdef
 
 	DecodeLevelParms ();

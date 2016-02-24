@@ -98,6 +98,7 @@ float(entity num) num_for_edict = #512;
 
 // note: putent* used by map_hack - which is xents dependent
 #ifdef code_xents
+
 float(float fieldnum, entity ent, string s) putentityfieldstring = #500;
 string(float fieldnum) entityfieldname = #497;
 float() numentityfields = #496;

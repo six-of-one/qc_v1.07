@@ -977,13 +977,16 @@ void() W_SetCurrentAmmo =
 // viswep needs this
 #ifdef code_viswep
 	if ((self.prevweapon != self.weapon) || (self.forcewchange == 1)
-	#ifdef code_painkeep
+	#ifdef code_painkeep_
 														|| (self.pkprevweapon != self.pk_currentitem)
 	#endifdef
 			)
 	{
 		self.lastweapon = self.prevweapon;
 		self.prevweapon = self.weapon;
+	#ifdef code_painkeep_
+		self.pkprevweapon = self.pk_currentitem;
+	#endifdef
 		self.forcewchange = FALSE;
 
 	#ifdef code_morph

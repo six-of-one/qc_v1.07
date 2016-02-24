@@ -40,7 +40,7 @@
 #define INCL_CLINGER			0
 
 // random extra monster code will have to:
-// X_MONSTER_MASK = cvar("xv_x_monster") & (INCL_VOMITUS | INCL_BOSSMAN);
+// X_MONSTER_MASK = cvar("svx_x_monster") & (INCL_VOMITUS | INCL_BOSSMAN);
 
 // this will <and> the server admin choices with the compile modules, a zero result indicating rnd monster shutdown
 

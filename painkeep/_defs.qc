@@ -34,6 +34,8 @@ float DEF_PK_ITEMS; // pk bit flags
 .float pk_currentitem;
 .float pk_items;
 
+.float pkprevweapon;
+
 // air cannon
 
 #define AIRG_EXCLUDEENTITY		1
