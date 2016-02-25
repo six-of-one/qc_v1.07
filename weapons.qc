@@ -1124,7 +1124,7 @@ float() W_BestWeapon =
 		if (e0__.currentammo || e0__.aflag)
 		{
 			f0__ = e0__.distance;
-			f1__ = e0__.items;
+			f1__ = e0__.weapon;
 		}
 		e0__ = e0__.vwepent;
 	}

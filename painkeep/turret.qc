@@ -73,11 +73,14 @@ void() turret_dropTurret =
 			return;
 		}
 
+/*
+	doesnt work with fire_toss
 		if (!self.button0)
 		{
 			player_run ();
 		  return;
 		}
+*/
 	}
 
 	if (!PK_TUR_SET)
