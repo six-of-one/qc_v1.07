@@ -52,6 +52,9 @@
 #messagecompiling painkeep/turret.qc 
 #include </turret.qc>
 
+#messagecompiling painkeep/beartrap.qc 
+#include </beartrap.qc>
+
 #endifdef
 
 
