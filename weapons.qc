@@ -1090,15 +1090,9 @@ void() W_SetCurrentAmmo =
 	if (self.eweapon)
 	if (self.weapon == self.eweapon.weapon)
 	{
-		s0__ =  cvar_string(strcat("__msk_",self.eweapon.model));
-		s0__ = getentityfieldstring(findentityfield(s0__), self);
-		if (s0__ != string_null)
-		{
-			self.currentammo = stof(s0__);
-		}
-		else self.currentammo = self.eweapon.aflag;
 		self.weaponframe = 0;
 		self.weaponmodel = self.eweapon.weaponmodel;
+		self.currentammo = self.eweapon.currentammo;
 
 		if (self.eweapon.grap_state == 66600) // fists
 		{
@@ -1110,7 +1104,6 @@ void() W_SetCurrentAmmo =
 };
 
 #ifdef code_xents
-// TDO: builtin rank test
 
 float() W_BestWeapon =
 {
@@ -1121,13 +1114,15 @@ float() W_BestWeapon =
 	{
 		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
 		if (e0__.distance > f0__)
-		if (e0__.currentammo || e0__.aflag)
+		if (e0__.currentammo || e0__.aflag)	// NOTE: currentammo has to be set for *all* vwepent somewhere (viswep_post)
 		{
+			e1__ = e0__;
 			f0__ = e0__.distance;
 			f1__ = e0__.weapon;
 		}
 		e0__ = e0__.vwepent;
 	}
+	self.eweapon = e1__; // set this for all self.weapon = W_BestWeapon() - simplifies other select code
 	return(f1__);
 };
 #else
@@ -1168,6 +1163,7 @@ float() W_CheckNoAmmo =
 		return TRUE;
  #endifdef
 
+// NOTE: make this aflag wep
 #ifdef hip_weapons 
 //MED
 	if (self.weapon == IT_MJOLNIR)
@@ -1551,7 +1547,7 @@ void() CycleWeaponCommand =
 #endifdef
 			if (e0__.currentammo || e0__.aflag)
 			{
-				self.eweapon = e0__;
+				self.eweapon = e0__.eweapon;
 				self.forcewchange = 1;
 				am = 0;
 			}

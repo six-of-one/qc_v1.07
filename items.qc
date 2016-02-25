@@ -486,9 +486,9 @@ void() weapon_touch =
 #ifdef unused
 // what was hadammo's intended purpose?
 	local	float	hadammo;
-	local	float old;
+	local	float best, old;
 #endifdef
-	local	float	best, new;
+	local	float	new;
 //	local	entity	stemp;
 #define stemp 	newmis
 	local	float	leave;
@@ -499,7 +499,9 @@ void() weapon_touch =
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
+#ifdef unused
 	best = W_BestWeapon();
+#endifdef
 
 // logic change to eliminate extra statements - use "stemp" as weapon ent, "self" is player
 //	self = stemp;
@@ -810,8 +812,10 @@ local float		best;
 
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
-	self = other;
+	self = other; 
+	e0__ = self.eweapon; /// REMOVE
 	best = W_BestWeapon();
+	self.eweapon = e0__; /// REMOVE
 // logic change eliminates - run the code till self back to stemp with stemp as self and self as other
 //	self = stemp;
 
@@ -848,6 +852,7 @@ local float		best;
 		self.ammo_cells = self.ammo_cells + stemp.aflag;
 	}
 
+/// FIX: this will kerbob other ammo limits in x_ents
 	bound_other_ammo ();
 	
 	sprint (self, "You got the ");
@@ -1560,9 +1565,9 @@ void() BackpackTouch =
 {
 //	local string	s;
 #ifdef unused
-	local	float	old;
+	local	float	best, old;
 #endifdef
-	local	float	best, new;
+	local	float	new;
 //	local		entity	stemp;
 //	local	float	acount;
 #define stemp 	newmis
@@ -1587,7 +1592,9 @@ void() BackpackTouch =
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
+#ifdef unused
 	best = W_BestWeapon();
+#endifdef
 // moving because logic change changed bound_other_ammo()
 //	self = stemp;
 
