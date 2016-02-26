@@ -11,10 +11,13 @@
  */
 
 
+float PK_BT_SET;
+float PK_BT_TIMETOFOLLOW;
+float PK_BT_DMG;
+float PK_BT_TIME;
 
 .entity beartrap_target;
 .float beartrapdmg_time;
-.float dodmg;
 
 void(string gibname, float dm) beartrap_throwGib =
 {
@@ -41,7 +44,9 @@ void(string gibname, float dm) beartrap_throwGib =
 	new.think = SUB_Remove;
 
 	// PAINKEEP SPLASH Make this entity splash
+#ifdef painkeep_splash
 	AddToSplash(new);
+#endifdef
 };
 
 // Remove the beartrap from play
@@ -75,7 +80,11 @@ $frame bear01 bear02 bear03
 void() beartrapFollow =
 {
 	// SWP: 14/05/97 - check if the player has "respawned" or dead.
-	if (!(self.beartrap_target.beartrap_time) || self.beartrap_target.disconnectPlayer || self.beartrap_target.deadflag || self.beartrap_target.health < 0) // Cataboligne - 5.20.10 - beartrap single player code - targeting monsters
+	if (!(self.beartrap_target.beartrap_time) || 
+#ifdef unsused
+		self.beartrap_target.disconnectPlayer || 
+#endifdef
+		self.beartrap_target.deadflag || self.beartrap_target.health < 0) // Cataboligne - 5.20.10 - beartrap single player code - targeting monsters
 	{ // player is dead or respawned...
 //		remove(self);
 		beartrapDie(); // die when done instead of dissapearing
@@ -175,11 +184,13 @@ void() beartrap_dropBearTrap =
 	if (self.pk_beartrapammo <= 0)
 		return;
 
+/*
 	if (!self.button0)
 	{
 		player_run ();
 	  return;
 	}
+*/
 
 	if (!PK_BT_SET)
 	{
@@ -189,12 +200,13 @@ void() beartrap_dropBearTrap =
 		PK_BT_TIMETOFOLLOW = 15;
 		PK_BT_DMG = 2;
 
-		if (DARKPLACES || chaos)
+#ifdef notused
 		{
 			PK_BT_TIME = cvar("pk_bt_time");
 			PK_BT_TIMETOFOLLOW = cvar("pk_bt_follow");
 			PK_BT_DMG = cvar("pk_bt_dmg");
 		}
+#endifdef
 	}
 
 	bt = spawn();
@@ -235,5 +247,7 @@ void() beartrap_dropBearTrap =
 	sound(self, CHAN_AUTO, "weapons/btrap/bdrop_1.wav", 1, ATTN_NORM);
 
 	// PAINKEEP SPLASH Make this entity splash
+#ifdef painkeep_splash
 	AddToSplash(bt);
+#endifdef
 };

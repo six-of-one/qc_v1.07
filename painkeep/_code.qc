@@ -55,6 +55,9 @@
 #messagecompiling painkeep/beartrap.qc 
 #include </beartrap.qc>
 
+#messagecompiling painkeep/copb.qc 
+#include </copb.qc>
+
 #endifdef
 
 

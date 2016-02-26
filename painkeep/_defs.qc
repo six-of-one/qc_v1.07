@@ -62,7 +62,10 @@ float PK_TUR_VARIETY; // a variety of turrets -
 void(entity e, float tm) turret_KillStraker;
 void() turret_dropTurret;
 
+// b-traps
 
+#define	beartrap_time		turret_timeout
+#define	bt_immune_time	turret_soundtimeout
 
 /// figure this out
 
