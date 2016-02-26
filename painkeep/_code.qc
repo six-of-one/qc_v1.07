@@ -58,6 +58,9 @@
 #messagecompiling painkeep/copb.qc 
 #include </copb.qc>
 
+#messagecompiling painkeep/exploder.qc 
+#include </exploder.qc>
+
 #endifdef
 
 

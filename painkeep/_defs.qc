@@ -28,6 +28,8 @@ float DEF_PK_ITEMS; // pk bit flags
 #define PK_IT_CARY				3982 // throwables - fire & forget - grav, turret, can, beartrap, ego, tomb, phone, actor
 #define PK_IT_RANGE				112 // range weps - grap, airgun, chainthunder
 
+#define PK_EXPL_DMG		-1666667	// tell fire code to use explode code
+
 .float pk_gravitywellammo, pk_turretammo, pk_canpabammo, pk_beartrapammo;
 .float pk_explode_ammo;
 .float pk_currentInventory;
