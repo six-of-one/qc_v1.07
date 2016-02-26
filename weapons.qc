@@ -800,6 +800,7 @@ void(float ox) W_FireSpikes =
 	launch_spike (self.origin + '0 0 16' + v_right*ox, dir);
 #endifdef
 	
+// ox = 0 means super spike from SNG
 	if (!ox)
 	{
 		sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
@@ -1218,7 +1219,8 @@ void() W_Attack =
 
 	if (self._attack != SUB_Null) // morph built in weapons
 	{
-#ifdef code_painkeep
+#ifdef code_painkeep__fix
+// pki have changed, but we still have to handle with builtins
 		if ( (self.pk_currentitem != PK_IT_AXE) && (self.builtin & self.weapon) ) // fire a pk item
 		{
 			self.call__ = self._attack;
