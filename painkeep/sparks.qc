@@ -25,7 +25,7 @@
 $frame spark1 spark2
 
 // for maximum # of sparks in a level at any given time
-#define MAXSPARKS		50
+#define MAXSPARKS		100
 float currentSparks;
 
 void() spark_die =
