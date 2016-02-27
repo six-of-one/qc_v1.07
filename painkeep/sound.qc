@@ -15,12 +15,37 @@ float() rand_time =
 	//return time + 1;
 };
 */
+
+void() func_pksound_play =
+{
+	self.rnd_ = ceil(random() * self.cnt);
+	self.s__ = strcat("random/",self.noise,"/",self.noise,"_",ftos(self.rnd_),".wav");
+	sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
+	self.nextthink = rand_time();
+
+/// REMOVE
+								bprint("* warning: func_pksound_play = ");
+								bprint(self.s__);
+								bprint("\n");
+
+
+};
+
+#ifndef spawn_func
+void() func_thumpsound_play =
+{
+	func_pksound_play();
+
+	if (world.model == "maps/pk6.bsp" || world.model == "maps/pk7.bsp")
+	  self.nextthink = time + 1;
+};
+#else
 void() func_thumpsound_play =
 {
 // plan is to use cfg to control these - these may need an update
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-	  local float r;
+//	  local float r;
 //local string sname;
 	  self.rnd_ = random() * 8;
 	  if (self.rnd_ < 1)
@@ -214,7 +239,6 @@ void() func_painsound_play =
 };
 
 
-#ifdef spawn_func
 void() func_sound_thump =
 {
 	// precaches
