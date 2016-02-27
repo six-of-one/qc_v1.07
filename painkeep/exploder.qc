@@ -10,6 +10,7 @@
  *
  */
  
+ // FIX: dont allow with non q1 shot guns
  
  // exploding shotgun shells - brilliant really, who thought this up?	and would it really work - I think this needs to be on mythbusters
 
@@ -25,9 +26,11 @@ framer(0, 4, es_explode1, SUB_Remove, 0.1,SUB_Null);
 
 void() BecomeShellExplosion =
 {
-	self.movetype = MOVETYPE_NONE;
-	self.velocity = '0 0 0';
-	self.touch = SUB_Null;
+// these fields were never set to anything
+//	self.movetype = MOVETYPE_NONE;
+//	self.velocity = '0 0 0';
+//	self.touch = SUB_Null;
+//	self.solid = SOLID_NOT;
 
 	if (random() < 0.5)
 	{
@@ -38,20 +41,19 @@ void() BecomeShellExplosion =
 		setmodel (self, "progs/x_explo2.spr");
 	}
 
-	self.solid = SOLID_NOT;
 	es_explode1 ();
 };
 
 void() explodeAttack =
 {
-	local float damg, i;
-	local vector dir;
+//	local float damg;, i;  f0__ self.f__
+//	local vector dir; self.v__
 
-	damg = 12 + random() * 16;
+	f0__ = 12 + random() * 16;
 
 	if (self.enemy.health)
 	{
-		T_Damage (self.enemy, self, self.owner, damg);
+		T_Damage (self.enemy, self, self.owner, f0__);
 	}
 
 	// don't do radius damage to the other, because all the damage
@@ -60,20 +62,18 @@ void() explodeAttack =
 
 	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
-	i = (random() * 15) + 1;
+	self.f__ = (random() * 15) + 1;
 
-	while(i > 0)
+	while(self.f__ > 0)
 	{
-		dir_x = -50 + (random() * 100);
-		dir_y = -50 + (random() * 100);
-		dir_z = -25 + (random() * 50);
-//		particle(self.origin, dir, 225, 3);
-		spawn_particle = 225;
-#ifdef enhanced
-		if (!self.enemy) spawn_particle = 248; // dont "bleed" world - this uses fire color
-#endifdef
-		SpawnBlood (self.enemy, self.origin, dir * 10, 1.5);
-		i = i - 1;
+		self.v___x = -50 + (random() * 100);
+		self.v___y = -50 + (random() * 100);
+		self.v___z = -25 + (random() * 50);
+// moved to spawnblood fn code
+//		spawn_particle = 225;
+//		if (!self.enemy) spawn_particle = 248; 	// dont "bleed" world - this uses fire color
+		SpawnBlood (self.enemy, self.origin, self.v__ * 10, 1.5);
+		self.f__ = self.f__ - 1;
 	}
 
 	BecomeShellExplosion ();
@@ -81,19 +81,20 @@ void() explodeAttack =
 
 void(vector dir) TraceExplodeAttack =
 {
-	local entity explode;
+//	local entity explode;
 
-	explode = spawn();
+	newmis = spawn();
 
-	explode.origin = trace_endpos - dir * 4;
-	explode.owner = self;
-	explode.enemy = trace_ent;
-	explode.classname = "ExplodeShellsAttack";
-	explode.weapon = self.weapon;
-	explode.nextthink = time + 0.10 + (random() * 0.75);
-	explode.think = explodeAttack;
+	newmis.origin = trace_endpos - dir * 4;
+	newmis.owner = self;
+	newmis.enemy = trace_ent;
+	newmis.classname = "ExplodeShellsAttack";
+	newmis.weapon = self.weapon;
+	newmis.nextthink = time + 0.10 + (random() * 0.75);
+	newmis.think = explodeAttack;
 };
 
+/*
 void(float shotcount, vector dir, vector spread) FireExplodeShells =
 {
 //	local	vector direction; v0__
@@ -111,6 +112,7 @@ void(float shotcount, vector dir, vector spread) FireExplodeShells =
 		damage = 1;
 	}
 */
+/*
 	makevectors(self.v_angle);
 
 	v1__ = self.origin + v_forward*10;
@@ -127,6 +129,7 @@ void(float shotcount, vector dir, vector spread) FireExplodeShells =
 		shotcount = shotcount - 1;
 	}
 };
+*/
 
 // called from W_FireShotgun && W_FireSuperShotgun - fire a shotgun with exploding shot
 // shots is number of shots - 1 for shotgun & 2 for SS
@@ -147,19 +150,22 @@ void(float shots) W_FireShotgunExploder =
 #endifdef
 	dir = aim (self, 100000);
 
+// FIX: detect dbl barrel here
 	if (shots == 2)
 	{
 		sound (self, CHAN_WEAPON, "weapons/explode/expfire2.wav", 1, ATTN_NORM);
-		FireExplodeShells((random() * 4) + 6, dir, '0.14 0.08 0');
+//		FireExplodeShells((random() * 4) + 6, dir, '0.14 0.08 0');
+		X_FireBullets((random() * 4) + 6, PK_EXPL_DMG, dir, '0.14 0.08 0');
 	}
 	else
 	{
 		sound (self, CHAN_WEAPON, "weapons/explode/expfire1.wav", 1, ATTN_NORM);
-		FireExplodeShells((random() * 3) + 3, dir, '0.09 0.06 0');
+//		FireExplodeShells((random() * 3) + 3, dir, '0.09 0.06 0');
+		X_FireBullets((random() * 3) + 3, PK_EXPL_DMG, dir, '0.09 0.06 0');
 	}
 
 // if we run of out explode, switch to normal shells.
-	if (self.pk_explode_ammo == 0)
+	if (self.pk_explode_ammo < 1)
 	{
 		self.currentammo = self.ammo_shells;
 		W_SetCurrentAmmo();

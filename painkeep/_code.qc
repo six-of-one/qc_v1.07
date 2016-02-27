@@ -41,6 +41,8 @@
 
 // main pk modules
 
+#define meantime(lMean,lStDev) lMean + crandom() * lStDev
+
 // call moved to defs.qc
 //#messagecompiling painkeep/_defs.qc 
 //#include </_defs.qc>
@@ -60,6 +62,9 @@
 
 #messagecompiling painkeep/exploder.qc 
 #include </exploder.qc>
+
+#messagecompiling painkeep/drip.qc 
+#include </drip.qc>
 
 #endifdef
 

@@ -140,11 +140,14 @@ SpawnBlood
 void(entity e, vector org, vector vel, float damage) SpawnBlood =
 {
 #ifdef code_xents
-	if (e.solid == SOLID_SLIDEBOX || !e) // BLOODCHECK
-	if (e.netname != "Crate")
+	if (spawn_particle == 73) // BLOODCHECK
+	{
+		if (e.solid != SOLID_SLIDEBOX || !e) spawn_particle = 248;  // dont let non slidebox or world bleed
 #ifdef code_morph
-	if (!e.mask_x & MORPH_ARCHON) // dont let them see you bleed
+		if (e.mask_x & MORPH_ARCHON) spawn_particle = 234; // dont let them see and Archon bleed
 #endifdef
+		if (e.netname == "Crate") spawn_particle = 104;
+	}
 #endifdef
 		particle (org, vel*0.1, spawn_particle, damage*2);
 
@@ -156,6 +159,7 @@ void(entity e, vector org, vector vel, float damage) SpawnBlood =
 spawn_touchblood
 ================
 
+mod: new spawnblood call with ent ref so it can be checked for non-bleeders
 in the case of every call for this fn(), other is the ent
 this will have to be maintained, or change this code
 
@@ -191,6 +195,8 @@ Collects multiple small damages into a single damage
 ==============================================================================
 */
 
+#ifndef nomultidmg
+
 entity	multi_ent;
 float	multi_damage;
 
@@ -222,6 +228,8 @@ void(entity hit, float damage) AddMultiDamage =
 		multi_damage = multi_damage + damage;
 };
 
+#endifdef
+
 /*
 ==============================================================================
 
@@ -247,8 +255,18 @@ void(float damage, vector dir) TraceAttack =
 
 	if (trace_ent.takedamage)
 	{
+#ifdef opgrade
+// no blood for non slidebox (only monsters & players are slidebox) - this fixes bleeding doors & triggers
+		if (trace_ent.solid != SOLID_SLIDEBOX)
+			te_gunshot(org);
+		else
+#endifdef
 		SpawnBlood (trace_ent, org, vel*0.2, damage);
+#ifdef nomultidmg
+		T_Damage (trace_ent, self, self, damage);
+#else
 		AddMultiDamage (trace_ent, damage);
+#endifdef
 	}
 	else
 	{
@@ -272,6 +290,9 @@ Used by shotgun, super shotgun, and enemy soldier firing
 Go to the trouble of combining multiple pellets into a single damage call.
 ================
 */
+
+#ifndef code_xents
+
 void(float shotcount, vector dir, vector spread) FireBullets =
 {
 	local	vector direction;
@@ -308,6 +329,7 @@ local float bullet;
 	}
 	ApplyMultiDamage ();
 };
+#endifdef
 
 /*
 ================
@@ -324,7 +346,11 @@ void() W_FireShotgun =
 	
 	self.currentammo = self.ammo_shells = self.ammo_shells - 1;
 	dir = aim (self, 100000);
+#ifdef code_xents
+	X_FireBullets (6, 4, dir, '0.04 0.04 0');
+#else
 	FireBullets (6, dir, '0.04 0.04 0');
+#endifdef
 };
 
 
@@ -349,7 +375,11 @@ void() W_FireSuperShotgun =
 	
 	self.currentammo = self.ammo_shells = self.ammo_shells - 2;
 	dir = aim (self, 100000);
+#ifdef code_xents
+	X_FireBullets (14, 4, dir, '0.04 0.04 0');
+#else
 	FireBullets (14, dir, '0.14 0.08 0');
+#endifdef
 };
 
 
@@ -1124,6 +1154,7 @@ float() W_BestWeapon =
 		e0__ = e0__.vwepent;
 	}
 	self.eweapon = e1__; // set this for all self.weapon = W_BestWeapon() - simplifies other select code
+	if (e1__.weapon == IT_AXE) self.pk_currentitem = e1__.pk_currentitem;
 	return(f1__);
 };
 #else

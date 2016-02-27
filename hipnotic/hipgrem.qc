@@ -1579,7 +1579,11 @@ void() Gremlin_FireShotGun =
 	dir = dir + crandom()* 0.1 *v_right + crandom()* 0.1 *v_up;
 	dir = normalize(dir);
 	self.v_angle = vectoangles(dir);
+#ifdef code_xents
+	X_FireBullets (6, 4, dir, '0.04 0.04 0');
+#else
 	FireBullets (6, dir, '0.04 0.04 0');
+#endifdef
 };
 
 /*
@@ -1603,7 +1607,11 @@ void() Gremlin_FireSuperShotGun =
 	dir = dir + crandom()* 0.3 *v_right + crandom()* 0.3 *v_up;
 	dir = normalize(dir);
 	self.v_angle = vectoangles(dir);
+#ifdef code_xents
+	X_FireBullets (15, 4, dir, '0.14 0.08 0');
+#else
 	FireBullets (14, dir, '0.14 0.08 0');
+#endifdef
 };
 
 /*

@@ -245,7 +245,11 @@ void() army_fire =
 	self.v__ = self.enemy.origin - self.enemy.velocity*0.2;
 	self.v__ = normalize (self.v__ - self.origin);
 	
+#ifdef code_xents
+	X_FireBullets (4, 4, self.v__, '0.1 0.1 0');
+#else
 	FireBullets (4, self.v__, '0.1 0.1 0');
+#endifdef
 };
 
 

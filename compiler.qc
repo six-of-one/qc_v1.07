@@ -219,6 +219,10 @@ this is fixed with
 		self.speed = 1000;
 */
 
+// remove AddMultiDamage code - all damage is done instantly
+
+/// SWITCH
+#define nomultidmg
 
 // remove autoaim from code
 // this is done by translating all aim() calls as v_forward, which is set in PlayerPreThink() from v_angle
@@ -888,6 +892,10 @@ void() t_on
 
 // self.frags is used repeatedly for local defines - excepting players / bots
 // self.oldenemy is used for local defines - doors & plats
+
+// ent var sub for generic ents
+
+#define e__		oldenemy
 
 // ent var sub - semi relable between thinks
 
