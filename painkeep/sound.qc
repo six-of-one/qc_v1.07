@@ -1,3 +1,15 @@
+/* ::-::
+ *
+ * Cataboligne
+ *
+ * file: sound.qc 
+ *
+ * date: 016.2.26
+ *
+ * qc - painkeep module - sound qc
+ *
+ */
+
 /*
 	New sound funcs for pk
 
@@ -25,6 +37,8 @@ void() func_pksound_play =
 };
 
 #ifndef spawn_func
+// because this fn has is a "nextthink" burger king
+
 void() func_thumpsound_play =
 {
 	func_pksound_play();

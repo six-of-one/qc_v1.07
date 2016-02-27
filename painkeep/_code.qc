@@ -63,6 +63,9 @@
 #messagecompiling painkeep/exploder.qc 
 #include </exploder.qc>
 
+#messagecompiling painkeep/sparks.qc 
+#include </sparks.qc>
+
 #messagecompiling painkeep/drip.qc 
 #include </drip.qc>
 
