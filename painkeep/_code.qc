@@ -66,6 +66,9 @@
 #messagecompiling painkeep/drip.qc 
 #include </drip.qc>
 
+#messagecompiling painkeep/sound.qc 
+#include </sound.qc>
+
 #endifdef
 
 

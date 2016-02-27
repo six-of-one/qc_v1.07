@@ -65,12 +65,6 @@ void() func_drip_touch =
 void() func_drip_drop =
 {
 //	local entity drop;
-#ifndef spawn_func
-// set this for entry from cfg spawn
-	self.think = func_drip_drop;
-
-	if (time > 3) // stop a bunch from all dripping instantly on spawn
-#endifdef
 
 // new ops will remove this with cfg update
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)

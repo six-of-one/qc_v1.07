@@ -897,6 +897,10 @@ void() t_on
 
 #define e__		oldenemy
 
+// ent var sub for strings
+
+#define s__		deathtype
+
 // ent var sub - semi relable between thinks
 
 #define a__		aflag
