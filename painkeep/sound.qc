@@ -21,25 +21,25 @@ void() func_thumpsound_play =
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
 	  local float r;
-	  local string sname;
-	  r = random() * 8;
-	  if (r < 1)
-	    sname = "random/thump/thump_1.wav";
-	  else if (r < 2)
-	    sname = "random/thump/thump_2.wav";
-	  else if (r < 3)
-	    sname = "random/thump/thump_3.wav";
-	  else if (r < 4)
-	    sname = "random/thump/thump_4.wav";
-	  else if (r < 5)
-	    sname = "random/thump/thump_5.wav";
-	  else if (r < 6)
-	    sname = "random/thump/thump_6.wav";
-	  else if (r < 7)
-	    sname = "random/thump/thump_7.wav";
+//local string sname;
+	  self.rnd_ = random() * 8;
+	  if (self.rnd_ < 1)
+	    self.s__ = "random/thump/thump_1.wav";
+	  else if (self.rnd_ < 2)
+	    self.s__ = "random/thump/thump_2.wav";
+	  else if (self.rnd_ < 3)
+	    self.s__ = "random/thump/thump_3.wav";
+	  else if (self.rnd_ < 4)
+	    self.s__ = "random/thump/thump_4.wav";
+	  else if (self.rnd_ < 5)
+	    self.s__ = "random/thump/thump_5.wav";
+	  else if (self.rnd_ < 6)
+	    self.s__ = "random/thump/thump_6.wav";
+	  else if (self.rnd_ < 7)
+	    self.s__ = "random/thump/thump_7.wav";
 	  else
-	    sname = "random/thump/thump_8.wav";
-	  sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+	    self.s__ = "random/thump/thump_8.wav";
+	  sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 
 	if (world.model == "maps/pk6.bsp" || world.model == "maps/pk7.bsp")
@@ -52,24 +52,24 @@ void() func_cygnussound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 7;
-		if (r < 1)
-			sname = "random/cygnus/cygnus_1.wav";
-		else if (r < 2)
-			sname = "random/cygnus/cygnus_2.wav";
-		else if (r < 3)
-			sname = "random/cygnus/cygnus_3.wav";
-		else if (r < 4)
-			sname = "random/cygnus/cygnus_4.wav";
-		else if (r < 5)
-			sname = "random/cygnus/cygnus_5.wav";
-		else if (r < 6)
-			sname = "random/cygnus/cygnus_6.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 7;
+		if (self.rnd_ < 1)
+			self.s__ = "random/cygnus/cygnus_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/cygnus/cygnus_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/cygnus/cygnus_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/cygnus/cygnus_4.wav";
+		else if (self.rnd_ < 5)
+			self.s__ = "random/cygnus/cygnus_5.wav";
+		else if (self.rnd_ < 6)
+			self.s__ = "random/cygnus/cygnus_6.wav";
 		else
-			sname = "random/cygnus/cygnus_7.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/cygnus/cygnus_7.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 
 	self.nextthink = rand_time();
@@ -79,30 +79,30 @@ void() func_birdsound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 10;
-		if (r < 1)
-			sname = "random/bird/bird_1.wav";
-		else if (r < 2)
-			sname = "random/bird/bird_2.wav";
-		else if (r < 3)
-			sname = "random/bird/bird_3.wav";
-		else if (r < 4)
-			sname = "random/bird/bird_4.wav";
-		else if (r < 5)
-			sname = "random/bird/bird_5.wav";
-		else if (r < 6)
-			sname = "random/bird/bird_6.wav";
-		else if (r < 7)
-			sname = "random/bird/bird_7.wav";
-		else if (r < 8)
-			sname = "random/bird/bird_8.wav";
-		else if (r < 9)
-			sname = "random/bird/bird_9.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 10;
+		if (self.rnd_ < 1)
+			self.s__ = "random/bird/bird_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/bird/bird_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/bird/bird_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/bird/bird_4.wav";
+		else if (self.rnd_ < 5)
+			self.s__ = "random/bird/bird_5.wav";
+		else if (self.rnd_ < 6)
+			self.s__ = "random/bird/bird_6.wav";
+		else if (self.rnd_ < 7)
+			self.s__ = "random/bird/bird_7.wav";
+		else if (self.rnd_ < 8)
+			self.s__ = "random/bird/bird_8.wav";
+		else if (self.rnd_ < 9)
+			self.s__ = "random/bird/bird_9.wav";
 		else
-			sname = "random/bird/bird_10.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/bird/bird_10.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 	self.nextthink = rand_time();
 };
@@ -111,22 +111,22 @@ void() func_growlsound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 6;
-		if (r < 1)
-			sname = "random/growl/growl_1.wav";
-		else if (r < 2)
-			sname = "random/growl/growl_2.wav";
-		else if (r < 3)
-			sname = "random/growl/growl_3.wav";
-		else if (r < 4)
-			sname = "random/growl/growl_4.wav";
-		else if (r < 5)
-			sname = "random/growl/growl_5.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 6;
+		if (self.rnd_ < 1)
+			self.s__ = "random/growl/growl_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/growl/growl_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/growl/growl_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/growl/growl_4.wav";
+		else if (self.rnd_ < 5)
+			self.s__ = "random/growl/growl_5.wav";
 		else
-			sname = "random/growl/growl_6.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/growl/growl_6.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 	self.nextthink = rand_time();
 };
@@ -135,20 +135,20 @@ void() func_moansound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 5;
-		if (r < 1)
-			sname = "random/moans/moan_1.wav";
-		else if (r < 2)
-			sname = "random/moans/moan_2.wav";
-		else if (r < 3)
-			sname = "random/moans/moan_3.wav";
-		else if (r < 4)
-			sname = "random/moans/moan_4.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 5;
+		if (self.rnd_ < 1)
+			self.s__ = "random/moans/moan_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/moans/moan_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/moans/moan_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/moans/moan_4.wav";
 		else
-			sname = "random/moans/moan_5.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/moans/moan_5.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 	self.nextthink = rand_time();
 };
@@ -157,30 +157,30 @@ void() func_swampsound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 10;
-		if (r < 1)
-			sname = "random/swamp/swamp_1.wav";
-		else if (r < 2)
-			sname = "random/swamp/swamp_2.wav";
-		else if (r < 3)
-			sname = "random/swamp/swamp_3.wav";
-		else if (r < 4)
-			sname = "random/swamp/swamp_4.wav";
-		else if (r < 5)
-			sname = "random/swamp/swamp_5.wav";
-		else if (r < 6)
-			sname = "random/swamp/swamp_6.wav";
-		else if (r < 7)
-			sname = "random/swamp/swamp_7.wav";
-		else if (r < 8)
-			sname = "random/swamp/swamp_8.wav";
-		else if (r < 9)
-			sname = "random/swamp/swamp_9.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 10;
+		if (self.rnd_ < 1)
+			self.s__ = "random/swamp/swamp_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/swamp/swamp_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/swamp/swamp_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/swamp/swamp_4.wav";
+		else if (self.rnd_ < 5)
+			self.s__ = "random/swamp/swamp_5.wav";
+		else if (self.rnd_ < 6)
+			self.s__ = "random/swamp/swamp_6.wav";
+		else if (self.rnd_ < 7)
+			self.s__ = "random/swamp/swamp_7.wav";
+		else if (self.rnd_ < 8)
+			self.s__ = "random/swamp/swamp_8.wav";
+		else if (self.rnd_ < 9)
+			self.s__ = "random/swamp/swamp_9.wav";
 		else
-			sname = "random/swamp/swamp_10.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/swamp/swamp_10.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 
 	self.nextthink = rand_time();
@@ -190,24 +190,24 @@ void() func_painsound_play =
 {
 //	if ((! pk_flags & PK_TP_SPARKSFLASH) || !XENV)
 	{
-		local float r;
-		local string sname;
-		r = random() * 7;
-		if (r < 1)
-			sname = "random/pain/pain_1.wav";
-		else if (r < 2)
-			sname = "random/pain/pain_2.wav";
-		else if (r < 3)
-			sname = "random/pain/pain_3.wav";
-		else if (r < 4)
-			sname = "random/pain/pain_4.wav";
-		else if (r < 5)
-			sname = "random/pain/pain_5.wav";
-		else if (r < 6)
-			sname = "random/pain/pain_6.wav";
+//.*local float r;
+//local string sname;
+		self.rnd_ = random() * 7;
+		if (self.rnd_ < 1)
+			self.s__ = "random/pain/pain_1.wav";
+		else if (self.rnd_ < 2)
+			self.s__ = "random/pain/pain_2.wav";
+		else if (self.rnd_ < 3)
+			self.s__ = "random/pain/pain_3.wav";
+		else if (self.rnd_ < 4)
+			self.s__ = "random/pain/pain_4.wav";
+		else if (self.rnd_ < 5)
+			self.s__ = "random/pain/pain_5.wav";
+		else if (self.rnd_ < 6)
+			self.s__ = "random/pain/pain_6.wav";
 		else
-			sname = "random/pain/pain_7.wav";
-		sound (self, CHAN_AUTO, sname, 1, ATTN_NORM);
+			self.s__ = "random/pain/pain_7.wav";
+		sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	}
 
 	self.nextthink = rand_time();
