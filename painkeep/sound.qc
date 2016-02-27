@@ -22,13 +22,6 @@ void() func_pksound_play =
 	self.s__ = strcat("random/",self.noise,"/",self.noise,"_",ftos(self.rnd_),".wav");
 	sound (self, CHAN_AUTO, self.s__ , 1, ATTN_NORM);
 	self.nextthink = rand_time();
-
-/// REMOVE
-								bprint("* warning: func_pksound_play = ");
-								bprint(self.s__);
-								bprint("\n");
-
-
 };
 
 #ifndef spawn_func
