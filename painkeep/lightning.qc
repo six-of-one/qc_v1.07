@@ -104,7 +104,7 @@ void(float r) lightning_flash =
 	}
 
 // do the next one if it exists
-	self = self.next__;
+ 	self = self.next__;
 	if (self != world)
 		lightning_flash(r);
 };

@@ -21,10 +21,16 @@ float DEF_PK_ITEMS; // pk bit flags
 #define PK_IT_GRAVITYWELL		2
 #define PK_IT_TURRET				4
 #define PK_IT_CANPAB				8
-#define PK_IT_BEARTRAP			128
 #define PK_IT_GRAPGUN			16
 #define PK_IT_AIRGUN				32
 #define PK_IT_CLIGHT				64
+#define PK_IT_BEARTRAP			128
+
+#define PKPLUS_IT_EGO					256
+#define PKPLUS_IT_TOMB					512
+#define PKPLUS_IT_ACTOR				1024
+#define PKPLUS_IT_PHONE				2048
+
 #define PK_IT_CARY				3982 // throwables - fire & forget - grav, turret, can, beartrap, ego, tomb, phone, actor
 #define PK_IT_RANGE				112 // range weps - grap, airgun, chainthunder
 
@@ -72,3 +78,34 @@ void() turret_dropTurret;
 /// figure this out
 
 string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quake 2, Q3 quake 3, D doom, W wolf, PK painkeep
+
+
+// pk plus
+
+.float pkplus_actorammo;
+//.float pkplus_actorskin;
+//.float pkplus_actortype;
+.float pkplus_egoammo;
+.float pkplus_phoneammo;
+.float pkplus_tombammo;
+
+// tombs
+
+#define PKPLUS_TOMB_TIMETOFOLLOW	20
+#define TOMB_BUFFER						3
+#define PKPLUS_TOMB_DMG				3
+float PKPLUS_TOMB_TIME;
+float PKPLUS_EGOAMMO_MAX;
+float PKPLUS_TOMBAMMO_MAX;
+float PKPLUS_ACTORAMMO_MAX;
+float PKPLUS_PHONEAMMO_MAX;
+
+float PK_TOMB_SET;
+
+.entity tomb_target;
+.entity tomb_touchable;
+.float tomb_time;
+.float tomb_immune_time;
+.float tomb_death_time;
+.float tombdmg_time;
+.float tombsoundtime;

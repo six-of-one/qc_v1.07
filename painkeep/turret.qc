@@ -376,7 +376,7 @@ void() turret_findTarget =
 	  //if (!(head.classname == "turret"))
 	  //if (!(head.classname == "turret_base"))
 		if ((self.turret_ownertimeout > 0 && self.turret_ownertimeout < time) || head != self.owner)
-#ifdef HIPNOTID
+#ifdef HIPNOTIC
 		if (!head.charmer || head.charmer != self.owner) // dont target owners helpers
 #endifdef
 	 	if (head.classname != "player" || !(head.items & IT_INVISIBILITY))

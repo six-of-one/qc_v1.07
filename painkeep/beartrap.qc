@@ -146,11 +146,13 @@ void() beartrapTouch =
 	if (other.classname != "pk*bot") // *bot - bots get bit
 	if (other.classname != "player")
 //	if ((!other.flags & FL_MONSTER) || !ENHANCED) // monsters in dm now
-#ifdef enhanced
-	if (!other.flags & FL_MONSTER) // monsters in dm now
+#ifdef opgrade
+	if (!(other.flags & FL_MONSTER)) // monsters in dm now
 	  return;
 
+#ifdef HIPNOTIC
 	if (other.charmer && other.charmer == self.owner) // dont target owners helpers
+#endifdef
 #endifdef
 	  return;
 
