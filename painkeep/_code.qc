@@ -72,6 +72,9 @@
 #messagecompiling painkeep/sound.qc 
 #include </sound.qc>
 
+#messagecompiling painkeep/lightning.qc 
+#include </lightning.qc>
+
 #endifdef
 
 
