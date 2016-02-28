@@ -22,6 +22,10 @@
 	"light" "#"		- Brightness of the lightning (1000 is pretty good)
 	"mean" "#"		- Mean time of next event (default 5)
 	"stdev" "#"		- Variation around the mean time (default 0)
+
+	Cataboligne update:
+	
+	removed some redundant code
 */
 
 #define	next__		aiment
@@ -43,33 +47,9 @@ void() lightning_stop =
 
 void(float r) lightning_flash =
 {
-/*
-	local entity oself;
-	local string pattern;
-	local string soundfile;
-	local float pkduration;
-
-	// call the .next's flash
-	if (self.next__ != world)
-	{
-		oself = self;
-		self = self.next__;
-		lightning_flash(r);
-		self = oself;
-	}
-*/
-
 #define	pattern	self.s__
 #define soundfile	self.noise
 #define	pkduration		self.f__
-
-																				bprint("* lightning_flash: ");
-																				bprint(ftos(self.l_hash));
-																				bprint(" - ");
-																				bprint(ftos(self.cnt));
-																				bprint("\n");
-
-
 
 	// depending on the random #
 	if (r < 1)
@@ -123,6 +103,7 @@ void(float r) lightning_flash =
 		//bprint("\n");
 	}
 
+// do the next one if it exists
 	self = self.next__;
 	if (self != world)
 		lightning_flash(r);
@@ -137,18 +118,6 @@ void() lightning_think =
 	lightning_flash(self.rnd_);
 };
 
-/*
-void() findFirst =
-{
-	// ok the last frame we set determined which light_lightning was the first
-	if (self.cnt == 1)
-	{
-		// only the first light_lightning will actually do any randomization
-		self.think = lightning_think;
-		self.nextthink = time + meantime(self.mean, self.stdev);
-	}
-};
-*/
 
 #ifdef spawn_func
 void() linkLightning =
@@ -161,14 +130,6 @@ void() light_lightning =
 
 // make sure all get spawned
 	if (time < 2) return;
-
-//	self.think = lightning_stop;
-//	self.nextthink = time + 0.1;
-
-///REMOVE
-	self.l_hash = system_hash;
-	syh
-
 
 	// ok find the next light_lightning
 	self.next__ = find(self, classname, "light_lightning");
@@ -214,6 +175,10 @@ void() light_lightning =
 
 	self.cnt = 1;
 	self.think = linkLightning;
-	self.nextthink = time + 0.1;
+	self.nextthink = time + 3;
 };
 #endifdef
+
+#undef	pattern
+#undef soundfile
+#undef	pkduration
