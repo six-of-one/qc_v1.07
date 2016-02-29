@@ -528,6 +528,10 @@ local vector	org;
 		if (other.flags & FL_ONGROUND)
 			other.flags = other.flags - FL_ONGROUND;
 		other.velocity = v_forward * 300;
+
+#ifdef code_painkeep_
+		other.bt_immune_time = time + BT_BUFFER;
+#endifdef
 	}
 	other.flags = other.flags - other.flags & FL_ONGROUND;
 };
