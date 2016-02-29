@@ -1476,6 +1476,9 @@ void() PlayerPreThink =
 		self.weapon = W_BestWeapon ();
 		W_SetCurrentAmmo ();
 	}
+
+#ifdef code_painkeep_
+#endifdef
 };
 	
 /*

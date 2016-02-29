@@ -341,6 +341,9 @@ void() play_teleport =
 
 	sound(self, CHAN_VOICE, self.noise, 1, ATTN_NORM);
 	remove(self);
+#ifdef code_painkeep_
+	telesnd = world;
+#endifdef
 };
 
 void(vector org) spawn_tfog =
