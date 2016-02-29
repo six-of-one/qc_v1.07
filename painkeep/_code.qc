@@ -76,6 +76,9 @@
 #messagecompiling painkeep/lightning.qc 
 #include </lightning.qc>
 
+#messagecompiling painkeep/zombie2.qc 
+#include </zombie2.qc>
+
 
 #messagecompiling painkeep/tomb.qc 
 #include </tomb.qc>

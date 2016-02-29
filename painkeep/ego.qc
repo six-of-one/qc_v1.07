@@ -4,7 +4,7 @@
  *
  * file: ego.qc 
  *
- * date: 016.2.27
+ * date: 016.2.28
  *
  * qc - painkeep plus module - ego qc
  *
