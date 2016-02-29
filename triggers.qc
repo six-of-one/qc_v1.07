@@ -345,6 +345,9 @@ void() play_teleport =
 
 void(vector org) spawn_tfog =
 {
+#ifdef code_painkeep_
+	telesnd = 
+#endifdef
 	s = spawn();
 	s.origin = org;
 	s.nextthink = time + 0.2;

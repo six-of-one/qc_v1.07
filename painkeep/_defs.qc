@@ -153,3 +153,7 @@ float PK_TOMB_SET;
 .float orbitPosition;
 .float egosoundtime;
 #endifdef
+
+// phone
+
+entity telesnd; // teleport sound effect (dest) global - so holdable can change sound played (hackish way to do things)

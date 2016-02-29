@@ -96,7 +96,7 @@ void () ego_touch =
 	self.f__ = other.flags & FL_MONSTER;
 #endifdef
 
-	if (other.classname != "player" && other.classname != "pk*bot")
+	if (other.classname != "player") // && other.classname != "pk*bot")
 	if (!self.f__)
 	{
 		return ;
@@ -229,7 +229,7 @@ void () ego_think =
 
 	f = FALSE;
 	if (self.owner.dmg_inflictor.classname == "player") f = TRUE;
-	else if (self.owner.dmg_inflictor.classname == "pk*bot") f = TRUE;
+//	else if (self.owner.dmg_inflictor.classname == "pk*bot") f = TRUE;
 #ifdef opgrade
 //	else if ((self.owner.dmg_inflictor.flags & FL_MONSTER) && ENHANCED) f = TRUE;
 	else if (self.owner.dmg_inflictor.flags & FL_MONSTER) f = TRUE;
@@ -256,7 +256,7 @@ void () ego_think =
 
 		f = FALSE;
 		if (self.owner.dmg_inflictor.owner.classname == "player") f = TRUE;
-		else if (self.owner.dmg_inflictor.owner.classname == "pk*bot") f = TRUE;
+//		else if (self.owner.dmg_inflictor.owner.classname == "pk*bot") f = TRUE;
 #ifdef opgrade
 //		else if ((self.owner.dmg_inflictor.owner.flags & FL_MONSTER) && ENHANCED) f = TRUE;
 		else if (self.owner.dmg_inflictor.owner.flags & FL_MONSTER) f = TRUE;

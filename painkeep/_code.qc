@@ -86,6 +86,9 @@
 #messagecompiling painkeep/ego.qc 
 #include </ego.qc>
 
+#messagecompiling painkeep/phone.qc 
+#include </phone.qc>
+
 #endifdef
 
 
