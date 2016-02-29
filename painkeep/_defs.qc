@@ -143,3 +143,13 @@ float PK_TOMB_SET;
 .float tombsoundtime;
 #endifdef
 .float tombdmg_time;
+
+// ego
+
+#ifdef reuse_fields
+#define	orbitPosition		pk_timer
+#define	egosoundtime		pk_sndtimer
+#else
+.float orbitPosition;
+.float egosoundtime;
+#endifdef

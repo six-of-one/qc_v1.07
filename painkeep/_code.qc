@@ -80,6 +80,9 @@
 #messagecompiling painkeep/tomb.qc 
 #include </tomb.qc>
 
+#messagecompiling painkeep/ego.qc 
+#include </ego.qc>
+
 #endifdef
 
 

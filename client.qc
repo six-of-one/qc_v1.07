@@ -847,18 +847,26 @@ void() PutClientInServer =
 	self.pk_currentitem = 
 	self.pkprevweapon = PK_IT_AXE;
 
+	self.beartrap_time = 0;
+	self.bt_immune_time = time + BT_BUFFER;
+
+	self.skin = 0; // damage skins, etc - needs to be before morphy
+
 #ifdef painkeep_splash
 	AddToSplash(self);
 #endifdef
 #endifdef
 
-#ifdef code_xents
-	ominous_hum(string_null, 1); // clear any stray hum
-#endifdef
-
 	DecodeLevelParms ();
 	
 	W_SetCurrentAmmo ();
+
+#ifdef code_xents
+// vw
+	self.lastweapon = self.weapon;
+
+	ominous_hum(string_null, 1); // clear any stray hum
+#endifdef
 
 	self.attack_finished = time;
 	self.th_pain = player_pain;
