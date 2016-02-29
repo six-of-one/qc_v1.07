@@ -1,4 +1,4 @@
-/* ::-::
+ /* ::-::
  *
  * Cataboligne
  *
@@ -11,30 +11,56 @@
  */
 
 void () corpsefollow;
+/*
+framer version - replace all sequential frames
+
 void () corpse_drag1 =  [ 56, corpse_drag2  ] { 	corpsefollow (); };
 void () corpse_drag2 =  [ 57, corpse_drag3  ] { };
 void () corpse_drag3 =  [ 58, corpse_drag4  ] { 	corpsefollow (); };
 void () corpse_drag4 =  [ 59, corpse_drag5  ] { };
 void () corpse_drag5 =  [ 60, corpse_drag6  ] { 	corpsefollow (); };
+*/
 void () corpse_drag6 =  [ 93, corpse_drag7  ] { };
+
+framer(56, 60, corpse_drag1, corpse_drag6, 0.1,
+
+	if (!(self.frame & 1)) corpsefollow();
+);
+
 void () corpse_drag7 =  [ 92, corpse_drag8  ] { 	corpsefollow (); };
 void () corpse_drag8 =  [ 91, corpse_drag9  ] { };
+/*
 void () corpse_drag9 =  [ 90, corpse_drag10 ] { 	corpsefollow (); };
 void () corpse_drag10 = [ 91, corpse_drag11 ] { };
 void () corpse_drag11 = [ 92, corpse_drag12 ] { 	corpsefollow (); };
 void () corpse_drag12 = [ 93, corpse_drag13 ] { };
+*/
 void () corpse_drag13 = [ 84, corpse_drag14 ] { 	corpsefollow (); };
+
+framer(90, 93, corpse_drag9, corpse_drag13, 0.1,
+
+	if (!(self.frame & 1)) corpsefollow();
+);
+
 void () corpse_drag14 = [ 83, corpse_drag15 ] { };
 void () corpse_drag15 = [ 82, corpse_drag16 ] { 	corpsefollow (); };
 void () corpse_drag16 = [ 81, corpse_drag17 ] { };
 void () corpse_drag17 = [ 80, corpse_drag18 ] { 	corpsefollow (); };
+/*
 void () corpse_drag18 = [ 79, corpse_drag19 ] { };
 void () corpse_drag19 = [ 80, corpse_drag20 ] { 	corpsefollow (); };
 void () corpse_drag20 = [ 81, corpse_drag21 ] { };
 void () corpse_drag21 = [ 82, corpse_drag22 ] { 	corpsefollow (); };
 void () corpse_drag22 = [ 83, corpse_drag23 ] { };
 void () corpse_drag23 = [ 84, corpse_drag24 ] { 	corpsefollow (); };
+*/
 void () corpse_drag24 = [ 93, corpse_drag25 ] { };
+
+framer(79, 84, corpse_drag18, corpse_drag24, 0.1,
+
+	if (!(self.frame & 1)) corpsefollow();
+);
+
 void () corpse_drag25 = [ 60, corpse_drag26 ] { 	corpsefollow (); };
 void () corpse_drag26 = [ 59, corpse_drag27 ] { };
 void () corpse_drag27 = [ 58, corpse_drag28 ] { 	corpsefollow (); };
@@ -64,8 +90,11 @@ void () corpsedie =
 
 void () corpsefollow =
 {
-	local float quiktemp;
-	local vector backdir;
+//	local float quiktemp;
+//	local vector backdir;
+#define quiktemp self.f__
+#define backdir self.v__
+
 	if ( ((!self.tomb_target.tomb_time
 #ifdef unsused
 			|| self.disconnectPlayer
@@ -130,7 +159,8 @@ void () corpsefollow =
 
 void () tombtouch =
 {
-	local entity holdowner;
+//	local entity holdowner;
+#define holdowner	e0__
 
 /*
 	if (!deathmatch) // Cataboligne - 5.20.10 - tomb single player code - allow monster target
@@ -141,16 +171,18 @@ void () tombtouch =
 	}
 	else
 */
-	if (other.classname != "player" && other.classname != "pk*bot")
+	if (other.classname != "player") // && other.classname != "pk*bot")
 #ifdef opgrade
 	if (! (other.flags & FL_MONSTER))
 	  return;
 
 #ifdef HIPNOTIC
 	if (other.charmer && other.charmer == self.owner.owner) // dont target owners helpers
-#endifdef
-#endifdef
 		return ;
+#endifdef
+#else
+		return ;
+#endifdef
 
 	if ( ((other == self.owner.owner) && (self.tomb_time > time)) )
 		return ;
@@ -254,29 +286,34 @@ void () tomb_checkonground =
 
 void () tomb_launch =
 {
-	local entity tomb;
+//	local entity tomb;
+#define tomb newmis
+
 	if ( (self.pkplus_tombammo <= 0) )
 	{
 		return ;
 	}
+/*
 	if ( !self.button0 )
 	{
 		player_run ();
 		return ;
 	}
-
+*/
 	if (!PK_TOMB_SET)
 	{
 		PK_TOMB_SET = TRUE;
 // defs
 		PKPLUS_TOMB_TIME = 90;
-
+/*
+		TDO:
 //		if (DARKPLACES || chaos)
 		{
-//			PKPLUS_TOMB_TIME = cvar("pk_tomb_time");
-//			if (PKPLUS_TOMB_TIME < 0)
+			PKPLUS_TOMB_TIME = cvar("pk_tomb_time");
+			if (PKPLUS_TOMB_TIME < 0)
 				PKPLUS_TOMB_TIME = 90;
 		}
+*/
 	}
 		
 
@@ -323,3 +360,4 @@ void () tomb_launch =
 	tomb.tomb_touchable.nextthink = (time + 0.2);
 };
 
+#undef	tomb

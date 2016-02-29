@@ -25,7 +25,8 @@
 	#endifdef
 
 // compile in pk plus modules
-//#define code_pkplus
+//#define code_pkplus_
+// moved to compiler.qc for defs
 
 
 	#ifdef xvars0

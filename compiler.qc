@@ -201,6 +201,13 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 // controls advanced intermission message load - !nondp must turn this off
 #define opgrade__
 
+// reuse entity fields where possible
+// - saves fields and globals
+// - makes debug harder - cant be used on sys_globals in progdefs.h
+// - could blix complex code
+/// SWITCH
+#define reuse_fields
+
 //	part of opgrade - fix some q1 code issues - many also fix compiler warnings
 /// SWITCH
 #define codefix
@@ -587,6 +594,9 @@ spec track by cvar
 	#message         			- code_painkeep 
 	#endifdef
 	#define modulein
+// plus modules
+	#define code_pkplus_
+
 #endifdef
 
 // use pk bots

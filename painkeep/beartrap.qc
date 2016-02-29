@@ -143,7 +143,7 @@ void() beartrapTouch =
 			if (cvar("sv_sp_bt_noplayer")) return;
 	}
 
-	if (other.classname != "pk*bot") // *bot - bots get bit
+//	if (other.classname != "pk*bot") // *bot - bots get bit
 	if (other.classname != "player")
 //	if ((!other.flags & FL_MONSTER) || !ENHANCED) // monsters in dm now
 #ifdef opgrade
@@ -152,9 +152,11 @@ void() beartrapTouch =
 
 #ifdef HIPNOTIC
 	if (other.charmer && other.charmer == self.owner) // dont target owners helpers
-#endifdef
-#endifdef
 	  return;
+#endifdef
+#else
+	  return;
+#endifdef
 
 
 	// The owner of the beartrap is immune for a few rels

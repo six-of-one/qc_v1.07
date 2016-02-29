@@ -10,7 +10,7 @@
  *
  */
 
-#ifdef code_pkplus
+#ifdef code_pkplus_
 #define PK_ITEM_MASK				4095 // mask off non items bits
 #else
 #define PK_ITEM_MASK				255
@@ -44,6 +44,16 @@ float DEF_PK_ITEMS; // pk bit flags
 
 .float pkprevweapon;
 
+// pk  reference section
+// these fields will get reused by vars ents
+
+#ifdef reuse_fields
+.entity pk_ent;
+.float pk_timer;
+.float pk_tout;
+.float pk_sndtimer;
+#endifdef
+
 // air cannon
 
 #define AIRG_EXCLUDEENTITY		1
@@ -53,16 +63,23 @@ float DEF_PK_ITEMS; // pk bit flags
 
 // turrets
 
+#ifdef reuse_fields
+#define	turret_base	pk_ent
+#define	turret_ownertimeout	pk_timer
+#define	turret_soundtimeout	pk_sndtimer
+#define	turret_timeout	pk_tout
+#else
 .entity turret_base;
 .float turret_ownertimeout;
 .float turret_soundtimeout;
 .float turret_timeout;
+#endifdef
 
 float PK_TUR_AMMO; // base cells to fire, 0 = infinite
 float PK_TUR_HEAL; // health we get - base = 2/3 this, < 0 = no limit
 float PK_TUR_QUADCON;
 float PK_TURRETAMMO_MAX;
-float PK_TUR_SET; // set non 0 when vars loaded1
+float PK_TUR_SET; // set non 0 when vars loaded
 float PK_TUR_TARGOWN; // time after which turret shoots owner, 0 = dont target owner
 float PK_TUR_TIME; // time to live, after which explode, 0 = no timeout
 float PK_TUR_VARIETY; // a variety of turrets - 
@@ -72,8 +89,15 @@ void() turret_dropTurret;
 
 // b-traps
 
-#define	beartrap_time		turret_timeout
-#define	bt_immune_time	turret_soundtimeout
+#define BT_BUFFER				2	  	// The nuber of rels people are immune to beartraps after spawning
+
+#ifdef reuse_fields
+#define	beartrap_time		pk_timer
+#define	bt_immune_time	pk_sndtimer
+#else
+.float beartrap_time;
+.float bt_immune_time;
+#endifdef
 
 /// figure this out
 
@@ -102,10 +126,20 @@ float PKPLUS_PHONEAMMO_MAX;
 
 float PK_TOMB_SET;
 
+#ifdef reuse_fields
+#define tomb_touchable	pk_ent
+#define tomb_target	goalentity
+#define tomb_time	pk_tout
+#define tombsoundtime	pk_sndtimer
+#define tomb_immune_time	pk_timer
+#define tomb_death_time	air_finished
+#define tombdmg_time		waitmin
+#else
 .entity tomb_target;
 .entity tomb_touchable;
 .float tomb_time;
 .float tomb_immune_time;
 .float tomb_death_time;
-.float tombdmg_time;
 .float tombsoundtime;
+#endifdef
+.float tombdmg_time;
