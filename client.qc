@@ -1478,6 +1478,7 @@ void() PlayerPreThink =
 	}
 
 #ifdef code_painkeep_
+	pk_DmgSkin();
 #endifdef
 };
 	

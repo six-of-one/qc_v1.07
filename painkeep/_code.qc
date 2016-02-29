@@ -64,6 +64,9 @@
 #messagecompiling painkeep/exploder.qc 
 #include </exploder.qc>
 
+#messagecompiling painkeep/dmg_skin.qc 
+#include </dmg_skin.qc>
+
 #messagecompiling painkeep/sparks.qc 
 #include </sparks.qc>
 

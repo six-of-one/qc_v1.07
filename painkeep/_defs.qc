@@ -44,6 +44,10 @@ float DEF_PK_ITEMS; // pk bit flags
 
 .float pkprevweapon;
 
+// protos
+
+void()	pk_DmgSkin;
+
 // pk  reference section
 // these fields will get reused by vars ents
 
