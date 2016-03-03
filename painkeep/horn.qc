@@ -45,8 +45,6 @@ void() removeFlyMode;
 float (entity targ) hornVisible;
 
 
-$cd id1/progs/s_ablast
-
 $frame ablast1 ablast2 ablast3 ablast4 ablast5 ablast6
 
 // for search - PK100 val
@@ -144,7 +142,9 @@ void() launch_horn =
 	horn_airblast(TRUE);
 
 	if (self.super_damage_finished > time)
+#ifdef code_pkplus
 	if (self.pkplus_actortype != PKPLUS_ACTORQUAD) // Cataboligne 8.12.9 purify - pk artifacts
+#endifdef
 	{ // if supercharged, increase the recoil strength...
 	  recoil = recoil * 1.5;
 	}
@@ -248,7 +248,9 @@ void(float firstBlast) horn_airblast =
 	#define numBubbles 3 // number of bubbles generated in the water
 
 	if (self.super_damage_finished > time)
+#ifdef code_pkplus
 	if (self.pkplus_actortype != PKPLUS_ACTORQUAD) // Cataboligne 8.12.9 purify - pk artifacts
+#endifdef
 	{ // if supercharged, double the range
 	  inRange = inRange * 2;
 	}
@@ -277,7 +279,11 @@ void(float firstBlast) horn_airblast =
 
 	  // only affect monsters and projectiles
 	  if (hornVisible(e)) // must be visible AND
-	  if (self.waterlevel > 2 || (self.super_damage_finished > time && (self.pkplus_actortype != PKPLUS_ACTORQUAD)) // Cataboligne 8.12.9 purify - pk artifacts
+	  if (self.waterlevel > 2 || (self.super_damage_finished > time
+#ifdef code_pkplus
+				&& (self.pkplus_actortype != PKPLUS_ACTORQUAD)
+#endifdef
+				) // Cataboligne 8.12.9 purify - pk artifacts
 	  			|| hornInfront(e)) // infront of self or anywhere in the water or supercharged AND
 	  if (e.movetype != MOVETYPE_NONE) // anything that can move
 	  if (e.movetype != MOVETYPE_PUSH)
@@ -398,7 +404,9 @@ void(float firstBlast) horn_airblast =
 	    }
 	    else
 	    {
+#ifdef code_pkplus
 			if (!pk_art_movshot_ck(e, "horn")) // Cataboligne 8.12.9 purify - pk artifacts
+#endifdef
 			{
 				delta = (delta * 0.2);
 				inDamage = (inDamage * 0.2);
@@ -425,7 +433,9 @@ void(float firstBlast) horn_airblast =
 		      // Apply damage to the entity.
 		      T_Damage(e, self, self, ldmg);
 				// chance to knock a rune loose
+#ifdef code_runes
 				rune_pull(e, HORN_PULL);
+#endifdef
 	      }
 	    }
 	  }

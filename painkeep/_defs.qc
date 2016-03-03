@@ -111,6 +111,22 @@ void() pulse_rebound;
 
 string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quake 2, Q3 quake 3, D doom, W wolf, PK painkeep
 
+// air gun / horn
+
+// At the moment the AIRG_Flags variable is used only for the exclusion routine
+// Constant used on the AIRG_Flags to specifiy that we have converted this
+#define AIRG_EXCLUDEENTITY		1
+#define AIRG_STEPCONVERTEDTOFLY	2
+
+.entity AIRG_FlyTracker;
+.float AIRG_BlastTimeout;				// Airblast origin, & viewing angle
+.float AIRG_FireCount;
+.float AIRG_Flags;
+.float AIRG_Timeout;
+// Setting an entity's AIRG_Flags excludes it from harm
+.vector AIRG_BlastAngle;
+.vector AIRG_BlastOrigin;
+
 
 // pk plus
 
