@@ -4,7 +4,7 @@
  *
  * file: pulse_nail.qc 
  *
- * date: 016.2.29
+ * date: 016.3.2
  *
  * qc - painkeep module - pulse nailgun qc
  *
@@ -29,18 +29,7 @@ void() pulse_rebound =
 
 void(float ox) W_FirePulseSpikes =
 {
-//	local vector	dir;  v0__
 
-//	makevectors(self.v_angle);
-//	sound (self, CHAN_WEAPON, "weapons/pulse/pulse_1.wav", 1, ATTN_NORM);
-	//self.attack_finished = time + 0.4;
-//	self.currentammo = self.ammo_nails = self.ammo_nails - ammo_con(1, self, string_null);
-#ifdef code_pkbots__removethis
-	if (self.class_select == "class_pk*bot")
-		v0__ = botaim ();
-	else
-#endifdef
-//	v0__ = aim (self, 1000);
 	v1__ = self.origin + '0 0 16' + v_right*ox;
 
 /*
@@ -49,10 +38,6 @@ void(float ox) W_FirePulseSpikes =
 	else
 		v1__ = self.origin + v_up * VWZ_PNAILG + v_right * (ox / 2.5) + v_right * VWY_PNAILG + v_forward * VWX_PNAILG;
 
-	if (autocvar_sv_centerwep)
-		launch_spike (self.origin + '0 0 16' + v_right*ox, v0__);
-	else
-		launch_spike (self.origin + v_up * VWZ_PNAILG + v_right * (ox / 2.5) + v_right * VWY_PNAILG + v_forward * VWX_PNAILG, v0__);
 */
 
 	fire_missile(SPIKE_VEL, MOVETYPE_FLYMISSILE, FL_MSL | FL_PUNCH | FL_USEAMMO
@@ -67,24 +52,11 @@ void(float ox) W_FirePulseSpikes =
 //																					RM_SKY | PF_LAVA
 													, 0	, v1__, '0 0 0', "pulse_spike", "progs/spike.mdl", "weapons/pulse/pulse_1.wav", spike_touch, 2.0,  SUB_Remove, SUB_Null);
 
-
-//	newmis.touch = spike_touch;
 	newmis.dmg = 27;
 	newmis.theowner = self;
-//	newmis.classname = "pulse_spike";
-//	setmodel (newmis, "progs/p-nail.mdl");
-//	setmodel (newmis, "progs/spike.mdl");
 	newmis.skin = 3;
-//	newmis.angles = vectoangles(v0__);
 	newmis.weapon = IT_NAILGUN; // Cataboligne - 2.19.11 - correct obit in pk_clientobit
 
-//	setsize (newmis, '0 0 0', '0 0 0');
-//	self.punchangle_x = -2;
-//	cam_punch(); // Cataboligne - 5.13.10 - cam purify - nullify fire punchangle if in cam view
-
-	// time limit
-//	newmis.think = SUB_Remove;
-//	newmis.nextthink = time + 2.0;
 };
 
 // pulse nailgun frames
