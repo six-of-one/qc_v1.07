@@ -64,6 +64,9 @@
 #messagecompiling painkeep/exploder.qc 
 #include </exploder.qc>
 
+#messagecompiling painkeep/pulse_nail.qc 
+#include </pulse_nail.qc>
+
 #messagecompiling painkeep/dmg_skin.qc 
 #include </dmg_skin.qc>
 

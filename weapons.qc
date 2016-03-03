@@ -898,6 +898,7 @@ void(float ox) W_FireSpikes =
 #endifdef
 
 
+#ifndef code_xents
 //.float hit_z;	// fx_warning
 void() spike_touch =
 {
@@ -949,6 +950,7 @@ void() spike_touch =
 	remove(self);
 
 };
+#endifdef
 
 
 #ifndef opgrade

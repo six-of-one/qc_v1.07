@@ -103,6 +103,10 @@ void() turret_dropTurret;
 .float bt_immune_time;
 #endifdef
 
+// pulse spikes
+
+void() pulse_rebound;
+
 /// figure this out
 
 string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quake 2, Q3 quake 3, D doom, W wolf, PK painkeep
