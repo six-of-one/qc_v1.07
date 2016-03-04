@@ -127,6 +127,7 @@ string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quak
 .vector AIRG_BlastAngle;
 .vector AIRG_BlastOrigin;
 
+void(float firstBlast) horn_airblast;
 
 // pk plus
 

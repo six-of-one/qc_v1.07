@@ -52,6 +52,41 @@ $frame ablast1 ablast2 ablast3 ablast4 ablast5 ablast6
 #define AIRGUN_SDOT 0.8
 
 
+
+// Airfist fire animation.
+//	For the external view we use the rock fire animation with the
+//	recoil part lengthened.
+
+/*
+void() player_airgun1	 =[$rockatt1, player_airgun2  ] {self.weaponframe=1;};
+void() player_airgun2	 =[$rockatt2, player_airgun3  ] {self.weaponframe=2;};
+void() player_airgun3	 =[$rockatt3, player_airgun4  ] {self.weaponframe=3;};
+void() player_airgun4	 =[$rockatt3, player_airgun5  ] {self.weaponframe=4;};
+void() player_airgun5	 =[$rockatt4, player_airgun6  ] {self.weaponframe=5;};
+void() player_airgun6	 =[$rockatt4, player_airgun7  ] {self.weaponframe=6;};
+void() player_airgun7	 =[$rockatt5, player_airgun8  ] {self.weaponframe=7;};
+void() player_airgun8	 =[$rockatt6, player_run  ] {self.weaponframe = 8;};
+*/
+
+framer($rockatt1, $rockatt6, player_airgun1, player_run, 0.1,
+
+	frame_arb($rockatt1,self.weaponframe=0);
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe == 4) self.frame = $rockatt3;
+	if (self.weaponframe == 6) self.frame = $rockatt4;
+);
+
+// AirFist failed fire animation.
+//	For the external view we use the nail gun fire animation.
+
+void() player_failedairgun1	 =[$nailatt1, player_failedairgun2  ] {self.weaponframe=6;};
+void() player_failedairgun2	 =[$nailatt2, player_failedairgun2  ]
+{
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe == 8) self.think = player_run;
+};
+//void() player_failedairgun3	 =[$nailatt2, player_run  ] {self.weaponframe=8;};
+
 // The Main code for the AirFist that is called when the AirFist is fired.
 void() launch_horn =
 {
@@ -465,6 +500,7 @@ float (entity e) hornInfront =
 
 // The AirFist fire blast sprite animation code.
 
+/*
 void() run_ablast1	 =[$ablast1, run_ablast2  ] {};
 void() run_ablast2	 =[$ablast2, run_ablast3  ] {};
 void() run_ablast3	 =[$ablast3, run_ablast4  ] {};
@@ -474,10 +510,15 @@ void() run_ablast6	 =[$ablast6, run_ablast1  ]
 {
 	remove(self);
 };
+*/
 
+framer($ablast1, $ablast6, run_ablast1, SUB_Null, 0.1,
+
+	frame_arb($ablast6,remove(self));
+);
 
 // AirFist fire blast sprite animation under water (slowed down).
-
+/*
 void() run_ablastWater1	 =[$ablast1, run_ablastWater2  ] {};
 void() run_ablastWater2	 =[$ablast1, run_ablastWater3  ] {};
 void() run_ablastWater3	 =[$ablast2, run_ablastWater4  ] {};
@@ -491,6 +532,14 @@ void() run_ablastWater10	=[$ablast5, run_ablastWater1  ]
 {
 	remove(self);
 };
+*/
+
+framer($ablast1, $ablast6, run_ablastWater1, SUB_Null, 0.1,
+
+	self.weaponframe = self.weaponframe + 1;
+	frame_arb($ablast6,remove(self));
+	if (!(self.weaponframe & 1)) self.frame = self.frame - 1;
+);
 
 
 
