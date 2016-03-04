@@ -124,11 +124,11 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE
 #ifdef code_xents
-					|| FL_MELEE(self, self.weapon, 0)
+	if (FL_MELEE(self, self.weapon, self.pk_currentitem))
+#else
+	if (self.weapon == IT_AXE)
 #endifdef
-																		)
 	{
 		if (self.walkframe >= 12)
 			self.walkframe = 0;
@@ -179,11 +179,11 @@ void()	player_run =[	$rockrun1,	player_run	]
 		return;
 	}
 
-	if (self.weapon == IT_AXE
 #ifdef code_xents
-					|| FL_MELEE(self, self.weapon, 0)
+	if (FL_MELEE(self, self.weapon, self.pk_currentitem))
+#else
+	if (self.weapon == IT_AXE)
 #endifdef
-																	)
 	{
 #ifdef codefix
 		if (self.walkframe >= 6)

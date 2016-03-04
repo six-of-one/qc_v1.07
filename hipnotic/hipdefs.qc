@@ -198,7 +198,6 @@ void() LinkRotateTargets;
 
 #include </../incl/use_writelong.qc>
 #include </../incl/use_nextent.qc>
-#include </../incl/use_vtos.qc>
 
 // from other areas of hipnotic code
 

@@ -611,7 +611,6 @@ void(string s) bprint				= #23;
 #ifndef nodprint
 void(string s) dprint				= #25;
 // currently this is only used in dprints
-#include <incl/use_vtos.qc>
 //string(vector v) vtos				= #27;
 #endifdef
 string(float f) ftos				= #26;

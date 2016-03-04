@@ -91,7 +91,7 @@ void() player_failedairgun2	 =[$nailatt2, player_failedairgun2  ]
 void() launch_horn =
 {
 	// Local variables used in the function
-	local vector dir;
+//	local vector dir;
 	local float nearAWall;
 
 	// Constants used in the control of how the AirFist is works
@@ -191,8 +191,8 @@ void() launch_horn =
 
 	// check if near a wall
 	makevectors(self.v_angle);
-	dir = self.origin + self.view_ofs;
-	traceline (dir, dir + v_forward * 64, FALSE, self);
+	v4__ = self.origin + self.view_ofs;
+	traceline (v4__, v4__ + v_forward * 64, FALSE, self);
 
 	if (trace_fraction != 1.0 && !trace_ent.takedamage)
 	{
@@ -254,12 +254,15 @@ void(float firstBlast) horn_airblast =
 {
 	// Local variables used in the function
 	local entity e;
-	local vector delta;
-	local vector dir;
+//	local vector delta;
+//	local vector dir;
 	local float eSpeed;
 	local float dist;
 	local float percent;
 	local float ldmg;
+
+#define	delta		v3__
+#define	delta_z		v3___z
 
 	// Constants used in the control of how the AirFist is works
 
@@ -329,6 +332,12 @@ void(float firstBlast) horn_airblast =
 // AIRG_EXCLUDE_END
 	  if (e != self)  // but not myself!!
 	  {
+
+bprint("horn move loop: ");
+bprint(item_ident(e));
+
+
+
 	    // if flying creature and movetype is step then change to fly
 	    // NOTE: For some reason the normal quakeC, flying monsters has set a
 	    //   movetype of MOVETYPE_STEP which means that changing the velocity
@@ -435,7 +444,18 @@ void(float firstBlast) horn_airblast =
 	    {
 	      // If its a missile, change the direction but keep the same speed.
 	      eSpeed = vlen(e.velocity);
-	      e.velocity = normalize(delta) * eSpeed;
+
+bprint(" velo adj: ");
+bprint(vtos(e.velocity));
+
+			 e.velocity = normalize(delta) * eSpeed;
+
+
+bprint(" now: ");
+bprint(vtos(e.velocity));
+bprint("\n");
+
+
 	    }
 	    else
 	    {
@@ -447,7 +467,16 @@ void(float firstBlast) horn_airblast =
 				inDamage = (inDamage * 0.2);
 			}
 	      // Apply the velocity adjustment
+
+bprint(" velo adj: ");
+bprint(vtos(e.velocity));
+
 	      e.velocity = e.velocity + delta;
+
+bprint(" now: ");
+bprint(vtos(e.velocity));
+bprint("\n");
+
 
 	      // calculate the damage amount
 	      ldmg = percent * inDamage;
@@ -458,9 +487,9 @@ void(float firstBlast) horn_airblast =
 	      //          change.
 	      if (e.movetype != MOVETYPE_WALK) // to even out the T_Damage "figure momentum add"
 	            {
-	        dir = e.origin - (self.absmin + self.absmax) * 0.5;
-	        dir = normalize(dir);
-	        e.velocity = e.velocity + dir * ldmg * 8;
+	        v4__ = e.origin - (self.absmin + self.absmax) * 0.5;
+	        v4__ = normalize(v4__);
+	        e.velocity = e.velocity + v4__ * ldmg * 8;
 	      }
 
 	      if (firstBlast) // damage only on the first blast... 
@@ -478,6 +507,7 @@ void(float firstBlast) horn_airblast =
 	}
 };
 
+#undef	delta
 
 // modification of infront() from ai.qc to be tighter
 float (entity e) hornInfront =
@@ -547,52 +577,51 @@ framer($ablast1, $ablast6, run_ablastWater1, SUB_Null, 0.1,
 // Create a AirFist blast sprite
 void(float nearAWall, float adjustForward, float adjustRight, float adjustUp, float positionRight, float spriteSpeed) hornBlastSprite =
 {
-	local entity sprite, oldself;
+//	local entity sprite, oldself;
 
-	oldself = self;
+	e0__ = self;
 
 	// Create the blast sprite and sets the variables.
 
-	sprite = spawn();
+	self = spawn();
 
-	sprite.solid = SOLID_NOT;
+//	self.solid = SOLID_NOT;
 
-	if (oldself.waterlevel > 2)
+// above water, play normal animation
+	self.movetype = MOVETYPE_BOUNCE;
+
+	if (e0__.waterlevel > 2)
 	{  // below the water, play under water animation
-		sprite.movetype = MOVETYPE_NOCLIP;
-	}
-	else
-	{  // above water, play normal animation
-		sprite.movetype = MOVETYPE_BOUNCE;
+		self.movetype = MOVETYPE_NOCLIP;
 	}
 
-	setmodel(sprite, "progs/s_ablast.spr");
+	setmodel(self, "progs/s_ablast.spr");
 
 	// Set the velocity based on the parameters passed
-	sprite.velocity =
+	self.velocity =
 	    v_forward * random() * adjustForward  +
 	    v_right * random() * adjustRight +  // [MWH:01/12/97] Reduced left/right/up/down variablilty
 	    v_up * random() * adjustUp;
 
 	// set Speed
-	sprite.velocity = sprite.velocity * spriteSpeed;
+	self.velocity = self.velocity * spriteSpeed;
 
 	if (nearAWall)
 	{
 	  // If near a wall, blast in face.
-	  setorigin(sprite, self.origin + self.view_ofs + (v_right * positionRight));  // [MWH:01/12/97] raised origin a bit
+	  setorigin(self, e0__.origin + e0__.view_ofs + (v_right * positionRight));  // [MWH:01/12/97] raised origin a bit
 	}
 	else
 	{
 	  // Not near a wall, so set start position in front of the player.
-	  setorigin(sprite, self.origin + self.view_ofs + (v_forward * 30) + (v_right * positionRight));  // [MWH:01/12/97] raised origin a bit
+	  setorigin(self, e0__.origin + e0__.view_ofs + (v_forward * 30) + (v_right * positionRight));  // [MWH:01/12/97] raised origin a bit
 	}
-	setsize(sprite, '-8 -8 -8', '8 8 8');
+	setsize(self, '-8 -8 -8', '8 8 8');
 
 	// play sprite animation.
-	self = sprite;
+//	self = sprite;
 
-	if (oldself.waterlevel > 2)
+	if (e0__.waterlevel > 2)
 	{  // below the water, play under water animation
 		run_ablastWater1();
 	}
@@ -601,7 +630,7 @@ void(float nearAWall, float adjustForward, float adjustRight, float adjustUp, fl
 		run_ablast1();
 	}
 
-	self = oldself;
+	self = e0__;
 };
 
 
@@ -620,11 +649,11 @@ void() removeFlyMode =
 
 float (entity targ) hornVisible =
 {
-	local vector	spot1, spot2;
+// 	local vector	spot1, spot2;
 
-	spot1 = self.AIRG_BlastOrigin + self.view_ofs;
-	spot2 = targ.origin + targ.view_ofs;
-	traceline (spot1, spot2, TRUE, self);	// see through other monsters
+	v1__ = self.AIRG_BlastOrigin + self.view_ofs;
+	v2__ = targ.origin + targ.view_ofs;
+	traceline (v1__, v2__, TRUE, self);	// see through other monsters
 
 	if (trace_inopen && trace_inwater)
 		return FALSE;			// sight line crossed contents
@@ -633,7 +662,7 @@ float (entity targ) hornVisible =
 		return TRUE;
 
 /*
-	test for bizarre non move condition of some x items
+//	test for bizarre non move condition of some x items
 bprint("hornvisible rejected: ");
 bprint(item_ident(targ));
 bprint("- trace_fraction = ");
