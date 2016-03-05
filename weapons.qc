@@ -1781,6 +1781,22 @@ void() ImpulseCommands =
 	}
 #endifdef
 
+																																														/// ARG: bad nested __ifdef below
+
+// GRAPPLING_START
+#ifdef code_painkeep_
+	else if (self.impulse == 50)
+	{
+		grap_releaseHarpoon();
+
+#ifdef code_morph
+		if (!self.mask_x & MORPH_NOCUBE) // dont change this for internal morphers
+		if (self.state) self.state = 0;
+		else self.state = self.morphy;
+#endifdef
+	}
+#endifdef
+
 
 #ifdef debug
 /// cheat impulses are now only active in debug mode - which should *** NEVER *** (EVER!) be on in live server / released game code
@@ -1843,6 +1859,15 @@ void() W_WeaponFrame =
 	if (self.chaosweptime < time)
 //		if (self.eweapon.weapon != MC_AIRGUN)
 		ominous_hum(self.eweapon.noise2, self.eweapon.chaosweptime);
+
+#ifdef code_painkeep_
+	// If it's air blast time, blow entity's
+	if (self.AIRG_BlastTimeout > time)
+	{
+		horn_airblast(FALSE);
+	}
+#endifdef
+
 #endifdef
 
 	if (time < self.attack_finished)

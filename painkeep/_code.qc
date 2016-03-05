@@ -58,11 +58,17 @@
 #messagecompiling painkeep/beartrap.qc 
 #include </beartrap.qc>
 
+#messagecompiling painkeep/gravity.qc 
+#include </gravity.qc>
+
 #messagecompiling painkeep/horn.qc 
 #include </horn.qc>
 
 #messagecompiling painkeep/copb.qc 
 #include </copb.qc>
+
+#messagecompiling painkeep/grap.qc 
+#include </grap.qc>
 
 #messagecompiling painkeep/exploder.qc 
 #include </exploder.qc>

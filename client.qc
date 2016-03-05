@@ -852,6 +852,8 @@ void() PutClientInServer =
 
 	self.skin = 0; // damage skins, etc - needs to be before morphy
 
+	grap_releaseHarpoon();
+
 #ifdef painkeep_splash
 	AddToSplash(self);
 #endifdef
@@ -1478,6 +1480,13 @@ void() PlayerPreThink =
 	}
 
 #ifdef code_painkeep_
+// GRAPPLING
+	if (self.grap_cornerchainNext) // if harpoon out
+		grap_maintainHarpoon();
+	else
+		self.grap_firetest = 0;
+	self.oldorigin = self.origin;
+
 	pk_DmgSkin();
 #endifdef
 };
@@ -1851,6 +1860,10 @@ void() ClientDisconnect =
 		return;
 	// if the level end trigger has been activated, just return
 	// since they aren't *really* leaving
+
+#ifdef code_painkeep_
+	grap_releaseHarpoon();
+#endifdef
 
 	// let everyone else know
 	bprint (self.netname);

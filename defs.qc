@@ -779,6 +779,9 @@ float(entity targ, entity inflictor) CanDamage;
 #ifdef code_xents
 #messagecompiling x_ent/x_defs.qc 
 #include <x_ent/x_defs.qc>
+
+// every instance of this needs checked - with all changes its involved in
+#define gsf	f0__
 #endifdef
 
 #ifdef code_painkeep_

@@ -468,7 +468,7 @@ bprint("\n");
 			}
 	      // Apply the velocity adjustment
 
-bprint(" velo adj: ");
+bprint(" nm velo adj: ");
 bprint(vtos(e.velocity));
 
 	      e.velocity = e.velocity + delta;

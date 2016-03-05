@@ -58,12 +58,14 @@ void()	pk_DmgSkin;
 .float pk_sndtimer;
 #endifdef
 
-// air cannon
+// grav
 
-#define AIRG_EXCLUDEENTITY		1
-#define AIRG_STEPCONVERTEDTOFLY	2
+#define GRAV_PULL				0.5	// % chance a gravity well will pull a rune loose - mostly depends on player being caught on something and in range of pull
+#define SGRAV_PULL				0.8	// % chance a super gravity well / reality bomb will pull a rune loose
 
-.float AIRG_Flags; // replace with cvar detect?
+float PK_GRV_TIME;
+float PK_GRV_SET;
+float PK_GRV_RSP; // special respawn override
 
 // turrets
 
@@ -111,11 +113,16 @@ void() pulse_rebound;
 
 string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quake 2, Q3 quake 3, D doom, W wolf, PK painkeep
 
-// air gun / horn
+// air cannon / horn
+
+#define AIRG_EXCLUDEENTITY			1
+#define AIRG_STEPCONVERTEDTOFLY	2
+
+.float AIRG_Flags; // replace with cvar detect?
 
 // At the moment the AIRG_Flags variable is used only for the exclusion routine
 // Constant used on the AIRG_Flags to specifiy that we have converted this
-#define AIRG_EXCLUDEENTITY		1
+#define AIRG_EXCLUDEENTITY			1
 #define AIRG_STEPCONVERTEDTOFLY	2
 
 .entity AIRG_FlyTracker;
@@ -128,6 +135,28 @@ string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quak
 .vector AIRG_BlastOrigin;
 
 void(float firstBlast) horn_airblast;
+
+// harpoon
+
+#define VW_HARP_FRADJ        20 // frame adjust from run / stand for a fired harp
+
+#define GRAP_CORNER				8
+#define GRAP_FIXED				4 		// The length is fixed.
+#define GRAP_HARPOON				7
+#define GRAP_IDEAL				0 		// Going nothing
+#define GRAP_IN					2 		// It's comming back to the owner
+#define GRAP_OUT					1 		// It's outing out
+#define GRAP_ROPE					9
+#define GRAP_ROPELENGTHEN		6		// lengthen rope
+#define GRAP_ROPESHORTEN		5 		// shorten rope
+#define GRAP_TOHARPOON			3 		// lengthen rope
+
+.entity grap_cornerchainNext;	// next in the rope corner chain.
+.float grap_firetest;
+
+vector(entity hent) grap_vw_adj;
+void() grap_releaseHarpoon;
+void() grap_maintainHarpoon;
 
 // pk plus
 
