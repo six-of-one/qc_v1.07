@@ -15,23 +15,23 @@
                 		- code_xents
                 		- remove_code 	* !!
 
- 64068 strofs (of 1000000)
- 33127 numstatements (of 524288)
-   843 numfunctions (of 16384)
-  3528 numglobaldefs (of 32768)
-   338 numfielddefs (310 unique) (of 2048)
-  3873 numpr_globals (of 65536)
+ 71932 strofs (of 1000000)
+ 37871 numstatements (of 524288)
+   948 numfunctions (of 16384)
+  3917 numglobaldefs (of 32768)
+   365 numfielddefs (334 unique) (of 2048)
+  4320 numpr_globals (of 65536)
 Writing progs.dat
-405984 TOTAL SIZE
+460696 TOTAL SIZE
 Writing progs.lno
- 80 unique precache_models
+ 93 unique precache_models
 Compile Complete
 
-optres_shortenifnots 230
-optres_overlaptemps 18388
-optres_constantarithmatic 232
-optres_nonvec_parms 5351
-optres_assignments 853
-optres_unreferenced 15
-numtemps 276
-80 warnings
+optres_shortenifnots 251
+optres_overlaptemps 21709
+optres_constantarithmatic 238
+optres_nonvec_parms 5935
+optres_assignments 1011
+optres_unreferenced 20
+numtemps 330
+93 warnings
