@@ -125,7 +125,13 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 	}
 
 #ifdef code_xents
-	if (FL_MELEE(self, self.weapon, self.pk_currentitem))
+	if (FL_MELEE(self, self.weapon, 
+#ifdef code_painkeep_
+																	self.pk_currentitem
+#else
+																	0
+#endifdef
+																												))
 #else
 	if (self.weapon == IT_AXE)
 #endifdef
@@ -180,7 +186,13 @@ void()	player_run =[	$rockrun1,	player_run	]
 	}
 
 #ifdef code_xents
-	if (FL_MELEE(self, self.weapon, self.pk_currentitem))
+	if (FL_MELEE(self, self.weapon, 
+#ifdef code_painkeep_
+																	self.pk_currentitem
+#else
+																	0
+#endifdef
+																												))
 #else
 	if (self.weapon == IT_AXE)
 #endifdef
