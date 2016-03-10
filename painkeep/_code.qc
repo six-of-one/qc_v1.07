@@ -52,6 +52,9 @@
 //	#messagecompiling painkeep/pk.qc 
 //	#include </pk.qc>
 
+#messagecompiling painkeep/motd.qc 
+#include </motd.qc>
+
 #messagecompiling painkeep/hub.qc 
 #include </hub.qc>
 

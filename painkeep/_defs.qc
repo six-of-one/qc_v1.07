@@ -58,6 +58,46 @@ void()	pk_DmgSkin;
 .float pk_sndtimer;
 #endifdef
 
+// hub
+
+/// FIX: this is the score / activate things deal
+float m_score_rel1;
+float m_score_rel2;
+float ply_count; // count 'em & weep
+
+// only in hub - these need transition to std centerprint
+#define	SVC_CENTERPRINT		26
+
+#define PK_SF_HUB				1024	// moved to pk_flags
+#define  PK_HUB2					131072 // bit if TRUE, using custom hub - only used for level transtion from hub vote
+
+#define PK_TP_TIMEMASK			63
+
+#define MOTDTIME					120		// The amount of "frames" for the motd message (minimum should be 20)
+#define DONTALLOWBOTS			1		// If we want to show anti bots messages at startup
+
+.float voteIntermission;
+.float revotemsg;
+.float hubstartupmessage;
+.float messagetimeout;
+.float laststattime;
+
+// see if these are needed
+string vmotd					= "\\/ersion \b1\b.\b2\b.\b0b\b\n\n";
+string motd2					= "\n\n[\\/\b1\b.\b1\b.\b0b\b] \b_-=\b* \bC\bataboligne\n\nhttp://www.moddb.com/mods/chaos-archon/\n\n";
+
+float PK;									// if set true painkeep code is enabled
+float pk_flags;							// replaces old usage of temp1, savedgamecfg stores this
+float inHubMap;
+
+float PK_ADMINMAP;						// if true this is an admin map command that overrides custom hub call from GotoNextMap
+float custom_hub_loaded;				// if TRUE custom hub is used
+
+float st_pk_hub;				// cvar to turn off hub - fix
+
+float(float cn) bot_vote;			// bot...vote
+void() hub_control_status;
+
 // grav
 
 #define GRAV_PULL				0.5	// % chance a gravity well will pull a rune loose - mostly depends on player being caught on something and in range of pull

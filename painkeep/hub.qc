@@ -132,7 +132,11 @@ notes: might still need observer
 	notDone = 0;
 	while (spot != world)
 	{
-		if ((spot.disconnectPlayer == 0) && spot.map == string_null)
+		if (
+#ifdef unsused
+			(spot.disconnectPlayer == 0) && 
+#endifdef
+				spot.map == string_null)
 			notDone = 1;
 		spot = find(spot, classname, srch);
 
@@ -183,8 +187,11 @@ void() hub_teleport =
 
 	self.touch = hub_teleport_touch;
 
+#ifdef code_pkbots
 	self.th_weight = triggerweight; // *bot
 	self.istrigger = 1;
+#endifdef
+
 
 	// no votes
 	self.cnt = 0;
@@ -584,7 +591,7 @@ void() hub_control_use =
 	if (custom_hub_loaded) // || self.map
 	{
 		pk_flags = PK_HUB2 | pk_flags; // return to custom hub after this map
-		admin_sv_cfg();
+///		admin_sv_cfg(); // fix
 	}
 };
 
@@ -752,6 +759,7 @@ void() hub_control_status =
 		// count the numbeer of votes cast
 		srch = "player"; // *bot
 		pl = find(world, classname, "player");
+/*
 		if (!pl)
 		{
 			srch = OBSERVER;
@@ -762,10 +770,13 @@ void() hub_control_status =
 			srch = "pk*bot";
 			pl = find(world, classname, srch);
 		}
+*/
 		maxplayers = votecast = 0;
 		while (pl != world)
 		{
+#ifdef unsused
 			if (pl.disconnectPlayer == 0)
+#endifdef
 			{
 				if (pl.map != string_null)
 					votecast = votecast + 1;
@@ -774,6 +785,7 @@ void() hub_control_status =
 			}
 
 			pl = find(pl, classname, srch);
+/*
 			if (!pl)
 			if (srch == "player") // find jafo now
 			{
@@ -786,6 +798,7 @@ void() hub_control_status =
 				srch = "pk*bot";
 				pl = find(world, classname, srch);
 			}
+*/
 		}
 		playerVotesTimeLeft(maxplayers, votecast, timemins, timedef);
 
@@ -875,7 +888,7 @@ void() hub_control =
 	// so later levels know about it...
 	pk_flags = pk_flags | PK_SF_HUB;
 	inHubMap = 1;
-	admin_sv_cfg();
+///		admin_sv_cfg(); // fix
 };
 
 void() GoBack =
@@ -1058,8 +1071,10 @@ void(string mapName) findAndPrintMapName =
 	else
 	{
 //		if (PK_ART)
+#ifdef code_pkplus
 			if (pk_art_hubmapmsg(mapName)) // Cataboligne 8.19.9 purify - pk artifacts
 				return;
+#endifdef
 
 		// 'Unknown Map, Please Extend Print Routine'
 		WriteB3(MSG_ONE, 7040597);
@@ -1306,7 +1321,9 @@ void() WaitForVotesThink =
 		return;
 	}
 
+#ifdef notused
 	dead_cam_set(); // Cataboligne - 5.12.10 - dead cam while voted
+#endifdef
 
 	// next think
 	self.nextthink = time + 0.1;
@@ -1353,6 +1370,7 @@ void() WaitForVotesThink =
 			local entity e;
 			srch = "player";
 			pl = find(world, classname, "player");
+/*
 			if (!pl)
 			{
 				srch = OBSERVER;
@@ -1363,14 +1381,17 @@ void() WaitForVotesThink =
 				srch = "pk*bot";
 				pl = find(world, classname, srch);
 			}
+*/
 			maxplayers = votecast = 0;
 			while (pl != world)
 			{
+#ifdef unsused
 				if (pl.disconnectPlayer == 0)
+#endifdef
 				{
 					if (pl.map != string_null)
 						votecast = votecast + 1;
-					else if (pl.classname == OBSERVER) novote = novote + 1; // non voting observer
+//					else if (pl.classname == OBSERVER) novote = novote + 1; // non voting observer
 					else
 					{
 						e = pl; // save for the 1 bot scenario
@@ -1381,6 +1402,7 @@ void() WaitForVotesThink =
 
 				pl = find(pl, classname, srch);
 
+/*
 				if (!pl)
 				if (srch == "player") // find jafo now
 				{
@@ -1393,6 +1415,7 @@ void() WaitForVotesThink =
 					srch = "pk*bot";
 					pl = find(world, classname, srch);
 				}
+*/
 			}
 
 			playerIntermissionVotesTimeLeft(maxplayers, votecast, timemins, timedef);
@@ -1437,7 +1460,9 @@ void(entity e) WaitForVotes =
 	//intermission_running = 1;
 
 	pos = SelectSpawnPoint ();
+#ifdef notused
 	ClearSpawnPoint(pos);
+#endifdef
 
 	e.view_ofs = '0 0 0';
 	e.angles = e.v_angle = pos.angles;
