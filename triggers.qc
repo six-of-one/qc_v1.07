@@ -322,6 +322,16 @@ TELEPORT TRIGGERS
 #define	PLAYER_ONLY	1
 #define	SILENT 2
 
+// enhances
+#define T_SILENT   	2
+#define T_RANDOM 	4
+#define T_STEALTH 	8 // use both stealh & silent for invisible tele - add nondir for a good illusion of transit
+// idea: positional transit relative to a point around trigger (info_notnull) added to destination point - so walking on the left side of a hallway would stay on the left instead of centering
+//#define NONDIR 	16 // Note: zerstorer used this for something - ref: dd
+#define T_NODEATH 	32
+//#define ALT_TARGET 	64
+//#define NOVEL 	128 // dont add velocity - archon moves especially
+
 void() play_teleport =
 {
 //	local	float v;
