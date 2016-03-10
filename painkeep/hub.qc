@@ -47,7 +47,7 @@ void() hub_teleport_touch =
 //	local string str;
 
 	// make sure the thing is the player
-	if (other.classname != "player" && other.classname != "pk*bot")  /// && other.classname != OBSERVER) // *bot - NOTE: observer check fails - prob touch issue for jafo
+	if (other.classname != "player") 
 		return;
 
 	// make sure we don't gib the last player!!!
@@ -85,7 +85,7 @@ void() hub_teleport_touch =
 	}
 
 	// change of vote?
-	if (other.map != null_string)
+	if (other.map != string_null)
 	{
 		// is this guy pulling a double vote?
 		if (other.map == self.map)
@@ -113,6 +113,9 @@ void() hub_teleport_touch =
 	// check to see if everyone has finished
 	local string srch;
 	spot = find(world, classname, "player");
+
+/*
+notes: might still need observer
 	if (!spot)
 		{
 			srch = OBSERVER;
@@ -123,14 +126,17 @@ void() hub_teleport_touch =
 			srch = "pk*bot";
 			spot = find(world, classname, srch);
 		}
+*/
 	local float notDone;
 	srch = "player";
 	notDone = 0;
 	while (spot != world)
 	{
-		if ((spot.disconnectPlayer == 0) && spot.map == null_string)
+		if ((spot.disconnectPlayer == 0) && spot.map == string_null)
 			notDone = 1;
 		spot = find(spot, classname, srch);
+
+/*
 		if (!spot)
 		if (srch == "player") // atp all players should be jafo already
 		{
@@ -143,7 +149,7 @@ void() hub_teleport_touch =
 			srch = "pk*bot";
 			spot = find(world, classname, srch);
 		}
-
+*/
 	}
 
 	if (!notDone)
@@ -588,6 +594,8 @@ void() hub_control_use =
 //	self.owner.nextthink = time + 0.1;
 //};
 
+/// re-write with strcat & centerprint
+
 void(float maxplayers, float votecast, float timemins, float timerel) playerVotesTimeLeft =
 {
 	msg_entity = self;
@@ -681,15 +689,15 @@ void() hub_control_status =
 				str2 = first.map;
 			}
 
-			if (self.map == null_string)
+			if (self.map == string_null)
 			{
 				str3 = ftos(first.cnt);
-				centerprint5(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
+				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
 			}
 			else
 			{
 				str3 = ftos(first.cnt);
-				centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
+				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
 			}
 
 			self.attack_state = 1;
@@ -711,15 +719,15 @@ void() hub_control_status =
 				str2 = second.map;
 			}
 
-			if (self.map == null_string)
+			if (self.map == string_null)
 			{
 				str3 = ftos(second.cnt);
-				centerprint5(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
+				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
 			}
 			else
 			{
 				str3 = ftos(second.cnt);
-				centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
+				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
 			}
 			self.attack_state = 2;
 			return;
@@ -759,7 +767,7 @@ void() hub_control_status =
 		{
 			if (pl.disconnectPlayer == 0)
 			{
-				if (pl.map != null_string)
+				if (pl.map != string_null)
 					votecast = votecast + 1;
 
 				maxplayers = maxplayers + 1;
@@ -892,7 +900,7 @@ void() GoBack =
 	if (spot.cnt > 0)
 		spot.cnt = spot.cnt - 1;
 
-	self.map = null_string;
+	self.map = string_null;
 	T_Damage(self, self, self, 5000);
 
 	// JON: Tell them that they have cancled their vote
@@ -1282,7 +1290,7 @@ void() WaitForVotesThink =
 // NOTE: bots only come here if they touched a vote portal
 	if (self.class_select == "class_bot") // bots dont get status update
 	{
-		self.model = null_string; // went thru a vote portal - clear body
+		self.model = string_null; // went thru a vote portal - clear body
 
 		self.nextthink = time + 0.333;
 		if (random() < 0.85) // dont let them exit vote often
@@ -1315,7 +1323,7 @@ void() WaitForVotesThink =
 				self.attack_state = 0;
 			}
 
-		centerprint3(self, "You have just voted for ", self.map, ".\n\nPlease wait here while all other \nplayers finish voting.	Once all votes \nhave been cast, the winning \nlevel will start.\n");
+		centerprint(self, "You have just voted for ", self.map, ".\n\nPlease wait here while all other \nplayers finish voting.	Once all votes \nhave been cast, the winning \nlevel will start.\n");
 
 			return;
 		}
@@ -1360,7 +1368,7 @@ void() WaitForVotesThink =
 			{
 				if (pl.disconnectPlayer == 0)
 				{
-					if (pl.map != null_string)
+					if (pl.map != string_null)
 						votecast = votecast + 1;
 					else if (pl.classname == OBSERVER) novote = novote + 1; // non voting observer
 					else
@@ -1445,7 +1453,7 @@ void(entity e) WaitForVotes =
 	setorigin (e, pos.origin);
 
 	e.currentammo = 0;
-	e.weaponmodel = null_string;
+	e.weaponmodel = string_null;
 	e.weaponframe = 0;
 
 	// wait a rel before allowing coming back
@@ -1474,15 +1482,15 @@ void(entity bt) bot_votereveal =
 // here for common area - means we cant get rid of this fn if we dont want to reveal bot votes
 // bots still seem to leave posed bodys somehow?
 	if (!bt.deadflag)
-		bt.model = null_string;
+		bt.model = string_null;
 };
 
 // Cataboligne - 10.30.12 - should not have a live body hanging around after voting - set frames for pk*bots that voted
 
 void(entity bt) pk_voteframe =
 {
-//		if (bt.model != null_string) bt.model = null_string; 
-	if (bt.model != null_string && bt.deadflag)
+//		if (bt.model != string_null) bt.model = string_null; 
+	if (bt.model != string_null && bt.deadflag)
 	if (bt.frame != $axdeth9)
 	if (bt.frame != $deathb9)
 	if (bt.frame != $deathc15)
@@ -1513,9 +1521,9 @@ float(float cn) bot_vote =
 	local string mpv;
 	local float f, r;
 
-	if (self.map != null_string) return(TRUE); // voted
-	if (self.classname != "player" && self.classname != "pk*bot") return(FALSE); // not eligible
-	if (self.netname == null_string) return(FALSE); // who are you?
+	if (self.map != string_null) return(TRUE); // voted
+	if (self.classname != "player") return(FALSE); // not eligible
+	if (self.netname == string_null) return(FALSE); // who are you?
 //	if (!inHubMap) return(FALSE); // not on hub
 
 	if (random() < (0.12 * cn))													// copy cat - bot copies some players vote
@@ -1523,14 +1531,14 @@ float(float cn) bot_vote =
 		e = find(world, classname, "player");
 		while (e)
 		{
-			if (e.map != null_string)
+			if (e.map != string_null)
 			{
-				if (mpv == null_string) mpv = e.map; // take first we find
+				if (mpv == string_null) mpv = e.map; // take first we find
 				else if (random() < 0.5) mpv = e.map; // randomly take others
 			}
 			e = find(e, classname, "player");
 		}
-		if (mpv != null_string)
+		if (mpv != string_null)
 		{
 			e = findMap (mpv);
 			if (e)
@@ -1540,7 +1548,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.classname == "pk*bot") pk_voteframe(self);
+				if (self.class_select == "class_pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}
@@ -1560,7 +1568,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.classname == "pk*bot") pk_voteframe(self);
+				if (self.class_select == "class_pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}

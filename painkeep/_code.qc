@@ -52,6 +52,9 @@
 //	#messagecompiling painkeep/pk.qc 
 //	#include </pk.qc>
 
+#messagecompiling painkeep/hub.qc 
+#include </hub.qc>
+
 #messagecompiling painkeep/turret.qc 
 #include </turret.qc>
 
