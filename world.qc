@@ -442,7 +442,7 @@ else
 		addstat(39, 2, pk_turretammo); // pk ammos
 		addstat(40, 2, pk_beartrapammo); // pk ammos
 		addstat(41, 2, pk_canpabammo); // pk ammos
-	#ifdef code_pkplus
+	#ifdef code_pkplus_
 		addstat(42, 2, pkplus_tombammo); // pk ammos
 		addstat(43, 2, pkplus_egoammo); // pk ammos
 		addstat(44, 2, pkplus_phoneammo); // pk ammos

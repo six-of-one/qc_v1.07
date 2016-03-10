@@ -854,6 +854,24 @@ void() PutClientInServer =
 
 	grap_releaseHarpoon();
 
+// bolt stuff
+	self.bolt_target = world;
+	self.bolt_targetNext = world;
+	self.bolt_targetTimeout = 0;
+	self.bolt_targetNextTimeout = 0;
+	if (self.bolt_targetTimeoutEntity)
+	{
+		remove(self.bolt_targetTimeoutEntity);
+	}
+	self.bolt_targetTimeoutEntity = world;
+	self.bolt_conduitTimeout = 0;
+	self.bolt_changeModelTimeout = 0;
+	if (self.bolt_lightningFire)
+	{
+		remove(self.bolt_lightningFire);
+	}
+	self.bolt_lightningFire = world;
+
 #ifdef painkeep_splash
 	AddToSplash(self);
 #endifdef

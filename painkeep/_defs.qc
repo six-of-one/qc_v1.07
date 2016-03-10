@@ -157,6 +157,25 @@ void(float firstBlast) horn_airblast;
 vector(entity hent) grap_vw_adj;
 void() grap_releaseHarpoon;
 void() grap_maintainHarpoon;
+void(entity grapOwner) grap_remove;
+
+// chain thunderbolt
+
+#ifndef HIPNOTIC
+float discharged;
+#endifdef
+
+.entity bolt_lightningFire;
+.entity bolt_target;	    				// current player firing at ...
+.entity bolt_targetNext;				// next target in the chain...
+.entity bolt_targetTimeoutEntity; 	// Entity timeout, used just for the nextthink!
+.float bolt_changeModelTimeout;		// used to change the view weapon modal timeout.
+.float bolt_conduitTimeout;			// Entity conduit timeout if the entity handles it...
+.float bolt_targetNextTimeout; 		// used to timeout the bolt_targetNext...
+.float bolt_targetTimeout; 			// used to timeout the bolt_target...
+
+void()	bolt_s_explode1;
+void() player_conduitJerk;
 
 // pk plus
 

@@ -57,7 +57,7 @@ float() grap_maintainRope;
 void() grap_touchOwner;
 void() grap_goToOwner;
 entity(entity ropeOwner) grap_createRope;
-void(entity grapOwner) grap_remove;
+//void(entity grapOwner) grap_remove;
 void(entity grapOwner) grap_removeRope;
 void() grap_ownerToTarget;
 entity(entity start) grap_findHarpoon;

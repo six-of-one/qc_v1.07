@@ -21,6 +21,7 @@ void() bolt_timeoutNextEntity;
 void(entity boltTarget) bolt_removeTarget;
 float(entity targetEntity) bolt_infront;
 
+
 // Cataboligne - 11.4.13 - retool for con_ammo and infinite...finally
 
 void() bolt_fire =
@@ -28,7 +29,8 @@ void() bolt_fire =
 	local float cells;
 
 	cells = self.ammo_cells;
-	if (ammo_con(2, self, null_string) == 0) cells = Q1_CELLAMMO_MAX;
+//	if (ammo_con(2, self, string_null) == 0) cells = Q1_CELLAMMO_MAX;
+	e_use_ammo();
 
 	if (cells < 2)
 	{
@@ -74,7 +76,8 @@ void() bolt_fire =
 	  // fire as normal...
 	  local vector org, endpos;
 
-		self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(2, self, null_string);
+//		self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(2, self, string_null);
+		e_use_ammo();
 
 		self.punchangle_x = -2;
 //		cam_punch(); // Cataboligne - 5.13.10 - cam purify - nullify fire punchangle if in cam view
@@ -275,7 +278,9 @@ void() bolt_findNextTarget =
 	  maxTargets = maxTargets - 1;
 
 	  // check to see if we have run out of ammo
-	  if (ammo_con(2, self, null_string) != 0) // not infinite
+//	  if (ammo_con(2, self, string_null) != 0) // not infinite
+	  if (self.eweapon)
+	  if (!self.eweapon.aflag)
 	  if (self.ammo_cells < 2)
 	  {
 	    // remove the FL_GIBCONDUIT if on
@@ -400,10 +405,14 @@ void(vector org, entity boltTarget, entity boltOwner, vector endPos, float first
 	local vector vangle;
 
 	if (boltTarget.class_select == "class_monster")
-		self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(autocvar_sv_pk_chainlt_ptspermonster, self, null_string);
+	{
+		if (!self.eweapon.aflag)
+			self.currentammo = self.ammo_cells = self.ammo_cells - autocvar_sv_pk_chainlt_ptspermonster;				/// FIX: this
+	}
 	else
 	// use uyp ammo - note - ammo_con is being given loop blow cell cnts
-	self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(dam, self, null_string);
+//	self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(dam, self, string_null);
+	e_use_ammo();
 
 	dam = ((dam / 2) * 15);
 	dam = floor(dam);
@@ -471,7 +480,7 @@ void() bolt_checkTargets =
 	{
 	// Cataboligne 9.11.3 purify - chase cam
 	// disable model in chase view
-		if ( !(self.cam_x & CHSCAM_ON) )
+//		if ( !(self.cam_x & CHSCAM_ON) )
 		self.weaponmodel = "progs/v_cl_off.mdl";
 	}
 
@@ -586,3 +595,51 @@ float(entity targetEntity) bolt_infront =
 	return FALSE;
 };
 
+
+
+void()	bolt_s_explode1	=	[0,		bolt_s_explode2] {};
+void()	bolt_s_explode2	=	[0,		bolt_s_explode3] {};
+void()	bolt_s_explode3	=	[0,		bolt_s_explode4] {};
+void()	bolt_s_explode4	=	[1,		bolt_s_explode5] {};
+void()	bolt_s_explode5	=	[1,		bolt_s_explode6] {};
+void()	bolt_s_explode6	=	[1,		bolt_s_explode7] {};
+void()	bolt_s_explode7	=	[2,		bolt_s_explode8] {};
+void()	bolt_s_explode8	=	[2,		bolt_s_explode9] {};
+void()	bolt_s_explode9	=	[2,		bolt_s_explode10] {};
+void()	bolt_s_explode10	=	[3,		bolt_s_explode11] {};
+void()	bolt_s_explode11	=	[3,		bolt_s_explode12] {};
+void()	bolt_s_explode12	=	[3,		bolt_s_explode13] {};
+void()	bolt_s_explode13	=	[4,		bolt_s_explode14] {};
+void()	bolt_s_explode14	=	[4,		bolt_s_explode15] {};
+void()	bolt_s_explode15	=	[4,		bolt_s_explode16] {};
+void()	bolt_s_explode16	=	[5,		SUB_Remove] {};
+
+
+// chain thunderbolt fire frames
+
+void() player_bolt1	 =[$light1, player_bolt1  ]
+{
+	self.effects = self.effects | EF_MUZZLEFLASH;
+
+	if (!self.button0)
+		{player_run ();return;}
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe == 5)
+		self.weaponframe = 1;
+
+	if (!(self.weaponframe & 1)) self.frame = $light2;
+
+/// note: should this be encoded in cfg data?
+	self.weaponmodel = "progs/v_cl_on.mdl"; // change to fire model...
+
+	SuperDamageSound();
+	bolt_fire();
+#ifdef code_runes
+	if (rune_haste(0.1))
+#endifdef
+	self.attack_finished = time + 0.2;
+
+#ifdef code_morph
+	if (self.morphy == IMP_MENF) self.frame = 33;
+#endifdef
+};

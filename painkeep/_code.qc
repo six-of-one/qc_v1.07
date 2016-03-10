@@ -67,6 +67,9 @@
 #messagecompiling painkeep/copb.qc 
 #include </copb.qc>
 
+#messagecompiling painkeep/bolt.qc 
+#include </bolt.qc>
+
 #messagecompiling painkeep/grap.qc 
 #include </grap.qc>
 

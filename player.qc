@@ -834,6 +834,47 @@ void() PlayerDie =
 	viswep_ld(self, -2); // still have visweps
 #endifdef
 
+
+#ifdef code_painkeep_
+#ifdef code_pkplus
+	self.pkplus_actortype = 0; // Cataboligne 8.12.9 purify - pk artifacts
+#endifdef
+
+	if (self.grap_cornerchainNext)	// Grappling harpoon is out there, remove...
+	{
+		grap_remove(self);
+	}
+
+// IMP: conduit for all morphs - skin & frames in all applicable models
+
+	if (self.bolt_conduitTimeout > time) // it's the conduit time for this player...
+	{
+//	  local entity flame;
+
+		setorigin(self, self.origin + '0 0 10');
+		setmodel (self, "progs/fryguy.mdl");
+
+		self.skin = 0;
+
+	  // Go up in flames...
+	  nspawn = spawn();
+	  nspawn.owner = self;
+	  nspawn.movetype = MOVETYPE_FLYMISSILE;
+	  nspawn.velocity = '0 0 25';
+//	  nspawn.solid = SOLID_NOT;
+	  nspawn.classname = "fire";
+	  nspawn.origin = self.origin - '0 0 15';
+	  nspawn.think = bolt_s_explode1;
+	  nspawn.nextthink = time;
+	  setmodel (nspawn, "progs/s_explod.spr");
+	  setsize (nspawn, '0 0 0', '0 0 0');
+
+		player_conduitJerk();
+		return;
+	}
+#endifdef
+
+
 #ifdef opgrade
 
 // logic:

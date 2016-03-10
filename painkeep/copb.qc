@@ -25,6 +25,12 @@ void() copb_checkFart =
 //		local string fartNoise;
 #define	fartNoise	self.noise
 
+	if (self.owner.deadflag)
+	{
+		remove(self);
+		return;
+	}
+
 		// sound off
 	  if (random() < 0.90)
 	  { // 75% of the time I'm using small farts...
