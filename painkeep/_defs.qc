@@ -83,12 +83,15 @@ float ply_count; // count 'em & weep
 .float laststattime;
 
 // see if these are needed
-string vmotd					= "\\/ersion \b1\b.\b2\b.\b0b\b\n\n";
+string vmotd					= "\\/ersion \b3\b.\b0\b\n\n";
 string motd2					= "\n\n[\\/\b1\b.\b1\b.\b0b\b] \b_-=\b* \bC\bataboligne\n\nhttp://www.moddb.com/mods/chaos-archon/\n\n";
 
 float PK;									// if set true painkeep code is enabled
 float pk_flags;							// replaces old usage of temp1, savedgamecfg stores this
-float inHubMap;
+
+entity theHub; // variable holding the hub
+#define inHubMap	theHub
+//float inHubMap;
 
 float PK_ADMINMAP;						// if true this is an admin map command that overrides custom hub call from GotoNextMap
 float custom_hub_loaded;				// if TRUE custom hub is used
@@ -97,6 +100,7 @@ float st_pk_hub;				// cvar to turn off hub - fix
 
 float(float cn) bot_vote;			// bot...vote
 void() hub_control_status;
+void() updateStatusDisplay;
 
 // grav
 

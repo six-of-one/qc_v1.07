@@ -217,6 +217,13 @@ void() GotoNextMap =
 	}
 #endifdef
 
+// new method - pknextmap will use this or it will be set by every hub map to its own name
+#ifdef code_painkeep_
+	if (cvar_string("pklevel") != string_null)
+		changelevel (cvar_string("pklevel"));
+	else
+#endifdef
+
 	if (cvar("samelevel"))	// if samelevel is set, stay on same level
 		changelevel (mapname);
 	else
@@ -952,6 +959,11 @@ void() PutClientInServer =
 #ifdef map_hack
 	if (spot.oh)  chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 1, 0,  spot.oh.origin, '-8 -8 -8', '8 8 8', '0 0 0', '0 0 0', "maphack_trigger", string_null, SUB_Null, 0.05, maphack_trigger, SUB_Null, spot.oh, world);
 #endifdef
+
+#ifndef code_frikbots
+	self.ishuman = TRUE;
+#endifdef
+
 };
 
 
@@ -1504,6 +1516,8 @@ void() PlayerPreThink =
 	else
 		self.grap_firetest = 0;
 	self.oldorigin = self.origin;
+
+	updateStatusDisplay(); // PK status
 
 	pk_DmgSkin();
 #endifdef

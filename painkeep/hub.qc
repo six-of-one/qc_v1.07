@@ -30,7 +30,6 @@
 /*
 	hub_teleport
 */
-entity theHub; // variable holding the hub
 
 entity (string aMap) findMap;
 void() hub_control_use;
@@ -223,6 +222,7 @@ string() hub_select =
 
 // fn(check_custom_hub) - check for return to a custom hub when in GotoNextMap or admin reseting hub
 
+/*
 float() check_custom_hub =
 {
 	PK_ADMINMAP = FALSE; // always reset this
@@ -240,6 +240,7 @@ float() check_custom_hub =
 	}
 	return FALSE;
 };
+*/
 
 // fn(hub_custom) - implement the custom hub - portal
 
@@ -865,6 +866,7 @@ void() hub_control =
 //	self.nextthink = time + 30.0;
 
 // custom hub check - set alias if map is defined
+/*
 	if (world.model == "maps/hub2.bsp") // allow renamed start.bsp from expansion pack & pk artifacts to work thru custom hub
 	{
 		self.map = "hub2";
@@ -877,17 +879,24 @@ void() hub_control =
 	{
 		self.map = "arc_hub";
 	}
+*/
+	if (!self.map)
+		self.map = substring(world.model,5,strlen(world.model) - 5);
+
 	if (self.map)
 	{
 		custom_hub_loaded = TRUE;
 		localcmd("alias hubmap \"changelevel ");
 		localcmd(self.map);
 		localcmd("\"\n");
+
+// new mode - set to reload hub on level exit / timeout
+		registercvar("pklevel",self.map);
 	}
 
 	// so later levels know about it...
 	pk_flags = pk_flags | PK_SF_HUB;
-	inHubMap = 1;
+//	inHubMap = 1;
 ///		admin_sv_cfg(); // fix
 };
 

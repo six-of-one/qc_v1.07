@@ -789,6 +789,11 @@ float(entity targ, entity inflictor) CanDamage;
 #include <painkeep/_defs.qc>
 #endifdef
 
+// engine needs this
+#ifndef code_frikbots
+.float ishuman;
+#endifdef
+
 // perm new code
 float spawn_particle; // for SpawnBlood particle takeover
 
