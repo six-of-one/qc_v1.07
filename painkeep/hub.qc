@@ -589,11 +589,13 @@ void() hub_control_use =
 
 	self.think = execute_changelevel;
 	self.nextthink = time + 0.1;
+/*
 	if (custom_hub_loaded) // || self.map
 	{
 		pk_flags = PK_HUB2 | pk_flags; // return to custom hub after this map
 ///		admin_sv_cfg(); // fix
 	}
+*/
 };
 
 //void() hub_timer_think =
@@ -885,13 +887,14 @@ void() hub_control =
 
 	if (self.map)
 	{
-		custom_hub_loaded = TRUE;
+//		custom_hub_loaded = TRUE;
 		localcmd("alias hubmap \"changelevel ");
 		localcmd(self.map);
 		localcmd("\"\n");
 
 // new mode - set to reload hub on level exit / timeout
-		registercvar("pklevel",self.map);
+		localcmd("set pklevel \"",self.map);
+		localcmd("\"\n");
 	}
 
 	// so later levels know about it...

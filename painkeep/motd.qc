@@ -169,7 +169,7 @@ void() updateStatusDisplay =
 		if (self.revotemsg < 0)
 			centerprint(self, "Vote Cancelled.\n\nYou must recast your vote");
 		else
-			centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\nPress фире To Remove This Message",Line3,Line5);
+			centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",Line3,Line5);
 		self.messagetimeout = time + 1;
 	}
 	

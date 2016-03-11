@@ -219,7 +219,7 @@ void() GotoNextMap =
 
 // new method - pknextmap will use this or it will be set by every hub map to its own name
 #ifdef code_painkeep_
-	if (cvar_string("pklevel") != string_null)
+	if (!theHub && cvar_string("pklevel") != string_null)
 		changelevel (cvar_string("pklevel"));
 	else
 #endifdef
