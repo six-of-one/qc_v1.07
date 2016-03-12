@@ -250,7 +250,7 @@ void() hub_custom =
 
 	if (!self.map) // we set arc_hub map in case this hub is non functional - i.e. no proper vote portals
 	{
-		bprint("*** Custom hub without map designation - setting = Archon Hub.");
+		bprint("*** Custom hub without map, using Archon Hub.");
 		self.map = "arc_hub";
 		self.message = "Archon Hub!";
 	}
@@ -297,9 +297,10 @@ void() hub_custom =
 };
 
 // fn(pk_cphub) - print custom hub portal info for current player location - just add a map descriptor, file name, model frame & skin
-// - bind key to impulse 35, and set saved1 = 482 or 483
+// - set saved1 = 482 or 483
 // - saved1 = 482, no comments on fields
 // - saved1 = 483, add in comments for fields that need edited to add custom maps
+/// this will now be called from console via sv_cmd
 
 // IDEA: turn off stat messages ("you got the shells") if  pk_chubcon == 666
 
@@ -893,7 +894,8 @@ void() hub_control =
 		localcmd("\"\n");
 
 // new mode - set to reload hub on level exit / timeout
-		localcmd("set pklevel \"",self.map);
+		localcmd("set pklevel \"");
+		localcmd(self.map);
 		localcmd("\"\n");
 	}
 
