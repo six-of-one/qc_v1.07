@@ -209,38 +209,6 @@ void() hub_teleport =
 		- later - add other PK customizations such as zombies, gfx, sfx, etc
 */
 
-// select hub map - back to plain old painkeep hub, check_custom_hub handles custom hubs now
-
-/*
- deprecated
-
-string() hub_select =
-{
-	return ("start");
-};
-*/
-
-// fn(check_custom_hub) - check for return to a custom hub when in GotoNextMap or admin reseting hub
-
-/*
-float() check_custom_hub =
-{
-	PK_ADMINMAP = FALSE; // always reset this
-
-	if (custom_hub_loaded) //pk_flags & PK_HUB2)
-	{
-		if (!st_pk_hub) return FALSE; // turned off by cvar
-//		pk_flags = pk_flags - (pk_flags & PK_HUB2);
-//		admin_sv_cfg();
-		if (pk_flags & PK_SF_HUB)
-		{
-			localcmd("hubmap\n");  // custom hub - use alias to reload
-			return TRUE;
-		}
-	}
-	return FALSE;
-};
-*/
 
 // fn(hub_custom) - implement the custom hub - portal
 
@@ -868,21 +836,6 @@ void() hub_control =
 //	self.think = hub_control_status;
 //	self.nextthink = time + 30.0;
 
-// custom hub check - set alias if map is defined
-/*
-	if (world.model == "maps/hub2.bsp") // allow renamed start.bsp from expansion pack & pk artifacts to work thru custom hub
-	{
-		self.map = "hub2";
-	}
-	else if (world.model == "maps/hub3.bsp")
-	{
-		self.map = "hub3";
-	}
-	else if (world.model == "maps/arc_hub.bsp") // Cataboligne - 10.25.11 - added archon hub
-	{
-		self.map = "arc_hub";
-	}
-*/
 	if (!self.map)
 		self.map = substring(world.model,5,strlen(world.model) - 5);
 
