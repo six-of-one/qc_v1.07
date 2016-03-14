@@ -53,6 +53,10 @@ painkeep/_code.qc
 x_wep/_code.qc
 x_ent/x_ent.qc
 
+// runes
+
+runes/runes.qc
+
 debug.qc
 
 // escher physics

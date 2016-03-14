@@ -789,6 +789,11 @@ float(entity targ, entity inflictor) CanDamage;
 #include <painkeep/_defs.qc>
 #endifdef
 
+#ifdef code_runes
+#messagecompiling runes/_defs.qc 
+#include <runes/_defs.qc>
+#endifdef
+
 // engine needs this
 #ifndef code_frikbots
 .float ishuman;

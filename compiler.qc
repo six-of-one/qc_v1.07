@@ -635,7 +635,7 @@ spec track by cvar
 
 // rune server
 /// SWITCH
-//#define code_runes
+#define code_runes
 
 #ifdef code_runes
 	#ifdef module_list
