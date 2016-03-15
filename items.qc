@@ -1331,6 +1331,7 @@ void() sigil_touch =
 End of level sigil, pick up to end episode and return to jrstart.
 */
 
+#ifndef code_runes
 void() item_sigil =
 {
 	if (!self.spawnflags)
@@ -1380,6 +1381,7 @@ void() item_sigil =
 	setsize (self, '-16 -16 -24', '16 16 32');
 	StartItem ();
 };
+#endifdef
 
 /*
 ===============================================================================
