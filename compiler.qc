@@ -16,7 +16,7 @@
 
 		quake-c can not be more complicated
 
-		The vision of this code base is the ability to include various secitons simply by
+		The vision of this code base is the ability to include various sections simply by
 		using the defines below to control what is compiled in.  SWITCH indicates module controls.
 
 		Some major changes have sub-section includes such as the hipnotic mission pack
