@@ -197,7 +197,8 @@ Finds the closest, fisible, waypoint to e
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
 // loop safety var, fbk v2
-#define		gsf		locus.button3
+
+#define		lgsf		locus.button3
 
 entity(entity start) FindWayPoint =
 {
@@ -239,8 +240,8 @@ entity(entity start) FindWayPoint =
 		t = t._next;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 10) return best;
+			lgsf = lgsf  + 1;
+			if (lgsf > 10) return best;
 		}
 	}
 	return best;
@@ -567,8 +568,8 @@ void() ClearAllWays=
 		t = n;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 100) t = world;
+			lgsf = lgsf  + 1;
+			if (lgsf > 100) t = world;
 		}
 	}
 	way_head = world;
@@ -590,8 +591,8 @@ entity(float num) WaypointForNum =
 		t = t._next;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 10) return world;
+			lgsf = lgsf  + 1;
+			if (lgsf > 10) return world;
 		}
 	}
 	return world;
@@ -717,8 +718,8 @@ entity(entity lastone) FindRoute =
 		t = t._next;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 10) return best;
+			lgsf = lgsf  + 1;
+			if (lgsf > 10) return best;
 		}
 	}
 	return best;
@@ -745,8 +746,8 @@ void() ClearRouteTable =
 		t = t._next;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 50) return;
+			lgsf = lgsf  + 1;
+			if (lgsf > 50) return;
 		}
 	}
 };
@@ -758,7 +759,7 @@ void() ClearMyRoute =
 
 	flag = ClientBitFlag(self.b_clientno);
 
-	gsf = 0;
+	lgsf = 0;
 	t = way_head;
 	while (t)
 	{
@@ -766,8 +767,8 @@ void() ClearMyRoute =
 		t = t._next;
 		if (t == way_head) // looped around - Cataboligne 10.5.11 - added loop safety
 		{
-			gsf = gsf  + 1;
-			if (gsf > 33) return;
+			lgsf = lgsf  + 1;
+			if (lgsf > 33) return;
 		}
 	}
 };

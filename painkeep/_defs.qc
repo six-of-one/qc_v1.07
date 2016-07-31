@@ -274,3 +274,17 @@ float PK_TOMB_SET;
 // phone
 
 entity telesnd; // teleport sound effect (dest) global - so holdable can change sound played (hackish way to do things)
+
+
+// bots centerprint deal
+
+#ifdef code_bots
+
+// note: these _always_ have to be non bot prints
+	#define pk_centerprint _b_centerprint
+
+#else
+
+	#define pk_centerprint centerprint
+
+#endifdef

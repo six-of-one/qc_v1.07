@@ -961,7 +961,7 @@ void() PutClientInServer =
 #endifdef
 
 #ifndef code_frikbots
-	self.ishuman = TRUE;
+	self.ishuman = TRUE; // if not bot code compiled, always indicate human
 #endifdef
 
 };

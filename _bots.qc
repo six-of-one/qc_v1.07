@@ -46,7 +46,7 @@ entity 	player_head, phys_head, way_head;
 void(entity e, float chan, string samp, float vol, float atten) _b_sound = #8;
 void(entity client, string s)	_b_stuffcmd = #21;
 void(entity client, string s)	_b_sprint = #24;
-void(entity client, string s)	_b_centerprint = #73;
+void(entity client, string s, ...)	_b_centerprint = #73;
 void(entity e)			_b_setspawnparms = #78;
 
 #ifdef noautoaim
@@ -75,8 +75,8 @@ void(float to, string s)	_b_WriteString	= #58;
 void(float to, entity s)	_b_WriteEntity	= #59;
 #endifdef
 
-void(entity client, string s1, string s2, string s3, string s4, string s5, string s6, string s7)
-_b_big_centerprint = #73;
+//void(entity client, string s1, string s2, string s3, string s4, string s5, string s6, string s7)
+//_b_big_centerprint = #73;
 
 //----------------------------------------------------------------------------
 
@@ -149,6 +149,10 @@ void(entity	client, string s) sprint =
 	}
 
 };
+
+// note: this redefines "void(entity client, string s, ...)" and can NOT use elipses - dur
+// so far only affects pk
+
 void(entity	client, string s) centerprint =
 {
 	if (client.class_select == "class_pk*bot") return; // *bot

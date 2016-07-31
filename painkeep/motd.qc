@@ -24,12 +24,12 @@ void() connectmessage =
 	Line7 = "\n              for details";
 //	\b_-=\b* \bC\bataboligne\n
 
-if (self.classname == "player" && self.class_select != "class_bot")
+if (self.classname == "player" && self.ishuman) // self.class_select != "class_bot")
 {
 	// The welcome message
 	if (self.msgcount == 0)
 	{
-	  centerprint(self, "\n", "\n\n", Line3,"\b*\n","\nsee:           \nthe following website",string_null,Line7);
+	  pk_centerprint(self, "\n", "\n\n", Line3,"\b*\n","\nsee:           \nthe following website",string_null,Line7);
 	}
 	else if (self.msgcount == 1)
 	{
@@ -41,92 +41,92 @@ if (self.classname == "player" && self.class_select != "class_bot")
 	    sprint(self,"Humans Only Please\n");
 	  }
 
-	  centerprint(self, "W\n", "\n#\n", Line3,"\b=*\n",Line5,"\b*\b",Line7);
+	  pk_centerprint(self, "W\n", "\n#\n", Line3,"\b=*\n",Line5,"\b*\b",Line7);
 	}
 	else if (self.msgcount == 2)
 	{
-	  centerprint(self, "We\n", "\n# \n", Line3,"\b-=*\n",Line5,"\bc*\b",Line7);
+	  pk_centerprint(self, "We\n", "\n# \n", Line3,"\b-=*\n",Line5,"\bc*\b",Line7);
 	}
 	else if (self.msgcount == 3)
 	{
-	  centerprint(self, "Wel\n", "\n# 6\n", Line3,"\b_-=*\n",Line5,"\bch*\b",Line7);
+	  pk_centerprint(self, "Wel\n", "\n# 6\n", Line3,"\b_-=*\n",Line5,"\bch*\b",Line7);
 	}
 	else if (self.msgcount == 4)
 	{
-	  centerprint(self, "Welc\n", "\n# 6 \n", Line3,"\b_-=\b*\n",Line5,"\bcha*\b",Line7);
+	  pk_centerprint(self, "Welc\n", "\n# 6 \n", Line3,"\b_-=\b*\n",Line5,"\bcha*\b",Line7);
 	}
 	else if (self.msgcount == 5)
 	{
-	  centerprint(self, "Welco\n", "\n# 6 P\n", Line3,"\b_-=\b* \n",Line5,"\bchao*\b",Line7);
+	  pk_centerprint(self, "Welco\n", "\n# 6 P\n", Line3,"\b_-=\b* \n",Line5,"\bchao*\b",Line7);
 	}
 	else if (self.msgcount == 6)
 	{
-	  centerprint(self, "Welcom\n", "\n# 6 Pr\n", Line3,"\b_-=\b* C\n",Line5,"\bchaos*\b",Line7);
+	  pk_centerprint(self, "Welcom\n", "\n# 6 Pr\n", Line3,"\b_-=\b* C\n",Line5,"\bchaos*\b",Line7);
 	}
 	else if (self.msgcount == 7)
 	{
-	  centerprint(self, "Welcome\n", "\n# 6 Pro\n", Line3,"\b_-=\b* Ca\n",Line5,"\bchaos|\b",Line7);
+	  pk_centerprint(self, "Welcome\n", "\n# 6 Pro\n", Line3,"\b_-=\b* Ca\n",Line5,"\bchaos|\b",Line7);
 	}
 	else if (self.msgcount == 8)
 	{
-	  centerprint(self, "Welcome \n", "\n# 6 Prod\n", Line3,"\b_-=\b* Cat\n",Line5,"\bchaos/\b",Line7);
+	  pk_centerprint(self, "Welcome \n", "\n# 6 Prod\n", Line3,"\b_-=\b* Cat\n",Line5,"\bchaos/\b",Line7);
 	}
 	else if (self.msgcount == 9)
 	{
-	  centerprint(self, "Welcome t\n", "\n# 6 Produ\n", Line3,"\b_-=\b* Cata\n",Line5,"\bchaos-\b",Line7);
+	  pk_centerprint(self, "Welcome t\n", "\n# 6 Produ\n", Line3,"\b_-=\b* Cata\n",Line5,"\bchaos-\b",Line7);
 	}
 	else if (self.msgcount == 10)
 	{
-	  centerprint(self, "Welcome to\n", "\n# 6 Produ\n", Line3,"\b_-=\b* Catab\n",Line5,"\bchaos\\\b",Line7);
+	  pk_centerprint(self, "Welcome to\n", "\n# 6 Produ\n", Line3,"\b_-=\b* Catab\n",Line5,"\bchaos\\\b",Line7);
 	}
 	else if (self.msgcount == 11)
 	{
-	  centerprint(self, "Welcome to \n", "\n# 6 Produc\n", Line3,"\b_-=\b* Catabo\n",Line5,"\bchaos|\b",Line7);
+	  pk_centerprint(self, "Welcome to \n", "\n# 6 Produc\n", Line3,"\b_-=\b* Catabo\n",Line5,"\bchaos|\b",Line7);
 	}
 	else if (self.msgcount == 12)
 	{
-	  centerprint(self, "Welcome to A\n", "\n# 6 Produc\n", Line3,"\b_-=\b* Catabol\n",Line5,"\bchaos*\b",Line7);
+	  pk_centerprint(self, "Welcome to A\n", "\n# 6 Produc\n", Line3,"\b_-=\b* Catabol\n",Line5,"\bchaos*\b",Line7);
 	}
 	else if (self.msgcount == 13)
 	{
-	  centerprint(self, "Welcome to Ar\n", "\n# 6 Product\n", Line3,"\b_-=\b* Cataboli\n",Line5,"\bchaos-*\b",Line7);
+	  pk_centerprint(self, "Welcome to Ar\n", "\n# 6 Product\n", Line3,"\b_-=\b* Cataboli\n",Line5,"\bchaos-*\b",Line7);
 	}
 	else if (self.msgcount == 14)
 	{
-	  centerprint(self, "Welcome to Arc\n", "\n# 6 Product\n", Line3,"\b_-=\b* Catabolig\n",Line5,"\bchaos-a*\b",Line7);
+	  pk_centerprint(self, "Welcome to Arc\n", "\n# 6 Product\n", Line3,"\b_-=\b* Catabolig\n",Line5,"\bchaos-a*\b",Line7);
 	}
 	else if (self.msgcount == 15)
 	{
-	  centerprint(self, "Welcome to ArcH\n", "\n# 6 Producti\n", Line3,"\b_-=\b* Catabolign\n",Line5,"\bchaos-ar*\b",Line7);
+	  pk_centerprint(self, "Welcome to ArcH\n", "\n# 6 Producti\n", Line3,"\b_-=\b* Catabolign\n",Line5,"\bchaos-ar*\b",Line7);
 	}
 	else if (self.msgcount == 16)
 	{
-	  centerprint(self, "Welcome to ArcHo\n", "\n# 6 Productio\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-arc*\b",Line7);
+	  pk_centerprint(self, "Welcome to ArcHo\n", "\n# 6 Productio\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-arc*\b",Line7);
 	}
 	else if (self.msgcount == 17)
 	{
-	  centerprint(self, "Welcome to ArcHon\n", "\n# 6 Productio\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"\bchaos-arch*\b",Line7);
+	  pk_centerprint(self, "Welcome to ArcHon\n", "\n# 6 Productio\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"\bchaos-arch*\b",Line7);
 	}
 	else if (self.msgcount == 18)
 	{
-	  centerprint(self, "Welcome to  ArcHon\n", "\n# 6 Production\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archo*\b",Line7);
+	  pk_centerprint(self, "Welcome to  ArcHon\n", "\n# 6 Production\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archo*\b",Line7);
 	}
 	else if (self.msgcount == 19)
 	{
-	  centerprint(self, "Welcome to ArcHon\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"\bchaos-archon*\b",Line7);
+	  pk_centerprint(self, "Welcome to ArcHon\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"\bchaos-archon*\b",Line7);
 	}
 //	else if (self.msgcount == 19)
 //	{
-//	  centerprint(self, "Welcome to ArcHon!\n", "\nTeam Evolve\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archon/\b",Line7);
+//	  pk_centerprint(self, "Welcome to ArcHon!\n", "\nTeam Evolve\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archon/\b",Line7);
 //	}
 	else if (self.msgcount <= 20)
 	{
-	  centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"chaos-archon/",Line7);
+	  pk_centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"chaos-archon/",Line7);
 	}
 	else if (self.msgcount > 20 && (time & 1))
-	  centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archon/\b",Line7);
+	  pk_centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=\b* Cataboligne\n",Line5,"\bchaos-archon/\b",Line7);
 	else
-	  centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"chaos-archon/",Line7);
+	  pk_centerprint(self, "Welcome to ArcHon!\n", "\n# 6 Production\n", Line3,"\b_-=*\b Cataboligne\n",Line5,"chaos-archon/",Line7);
 }
 
 	if ((time & 3) == 3) self.msgcount = self.msgcount + 1;
@@ -139,7 +139,8 @@ void() updateStatusDisplay =
 {
 	local string Line3,Line5;
 
-	if (self.class_select == "class_bot") // bots dont get status update
+	if (!self.ishuman)
+//	if (self.class_select == "class_bot") // bots dont get status update
 		return;
 
 	if (inHubMap) // Cataboligne - 8.22.9 - custom hubs can cause this message on non pk / non hub maps
@@ -167,9 +168,9 @@ void() updateStatusDisplay =
 		else if ((time & 3) == 3) Line5 = "/";
 
 		if (self.revotemsg < 0)
-			centerprint(self, "Vote Cancelled.\n\nYou must recast your vote");
+			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote");
 		else
-			centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",Line3,Line5);
+			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",Line3,Line5);
 		self.messagetimeout = time + 1;
 	}
 	

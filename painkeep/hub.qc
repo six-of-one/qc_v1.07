@@ -105,7 +105,8 @@ void() hub_teleport_touch =
 	}
 	// record the user's vote here
 	other.map = self.map;
-	if (other.class_select == "class_bot") bot_votereveal(other);
+	if (!other.ishuman) bot_votereveal(other);
+//	if (other.class_select == "class_bot") bot_votereveal(other);
 	// increment the vote count
 	self.cnt = self.cnt + 1;
 
@@ -637,7 +638,8 @@ void(float maxplayers, float votecast, float timemins, float timerel) playerVote
 float hubStartTime;
 void() hub_control_status =
 {
-	if (self.class_select == "class_bot") return;
+//	if (self.class_select == "class_bot") return;
+	if (!self.ishuman) return;
 
 	// print some information
 	getHighestScores();
@@ -671,12 +673,12 @@ void() hub_control_status =
 			if (self.map == string_null)
 			{
 				str3 = ftos(first.cnt);
-				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
+				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
 			}
 			else
 			{
 				str3 = ftos(first.cnt);
-				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
+				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
 			}
 
 			self.attack_state = 1;
@@ -701,12 +703,12 @@ void() hub_control_status =
 			if (self.map == string_null)
 			{
 				str3 = ftos(second.cnt);
-				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
+				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
 			}
 			else
 			{
 				str3 = ftos(second.cnt);
-				centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
+				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
 			}
 			self.attack_state = 2;
 			return;
@@ -1270,7 +1272,8 @@ void() WaitForVotesThink =
 		return;
 
 // NOTE: bots only come here if they touched a vote portal
-	if (self.class_select == "class_bot") // bots dont get status update
+	if (!self.ishuman) // bots dont get status update
+//	if (self.class_select == "class_bot")
 	{
 		self.model = string_null; // went thru a vote portal - clear body
 
@@ -1307,7 +1310,7 @@ void() WaitForVotesThink =
 				self.attack_state = 0;
 			}
 
-		centerprint(self, "You have just voted for ", self.map, ".\n\nPlease wait here while all other \nplayers finish voting.	Once all votes \nhave been cast, the winning \nlevel will start.\n");
+		pk_centerprint(self, "You have just voted for ", self.map, ".\n\nPlease wait here while all other \nplayers finish voting.	Once all votes \nhave been cast, the winning \nlevel will start.\n");
 
 			return;
 		}
@@ -1389,7 +1392,8 @@ void() WaitForVotesThink =
 
 // trick when 1 bot is left to vote
 			if ((maxplayers - votecast - novote) == 1)
-			if (e.class_select == "class_bot")
+			if (!e.ishuman)
+//			if (e.class_select == "class_bot")
 			if (random() < 0.2)
 			{
 				pl = self;
