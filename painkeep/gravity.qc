@@ -404,7 +404,7 @@ void() gravity_explode =
 
 		if (self.alpha < 1)
 		{
-			setsize(self, '-8 -8 -8', ' 8 8 8');
+			setsize(self, '-8 -8 -8', '8 8 8');
 			if (self.frame < $cube201)
 			{
 				self.frame = $cube201;
