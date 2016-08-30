@@ -423,11 +423,14 @@ else
 		s4__ = entityfieldname(f0__);
 	}	
 
-// spawn loop deal
+// spawn loop loader deal - __spawn_0 assign  **will**  replace this spawnloop loader !
+
 	nspawn = spawn();
 	nspawn.think = spawn_loop;
 	nspawn.nextthink = time + 3;
-	nspawn.netname = "__spawn_";
+	self.wait = 3;													// re-test every 3 secs
+	nspawn.netname = "__spawn_";			// try loading all spawn_{0-100}
+
 
 #ifdef HUD_support
 // csqc - HUD - pass these server vars to the client
