@@ -423,6 +423,12 @@ else
 		s4__ = entityfieldname(f0__);
 	}	
 
+// spawn loop deal
+	nspawn = spawn();
+	nspawn.think = spawn_loop;
+	nspawn.nextthink = time + 3;
+	nspawn.netname = "__spawn_";
+
 #ifdef HUD_support
 // csqc - HUD - pass these server vars to the client
 
@@ -478,6 +484,7 @@ else
 
 
 #ifdef hooks
+// note cvar override
 	HOOK_RANGE = 1200;
 	HOOK_SPEED = 600;
 	MAX_CHAIN_LEN = HOOK_RANGE;
