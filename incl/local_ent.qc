@@ -26,6 +26,7 @@
 
 // use a spawned entity for local var storage in a function
 // seq was chosen so that if locus cleared to world, nothing significant would be reset
+/// NOTE: care must be taken when using these in loops, nested fn() calls and recursive code
 
 entity locus;
 
@@ -36,7 +37,7 @@ entity locus;
 
 // then uses the entity local.button0 to store / use the data
 
-// pre selected float - selected for minimal use, just in case
+// pre selected float - all selections made of minimal use fields, just in case
 
 #define		f0__		locus.button0
 #define		f1__		locus.button1
