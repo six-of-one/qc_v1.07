@@ -1761,6 +1761,14 @@ void() ImpulseCommands =
 	}
 #endifdef
 
+// runes
+#ifdef code_runes
+	if (self.impulse == IMP_RUNEID)
+		rune_id(self, self);
+	else if (self.impulse == IMP_RUNEDROP)
+		rune_drop(self);
+#endifdef
+
 	if (self.impulse >= 1 && self.impulse <= 8
 #ifdef hip_weapons
 		|| (self.impulse >= 225 && self.impulse <= 226)
