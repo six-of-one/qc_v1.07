@@ -120,6 +120,7 @@ void() StartItem =
 #ifdef code_xents
 	if (self.classname == "StartItem")
 	{
+/// remove - TEST
 																								registercvar(strcat("___startitem_",self.classvn),self.model);
 		self.classname = self.classvn;
 		setmodel(self, self.model); // pre load doesnt set these - this sets box size, so
