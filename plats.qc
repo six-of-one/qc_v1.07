@@ -412,9 +412,10 @@ void() func_train =
 	self.use = train_use;
 	self.classname = "train";
 
-	setmodel (self, self.model);
-	setsize (self, self.mins , self.maxs);
-	setorigin(self, self.origin);
+// moved to comply with Archon code
+//	setmodel (self, self.model);
+//	setsize (self, self.mins , self.maxs);
+//	setorigin(self, self.origin);
 
 // moved because the non-remove option is to leave an inert solid platform
 	if (!self.target)
@@ -435,6 +436,16 @@ void() func_train =
 		objerror("func_train without a target");					//opgrade protected
 #endifdef
 
+	setmodel (self,self.model);
+#ifdef code_archon_a
+
+// Cataboligne - 6.3.14 - prelim for altarbeta floaty rock clouds deal
+	if (self.spawnflags & 16)
+		setmodel (self,self.mdl);
+
+#endifdef
+	setsize (self,self.mins,self.maxs);
+	setorigin (self,self.origin);
 
 // start trains on the second frame, to make sure their targets have had
 // a chance to spawn

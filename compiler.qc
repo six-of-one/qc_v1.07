@@ -527,6 +527,20 @@ spec track by cvar
 //#define glowcorpse // dead with quad glows - fix code not compiled
 
 
+/// SWITCH
+//#define code_archon
+
+// this is for an alpha code set that MUST be moved into the main code set before a beta is released
+#define code_archon_a
+
+#ifdef code_archon_a
+	#ifdef module_list
+	#message         			- Archon (a) 
+	#endifdef
+	#define modulein
+#endifdef
+
+
 // ******************************************************************************************************************
 
 /// mod section - should be of interest to mod coders
