@@ -423,7 +423,7 @@ spec track by cvar
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
 /// SWITCH
-#define local_test
+//#define local_test
 
 // we always tell if local test or debug are compiled in
 
@@ -618,7 +618,7 @@ spec track by cvar
 
 // use frik bots
 /// SWITCH
-//#define code_frikbots
+#define code_frikbots
 
 #ifdef code_frikbots
 	#ifdef module_list
@@ -759,7 +759,7 @@ spec track by cvar
 // this code must be removed or changed
 
 /// SWITCH
-#define remove_code
+//#define remove_code
 
 #ifdef remove_code
 	#ifdef module_list
