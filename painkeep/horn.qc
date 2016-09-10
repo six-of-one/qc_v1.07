@@ -333,8 +333,8 @@ void(float firstBlast) horn_airblast =
 	  if (e != self)  // but not myself!!
 	  {
 
-bprint("horn move loop: ");
-bprint(item_ident(e));
+//bprint("horn move loop: ");
+//bprint(item_ident(e));
 
 
 
@@ -445,15 +445,15 @@ bprint(item_ident(e));
 	      // If its a missile, change the direction but keep the same speed.
 	      eSpeed = vlen(e.velocity);
 
-bprint(" velo adj: ");
-bprint(vtos(e.velocity));
+//bprint(" velo adj: ");
+//bprint(vtos(e.velocity));
 
 			 e.velocity = normalize(delta) * eSpeed;
 
 
-bprint(" now: ");
-bprint(vtos(e.velocity));
-bprint("\n");
+//bprint(" now: ");
+//bprint(vtos(e.velocity));
+//bprint("\n");
 
 
 	    }
@@ -468,14 +468,14 @@ bprint("\n");
 			}
 	      // Apply the velocity adjustment
 
-bprint(" nm velo adj: ");
-bprint(vtos(e.velocity));
+//bprint(" nm velo adj: ");
+//bprint(vtos(e.velocity));
 
 	      e.velocity = e.velocity + delta;
 
-bprint(" now: ");
-bprint(vtos(e.velocity));
-bprint("\n");
+//bprint(" now: ");
+//bprint(vtos(e.velocity));
+//bprint("\n");
 
 
 	      // calculate the damage amount
