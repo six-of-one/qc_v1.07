@@ -332,12 +332,6 @@ void(float firstBlast) horn_airblast =
 // AIRG_EXCLUDE_END
 	  if (e != self)  // but not myself!!
 	  {
-
-//bprint("horn move loop: ");
-//bprint(item_ident(e));
-
-
-
 	    // if flying creature and movetype is step then change to fly
 	    // NOTE: For some reason the normal quakeC, flying monsters has set a
 	    //   movetype of MOVETYPE_STEP which means that changing the velocity
@@ -444,18 +438,7 @@ void(float firstBlast) horn_airblast =
 	    {
 	      // If its a missile, change the direction but keep the same speed.
 	      eSpeed = vlen(e.velocity);
-
-//bprint(" velo adj: ");
-//bprint(vtos(e.velocity));
-
 			 e.velocity = normalize(delta) * eSpeed;
-
-
-//bprint(" now: ");
-//bprint(vtos(e.velocity));
-//bprint("\n");
-
-
 	    }
 	    else
 	    {
@@ -468,15 +451,7 @@ void(float firstBlast) horn_airblast =
 			}
 	      // Apply the velocity adjustment
 
-//bprint(" nm velo adj: ");
-//bprint(vtos(e.velocity));
-
 	      e.velocity = e.velocity + delta;
-
-//bprint(" now: ");
-//bprint(vtos(e.velocity));
-//bprint("\n");
-
 
 	      // calculate the damage amount
 	      ldmg = percent * inDamage;
@@ -661,16 +636,6 @@ float (entity targ) hornVisible =
 	if (trace_fraction == 1)
 		return TRUE;
 
-/*
-//	test for bizarre non move condition of some x items
-bprint("hornvisible rejected: ");
-bprint(item_ident(targ));
-bprint("- trace_fraction = ");
-bprint(ftos(trace_fraction));
-if (pointcontents (targ.origin) == CONTENT_SOLID)
-bprint(" - conent was solid");
-bprint("\n");
-*/
 // WATCH: keep an eye on this hack of a fix, until the "better" solution is available
 	if (pointcontents (targ.origin) == CONTENT_SOLID) // IDEA: qualify as x weps as well?
 	if (trace_fraction > 0.65)
