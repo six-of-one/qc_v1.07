@@ -269,6 +269,8 @@ entity(vector org) make_waypoint =
 		return(world);
 	}
 
+// NOTE: this will fail for maphack tech maps - noway must be used
+
 	if (pointcontents(org) == CONTENT_SOLID) // Cataboligne - 5.31.10 - in case a bot falls out of level
 	{
 		self.cnt = self.cnt + 1;
