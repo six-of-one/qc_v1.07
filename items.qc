@@ -93,6 +93,11 @@ void() PlaceItem =
 // stats - cost of this one line of code: strofs = 4, numstatements = 1, numfunc = 0, numglobaldef = 1, numpr_global = 1, total size+ = 24
 	oldz = self.origin_z;
 #endifdef
+
+// let items bounce if ejected
+#ifdef code_xents
+	if (!self.punchangle)
+#endifdef
 	if (!droptofloor())
 	{
 #ifndef nodprint
