@@ -165,7 +165,7 @@
 string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 
 // this is better off being placed in a config file - for instance default.cfg like so:
-// alias version "echo quake-c: 1.0.7 qc++"
+// alias version "echo quake-c: 1.0.7.4 qc++"
 #endifdef
 
 
