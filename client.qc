@@ -954,6 +954,11 @@ void() PutClientInServer =
 		stuffcmd(self, world.group);
 		stuffcmd(self, "\n");
 	}
+// try {mapname}.cfg file
+// ISSUE: fails for pulse nailgun first time map is loaded
+	stuffcmd(self, "exec cfg/map/");
+	stuffcmd(self, mapname);
+	stuffcmd(self, ".cfg\n");
 
 // respawn - if spot has an owner hack, make triggers
 #ifdef map_hack
