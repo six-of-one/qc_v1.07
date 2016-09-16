@@ -87,7 +87,7 @@ void() PlaceItem =
 	self.flags = FL_ITEM;		// make extra wide
 	self.solid = SOLID_TRIGGER;
 	self.movetype = MOVETYPE_TOSS;	
-	self.velocity = '0 0 0';
+//	self.velocity = '0 0 0';
 	self.origin_z = self.origin_z + 6;
 #ifndef opgrade
 // stats - cost of this one line of code: strofs = 4, numstatements = 1, numfunc = 0, numglobaldef = 1, numpr_global = 1, total size+ = 24
@@ -97,7 +97,9 @@ void() PlaceItem =
 // let items bounce if ejected
 #ifdef code_xents
 	if (!self.punchangle)
+	{
 #endifdef
+	self.velocity = '0 0 0'; // moved because this waps the eject fn
 	if (!droptofloor())
 	{
 #ifndef nodprint
@@ -108,6 +110,9 @@ void() PlaceItem =
 		remove(self);
 //		return;
 	}
+#ifdef code_xents
+	}
+#endifdef
 };
 
 /*
