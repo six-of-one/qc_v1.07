@@ -498,9 +498,12 @@ local vector	org;
 		}
 	#endifdef
 
+#ifdef code_xents
 		t = find_tdest(0);
-//		t = find(world, classname, "info_player_deathmatch");
-//		if (!t) t = find(world, classname, "info_player_start");
+#else
+		t = find(world, classname, "info_player_deathmatch");
+		if (!t) t = find(world, classname, "info_player_start");
+#endifdef
 		if (!t) return; // total fail
 
 	}
