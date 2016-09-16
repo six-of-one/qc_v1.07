@@ -746,7 +746,7 @@ spec track by cvar
 	#define modulein
 	#define HUD_support
 #else
-	#undefine nomultidmg
+	#undef nomultidmg
 #endifdef
 
 // ******************************************************************************************************************
