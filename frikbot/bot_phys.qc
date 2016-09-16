@@ -689,7 +689,11 @@ void() SV_Physics_Client =
 	{
 //		if (WARNING & 8)
 		bprint("--- WARNING: SV_Physics_Client: Bad Movetype (BOT) = ");
+	#ifdef code_xents
 		bprint(item_ident(self));
+	#else
+		bprint(self.classname);
+	#endifdef
 		bprint("\n");
 	}
 #endifdef
