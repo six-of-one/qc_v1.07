@@ -288,3 +288,27 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 	#define pk_centerprint centerprint
 
 #endifdef
+
+// setup in xents if compiled, otherwise put these here
+#ifndef code_xents
+
+#define gsf	f0__
+#define	theowner	groundentity
+#define	null_model		"progs/null.mdl"
+
+// bottle deal
+#define HEAL_BOT				4
+
+#define POW_TIME				30 // cvar - perhaps not, most ents are override set
+
+// vw thing
+#define ROPE_FWD					24 // distance to move last seg fwd when it is longer rope piece
+
+.float msgcount;
+.float mean, stdev;
+.float tomb_time, tomb_death_time;
+
+.float dodmg;
+.string target1;
+
+#endifdef

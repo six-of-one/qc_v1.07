@@ -94,13 +94,14 @@ void(vector dir) TraceExplodeAttack =
 	newmis.think = explodeAttack;
 };
 
-/*
+#ifndef code_xents
+
 void(float shotcount, vector dir, vector spread) FireExplodeShells =
 {
 //	local	vector direction; v0__
 //	local	vector	src; v1__
 
-/* - deprecated - unused
+//* - deprecated - unused
 	local float damage;
 
 	if (shotcount >= 2)
@@ -111,8 +112,7 @@ void(float shotcount, vector dir, vector spread) FireExplodeShells =
 	{
 		damage = 1;
 	}
-*/
-/*
+
 	makevectors(self.v_angle);
 
 	v1__ = self.origin + v_forward*10;
@@ -129,7 +129,8 @@ void(float shotcount, vector dir, vector spread) FireExplodeShells =
 		shotcount = shotcount - 1;
 	}
 };
-*/
+
+#endifdef
 
 // called from W_FireShotgun && W_FireSuperShotgun - fire a shotgun with exploding shot
 // shots is number of shots - 1 for shotgun & 2 for SS
@@ -140,8 +141,11 @@ void(float shots) W_FireShotgunExploder =
 
 	self.punchangle_x = -2 * shots;
 
+#ifdef code_xents
 	e_use_ammo();
-//	self.currentammo = self.pk_explode_ammo = self.pk_explode_ammo - shots; // no inf for this! ammo_con(shots, self, null_string);
+#else
+	self.currentammo = self.pk_explode_ammo = self.pk_explode_ammo - shots; // no inf for this! ammo_con(shots, self, null_string);
+#endifdef
 
 #ifdef code_pkbots
 	if (self.classname == "pk*bot")
@@ -154,14 +158,20 @@ void(float shots) W_FireShotgunExploder =
 	if (shots == 2)
 	{
 		sound (self, CHAN_WEAPON, "weapons/explode/expfire2.wav", 1, ATTN_NORM);
-//		FireExplodeShells((random() * 4) + 6, dir, '0.14 0.08 0');
+#ifdef code_xents
 		X_FireBullets((random() * 4) + 6, PK_EXPL_DMG, dir, '0.14 0.08 0');
+#else
+		FireExplodeShells((random() * 4) + 6, dir, '0.14 0.08 0');
+#endifdef
 	}
 	else
 	{
 		sound (self, CHAN_WEAPON, "weapons/explode/expfire1.wav", 1, ATTN_NORM);
-//		FireExplodeShells((random() * 3) + 3, dir, '0.09 0.06 0');
+#ifdef code_xents
 		X_FireBullets((random() * 3) + 3, PK_EXPL_DMG, dir, '0.09 0.06 0');
+#else
+		FireExplodeShells((random() * 3) + 3, dir, '0.09 0.06 0');
+#endifdef
 	}
 
 // if we run of out explode, switch to normal shells.

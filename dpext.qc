@@ -28,6 +28,10 @@ float(string name) cvar_type = #495;
 #define		CVAR_TYPEFLAG_HASDESCRIPTION		16
 #define		CVAR_TYPEFLAG_READONLY		32
 
+// alpha for models
+
+.float alpha;
+
 // scale models in dp
 
 .float scale;

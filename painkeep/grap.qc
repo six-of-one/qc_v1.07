@@ -561,7 +561,9 @@ local float pull_lock;
 				self.grap_pull.grap_owner = self.grap_owner;
 				self.grap_pull.movetype = MOVETYPE_FLY;
 
+#ifdef code_xents
 				self.button13 = newmis.button13  = ceil(random() * 100000); // allow grap to pull this - see code in pull fn
+#endifdef
 //				return;
 			}
 #endifdef
@@ -691,7 +693,9 @@ void() grap_goToOwner =
 	self.nextthink = time + 0.1;
 
 	if (self.grap_pull)
+#ifdef code_xents
 	if (!self.button13 || (self.button13 != self.grap_pull.button13)) // rune plucked from an unsuspecing player - not solid yet, but let it be pulled
+#endifdef
 	if (self.grap_pull.solid != SOLID_TRIGGER)
 	if (self.grap_pull.health < 1 || self.grap_pull.solid == SOLID_NOT)  // check if the entity is dead or "picked up"
 	{

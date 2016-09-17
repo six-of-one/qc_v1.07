@@ -29,8 +29,11 @@ void() bolt_fire =
 	local float cells;
 
 	cells = self.ammo_cells;
-//	if (ammo_con(2, self, string_null) == 0) cells = Q1_CELLAMMO_MAX;
+#ifdef code_xents
 	e_use_ammo();
+#else
+	if (cells == 0) cells = 100;
+#endifdef
 
 	if (cells < 2)
 	{
@@ -76,18 +79,20 @@ void() bolt_fire =
 	  // fire as normal...
 	  local vector org, endpos;
 
-//		self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(2, self, string_null);
+#ifdef code_xents
 		e_use_ammo();
+#else
+		self.currentammo = self.ammo_cells = self.ammo_cells - 2; //ammo_con(2, self, string_null);
+#endifdef
 
 		self.punchangle_x = -2;
 //		cam_punch(); // Cataboligne - 5.13.10 - cam purify - nullify fire punchangle if in cam view
 
-/* not needed with lg
-	if (autocvar_sv_centerwep)
-		org = self.origin + '0 0 16';
-	else
-*/
+#ifdef code_viswep
 		org = self.origin + v_right * VWY_CHTHUNDER + v_forward * VWX_CHTHUNDER + v_up * VWZ_CHTHUNDER;
+#else
+		org = self.origin + '0 0 16';
+#endifdef
 
 		traceline (org, org + v_forward*600, TRUE, self);
 	  endpos = trace_endpos;
@@ -279,8 +284,10 @@ void() bolt_findNextTarget =
 
 	  // check to see if we have run out of ammo
 //	  if (ammo_con(2, self, string_null) != 0) // not infinite
+#ifdef code_xents
 	  if (self.eweapon)
 	  if (!self.eweapon.aflag)
+#endifdef
 	  if (self.ammo_cells < 2)
 	  {
 	    // remove the FL_GIBCONDUIT if on
@@ -406,13 +413,18 @@ void(vector org, entity boltTarget, entity boltOwner, vector endPos, float first
 
 	if (boltTarget.class_select == "class_monster")
 	{
+#ifdef code_xents
 		if (!self.eweapon.aflag)
+#endifdef
 			self.currentammo = self.ammo_cells = self.ammo_cells - autocvar_sv_pk_chainlt_ptspermonster;				/// FIX: this
 	}
 	else
 	// use uyp ammo - note - ammo_con is being given loop blow cell cnts
-//	self.currentammo = self.ammo_cells = self.ammo_cells - ammo_con(dam, self, string_null);
+#ifdef code_xents
 	e_use_ammo();
+#else
+	self.currentammo = self.ammo_cells = self.ammo_cells - 2;//ammo_con(dam, self, string_null);
+#endifdef
 
 	dam = ((dam / 2) * 15);
 	dam = floor(dam);
