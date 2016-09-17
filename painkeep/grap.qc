@@ -235,7 +235,11 @@ float() grap_maintainRope =
 // Cataboligne - 4.4.11 - start point of rope at end of harpoon gun, new vw calc
 //  	if (!PK-100) - NOTE: test point if grap issues with striated rope shows up again
 //	{
-	v6__ = cornerOrigin = corner.origin + grap_vw_adj(corner);
+	v6__ = cornerOrigin = corner.origin
+#ifdef code_xents
+															+ grap_vw_adj(corner)
+#endifdef
+																												;
 	segfr = 1; // use longer segment - 7.12.11
 /*	}
 	else

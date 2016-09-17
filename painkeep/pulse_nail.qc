@@ -39,6 +39,7 @@ void(float ox) W_FirePulseSpikes =
 		v1__ = self.origin + v_up * VWZ_PNAILG + v_right * (ox / 2.5) + v_right * VWY_PNAILG + v_forward * VWX_PNAILG;
 
 */
+#ifdef code_xents
 
 	fire_missile(SPIKE_VEL, MOVETYPE_FLYMISSILE, FL_MSL | FL_PUNCH | FL_USEAMMO
 
@@ -51,6 +52,18 @@ void(float ox) W_FirePulseSpikes =
 #endifdef
 //																					RM_SKY | PF_LAVA
 													, 0	, v1__, '0 0 0', "pulse_spike", "progs/spike.mdl", "weapons/pulse/pulse_1.wav", spike_touch, 2.0,  SUB_Remove, SUB_Null);
+
+#else
+	makevectors(self.v_angle);
+	launch_spike(v1__, v_forward);
+	setmodel(newmis, "progs/spike.mdl");
+	newmis.classname="pulse_spike";
+	newmis.touch = spike_touch;
+	newmis.think = SUB_Remove;
+	newmis.nextthink = time + 2;
+	sound (newmis, CHAN_WEAPON, "weapons/pulse/pulse_1.wav", 1, ATTN_NORM);
+
+#endifdef
 
 	newmis.dmg = 27;
 	newmis.theowner = self;

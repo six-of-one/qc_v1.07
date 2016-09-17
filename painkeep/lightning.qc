@@ -31,7 +31,7 @@
 #define	next__		aiment
 //.entity next; // for the linked list of lightning - Cataboligne - 4.29,11 - moved to pk_defs 
 
-void() lightning_think;
+void() lightning_think_;
 
 // only the first lightning uses this funciton
 void() lightning_stop =
@@ -41,7 +41,7 @@ void() lightning_stop =
 	if (self.cnt == 1)
 	{
 		self.nextthink = time + meantime(self.mean, self.stdev);
-		self.think = lightning_think;
+		self.think = lightning_think_;
 	}
 };
 
@@ -109,7 +109,7 @@ void(float r) lightning_flash =
 		lightning_flash(r);
 };
 
-void() lightning_think =
+void() lightning_think_ =
 {
 //	local float r;
 

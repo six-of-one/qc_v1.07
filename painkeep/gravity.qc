@@ -237,7 +237,17 @@ void() gravity_pull =
 #endifdef
 
 					v1 = e.origin - self.origin;
+#ifdef code_xents
 					self.aiment = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, self.origin, '0 0 0', '0 0 0', vectoangles(v1), '0 0 0', string_null, "progs/lzrbm_seg.mdl", SUB_Remove, 0.2, SUB_Remove, SUB_Null, self, world);
+#else
+					self.aiment = spawn();
+					setorigin(self.aiment, self.origin);
+					setmodel(self, "progs/lzrbm_seg.mdl");
+					self.angles = vectoangles(v1);
+					self.think = SUB_Remove;
+					self.touch = SUB_Remove;
+					self.nextthink = time + 0.2;
+#endifdef
 					i = vlen(v1);
 					i = floor(i / 32);
 					if (i > 63) i = 63;
@@ -263,9 +273,11 @@ void() gravity_pull =
 					if (random() < 0.16)
 						sound (e, CHAN_VOICE, "misc/thunder/thunder5.wav", 1, ATTN_NORM); 
 				}
+#ifdef code_xents
 				if (e.hook & HOOK_ON)
 				if (random() < 0.28) // heh heh - strong enough to release hooks
 					DropHook(e);
+#endifdef
 			}
 		}
 

@@ -40,7 +40,6 @@ entity turret;
 
 void() turret_searchForEnemy;
 void() turret_findTarget;
-//float (entity e) turret_inFront;
 void() turret_attackEnemy;
 void() turret_deathAnim;
 //void() turret_deathAnimBase;
@@ -48,6 +47,10 @@ void(vector org, vector vec) turret_launchNail;
 void() turret_checkIfCanBeSolid;
 void(string gibname, float dm) turret_throwGib;
 void() turret_gibTouch;
+
+#ifndef code_xents
+float (entity e) turret_inFront;
+#endifdef
 
 // so we can set infinite or unkillable turrets to destruct when certain things happen
 // allow players to kill server set indestructible / infinite ammo turrets
@@ -386,8 +389,11 @@ void() turret_findTarget =
 
 	    if (trace_fraction >= 1)
 	    if (tempDist < dist)
-//	    if (turret_inFront(head))
+#ifdef code_xents
 		 if(infront_(head, SENTRY_SDOT, self.v_angle, '0 0 0')) // this is PK100 compat code
+#else
+	    if (turret_inFront(head))
+#endifdef
 	    if (visible(head))
 	    {
 		  	selected = head;
@@ -469,7 +475,8 @@ void() turret_findTarget =
 
 
 // modification of infront() from ai.qc to be tighter
-/*
+#ifndef code_xents
+
 float (entity e) turret_inFront =
 {
 	local vector  vec;
@@ -486,7 +493,7 @@ float (entity e) turret_inFront =
 	return FALSE;
 };
 
-*/
+#endifdef
 
 
 void() turret_attackEnemy =

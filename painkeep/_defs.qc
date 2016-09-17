@@ -198,7 +198,6 @@ void(float firstBlast) horn_airblast;
 .entity grap_cornerchainNext;	// next in the rope corner chain.
 .float grap_firetest;
 
-vector(entity hent) grap_vw_adj;
 void() grap_releaseHarpoon;
 void() grap_maintainHarpoon;
 void(entity grapOwner) grap_remove;
@@ -310,5 +309,8 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 
 .float dodmg;
 .string target1;
+
+#else
+vector(entity hent) grap_vw_adj;
 
 #endifdef
