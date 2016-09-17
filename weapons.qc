@@ -196,7 +196,6 @@ Collects multiple small damages into a single damage
 */
 
 #ifndef nomultidmg
-
 entity	multi_ent;
 float	multi_damage;
 
