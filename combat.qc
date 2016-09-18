@@ -178,7 +178,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // save damage based on the target's armor level
 
-	save = ceil(targ.armortype*damage);
+	save = ceil(targ.armortype * damage);
 	if (save >= targ.armorvalue)
 	{
 		save = targ.armorvalue;
@@ -186,8 +186,38 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
 	}
 	
-	targ.armorvalue = targ.armorvalue - save;
-	take = ceil(damage-save);
+	take = ceil(damage - save);
+
+#ifdef code_runes
+
+	if ( (targ.rune_flag & RUNE_FLG_RS) || (targ.rune_flag & TECH_DSH) ) // idea: resist should do more under rules > 2, but not tech
+	{
+		take = floor(take / 2);
+		save = floor(save / 2);
+		if (
+//#ifdef  - former conditional
+			RUNE_TECH_RS_COMB && 
+//#endifdef
+			(targ.rune_flag & RUNE_FLG_RS) && (targ.rune_flag & TECH_DSH))
+		{
+			take = floor(take / 2);
+			save = floor(save / 2);			
+		}
+
+		if (targ.invincible_sound < time)
+		{
+			if ( (targ.rune_flag & TECH_DSH) && !(targ.rune_flag & RUNE_FLG_RS) )
+				sound (targ, CHAN_BODY, tech_dsh_sound, 1, ATTN_NORM);
+			else
+				sound (targ, CHAN_ITEM, rune_resist_sound, 1, ATTN_NORM);
+			targ.invincible_sound = time + 2;
+		}
+	}
+
+#endifdef
+
+// moved because rune code can affect save
+	targ.armorvalue = ceil(targ.armorvalue - save);
 
 // add to the damage total for clients, which will be sent as a single
 // message at the end of the frame
@@ -204,7 +234,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
-		targ.velocity = targ.velocity + dir*damage*8;
+		targ.velocity = targ.velocity + dir * damage * 8;
 	}
 
 // check for godmode or invincibility
@@ -242,9 +272,52 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 #endifdef
 
 		return;
-		
+
+#ifdef code_runes
+
+// we have a suck head
+   if (attacker.rune_flag & RUNE_VAMPIRE) // a bit of vampire action
+#ifdef hip_items
+   if (! targ.empathy_finished)
+#endifdef
+//#ifdef enhanced - former conditional
+   if (! (targ.rune_flag & RUNE_VAMPIRE))
+   if (! (targ.rune_flag & RUNE_FLG_RG)) // regen immune to feeders
+   if (! (targ.rune_flag & TECH_ADOC))
+//#endifdef
+   if (targ.flags & (FL_CLIENT | FL_MONSTER)) // only these get vamped for now - excludes all doors, triggers, crates, etc
+	{
+#ifdef strict_lithium
+// by organization of mk II code base this was not in use
+		if (RUNES > 1) // lith code
+		{
+			if (attacker.health < (attacker.max_health * attacker.health_modifier * 2))
+			{
+				f2__ = take; // vdamage = damage;
+				f3__ = ceil(targ.health - take); // targ->health
+				if(f3__ < -40) f2__ = f2__ - (-40 - f3__); //if(targ->health < -40) vdamage -= -40 - targ->health;
+
+				f3__ = rint(f2__ + 0.5); // add = (int)((float)vdamage * rune_vampire->value + 0.5);
+				if (f3__ > 0)
+				{
+					attacker.health = attacker.health + f3__; // if(add > 0) { attacker->health += add;
+
+					if (attacker.health > (attacker.max_health * attacker.health_modifier * 2)) // if(attacker->health > rune_vampiremax->value) attacker->health = rune_vampiremax->value;
+						attacker.health = attacker.max_health * attacker.health_modifier * 2; // 200 for a human
+				}
+			}
+		}
+		else
+#endifdef
+		if (targ.health < take) attacker.health = attacker.health + RUNE_VAMPIRE_PER * targ.health; // only get RUNE_VAMPIRE_PER% of actual damage, excludes armor & other saves
+		else attacker.health = attacker.health + RUNE_VAMPIRE_PER * take;
+	}
+
+#endifdef
+
+
 // do the damage
-	targ.health = targ.health - take;
+	targ.health = ceil(targ.health - take);
 			
 	if (targ.health <= 0)
 	{

@@ -818,7 +818,15 @@ void() GibPlayer =
 void() PlayerDie =
 {
 //	local	float	i;
-	
+
+
+#ifdef code_runes
+// Cataboligne - 10.7.11 - drop runes+
+// update - was: dead_drop(self); 
+		if (self.rune_flag) dead_runes(self);
+#endifdef
+
+
 	self.items = self.items - (self.items & IT_INVISIBILITY
 
 #ifdef opgrade

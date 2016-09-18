@@ -683,6 +683,14 @@ void() ClientKill =
 	if ((intermission_running) && ((coop) || (deathmatch)))  // not allowed during intermission
 		return;
 #endifdef
+
+#ifdef code_runes
+// Cataboligne - 10.7.11 - drop runes+
+// update - was: dead_drop(self); 
+		if (self.rune_flag) dead_runes(self);
+#endifdef
+
+
 	bprint (self.netname);
 	bprint (" suicides\n");
 	set_suicide_frame ();
@@ -825,6 +833,12 @@ void() PutClientInServer =
 	self.invincible_finished = 0;
 	self.effects = 0;
 	self.invincible_time = 0;
+#ifdef code_runes
+// also morphs - update
+	self.health_modifier = 1;
+	self.rune_flag = 0;
+#endifdef
+
 #ifdef hip_items
 	//JIM
 	self.wetsuit_finished = 0;
@@ -1803,6 +1817,12 @@ void() PlayerPostThink =
 		viswep_post(); // Cataboligne - 9.26.9 - viswep code link - always have to run this for 1 player + pk*bots deal
 #endifdef
 
+#ifdef code_runes
+	if (self.rune_flag & RUNE_FLG_RG || self.rune_flag & TECH_ADOC) rune_regen();
+	if (self.rune_flag & RUNE_VAMPIRE) rune_vamp();
+#endifdef
+
+
 	if (!self.view_ofs) // == '0 0 0')
 		return;		// intermission or finale
 	if (self.deadflag)
@@ -1897,6 +1917,14 @@ void() ClientDisconnect =
 		return;
 	// if the level end trigger has been activated, just return
 	// since they aren't *really* leaving
+
+
+#ifdef code_runes
+// Cataboligne - 10.7.11 - drop runes+
+// update - was: dead_drop(self); 
+		if (self.rune_flag) dead_runes(self);
+#endifdef
+
 
 #ifdef code_painkeep_
 	grap_releaseHarpoon();
