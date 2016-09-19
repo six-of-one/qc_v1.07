@@ -428,7 +428,7 @@ else
 	nspawn = spawn();
 	nspawn.think = spawn_loop;
 	nspawn.nextthink = time + 3;
-	nspawn.netname = "__spawn_";			// try loading all spawn_{0-100}
+	nspawn.netname = "__spawn0";			// get base spawner loop
 //	nspawn.delay = 3;													// re-test every 3 secs - plan to use __spawn_0
 //	nspawn.group = "__spawn_clr.cfg"; // saves global by loading from cfg
 
