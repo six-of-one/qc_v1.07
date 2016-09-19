@@ -886,7 +886,7 @@ local float		best;
 //		stemp = self;
 //		self = other;
 		self.weapon = W_BestWeapon();
-		W_SetCurrentAmmo ();
+//		W_SetCurrentAmmo ();
 //		self = stemp;
 	}
 
