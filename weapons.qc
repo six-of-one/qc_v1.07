@@ -1169,7 +1169,8 @@ float() W_BestWeapon =
 		}
 		e0__ = e0__.vwepent;
 	}
-	self.eweapon = e1__; // set this for all self.weapon = W_BestWeapon() - simplifies other select code
+/// TDO: find out if we need the next line
+	self.eweapon = e1__.eweapon; // set this for all self.weapon = W_BestWeapon() - simplifies other select code
 #ifdef code_painkeep_
 	if (e1__.weapon == IT_AXE) self.pk_currentitem = e1__.pk_currentitem;
 #endifdef
