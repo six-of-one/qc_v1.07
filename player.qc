@@ -264,6 +264,48 @@ void()	player_run =[	$rockrun1,	player_run	]
 	}
 #endifdef
 
+
+#ifdef code_runes
+// haste run faster - moved up here for morphs - check this
+#define v___  f3__
+#define r___  f4__
+#define ms___  f5__
+	r___ = 0;
+
+	if (self.rune_flag & RUNE_FLG_HS) r___ = 1;
+	if (self.rune_flag & TECH_TEIM) r___ = r___ + 1;
+
+	if (r___)
+	{
+		if (r___ > 1) r___ = 1.2;
+		ms___ = cvar("sv_maxspeed");
+		f2__ =  ms___ * 1.6 * r___; // at 320 max, this is 576, for both runes 691
+		if (self.movetype == MOVETYPE_FLY) f2__ = ms___ * 1.4;
+		v___ = vlen(self.velocity); 
+		if (!self.movement_x && !self.movement_y)
+		{
+			if (v___ > ms___)
+				self.velocity = self.velocity * 0.95;// (ms___ / v); // cap it
+		}
+		else
+		if (v___ < f2__)
+		{
+			if (self.movement_x > 20)
+				self.velocity = self.velocity * (f2__ / v___);
+			else
+			{
+				f2__ = ms___ * 1.25 * r___;
+				if (self.movetype == MOVETYPE_FLY) f2__ = ms___ * 0.9; // flight speed side & back normally .8 * ms___
+				if ( (fabs(self.movement_y) > 20) ||  (self.movement_x < 20) )
+					self.velocity = self.velocity * (f2__ / v___);
+			}
+		}
+	}
+#undef v___
+#undef r___
+#undef ms___
+#endifdef
+
 	self.walkframe = self.walkframe + 1;
 };
 
