@@ -123,6 +123,13 @@ float(float fieldnum) entityfieldtype = #498;
 void(float index, float type, ...) addstat = #232;
 	#endifdef
 
+
+//used by reload fn
+entity(entity start, .float fld, float match) findflags = #449;
+//description:
+//finds an entity with the specified flag set in the field, similar to find()
+
+
 #endifdef
 
 
