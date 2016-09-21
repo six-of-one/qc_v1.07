@@ -9,7 +9,9 @@ void() SUB_regen =
 {
 	self.model = self.mdl;		// restore original model
 	self.solid = SOLID_TRIGGER;	// allow it to be touched again
-	sound (self, CHAN_VOICE, "items/itembk2.wav", 1, ATTN_NORM);	// play respawn sound
+	if (!self.noise4) self.noise4 = "items/itembk2.wav";
+	sound (self, CHAN_VOICE, self.noise4, 1, ATTN_NORM);	// play spec respawn sound
+//	sound (self, CHAN_VOICE, "items/itembk2.wav", 1, ATTN_NORM);	// play respawn sound
 	setorigin (self, self.origin);
 };
 
