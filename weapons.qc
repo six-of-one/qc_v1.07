@@ -1928,7 +1928,10 @@ void() SuperDamageSound =
 			sound (self, CHAN_BODY, "items/damage3.wav", 1, ATTN_NORM);
 		}
 	}
-//	return;
+
+#ifdef code_runes
+	rune_dmg_sound();
+#endifdef
 };
 
 
