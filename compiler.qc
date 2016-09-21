@@ -1323,4 +1323,44 @@ optres_dupconstdefs 160
 numtemps 811
 233 warnings
 
+-----------------------------------------------------
+016.9.21: prog update
+
+                	       code modules:
+                		- qc++
+                		- opgrade
+                		- codefix
+                		- noautoaim
+                		- noobjerr
+                		- nodprint
+                		- warning
+                		- xvars
+                		- Archon (a)
+                		- code_painkeep
+                		- code_runes
+                		- code_viswep
+
+ 87520 strofs (of 1000000)
+ 44610 numstatements (of 524288)
+  1039 numfunctions (of 16384)
+  4713 numglobaldefs (of 32768)
+   381 numfielddefs (350 unique) (of 2048)
+  5135 numpr_globals (of 65536)
+Writing progs.dat
+543228 TOTAL SIZE
+Writing progs.lno
+101 unique precache_models
+Compile Complete
+
+optres_shortenifnots 355
+optres_overlaptemps 24199
+optres_constantarithmatic 252
+optres_nonvec_parms 7574
+optres_assignments 1184
+optres_unreferenced 22
+numtemps 350
+101 warnings
+
+
+
 */
