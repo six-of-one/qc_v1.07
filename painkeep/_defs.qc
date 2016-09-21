@@ -310,6 +310,13 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 .float dodmg;
 .string target1;
 
+// if no xent and bots module active, defined in _bots.qc
+	#ifndef use_bots
+	.string class_select;
+	.string stack1;
+	#endifdef
+
+
 #else
 vector(entity hent) grap_vw_adj;
 
