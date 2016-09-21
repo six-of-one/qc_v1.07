@@ -756,6 +756,8 @@ float (entity e, float healamount, float ignore) T_Heal; // health function
 float(entity targ, entity inflictor) CanDamage;
 
 
+/// multi-defs area - load all module defs files
+
 #ifdef HIPNOTIC
 
 #messagecompiling hipnotic/hipdefs.qc 
