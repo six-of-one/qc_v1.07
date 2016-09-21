@@ -537,11 +537,11 @@ void()	vom_attackc13 =[	$attack13,	vom_run1     ] {ai_face();};
 framer($attack1, $attack13, vom_attackc1, vom_run1, 0.1,
 
 	frame_arb($attack1,sound (self, CHAN_VOICE, "vomitus/attack1.wav", 1, ATTN_NORM));
-	frame_arb($attack6,if (random() < 0.08) vom_shot(-3); newmis.classname = "vomisss");
+	frame_arb($attack6,if (random() < 0.08) {vom_shot(-3); newmis.classname = "vomisss")};
 	frame_arb($attack8,vom_shot(-1));
-	frame_arb($attack9,if (random() < 0.1) vom_shot(0); newmis.classname = "vomisss");
+	frame_arb($attack9,if (random() < 0.1) {vom_shot(0); newmis.classname = "vomisss")};
 	frame_arb($attack11,vom_shot(2));
-	frame_arb($attack12,if (random() < 0.06) vom_shot(3); newmis.classname = "vomisss");
+	frame_arb($attack12,if (random() < 0.06) {vom_shot(3); newmis.classname = "vomisss")};
 	ai_face();
 );
 //いいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいいい
