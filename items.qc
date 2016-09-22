@@ -130,7 +130,7 @@ void() StartItem =
 	self.think = PlaceItem;
 
 #ifdef code_xents
-	if (self.classname == "StartItem")
+	if (self.classname == "StartItem" || self.group == "_reload")
 	{
 /// remove - TEST
 																								registercvar(strcat("___startitem_",self.classvn),self.model);
