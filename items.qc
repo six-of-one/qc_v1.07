@@ -287,7 +287,12 @@ void() health_touch =
 void() item_megahealth_rot =
 {
 	other = self.owner;
-	
+
+#ifdef code_runes
+	if (! (other.rune_flag & RUNE_VAMPIRE))
+	if (! other.rune_flag & (RUNE_FLG_RG | TECH_ADOC))
+#endifdef
+
 	if (other.health > other.max_health)
 	{
 		other.health = other.health - 1;
