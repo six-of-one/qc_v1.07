@@ -430,6 +430,7 @@ else
 	nspawn.nextthink = time + 3;
 	nspawn.netname = "__spawn";			// get base spawner loop(s) - __spawn{n}
 
+	localcmd("exec server.cfg\n");
 
 #ifdef HUD_support
 // csqc - HUD - pass these server vars to the client
