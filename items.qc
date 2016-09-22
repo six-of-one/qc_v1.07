@@ -24,6 +24,8 @@ void() SUB_regen =
 
 // tim - respawn time for dm - if <= 0 item will not respawn
 // 		- this is self.wait in item fields
+// {n} - collected, use targets, regen this many secs
+// 0  = collected, use targets, no regen - standard singleplayer op
 // -1 = weapon "leave" option in dm == 2 (bit value now, so 2, 4, 6, etc.)
 // -2 = use targets but no bf\n, no respawn
 // -3 = monster picked up - no bf, no targets, no respawn -- item will kick out when monster dies & have targets
