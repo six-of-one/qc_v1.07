@@ -50,7 +50,7 @@ void() copb_checkFart =
 	  else
 	  {
 //		  self.f__ = 5;
-	    if (random() < 0.5) //self.f__ = 4;`
+	    if (random() < 0.5) //self.f__ = 4;
 
 		    fartNoise = "weapons/copb/copb_4.wav";
 		  else
