@@ -428,7 +428,7 @@ else
 	nspawn = spawn();
 	nspawn.think = spawn_loop;
 	nspawn.nextthink = time + 3;
-	nspawn.netname = "__spawn";			// get base spawner loop
+	nspawn.netname = "__spawn";			// get base spawner loop(s) - __spawn{n}
 
 
 #ifdef HUD_support
