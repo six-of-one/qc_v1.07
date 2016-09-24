@@ -135,10 +135,10 @@ void () phone_teleport =
 void () phone_activate =
 {
 //	local entity ent;
-	newmis = spawn ();
+	nspawn = spawn ();
 	sound (self,CHAN_VOICE,"phone/phone.wav",1,ATTN_NORM);
-	newmis.owner = self;
-	newmis.think = phone_teleport;
-	newmis.nextthink = (time + 0.5);
+	nspawn.owner = self;
+	nspawn.think = phone_teleport;
+	nspawn.nextthink = (time + 0.5);
 };
 
