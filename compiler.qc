@@ -1361,6 +1361,31 @@ optres_unreferenced 22
 numtemps 350
 101 warnings
 
+-----------------------------------------------------
+016.9.23: prog update
+
+ 87696 strofs (of 1000000)
+ 44747 numstatements (of 524288)
+  1043 numfunctions (of 16384)
+  4723 numglobaldefs (of 32768)
+   381 numfielddefs (350 unique) (of 2048)
+  5144 numpr_globals (of 65536)
+Writing progs.dat
+544760 TOTAL SIZE
+Writing progs.lno
+101 unique precache_models
+Compile Complete
+
+optres_shortenifnots 364
+optres_overlaptemps 24286
+optres_constantarithmatic 253
+optres_nonvec_parms 7586
+optres_assignments 1188
+optres_unreferenced 22
+numtemps 349
+101 warnings
+
+
 
 
 */
