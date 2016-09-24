@@ -290,7 +290,7 @@ void() item_megahealth_rot =
 
 #ifdef code_runes
 	if (! (other.rune_flag & RUNE_VAMPIRE))
-	if (! other.rune_flag & (RUNE_FLG_RG | TECH_ADOC))
+	if (! (other.rune_flag & (RUNE_FLG_RG | TECH_ADOC)))
 #endifdef
 
 	if (other.health > other.max_health)
