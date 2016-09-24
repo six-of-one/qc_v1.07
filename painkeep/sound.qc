@@ -385,15 +385,14 @@ void() func_sound_pain =
  * hipnotic sound fn - play sounds when triggered
  *
  */
-#eof
 
-// TDO: something with this later, code needs cleaned up, maybe ifdef against hip stuff
+#ifndef HIPNOTIC
 
 void() play_sound_use =
 {
 	if (self.spawnflags & 1)
 	{
-      if (self.state == 0)
+		if (!self.state) // == 0)
 		{
          self.state = 1;
          sound (self, self.impulse, self.noise, self.volume, self.speed);
@@ -436,14 +435,14 @@ void() play_sound_triggered =
 {
    precache_sound (self.noise);
    precache_sound ("misc/null.wav");
-   if (self.volume == 0)
+	if (!self.volume) // == 0)
       self.volume = 1;
-   if (self.speed == 0)
+	if (!self.speed) // == 0)
       self.speed = 1;
    if (self.speed == -1)
       self.speed = 0;
    if (self.spawnflags & 1)
-      if (self.impulse == 0)
+		if (!self.impulse) // == 0)
          self.impulse = 7;
    self.use = play_sound_use;
 };
@@ -466,9 +465,9 @@ void() play_sound =
    local float t;
 
    play_sound_triggered();
-   if (self.wait == 0)
+	if (!self.wait) // == 0)
       self.wait = 20;
-   if (self.delay == 0)
+	if (!self.delay) // == 0)
       self.delay = 2;
    self.think = PlaySoundThink;
    t = self.wait * random();
@@ -477,3 +476,4 @@ void() play_sound =
    self.nextthink = time + t;
 };
 
+#endifdef
