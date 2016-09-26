@@ -257,68 +257,49 @@ void() turret_searchForEnemy =
 
 	if (!self.currentammo && !self.turret_timeout && self.health < 1)
 	{
-		local float f, c, d;
-		local entity e;
 
 		self.delay = TRUE; // KillStraker candidate
-		c = FALSE;
 
 		if (random() < 0.1)
 		{
+//q invuln
+			e0__ = find(world, classname, "item_artifact_invulnerability"); 
+
 //d invuln
- 			f = pk_mcode("d_art_invulnerable", world); 
-			e = find(world, classname, "d_art_invulnerable"); 
-//			if (!e) e = find(world, sscode, ftos(f)); // Cataboligne - 8.8.13 - removing sscode array / func dealy
-			if (e)
+			if (!e0__)
 			{
-				c = TRUE;
-				if (e.think == SUB_regen)
-				if (e.nextthink > (time + PK_TUR_INVRETIME))
-					e.nextthink = time + PK_TUR_INVRETIME; // we retime invulnerables if inf turrets exist - this is an exploitable item
+				e0__ = find(world, classname, "d_art_invulnerable"); 
 			}
 
 //q2 invuln
-			f = pk_mcode("item_invulnerability", world); 
-			e = find(world, classname, "item_invulnerability"); 
-//			if (!e) e = find(world, sscode, ftos(f));
-			if (e)
+			if (!e0__)
 			{
-				c = TRUE;
-				if (e.think == SUB_regen)
-				if (e.nextthink > (time + PK_TUR_INVRETIME))
-					e.nextthink = time + PK_TUR_INVRETIME;
+				e0__ = find(world, classname, "item_invulnerability"); 
 			}
 
-//q invuln
-			f = pk_mcode("item_artifact_invulnerability", world); 
-			e = find(world, classname, "item_artifact_invulnerability"); 
-//			if (!e) e = find(world, sscode, ftos(f));
-			if (e)
+// make an invulnerable if one not found
+			if (!e0__)
 			{
-				c = TRUE;
-				if (e.think == SUB_regen)
-				if (e.nextthink > (time + PK_TUR_INVRETIME))
-					e.nextthink = time + PK_TUR_INVRETIME;
+				s0__ = "item_artifact_invulnerability";
+				f0__ = -1;
+				e0__ = find_tdest(1);
+				v0__ = e0__.origin;
+//				if (MAP_MODE == "PK") f0__ = 1;
+//				if (MAP_MODE == "Q" || f0__ == 1) s0__ = "item_artifact_invulnerability";
+				if (MAP_MODE == "W") f0__ = rint(random() * 2.35);
+				if (MAP_MODE == "Q3") f0__ = rint(random() * 2.35);
+				if (MAP_MODE == "D" || f0__ == 0) s0__ = "d_art_invulnerable";
+				if (MAP_MODE == "Q2" || f0__ == 2) s0__ = "item_invulnerability";
+
+				item_putis(s0__);
 			}
-
-			d = -1;
-			if (MAP_MODE == "W") d = rint(random() * 2.35); //f = pk_mcode("d_art_invulnerable", world); 
-			if (MAP_MODE == "Q3") d = rint(random() * 2.35);
-			if (MAP_MODE == "D" || d == 0) f = pk_mcode("d_art_invulnerable", world); 
-			if (MAP_MODE == "Q" || d == 1) f = pk_mcode("item_artifact_invulnerability", world); 
-			if (MAP_MODE == "PK") f = pk_mcode("item_artifact_invulnerability", world); 
-			if (MAP_MODE == "Q2" || d == 2) f = pk_mcode("item_invulnerability", world); 
-
-#ifdef notyet
-			if (!c) fn_make(f, '0 0 0', string_null); // if we didnt find an invulernable, now make one
-#endifdef
 		}
 	}
 
 	// set the gun, so always lines up with the stand
 	setorigin(self, self.turret_base.origin);
 
-#ifdef enhanced
+#ifdef removedef
 // fix attempt for "flying down" turret
 //	if (self.velocity != self.turret_base.velocity) self.velocity = self.turret_base.velocity;
 //	self.velocity_z = 0;
