@@ -266,16 +266,10 @@ void() turret_searchForEnemy =
 			e0__ = find(world, classname, "item_artifact_invulnerability"); 
 
 //d invuln
-			if (!e0__)
-			{
-				e0__ = find(world, classname, "d_art_invulnerable"); 
-			}
+			if (!e0__) e0__ = find(world, classname, "d_art_invulnerable"); 
 
 //q2 invuln
-			if (!e0__)
-			{
-				e0__ = find(world, classname, "item_invulnerability"); 
-			}
+			if (!e0__) e0__ = find(world, classname, "item_invulnerability"); 
 
 // make an invulnerable if one not found
 			if (!e0__)
@@ -286,12 +280,18 @@ void() turret_searchForEnemy =
 				v0__ = e0__.origin;
 //				if (MAP_MODE == "PK") f0__ = 1;
 //				if (MAP_MODE == "Q" || f0__ == 1) s0__ = "item_artifact_invulnerability";
-				if (MAP_MODE == "W") f0__ = rint(random() * 2.35);
-				if (MAP_MODE == "Q3") f0__ = rint(random() * 2.35);
+				if (MAP_MODE == "W" || MAP_MODE == "Q3") f0__ = rint(random() * 2.35);
 				if (MAP_MODE == "D" || f0__ == 0) s0__ = "d_art_invulnerable";
 				if (MAP_MODE == "Q2" || f0__ == 2) s0__ = "item_invulnerability";
 
 				item_putis(s0__);
+			}
+			else
+			{
+// we retime invulnerables if inf turrets exist - this is an exploitable item
+				if (e0__.think == SUB_regen)
+				if (e0__.nextthink > (time + PK_TUR_INVRETIME))
+					e0__.nextthink = time + PK_TUR_INVRETIME;
 			}
 		}
 	}
