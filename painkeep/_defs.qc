@@ -195,6 +195,8 @@ void(float firstBlast) horn_airblast;
 #define GRAP_ROPESHORTEN		5 		// shorten rope
 #define GRAP_TOHARPOON			3 		// lengthen rope
 
+void() grap_checkIfGrap;
+
 .entity grap_cornerchainNext;	// next in the rope corner chain.
 .float grap_firetest;
 
