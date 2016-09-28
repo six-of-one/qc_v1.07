@@ -503,7 +503,7 @@ float() FindTarget =
 		client = sight_entity;
 		if (client.enemy == self.enemy)
 			return 
-#ifdef codefix 
+#ifdef codefix
 					FALSE
 #endifdef 
 					;
@@ -802,7 +802,7 @@ float() CheckAnyAttack =
 {
 	if (!enemy_vis)
 		return 
-#ifdef codefix 
+#ifdef codefix
 				FALSE
 #endifdef 
 				;
