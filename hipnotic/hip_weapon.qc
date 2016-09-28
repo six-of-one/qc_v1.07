@@ -59,7 +59,7 @@ local_ent(HIP_LaserTouch)
 	}
 	else if ((self.cnt == LASER_BOUNCE) || (random() < LASER_BOUNCE_RND_DIE))
 	{
-#ifdef nondp		
+#ifdef nondp
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, self.origin_x);
@@ -564,7 +564,7 @@ void() HIP_FireMjolnir =
 		if (trace_fraction != 1.0)
 		{
 			sound (self, CHAN_WEAPON, "hipweap/mjoltink.wav", 1, ATTN_NORM);
-#ifdef nondp		
+#ifdef nondp
 			WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 			WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 			WriteCoord (MSG_BROADCAST, self.v___x);

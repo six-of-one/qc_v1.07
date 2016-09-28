@@ -642,7 +642,7 @@ A simple entity that looks solid but lets you walk through it.
 void() func_illusionary =
 
 {
-#ifdef opgrade 
+#ifdef opgrade
 // this op leaves func_wall_use possibly active for func_illusionary
 	func_wall();
 //	self.use = SUB_Null; // this would fix it
@@ -656,7 +656,7 @@ void() func_illusionary =
 // interesting - makestatic makes SOLID_BSP map brush objects like func_wall non solid !
 //							  unless some engine mod treats this differently - most opgrades were only tested in darkplaces
 	makestatic ( 
-#ifdef codefix 
+#ifdef codefix
 					 self 
 #endifdef 
 						  );

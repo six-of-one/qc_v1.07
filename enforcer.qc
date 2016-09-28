@@ -37,7 +37,7 @@ void() Laser_Touch =
 	}
 	else
 	{
-#ifdef nondp		
+#ifdef nondp
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, self.v___x);
