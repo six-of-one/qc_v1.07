@@ -69,7 +69,7 @@ void() W_FireAxe =
 	else
 	{	// hit wall
 		sound (self, CHAN_WEAPON, "player/axhit2.wav", 1, ATTN_NORM);
-#ifdef nondp		
+#ifdef nondp
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, org_x);
@@ -269,7 +269,7 @@ void(float damage, vector dir) TraceAttack =
 	}
 	else
 	{
-#ifdef nondp		
+#ifdef nondp
 		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 		WriteByte (MSG_BROADCAST, TE_GUNSHOT);
 		WriteCoord (MSG_BROADCAST, org_x);
@@ -1215,7 +1215,7 @@ float() W_CheckNoAmmo =
  #endifdef
 
 // NOTE: make this aflag wep
-#ifdef hip_weapons 
+#ifdef hip_weapons
 //MED
 	if (self.weapon == IT_MJOLNIR)
 	{
