@@ -463,9 +463,11 @@ else
 		addstat(47, 2, ammo_slug); // enh ammos
 		addstat(48, 2, ammo_gaspr); // enh ammos
 
-#ifdef code_fix
-		addstat(49, 2, wetsuit_finished); // enh powers
+#ifdef codefix
 		addstat(53, 2, silencer_finished); // for silencer
+#endifdef
+#ifdef HIPNOTIC
+		addstat(49, 2, wetsuit_finished); // enh powers
 #endifdef
 		addstat(50, 2, x_items); // enh powers
 		addstat(52, 2, deadflag); // for bones
