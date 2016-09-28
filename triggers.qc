@@ -379,6 +379,7 @@ void() tdeath_touch =
 	if (other == self.owner)
 		return;
 
+// TDO: solid escape in coop
 #ifdef map_hack
 	if (other.classname == "player") // we still want to BOOM a monster that wanders on the pad
 	if (cvar("mh_coop_nospf"))
