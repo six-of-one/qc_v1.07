@@ -227,9 +227,18 @@ void() health_touch =
 {
 //	local	float amount;	// fx_warning
 //	local	string	s;
-	
+
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
+#endifdef
 	
 	if (self.healtype == 2) // Megahealth?  Ignore max_health...
 	{
@@ -324,11 +333,21 @@ void() armor_touch;
 void() armor_touch =
 {
 	local	float	type, value, bit;
-	
+
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.health <= 0)
 		return;
 	if (other.classname != "player")
 		return;
+#endifdef
+
 
 	if (self.classname == "item_armor1")
 	{
@@ -514,8 +533,18 @@ void() weapon_touch =
 #define stemp 	newmis
 	local	float	leave;
 
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (!(other.flags & FL_CLIENT))
 		return;
+#endifdef
+
 
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
@@ -826,10 +855,20 @@ void() ammo_touch =
 #define stemp 	newmis
 local float		best;
 
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
+#endifdef
+
 
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
@@ -1154,12 +1193,22 @@ void() key_touch =
 //local entity	stemp;	// fx_warning
 //local float		best;	// fx_warning
 
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
 	if (other.items & self.items)
 		return;
+#endifdef
+
 
 	sprint (other, "You got the ");
 	sprint (other, self.netname);
@@ -1329,10 +1378,19 @@ void() sigil_touch =
 //local entity	stemp;	// fx_warning
 //local float		best;	// fx_warning
 
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
+#endifdef
 
 	centerprint (other, "You got the rune!");
 
@@ -1423,10 +1481,19 @@ void() powerup_touch =
 //local entity	stemp;	// fx_warning
 //local float		best;	// fx_warning
 
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
+#endifdef
 
 	sprint (other, "You got the ");
 	sprint (other, self.netname);
@@ -1599,11 +1666,20 @@ void() BackpackTouch =
 //	local	float	acount;
 #define stemp 	newmis
 #define acount 	self.f__
-	
+
+#ifdef code_painkeep_
+	if (other.classname != "player") // pk - this is where the grap can grab stuff
+	{
+		if (other.classname == "Harpoon")
+			grap_checkIfGrap();
+		return;
+	}
+#else
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
+#endifdef
 
 	acount = 0;
 	sprint (other, "You get ");
