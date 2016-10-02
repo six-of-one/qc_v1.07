@@ -916,6 +916,10 @@ void() t_on
 
 #define nspawn newmis
 
+// .group is used in many places to run .cfg scripts
+
+#define script	group
+
 // self.frags is used repeatedly for local defines - excepting players / bots
 // self.oldenemy is used for local defines - doors & plats
 
