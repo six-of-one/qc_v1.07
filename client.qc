@@ -1946,6 +1946,9 @@ ClientObituary
 called when a player dies
 ============
 */
+
+// TDO: scripted obits
+
 void(entity targ, entity attacker) ClientObituary =
 {
 	local	float rnum;
