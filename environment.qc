@@ -44,53 +44,50 @@ skydark - stonehenge (thick enough for content check)
 
 texture/ * skies - q3 maps
 */
+#define	last_texture		s0__
+#define	surfnum2		f1__
 
-float(string surf, vector v, entity e) sky_touch =
+
+float(vector v, entity e) sky_touch =
 {
-	local float t, surfnum2;
-//	local string s3;
-	string last_texture;
-
-//	if (XENV) return(FALSE);
 //	if (!DARKPLACES) return(FALSE); // Cat - 8.14.11 - fix fteqw bug
 
-	if (surf == string_null) // note - no q1 mode qual on surface string
+	surfnum2 = -1;
+	f0__ = FALSE;
+	if (v == '0 0 0')
 	{
-		surfnum2 = -1;
-		t = FALSE;
-		if (v == '0 0 0' && !e) e = self;
-		if (v == '0 0 0' && e) v = e.origin + normalize(e.velocity) * 10;
-		if (v == '0 0 0') return(t);
+		if (!e) e = self;
+		v = e.origin + normalize(e.velocity) * 10;
+	}
+	if (v == '0 0 0') return(f0__);
 
-		if (pointcontents(v) == CONTENT_SKY) t = TRUE;
+	if (pointcontents(v) == CONTENT_SKY) f0__ = TRUE;
 
 #ifndef nondp
-		last_texture = string_null;
-		surfnum2 = getsurfacenearpoint(world, v);
-	}
+	last_texture = string_null;
+	surfnum2 = getsurfacenearpoint(world, v);
 
 // new sky contents code
 
-	if (surfnum2 >= 0 || surf)
+	if (surfnum2 >= 0)
 	{
-		if (surf == string_null) last_texture = getsurfacetexture(world, surfnum2);
-		else last_texture = surf;
-		if (last_texture == "sky1" || last_texture == "sky4" || last_texture == "sky0" || last_texture == "sky2" || last_texture == "sky6") t = TRUE;
-		else if (last_texture == "firey_") t = TRUE;
-		else if (last_texture == "s6_") t = TRUE;
-		else if (last_texture == "dsky1_") t = TRUE;
-		else if (last_texture == "d2_sky1_rmd_") t = TRUE;
-		else if (last_texture == "textures/K_sky/rabbit_skybox" || last_texture == "textures/skies/pjbasesky_arena1_sky") t = TRUE;
-		else if (last_texture == "graveyard/grave_") t = TRUE;
-		else if (last_texture == "skydark") t = TRUE;
-		else if (last_texture == "c1_") t = TRUE;
-		else if (last_texture == "unit5_") t = TRUE;
-		else if (last_texture == "mandr_") t = TRUE;
-		else if (last_texture == "snow2_") t = TRUE;
-#endifdef
+		last_texture = getsurfacetexture(world, surfnum2);
+		if (last_texture == "sky1" || last_texture == "sky4" || last_texture == "sky0" || last_texture == "sky2" || last_texture == "sky6") f0__ = TRUE;
+		else if (last_texture == "firey_") f0__ = TRUE;
+		else if (last_texture == "s6_") f0__ = TRUE;
+		else if (last_texture == "dsky1_") f0__ = TRUE;
+		else if (last_texture == "d2_sky1_rmd_") f0__ = TRUE;
+		else if (last_texture == "textures/K_sky/rabbit_skybox" || last_texture == "textures/skies/pjbasesky_arena1_sky") f0__ = TRUE;
+		else if (last_texture == "graveyard/grave_") f0__ = TRUE;
+		else if (last_texture == "skydark") f0__ = TRUE;
+		else if (last_texture == "c1_") f0__ = TRUE;
+		else if (last_texture == "unit5_") f0__ = TRUE;
+		else if (last_texture == "mandr_") f0__ = TRUE;
+		else if (last_texture == "snow2_") f0__ = TRUE;
 	}
+#endifdef
 
-	return(t);
+	return(f0__);
 };
 
 // fn(T_FireDamage) - damage from fires & hot stuff, will heal lavablobs!

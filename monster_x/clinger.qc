@@ -372,7 +372,7 @@ if (ign != A_MONSTER)
 #endifdef
 
 		traceline(self.origin + '0 0 6', self.origin + '0 0 1005', TRUE, self);
-		if (sky_touch(string_null, trace_endpos + '0 0 1', world)) trace_fraction = 1; // hit sky brush or surface - we dont want them "on" skys
+		if (sky_touch(trace_endpos + '0 0 1', world)) trace_fraction = 1; // hit sky brush or surface - we dont want them "on" skys
 		if (trace_fraction >= 1 || (random() < 0.16)) // no ceiling ? - or occasionally make a floor model
 		{
 			self.angles_x = 180; // try flipping over
