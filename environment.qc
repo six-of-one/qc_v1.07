@@ -52,14 +52,19 @@ float(vector v, entity e) sky_touch =
 {
 //	if (!DARKPLACES) return(FALSE); // Cat - 8.14.11 - fix fteqw bug
 
-	surfnum2 = -1;
 	f0__ = FALSE;
 	if (v == '0 0 0')
 	{
 		if (!e) e = self;
 		v = e.origin + normalize(e.velocity) * 10;
 	}
-	if (v == '0 0 0') return(f0__);
+/// NEED: update this when master biome changes to new system
+// this is prob the easiest way to do this, as well
+	if (v == '0 0 0'
+#ifdef map_hack
+					|| biome
+#endifdef
+										) return(f0__);
 
 	if (pointcontents(v) == CONTENT_SKY) f0__ = TRUE;
 
@@ -68,22 +73,23 @@ float(vector v, entity e) sky_touch =
 	surfnum2 = getsurfacenearpoint(world, v);
 
 // new sky contents code
+// __sky{n} cvars must be sequential - first not found ends loop
 
 	if (surfnum2 >= 0)
 	{
 		last_texture = getsurfacetexture(world, surfnum2);
-		if (last_texture == "sky1" || last_texture == "sky4" || last_texture == "sky0" || last_texture == "sky2" || last_texture == "sky6") f0__ = TRUE;
-		else if (last_texture == "firey_") f0__ = TRUE;
-		else if (last_texture == "s6_") f0__ = TRUE;
-		else if (last_texture == "dsky1_") f0__ = TRUE;
-		else if (last_texture == "d2_sky1_rmd_") f0__ = TRUE;
-		else if (last_texture == "textures/K_sky/rabbit_skybox" || last_texture == "textures/skies/pjbasesky_arena1_sky") f0__ = TRUE;
-		else if (last_texture == "graveyard/grave_") f0__ = TRUE;
-		else if (last_texture == "skydark") f0__ = TRUE;
-		else if (last_texture == "c1_") f0__ = TRUE;
-		else if (last_texture == "unit5_") f0__ = TRUE;
-		else if (last_texture == "mandr_") f0__ = TRUE;
-		else if (last_texture == "snow2_") f0__ = TRUE;
+		f5__ = 1;
+		while (f5__ > 0)
+		{
+			s5__ = strcat("__sky",ftos(f5__));
+			f5__ = f5__ + 1;
+			if (! (cvar_type(s5__) & CVAR_TYPEFLAG_EXISTS))
+				f5__ = 0;
+			else if (last_texture == cvar_string(s5__)) f0__ = TRUE;
+																																												bprint(" * Tested sky tex = ");
+																																												bprint(cvar_string(s5__));
+																																												bprint(")\n");
+		}
 	}
 #endifdef
 
