@@ -86,9 +86,6 @@ float(vector v, entity e) sky_touch =
 			if (! (cvar_type(s5__) & CVAR_TYPEFLAG_EXISTS))
 				f5__ = 0;
 			else if (last_texture == cvar_string(s5__)) f0__ = TRUE;
-																																												bprint(" * Tested sky tex = ");
-																																												bprint(cvar_string(s5__));
-																																												bprint(")\n");
 		}
 	}
 #endifdef
