@@ -960,16 +960,15 @@ void() PutClientInServer =
 
 	spawn_tdeath (self.origin, self);
 
-// map supplied cfg file in .group field
+// map supplied cfg file in .group field - code has .script
 // note: map is already loaded at this point
-	if (world.group)
+	if (world.script)
 	{
 		stuffcmd(self, "exec ");
-		stuffcmd(self, world.group);
+		stuffcmd(self, world.script);
 		stuffcmd(self, "\n");
 	}
 // try {mapname}.cfg file
-// ISSUE: fails for pulse nailgun first time map is loaded
 	stuffcmd(self, "exec cfg/map/");
 	stuffcmd(self, mapname);
 	stuffcmd(self, ".cfg\n");

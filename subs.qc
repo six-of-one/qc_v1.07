@@ -282,6 +282,17 @@ void() SUB_UseTargets =
 	if (self.worldtype && self.oh) world.worldtype == self.worldtype;
 #endifdef
 
+// x_ents - call script if set on any ent that comes here
+#ifdef code_xents
+	if (self.script)
+	{
+		localcmd("exec ");
+		localcmd(self.script);
+		localcmd("\n");
+	}
+#endifdef
+
+
 //
 // kill the killtagets
 //
