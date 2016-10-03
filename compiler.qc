@@ -916,7 +916,7 @@ void() t_on
 
 #define nspawn newmis
 
-// .group is used in many places to run .cfg scripts
+// .group is used in many places to run .cfg scripts - use code ref .script
 
 #define script	group
 
