@@ -146,7 +146,7 @@ void(entity e, vector org, vector vel, float damage) SpawnBlood =
 #ifdef code_morph
 		if (e.mask_x & MORPH_ARCHON) spawn_particle = 234; // dont let them see and Archon bleed
 #endifdef
-		if (e.netname == "Crate") spawn_particle = 104;
+		if (e.classname == "pk_crate") spawn_particle = 104;
 	}
 #endifdef
 		particle (org, vel*0.1, spawn_particle, damage*2);
