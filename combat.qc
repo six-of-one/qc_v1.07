@@ -318,7 +318,25 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // do the damage
 	targ.health = ceil(targ.health - take);
-			
+
+#ifdef code_xents
+// crate being busted open - hear it now
+	if (targ.classname == "pk_crate")
+	if ((targ.aflag < time) || (targ.health <= 0)) // do crates use .aflag for anything?
+	{
+		targ.aflag = time + 1;
+		self.rnd_ = random();
+		if (targ.health <= 0)
+			sound (targ, CHAN_AUTO, targ.CRATE_OPENED, 1, ATTN_NORM);
+		else if (self.rnd_ < 0.33)
+			sound (targ, CHAN_AUTO, targ.CRATE_OPEN1, 1, ATTN_NORM);
+		else if (self.rnd_ < 0.66)
+			sound (targ, CHAN_AUTO, targ.CRATE_OPEN2, 1, ATTN_NORM);
+		else //if (r < 0.3)
+			sound (targ, CHAN_AUTO, targ.CRATE_OPEN3, 1, ATTN_NORM);		
+	}
+#endifdef
+
 	if (targ.health <= 0)
 	{
 		Killed (targ, attacker);
