@@ -430,6 +430,7 @@ else
 	nspawn.nextthink = time + 3;
 	nspawn.netname = "__spawn";			// get base spawner loop(s) - __spawn{n}
 
+// things that need to happen every time the server is loaded - autoexec only runs on game launch
 	localcmd("exec server.cfg\n");
 
 #ifdef HUD_support

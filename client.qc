@@ -960,6 +960,7 @@ void() PutClientInServer =
 
 	spawn_tdeath (self.origin, self);
 
+// per map things that need to happen for a client (fog, r_ambient, other cvar settings)
 // map supplied cfg file in .group field - code has .script
 // note: map is already loaded at this point
 	if (world.script)
