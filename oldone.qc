@@ -162,6 +162,16 @@ void() finale_1 =
 
 	// find the intermission spot
 	pos = find (world, classname, "info_intermission");
+
+#ifdef map_hack
+// make sure we found "our" intermission
+	if (self.oh)
+	while (pos && (self.oh != pos.oh))
+	{
+		pos = find (pos, classname, "info_intermission");
+	}
+#endifdef
+
 	if (!pos)
 #ifdef noobjerr
 	{
