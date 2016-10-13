@@ -205,6 +205,12 @@ void() finale_1 =
 	pl = find (world, classname, "player");
 	while (pl) // != world)
 	{
+#ifdef map_hack
+// save all player locs
+		pl.ip_orgOrigin = pl.origin;
+		pl.mangle = pl.angles;
+#endifdef
+
 		pl.view_ofs = '0 0 0';
 		pl.angles = other.v_angle = pos.mangle;
 		pl.fixangle = TRUE;		// turn this way immediately
@@ -213,7 +219,6 @@ void() finale_1 =
 		pl.takedamage = DAMAGE_NO;
 		pl.solid = SOLID_NOT;
 		pl.movetype = MOVETYPE_NONE;
-		pl.modelindex = 0;
 		setorigin (pl, pos.origin);
 		pl = find (pl, classname, "player");
 	}	
@@ -333,6 +338,35 @@ void() finale_4 =
 	WriteByte (MSG_ALL, SVC_FINALE);
 	WriteString (MSG_ALL, "Congratulations and well done! You have\nbeaten the hideous Shub-Niggurath, and\nher hundreds of ugly changelings and\nmonsters. You have proven that your\nskill and your cunning are greater than\nall the powers of Quake. You are the\nmaster now. Id Software salutes you.");
 
+#ifdef map_hack
+// in maphack - after boss kill, allow continue
+	if (self.oh)
+	{
+// clear this, go on -> in theory
+		intermission_exittime =
+		intermission_running = 0;
+// put players back
+		other = find (world, classname, "player");
+		while (other) // != world)
+		{
+			setorigin(other,other.ip_orgOrigin);
+			other.angles = other.mangle;
+			other.fixangle = TRUE;		// turn this way immediately
+			other.map = string_null;
+			other.view_ofs = '0 0 22';
+			other.takedamage = DAMAGE_AIM;
+			other.solid = SOLID_SLIDEBOX;
+			other.movetype = MOVETYPE_WALK;
+			other.modelindex = modelindex_player;
+			other.nextthink = time + 0.1;
+			centerprint(other, string_null);
+			other = find (other, classname, "player");
+		}
+	}
+	else
+	{
+#endifdef
+
 // put a player model down
 	nspawn = spawn();
 	setmodel (nspawn, "progs/player.mdl");
@@ -340,6 +374,10 @@ void() finale_4 =
 	setorigin (nspawn, self.v__);
 	nspawn.angles = '0 290 0';
 	nspawn.frame = 1;
+
+#ifdef map_hack
+	}
+#endifdef
 
 	remove (self);
 
