@@ -388,6 +388,8 @@ void() worldspawn =
 
 #ifdef map_hack
 
+	biome = spawn();
+
 // REMOVE
 // test for maphack stuff
 //WARNING = 229376;
