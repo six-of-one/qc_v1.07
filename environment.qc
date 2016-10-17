@@ -58,11 +58,10 @@ float(vector v, entity e) sky_touch =
 		if (!e) e = self;
 		v = e.origin + normalize(e.velocity) * 10;
 	}
-/// NEED: update this when master biome changes to new system
 // this is prob the easiest way to do this, as well
 	if (v == '0 0 0'
 #ifdef map_hack
-					|| biome
+					|| cvar("__biome_")
 #endifdef
 										) return(f0__);
 
