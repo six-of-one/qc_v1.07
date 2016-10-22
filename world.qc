@@ -433,6 +433,11 @@ else
 // things that need to happen every time the server is loaded - autoexec only runs on game launch
 	localcmd("exec server.cfg\n");
 
+// try {mapname}.cfg file
+	localcmd("exec cfg/map/");
+	localcmd(mapname);
+	localcmd(".cfg\n");
+
 #ifdef HUD_support
 // csqc - HUD - pass these server vars to the client
 
