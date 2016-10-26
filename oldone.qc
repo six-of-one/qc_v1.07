@@ -338,14 +338,17 @@ void() finale_4 =
 	WriteByte (MSG_ALL, SVC_FINALE);
 	WriteString (MSG_ALL, "Congratulations and well done! You have\nbeaten the hideous Shub-Niggurath, and\nher hundreds of ugly changelings and\nmonsters. You have proven that your\nskill and your cunning are greater than\nall the powers of Quake. You are the\nmaster now. Id Software salutes you.");
 
-/// FIX: qone issue
 #ifdef map_hack
 // in maphack - after boss kill, allow continue
+
+	if (self.oh.map == "maps/end.bsp") self.oh = world;	// unless we are in qone mode
+
 	if (self.oh)
 	{
 // clear this, go on -> in theory
 		intermission_exittime =
 		intermission_running = 0;
+
 // put players back
 		other = find (world, classname, "player");
 		while (other) // != world)
@@ -366,6 +369,7 @@ void() finale_4 =
 	}
 	else
 	{
+// IDEA: for maphack, put player that buggedered shubs where the model goes below
 #endifdef
 
 // put a player model down
