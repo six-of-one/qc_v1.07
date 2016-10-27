@@ -1308,18 +1308,27 @@ void() W_Attack =
 			player_axec1 ();
 		else
 			player_axed1 ();
+#ifdef code_runes
+		if (rune_haste(0.28))
+#endifdef
 		self.attack_finished = time + 0.5;
 	}
 	else if (self.weapon == IT_SHOTGUN)
 	{
 		player_shot1 ();
 		W_FireShotgun ();
+#ifdef code_runes
+		if (rune_haste(0.28))
+#endifdef
 		self.attack_finished = time + 0.5;
 	}
 	else if (self.weapon == IT_SUPER_SHOTGUN)
 	{
 		player_shot1 ();
 		W_FireSuperShotgun ();
+#ifdef code_runes
+		if (rune_haste(0.38))
+#endifdef
 		self.attack_finished = time + 0.7;
 	}
 	else if (self.weapon == IT_NAILGUN)
@@ -1334,12 +1343,18 @@ void() W_Attack =
 	{
 		player_rocket1();
 		W_FireGrenade();
+#ifdef code_runes
+		if (rune_haste(0.3))
+#endifdef
 		self.attack_finished = time + 0.6;
 	}
 	else if (self.weapon == IT_ROCKET_LAUNCHER)
 	{
 		player_rocket1();
 		W_FireRocket();
+#ifdef code_runes
+		if (rune_haste(0.4))
+#endifdef
 		self.attack_finished = time + 0.8;
 	}
 	else if (self.weapon == IT_LIGHTNING)
@@ -1361,6 +1376,9 @@ void() W_Attack =
 			player_hammer1();
 		else
 			player_mjolnir1();
+#ifdef code_runes
+		if (rune_haste(0.4))
+#endifdef
 		self.attack_finished = time + 0.8;
 	}
 //MED
@@ -1368,6 +1386,9 @@ void() W_Attack =
 	{
 		player_rocket1();
 		W_FireProximityGrenade();
+#ifdef code_runes
+		if (rune_haste(0.3))
+#endifdef
 		self.attack_finished = time + 0.6;
 	}
 #endifdef
