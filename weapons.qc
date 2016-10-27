@@ -715,6 +715,10 @@ void() W_FireGrenade =
 			newmis.velocity = newmis.velocity * 600;
 			newmis.velocity_z = 200;
 		}
+#ifdef code_runes
+	if ((self.rune_flag & RUNE_FLG_HS) || (self.rune_flag & TECH_TEIM))
+		newmis.velocity = newmis.velocity * 2;
+#endifdef
 // qc++
 		newmis.dmg = 120;
 	}
@@ -790,6 +794,10 @@ void(vector org, vector dir) launch_spike =
 	setorigin (newmis, org);
 
 	newmis.velocity = dir * 1000;
+#ifdef code_runes
+	if ((self.rune_flag & RUNE_FLG_HS) || (self.rune_flag & TECH_TEIM))
+		newmis.velocity = newmis.velocity * 2;
+#endifdef
 };
 
 #ifdef opgrade
@@ -840,6 +848,9 @@ void(float ox) W_FireSpikes =
 		newmis.dmg = 18;
 	}
 
+#ifdef code_runes
+	if (rune_haste(0.1))
+#endifdef
 	self.attack_finished = time + 0.2;
 	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 
@@ -854,6 +865,9 @@ void() W_FireSuperSpikes =
 //	local entity	old;	// fx_warning
 	
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
+#ifdef code_runes
+	if (rune_haste(0.1))
+#endifdef
 	self.attack_finished = time + 0.2;
 	self.currentammo = self.ammo_nails = self.ammo_nails - 2;
 	dir = aim (self, 1000);
@@ -886,6 +900,9 @@ void(float ox) W_FireSpikes =
 	}
 
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+#ifdef code_runes
+	if (rune_haste(0.1))
+#endifdef
 	self.attack_finished = time + 0.2;
 	self.currentammo = self.ammo_nails = self.ammo_nails - 1;
 	dir = aim (self, 1000);
