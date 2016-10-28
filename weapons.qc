@@ -1044,6 +1044,7 @@ void() W_SetCurrentAmmo =
 	#endifdef
 
 // x_ents
+		self.chaosweptime = 0;
 		ominous_hum(string_null, 1);
 	}
 #endifdef
