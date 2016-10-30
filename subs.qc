@@ -289,6 +289,20 @@ void() SUB_UseTargets =
 		localcmd("exec ");
 		localcmd(self.script);
 		localcmd("\n");
+
+#ifdef warning
+																			if (WARNING & 131072)
+																			{
+																						bprint(" *** warning:   script run : ");
+																						bprint(item_ident(self));
+																						bprint(", @ ");
+																						bprint(vtos(self.origin));
+																						bprint(", op: ");
+																						bprint(self.script);
+																						bprint("\n");
+																			}
+#endifdef
+
 	}
 #endifdef
 
