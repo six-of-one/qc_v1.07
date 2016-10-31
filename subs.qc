@@ -291,7 +291,7 @@ void() SUB_UseTargets =
 		localcmd("\n");
 
 #ifdef warning
-																			if (WARNING & 131072)
+																			if (WARNING & 1024)
 																			{
 																						bprint(" *** warning:   script run : ");
 																						bprint(item_ident(self));
