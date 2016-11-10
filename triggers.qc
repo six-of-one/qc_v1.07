@@ -216,6 +216,12 @@ This fixed size trigger cannot be touched, it can only be fired by other events.
 void() trigger_relay =
 {
 	self.use = SUB_UseTargets;
+
+#ifdef map_hack
+// do this or these will have visual appearance in hacks
+	self.modelindex = 0;
+	self.model = string_null;
+#endifdef
 };
 
 
