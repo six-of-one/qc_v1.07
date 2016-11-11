@@ -976,7 +976,9 @@ void() PutClientInServer =
 
 // respawn - if spot has an owner hack, make triggers
 #ifdef map_hack
-	if (spot.oh)  chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 1, 0,  spot.oh.origin, '-8 -8 -8', '8 8 8', '0 0 0', '0 0 0', "maphack_trigger", string_null, SUB_Null, 0.05, maphack_trigger, SUB_Null, spot.oh, world);
+	if (spot.oh)
+	if (! (spot.oh.spawnflags & 16)) // NOTRIG flag
+		chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 1, 0,  spot.oh.origin, '-8 -8 -8', '8 8 8', '0 0 0', '0 0 0', "maphack_trigger", string_null, SUB_Null, 0.05, maphack_trigger, SUB_Null, spot.oh, world);
 #endifdef
 
 #ifndef code_frikbots

@@ -523,7 +523,8 @@ local vector	org;
 	ltarget();
 	if (self.movetarget) t = self.movetarget;
 // + t.view_ofs - for dest that are offset from mh owner
-	if (t.oh)  
+	if (t.oh)
+	if (! (t.oh.spawnflags & 16)) // NOTRIG flag
 	{
 		chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 1, 0,  t.oh.origin + t.view_ofs, '-8 -8 -8', '8 8 8', '0 0 0', '0 0 0', "maphack_trigger", string_null, SUB_Null, 0.05, maphack_trigger, SUB_Null, t.oh, world);
 		t.oh.hack_pdist = 0; // tell engine to display this right now
