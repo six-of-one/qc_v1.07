@@ -62,7 +62,7 @@ vector(entity e, float sped)	_b_aim = #44;		// returns the shooting vector
 .string class_select;
 .float button3, button11;
 .string stack1;
-float noway_above; // no worky w/o more code
+float noway_above;
 float noway_below;
 
 void(float to, float f)		_b_WriteByte = #52;
