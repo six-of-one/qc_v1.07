@@ -12,6 +12,12 @@ void() SUB_regen =
 	if (!self.noise4) self.noise4 = "items/itembk2.wav";
 	sound (self, CHAN_VOICE, self.noise4, 1, ATTN_NORM);	// play spec respawn sound
 //	sound (self, CHAN_VOICE, "items/itembk2.wav", 1, ATTN_NORM);	// play respawn sound
+
+#ifdef code_xents
+// for mk III ents - allow fields override if t_length
+	if (self.t_length) cvar_fields(self, strcat("__",self.classname));
+#endifdef
+
 	setorigin (self, self.origin);
 };
 
