@@ -6,32 +6,33 @@
                 		- noobjerr
                 		- nodprint
                 		- warning
-                		- local_test 	*
                 		- xvars
+                		- Archon (a)
                 		- code_painkeep
+                		- code_frikbots
+                		- code_runes
                 		- code_viswep
                 		- quakemonsters
                 		- map_hack
                 		- code_xents
-                		- remove_code 	* !!
 
- 71932 strofs (of 1000000)
- 37871 numstatements (of 524288)
-   948 numfunctions (of 16384)
-  3917 numglobaldefs (of 32768)
-   365 numfielddefs (334 unique) (of 2048)
-  4320 numpr_globals (of 65536)
+98024 strofs (of 1000000)
+ 51781 numstatements (of 524288)
+  1156 numfunctions (of 16384)
+  5499 numglobaldefs (of 32768)
+   435 numfielddefs (398 unique) (of 2048)
+  5919 numpr_globals (of 65536)
 Writing progs.dat
-460696 TOTAL SIZE
+625168 TOTAL SIZE
 Writing progs.lno
- 93 unique precache_models
+ 95 unique precache_models
 Compile Complete
 
-optres_shortenifnots 251
-optres_overlaptemps 21709
-optres_constantarithmatic 238
-optres_nonvec_parms 5935
-optres_assignments 1011
-optres_unreferenced 20
-numtemps 330
-93 warnings
+optres_shortenifnots 443
+optres_overlaptemps 28171
+optres_constantarithmatic 258
+optres_nonvec_parms 8439
+optres_assignments 1572
+optres_unreferenced 25
+numtemps 393
+95 warnings

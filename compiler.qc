@@ -632,7 +632,7 @@ spec track by cvar
 
 // use frik bots
 /// SWITCH
-//#define code_frikbots
+#define code_frikbots
 
 #ifdef code_frikbots
 	#ifdef module_list
