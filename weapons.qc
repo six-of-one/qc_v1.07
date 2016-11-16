@@ -1440,7 +1440,8 @@ void() W_ChangeWeapon =
 			self.pk_currentitem = self.pk_currentitem * 2;
 			while (e0__)
 			{
-				if (e0__.pk_currentitem == self.pk_currentitem) e0__ = world;
+				if (e0__.pk_currentitem == self.pk_currentitem
+						&& e0__.weapon == IT_AXE) e0__ = world;
 				else
 				{					
 					e0__ = e0__.vwepent;
