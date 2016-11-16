@@ -7,7 +7,6 @@ BE .8 .3 .4 IN COLOR */
 
 void() SUB_regen =
 {
-	self.model = self.mdl;		// restore original model
 	self.solid = SOLID_TRIGGER;	// allow it to be touched again
 	if (!self.noise4) self.noise4 = "items/itembk2.wav";
 	sound (self, CHAN_VOICE, self.noise4, 1, ATTN_NORM);	// play spec respawn sound
@@ -17,6 +16,9 @@ void() SUB_regen =
 // for mk III ents - allow fields override if t_length
 	if (self.t_length) cvar_fields(self, strcat("__",self.classname));
 #endifdef
+// moved here so crates etc, can respawn - mdl must be set by script to respawn models
+//	self.model = self.mdl;		// restore original model
+``	setmodel(self, self.mdl); // restore original model x_ents version - because crates are burger kings
 
 	setorigin (self, self.origin);
 };
@@ -143,8 +145,6 @@ void() StartItem =
 /// REMOVE - TEST
 																								registercvar(strcat("___startitem_",self.classvn),self.model);
 		self.classname = self.classvn;
-//		setmodel(self, self.model); // pre load doesnt set these - this sets box size, so
-//		if (self.pos2) setsize(self, self.pos1, self.pos2); // if defined pos{1,2} used for size override
 	}
 #endifdef
 };
