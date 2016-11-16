@@ -18,7 +18,7 @@ void() SUB_regen =
 #endifdef
 // moved here so crates etc, can respawn - mdl must be set by script to respawn models
 //	self.model = self.mdl;		// restore original model
-``	setmodel(self, self.mdl); // restore original model x_ents version - because crates are burger kings
+gs	setmodel(self, self.mdl); // restore original model x_ents version - because crates are burger kings
 
 	setorigin (self, self.origin);
 };
