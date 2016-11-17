@@ -537,13 +537,6 @@ local vector	org;
 	if (t.angles_y)
 		t.mangle = t.angles;
 #endifdef
-																				bprint(" *** teletrig: ");
-																				bprint(ftos(num_for_edict(t)));
-																				bprint(", angles: ");
-																				bprint(vtos(t.angles));
-																				bprint(", mangle: ");
-																				bprint(vtos(t.mangle));
-																				bprint("\n");
 
 // spawn a tfog flash in front of the destination
 	makevectors (t.mangle);
