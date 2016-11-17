@@ -191,9 +191,6 @@ void(float fhandle, string s, ...) fputs = #113; // writes a line of text to the
 
 	#endifdef
 
-/// hipnotic using
-
-//DP_QC_COPYENTITY in					hipsubs.qc
 
 	#ifdef code_viswep
 
