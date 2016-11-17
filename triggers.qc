@@ -546,8 +546,16 @@ local vector	org;
 		return;
 	}
 
+// once we start using random dest, some ents have angles set
+#ifdef opgrade
+	if (!t.mangle)
+	if (t.angles)
+		t.mangle = t.angles;
+#endifdef
+
 	setorigin(other, t.origin);
 	other.angles = t.mangle;
+
 	if (other.classname == "player")
 	{
 		other.fixangle = 1;		// turn this way immediately
