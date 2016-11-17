@@ -531,6 +531,13 @@ local vector	org;
 	}
 #endifdef
 
+// once we start using random dest, some ents have angles set
+#ifdef opgrade
+	if (!t.mangle)
+	if (t.angles)
+		t.mangle = t.angles;
+#endifdef
+
 // spawn a tfog flash in front of the destination
 	makevectors (t.mangle);
 	org = t.origin + 32 * v_forward;
@@ -545,13 +552,6 @@ local vector	org;
 		other.velocity = (v_forward * other.velocity_x) + (v_forward * other.velocity_y);
 		return;
 	}
-
-// once we start using random dest, some ents have angles set
-#ifdef opgrade
-	if (!t.mangle)
-	if (t.angles)
-		t.mangle = t.angles;
-#endifdef
 
 	setorigin(other, t.origin);
 	other.angles = t.mangle;
