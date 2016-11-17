@@ -286,7 +286,7 @@ void() bolt_findNextTarget =
 //	  if (ammo_con(2, self, string_null) != 0) // not infinite
 #ifdef code_xents
 	  if (self.eweapon)
-	  if (!self.eweapon.aflag)
+	  if (self.eweapon.aflag < 1)
 #endifdef
 	  if (self.ammo_cells < 2)
 	  {
@@ -414,7 +414,7 @@ void(vector org, entity boltTarget, entity boltOwner, vector endPos, float first
 	if (boltTarget.class_select == "class_monster")
 	{
 #ifdef code_xents
-		if (!self.eweapon.aflag)
+		if (self.eweapon.aflag < 1)
 #endifdef
 			self.currentammo = self.ammo_cells = self.ammo_cells - autocvar_sv_pk_chainlt_ptspermonster;				/// FIX: this
 	}

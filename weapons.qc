@@ -1228,7 +1228,7 @@ float() W_CheckNoAmmo =
 
 #ifdef code_xents
 	if (self.eweapon)
-	if (self.eweapon.aflag) // see if its inf ammo wep
+	if (self.eweapon.aflag > 0) // see if its inf ammo wep
 		return TRUE;
  #endifdef
 
