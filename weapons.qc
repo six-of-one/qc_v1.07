@@ -1179,7 +1179,7 @@ float() W_BestWeapon =
 	{
 		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
 		if (e0__.distance > f0__)
-		if (e0__.currentammo || e0__.aflag)	// NOTE: currentammo has to be set for *all* vwepent somewhere (viswep_post)
+		if (e0__.currentammo || e0__.aflag > 0)	// NOTE: currentammo has to be set for *all* vwepent somewhere (viswep_post)			aflag on eweap - inf ammo wep
 		{
 			e1__ = e0__;
 			f0__ = e0__.distance;
