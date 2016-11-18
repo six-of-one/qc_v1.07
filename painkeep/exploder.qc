@@ -141,12 +141,6 @@ void(float shots) W_FireShotgunExploder =
 
 	self.punchangle_x = -2 * shots;
 
-#ifdef code_xents
-	e_use_ammo();
-#else
-	self.currentammo = self.pk_explode_ammo = self.pk_explode_ammo - shots; // no inf for this! ammo_con(shots, self, null_string);
-#endifdef
-
 #ifdef code_pkbots
 	if (self.classname == "pk*bot")
 		dir = botaim ();
@@ -174,9 +168,16 @@ void(float shots) W_FireShotgunExploder =
 #endifdef
 	}
 
+#ifdef code_xents
+	e_use_ammo();
+#else
+	self.currentammo = self.pk_explode_ammo = self.pk_explode_ammo - shots; // no inf for this! ammo_con(shots, self, null_string);
+#endifdef
+
 // if we run of out explode, switch to normal shells.
 	if (self.pk_explode_ammo < 1)
 	{
+		self.weapon = 1;
 		self.currentammo = self.ammo_shells;
 		W_SetCurrentAmmo();
 	}
