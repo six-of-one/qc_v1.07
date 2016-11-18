@@ -427,6 +427,7 @@ else
 
 	nspawn = spawn();
 	nspawn.think = spawn_loop;
+//	nspawn.think1 = SUB_Null;
 	nspawn.nextthink = time + 3;
 	nspawn.netname = "__spawn";			// get base spawner loop(s) - __spawn{n}
 
