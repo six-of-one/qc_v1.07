@@ -14,6 +14,7 @@ void() SUB_regen =
 
 #ifdef code_xents
 // for mk III ents - allow fields override if t_length
+	if (self.classname == "SUB_regen") self.classname = self.classvn;
 	if (self.t_length) cvar_fields(self, strcat("__",self.classname));
 #endifdef
 // moved here so crates etc, can respawn - mdl must be set by script to respawn models
