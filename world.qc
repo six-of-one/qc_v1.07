@@ -433,6 +433,7 @@ else
 
 // things that need to happen every time the server is loaded - autoexec only runs on game launch
 	localcmd("exec server.cfg\n");
+	if (deathmatch) localcmd("exec cfg/DM.cfg\n");
 
 // try {mapname}.cfg file
 	localcmd("exec cfg/map/");
