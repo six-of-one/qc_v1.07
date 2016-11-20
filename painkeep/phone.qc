@@ -88,10 +88,13 @@ void () phone_teleport =
 #ifdef notused
 	ClearSpawnPoint (phonedest);
 #endifdef
+
+#ifndef code_xents
 	makevectors (phonedest.mangle);
 	self.v__ = (phonedest.origin + (32 * v_forward));
 	spawn_tfog (self.v__);
 	spawn_tdeath (phonedest.origin,self.owner);
+// holdable teleport special
 	if (self.pk_currentitem < 0)
 	{
 		if (self.noise3)
@@ -101,34 +104,32 @@ void () phone_teleport =
 			sound (self, CHAN_AUTO, self.noise3, 1, ATTN_NORM);
 		}
 //		spawn_tfog2 (self.owner.origin, self.noise1); // set		__holdable_teleporter_noise1		"q3_snd/teleout.wav"		""
-		spawn_tfog (self.owner.origin);
 	}
-	else
+
 //	spawn_tfog2 (self.owner.origin, string_null);
 	spawn_tfog (self.owner.origin);
 
+	setorigin (self.owner,phonedest.origin);
 //	self.owner.aiment = world; // Cataboligne - 5.4.10 - telefrag escape for admin, need to reset this
 	if ( !self.owner.health )
 	{
-		self.owner.origin = phonedest.origin;
 		self.owner.velocity = ((v_forward * self.owner.velocity_x) + (v_forward * self.owner.velocity_y));
-		remove (self);
-		return ;
 	}
-	setorigin (self.owner,phonedest.origin);
-	self.owner.angles = self.owner.mangle;
-	if ( (other.classname == "player") )
+	else
 	{
-		self.owner.fixangle = 1;
-		self.owner.teleport_time = (time + 0.7);
-		self.owner.bt_immune_time = (time + BT_BUFFER);
-		if ( (self.owner.flags & FL_ONGROUND) )
+		self.owner.angles = self.owner.mangle;
+		if ( (other.classname == "player") )
 		{
-			self.owner.flags = (self.owner.flags - 512);
+			self.owner.fixangle = 1;
+			self.owner.teleport_time = (time + 0.7);
+			self.owner.bt_immune_time = (time + BT_BUFFER);
+			self.owner.velocity = (v_forward * 300);
 		}
-		self.owner.velocity = (v_forward * 300);
 	}
 	self.owner.flags = (self.owner.flags - (self.owner.flags & FL_ONGROUND));
+#else
+	mini_teleport();
+#endifdef
 	remove (self);
 };
 

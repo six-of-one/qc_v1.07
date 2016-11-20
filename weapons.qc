@@ -1801,13 +1801,20 @@ void() ImpulseCommands =
 	}
 
 #endifdef
-	if (self.impulse == 53)			// set beacon
+	e0__ = find(world,classname,"beacon");
+	if (e0__)
 	{
-		e0__ = find(world,classname,"beacon");
-		if (e0__)
+		if (self.impulse == 53)			// set beacon
 		{
 			e0__.origin = self.origin;
 			e0__.angles = self.angles;
+		}
+
+		if (self.impulse == 54)			// teleport beacon
+		{
+			e0__.owner = self;
+			e0__.think = mini_teleport;
+			e0__.nextthink = (time + 0.3);
 		}
 	}
 
