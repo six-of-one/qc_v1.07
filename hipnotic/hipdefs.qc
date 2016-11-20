@@ -19,6 +19,13 @@ float numbulletholes;
 #define	IT_PROXIMITY_GUN				65536
 #endifdef
 
+#ifndef code_xents
+// in items.qc - IT_SUPERHEALTH is removed
+#undef	IT_SUPERHEALTH
+// Six - do this until we figure out how to restore this
+#define	IT_SUPERHEALTH			0
+#endifdef
+
 //added update stat message
 #define	SVC_UPDATESTAT					3
 #define	SVC_CUTSCENE  					34
@@ -209,11 +216,6 @@ float RUN_STRAIGHT;
 // in player.qc - for flys sound
 void() HeadThink;
 
-// in items.qc - IT_SUPERHEALTH is removed
-
-#undef	IT_SUPERHEALTH
-// Six - do this until we figure out how to restore this
-#define	IT_SUPERHEALTH			0
 
 float(float w) RankForWeapon;
 

@@ -726,7 +726,7 @@ ProximityBomb
 ================
 */
 void() ProximityBomb =
-	{
+{
 	local entity	head;
 	local float	 blowup;
 
@@ -758,7 +758,7 @@ void() ProximityBomb =
 			blowup = 0;
 		if (blowup==1)
 			{
-			sound (self, CHAN_WEAPON, "hipweap/proxwarn.wav", 1, ATTN_NORM);
+			sound (self, CHAN_WEAPON, self.target, 1, ATTN_NORM);
 			ProximityGrenadeExplode();
 			self.nextthink = time + 0.5;
 			return;
@@ -766,7 +766,7 @@ void() ProximityBomb =
 		head = head.chain;
 		}
 	self.nextthink = time + 0.25;
-	};
+};
 
 /*
 ================
