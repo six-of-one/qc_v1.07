@@ -1810,11 +1810,12 @@ void() ImpulseCommands =
 			e0__.mangle = self.angles;
 		}
 
-		if (self.impulse == 54)			// teleport beacon
+		if ((self.impulse == 54) && (e0__.teleport_time < time))			// teleport beacon
 		{
 			e0__.owner = self;
 			e0__.think = mini_teleport;
 			e0__.nextthink = (time + 0.3);
+			e0__.teleport_time = time + e0__.delay;
 		}
 	}
 
