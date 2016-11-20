@@ -77,7 +77,6 @@ void()	decoy_walk1 =[  $rockrun1,  decoy_walk1  ]
 
 void(entity decoy) setup_decoy =
 {
-local_ent(setup_decoy)
 #define		pl		e0__
 	//	local entity pl;
 
@@ -102,7 +101,6 @@ local_ent(setup_decoy)
 	decoy.colormap = pl.colormap;
 
 #undef pl
-local_ent_exit()
 };
 
 /*QUAKED monster_decoy (1 0 0) (-16 -16 -24) (16 16 40)
@@ -122,7 +120,6 @@ void() monster_decoy =
 
 void(string targ, vector orig) become_decoy =
 {
-local_ent(become_decoy)
 #define		pl		e0__
 #define		decoy		e1__
 #define		temp		e2__
@@ -185,5 +182,4 @@ local_ent(become_decoy)
 #undef pl
 #undef decoy
 #undef temp
-local_ent_exit()
 };

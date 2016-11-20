@@ -63,7 +63,6 @@ void() RotateTargets =
 //	local vector vy;
 //	local vector vz;
 //	local vector org;
-local_ent(RotateTargets)
 #define	ent		e0__
 #define	vx		v1__
 #define	vy		v2__
@@ -117,7 +116,6 @@ local_ent(RotateTargets)
 #undef vy
 #undef vz
 #undef org
-local_ent_exit(RotateTargets)
 };
 
 void() RotateTargetsFinal =
@@ -160,7 +158,6 @@ void() LinkRotateTargets =
 {
 //	local entity ent;
 //	local vector tempvec;
-local_ent(LinkRotateTargets)
 #define	ent		e0__
 #define	tempvec		v0__
 
@@ -193,7 +190,6 @@ local_ent(LinkRotateTargets)
 	}
 #undef ent
 #undef tempvec
-local_ent_exit(LinkRotateTargets)
 };
 
 void( float amount ) SetDamageOnTargets =
@@ -511,7 +507,6 @@ void() rotate_train_next =
 //	local vector	vdestdelta;
 //	local float	 len, traveltime, div;
 //	local string temp;
-local_ent(rotate_train_next)
 #define	targ		e0__
 #define	current		e1__
 #define	vdestdelta		v0__
@@ -720,7 +715,6 @@ local_ent(rotate_train_next)
 #undef len
 #undef traveltime
 #undef div
-local_ent_exit(rotate_train_next)
 };
 
 void() rotate_train_find =

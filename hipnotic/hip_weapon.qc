@@ -27,7 +27,7 @@ void() HIP_LaserTouch =
 //	local vector oldvel;
 //	local float mag;
 //	local float r;
-local_ent(HIP_LaserTouch)
+
 //	#define spot1 v0__
 //	#define spot2 v1__
 	#define oldvel v2__
@@ -98,7 +98,6 @@ local_ent(HIP_LaserTouch)
 //#undef spot1
 //#undef spot2
 #undef oldvel
-local_ent_exit(HIP_LaserTouch)
 };
 
 void() HIP_LaserThink =
@@ -165,7 +164,6 @@ void(float stat) HIP_FireLaser =
 //	local vector out;
 //	local float ofs;
 //	local float aofs;
-local_ent(HIP_FireLaser)
 	#define org v2__
 	#define dir v1__
 	#define out v0__
@@ -176,14 +174,12 @@ local_ent(HIP_FireLaser)
 	if (!self.button0)
 	{
 		player_run ();
-local_ent_exit()
 		return;
 	}
 	if (self.ammo_cells < 1)
 	{
 		self.weapon = W_BestWeapon ();
 		W_SetCurrentAmmo ();
-local_ent_exit()
 		return;
 	}
 	SuperDamageSound();
@@ -226,7 +222,6 @@ local_ent_exit()
 #undef out
 #undef ofs
 #undef aofs
-local_ent_exit(HIP_FireLaser)
 };
 
 
