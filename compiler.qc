@@ -571,7 +571,7 @@ spec track by cvar
 //					default behavior with HIPNOTIC turned OFF will replace ents with missing models, deactivate some freatures - etc
 
 /// SWITCH
-//#define HIPNOTIC
+#define HIPNOTIC
 
 #ifdef HIPNOTIC
 	#ifdef module_list
