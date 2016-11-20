@@ -1799,7 +1799,17 @@ void() ImpulseCommands =
 		self.impulse = 0;
 		return;
 	}
+
 #endifdef
+	if (self.impulse == 53)			// set beacon
+	{
+		e0__ = find(world,classname,"beacon");
+		if (e0__)
+		{
+			e0__.origin = self.origin;
+			e0__.angles = self.angles;
+		}
+	}
 
 // runes
 #ifdef code_runes
