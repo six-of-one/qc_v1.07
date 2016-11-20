@@ -1105,6 +1105,7 @@ void() W_SetCurrentAmmo =
 		self.items = self.items | IT_CELLS;
 	}
 #ifdef hip_weapons
+#ifndef code_xents
 //MED
 	else if (self.weapon == IT_LASER_CANNON)
 	{
@@ -1127,6 +1128,7 @@ void() W_SetCurrentAmmo =
 		self.weaponframe = 0;
 		self.items = self.items | IT_ROCKETS;
 	}
+#endifdef
 #endifdef
 	else
 	{
@@ -1234,11 +1236,13 @@ float() W_CheckNoAmmo =
 
 // NOTE: make this aflag wep
 #ifdef hip_weapons
+#ifndef code_xents
 //MED
 	if (self.weapon == IT_MJOLNIR)
 	{
 		return TRUE;
 	}
+#endifdef
 #endifdef
 
 	self.weapon = W_BestWeapon ();
@@ -1382,6 +1386,7 @@ void() W_Attack =
 		sound (self, CHAN_AUTO, "weapons/lstart.wav", 1, ATTN_NORM);
 	}
 #ifdef hip_weapons
+#ifndef code_xents
 //MED
 	else if (self.weapon == IT_LASER_CANNON)
 	{
@@ -1409,6 +1414,7 @@ void() W_Attack =
 #endifdef
 		self.attack_finished = time + 0.6;
 	}
+#endifdef
 #endifdef
 };
 
@@ -1483,8 +1489,9 @@ void() W_ChangeWeapon =
 	if (self.impulse == 4) self.weapon = IT_NAILGUN;
 	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
 #ifdef hip_weapons
-//MED
 	if (self.impulse == 6)
+#ifndef code_xents
+//MED
 	{
 		if (self.weapon == IT_GRENADE_LAUNCHER)
 			self.weapon = IT_PROXIMITY_GUN;
@@ -1492,16 +1499,20 @@ void() W_ChangeWeapon =
 			self.weapon = IT_GRENADE_LAUNCHER;
 	}
 #else
+			self.weapon = IT_GRENADE_LAUNCHER;
+#endifdef
+#else
 	if (self.impulse == 6) self.weapon = IT_GRENADE_LAUNCHER;
 #endifdef
 	if (self.impulse == 7) self.weapon = IT_ROCKET_LAUNCHER;
 	if (self.impulse == 8) self.weapon = IT_LIGHTNING;
 
 #ifdef hip_weapons
+#ifndef code_xents
 //MED
 	if (self.impulse == 225) self.weapon = IT_LASER_CANNON;
 	if (self.impulse == 226) self.weapon = IT_MJOLNIR;
-
+#endifdef
 #endifdef
 
 	self.f__ = 1; // so logic doesnt change weapon
@@ -1559,10 +1570,12 @@ void() CheatCommand =
 	self.items = self.items | IT_LIGHTNING;
 
 	#ifdef hip_weapons
+	#ifndef code_xents
 //MED
 	self.items = self.items | IT_LASER_CANNON;
-	self.items = self.items | IT_MJOLNIR;
 	self.items = self.items | IT_PROXIMITY_GUN;
+	#endifdef
+	self.items = self.items | IT_MJOLNIR;
 	#endifdef
 
 	self.weapon = IT_ROCKET_LAUNCHER;
@@ -1594,14 +1607,14 @@ void() CycleWeaponCommand =
 
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
+#ifdef code_xents
+		if (self.weapon == 2048 ) self.weapon = 128;
+#else
 #ifdef hip_weapons
 // these are worse than the axe
 		if (self.weapon == 2048 ) self.weapon = IT_MJOLNIR;
 // up from hammer - thru prox / laser then to shotgun
 		if (self.weapon == 256 ) self.weapon = IT_PROXIMITY_GUN;
-#else
-#ifdef code_xents
-		if (self.weapon == 2048 ) self.weapon = 128;
 #else
 		if (self.weapon == 2048 ) self.weapon = IT_LIGHTNING;
 #endifdef
@@ -1612,8 +1625,10 @@ void() CycleWeaponCommand =
 
 // weapon select logic
 #ifdef hip_weapons
+#ifndef code_xents
 		if (self.weapon == IT_LASER_CANNON && self.ammo_cells < 1) am = 1;
 		if (self.weapon == IT_PROXIMITY_GUN && self.ammo_rockets < 1) am = 1;
+#endifdef
 #endifdef
 		if (self.weapon == IT_LIGHTNING && self.ammo_cells < 1) am = 1;
 		if (self.weapon == IT_ROCKET_LAUNCHER && self.ammo_rockets < 1) am = 1;
@@ -1835,7 +1850,9 @@ void() ImpulseCommands =
 
 	if (self.impulse >= 1 && self.impulse <= 8
 #ifdef hip_weapons
+#ifndef code_xents
 		|| (self.impulse >= 225 && self.impulse <= 226)
+#endifdef
 #endifdef
 		)
 		W_ChangeWeapon ();
