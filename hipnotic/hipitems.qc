@@ -316,7 +316,7 @@ void() spikemine_Touch =
 			return;
 		if (other.classname == "grenade")
 			return;
-		if (other.classname == "hiplaser")
+		if (other.classname == "laser")
 			return;
 		if (other.classname == "proximity_grenade")
 			return;

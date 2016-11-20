@@ -124,7 +124,9 @@ void() ai_run_dodge;
 .float		spawnmulti;
 
 // laser cannon
-.vector	  old_velocity;
+//.vector	  old_velocity;
+#define	old_velocity	oldorigin
+
 //misc
 .float		duration;
 // used for linked list of entities
@@ -253,3 +255,5 @@ void(float num_bubbles) DeathBubbles;
 #ifdef nondp
 void() HIP_Precache;
 #endifdef
+
+float(vector v, entity e) sky_touch;
