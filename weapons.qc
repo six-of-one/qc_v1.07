@@ -1807,7 +1807,7 @@ void() ImpulseCommands =
 		if (self.impulse == 53)			// set beacon
 		{
 			e0__.origin = self.origin;
-			e0__.angles = self.angles;
+			e0__.mangle = self.angles;
 		}
 
 		if (self.impulse == 54)			// teleport beacon

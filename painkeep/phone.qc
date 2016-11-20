@@ -117,7 +117,7 @@ void () phone_teleport =
 	}
 	else
 	{
-		self.owner.angles = self.owner.mangle;
+		self.owner.angles = phonedest.mangle;
 		if ( (other.classname == "player") )
 		{
 			self.owner.fixangle = 1;
