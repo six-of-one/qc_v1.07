@@ -231,24 +231,22 @@ void(float stat) HIP_FireLaser =
 //	org = self.origin + (1*v_forward);
 	dir = aim (self, 1000);
 	aofs = ofs * 0.707;
+
+	if (self.class_select != "class_monster")
+		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+	else
+		sound (self ,CHAN_WEAPON, "weapons/lasercannon/laserg.wav", 1, ATTN_NORM);
+
 	if (stat == 0)
 	{
-		if (self.class_select != "class_monster")
-			self.currentammo = self.ammo_cells = self.ammo_cells - 1;
-		else
-			sound (self ,CHAN_WEAPON, "weapons/lasercannon/laserg.wav", 1, ATTN_NORM);
 		org = org + (aofs*v_right);
 		org = org - (aofs*v_up);
 		HIP_LaunchLaser(org + v_right * VWY_LASERCAN, dir, 0);
 		org = org - (2*aofs*v_right);
 		HIP_LaunchLaser(org + v_right * VWY_LASERCAN, dir, 0);
 	}
-	else if (stat == 1)
+	else //if (stat == 1)
 	{
-	if (self.class_select != "class_monster")
-			self.currentammo = self.ammo_cells = self.ammo_cells - 1;
-		else
-			sound (self ,CHAN_WEAPON, "weapons/lasercannon/laserg.wav", 1, ATTN_NORM);
 		org = org + (ofs * v_up);
 		if (random()<0.1)
 		{
@@ -775,14 +773,36 @@ void() ProximityBomb =
 W_FireProximityGrenade
 ================
 */
+#define	PROX_TIMER		EWEAP.cnt
+
 void() W_FireProximityGrenade =
-	{
+{
+	v0__ = self.origin + v_up * 16 + v_forward * 4; // scourge tail shot, chaos, no eweap def
+	if (EWEAP) v0__ = self.origin + v_up * VWZ_PROXMINE+ v_forward * VWX_PROXMINE + v_right * VWY_PROXMINE;
+	NumProximityGrenades = NumProximityGrenades + 1;
+
+	fire_missile(GRENADE_VEL, MOVETYPE_TOSS, FL_GRN | FL_USEAMMO | FL_PUNCH , 0, v0__, '0 0 0', "proximity_grenade", "progs/proxbomb.mdl", self.eweapon.noise3, ProximityGrenadeTouch, 2.0, ProximityBomb, ProximityGrenadeExplode);
+
+// prox specific stuff
+//	newmis.mode_x = IV_PROX; // for det
+	if (EWEAP) newmis.target = EWEAP.target;
+	else newmis.target = "weapons/prox/proxwarn.wav";
+//	newmis.firecontrol = EXPLOSIVE;
+	newmis.takedamage = DAMAGE_NO;
+	newmis.health = 5;
+	newmis.state = 0;
+	newmis.avelocity = '100 600 100';
+	newmis.delay = 20;
+	if (EWEAP) newmis.delay = time + PROX_TIMER + (PROX_TIMER*random());  // time fuse - orig = time + 15 + (10*random());
+	setsize (newmis, '-1 -1 -1', '1 1 1');
+
+/*
 	local entity missile, mpuff;
 
 	NumProximityGrenades = NumProximityGrenades + 1;
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 
-	sound (self, CHAN_WEAPON, "hipweap/proxbomb.wav", 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, EWEAP.noise3, 1, ATTN_NORM);
 
 	self.punchangle_x = -2;
 
@@ -824,7 +844,8 @@ void() W_FireProximityGrenade =
 	setmodel (missile, "progs/proxbomb.mdl");
 	setorigin (missile, self.origin);
 	setsize (missile, '-1 -1 -1', '1 1 1');
-	};
+*/
+};
 
 
 /*
