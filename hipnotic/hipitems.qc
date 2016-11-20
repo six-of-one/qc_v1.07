@@ -69,6 +69,7 @@ local float		best;
 };
 
 
+#ifdef spawn_func
 /*QUAKED item_artifact_wetsuit (0 .5 .8) (-16 -16 -24) (16 16 32)
 Player takes no damage from electrical attacks and swims faster for 30 seconds
 */
@@ -88,6 +89,7 @@ void() item_artifact_wetsuit =
 
 	StartItem ();
 };
+#endifdef
 
 /*
 ===============================================================================
@@ -129,6 +131,8 @@ void() horn_touch =
 #endifdef
 };
 
+#ifdef spawn_func
+
 /*QUAKED item_hornofconjuring (0 .5 .8) (-16 -16 0) (16 16 32)
 Horn of Conjuring.
 You must make func_spawn entities connected to this entity
@@ -165,6 +169,7 @@ void() item_artifact_empathy_shields =
 	StartItem ();
 };
 #endifdef
+#endifdef
 /*
 ===============================================================================
 
@@ -173,6 +178,7 @@ HIPNOTIC WEAPONS
 ===============================================================================
 */
 #ifdef hip_weapons
+#ifdef spawn_func
 
 /*QUAKED weapon_mjolnir (0 .5 .8) (-16 -16 0) (16 16 32)
 */
@@ -228,6 +234,7 @@ void() weapon_proximity_gun =
 */
 };
 
+#endifdef
 #endifdef
 
 /*
