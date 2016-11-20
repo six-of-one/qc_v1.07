@@ -1800,24 +1800,30 @@ void() ImpulseCommands =
 		return;
 	}
 
-#endifdef
 	e0__ = find(world,classname,"beacon");
 	if (e0__)
 	{
-		if (self.impulse == 53)			// set beacon
+		if (self.impulse == IMP_SETBEAC)			// set beacon
 		{
 			e0__.origin = self.origin;
 			e0__.mangle = self.angles;
 		}
 
-		if ((self.impulse == 54) && (e0__.teleport_time < time))			// teleport beacon
+// IDEA: DM protect - dont fire if another player is close
+// IDEA: SP protect - dont fire for delay secs if player just touched an ent
+		if ((self.impulse == IMP_TELEBEAC) && (e0__.teleport_time < time))			// teleport beacon
 		{
 			e0__.owner = self;
 			e0__.think = mini_teleport;
 			e0__.nextthink = (time + 0.3);
 			e0__.teleport_time = time + e0__.delay;
 		}
+		if (self.impulse == IMP_SHOWBEAC)			// show beacon
+		{
+			e0__.effects = (e0__.effects + 1) & 1;
+		}
 	}
+#endifdef
 
 // runes
 #ifdef code_runes
