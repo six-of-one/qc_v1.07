@@ -97,6 +97,7 @@ void() HIP_LaserTouch =
 //		r = random();
 		sound (self, CHAN_WEAPON, self.target, 1, ATTN_STATIC);
 /*
+		sound (self, CHAN_WEAPON, "weapons/lasercannon/laserric.wav", 1, ATTN_STATIC);
 		if (r<0.33)
 			sound (self, CHAN_WEAPON, "weapons/ric1.wav", 1, ATTN_STATIC);
 		else if (r<0.66)
@@ -135,7 +136,7 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 {
 	fire_missile(LASERCAN_VEL, MOVETYPE_FLYMISSILE, FL_CTHONF, 0, org, vec, "laser", "progs/laser_m.mdl", EWEAP.noise3, HIP_LaserTouch, 0, HIP_LaserThink, SUB_Null);
 /*
-	sound (self ,CHAN_WEAPON, "hipweap/laserg.wav", 1, ATTN_NORM);
+	sound (self ,CHAN_WEAPON, "weapons/lasercannon/laserg.wav", 1, ATTN_NORM);
 
 	vec = normalize(vec);
 	newmis = spawn();
@@ -689,36 +690,40 @@ ProximityGrenadeTouch
 ================
 */
 void() ProximityGrenadeTouch =
-	{
+{
 	if (other == self)
 		return;
 	if (other.classname == self.classname)
 		return;
-	self.movetype = MOVETYPE_TOSS;
+	if (sky_touch(self.origin, self))
+	{
+		SUB_Remove();
+		return;
+	}
+//	self.movetype = MOVETYPE_TOSS;
 	if (self.state == 1)
 		return;
 	if (vlen(other.velocity) > 0)
-		{
+	{
 		ProximityGrenadeExplode();
 		self.think();
 		return;
-		}
+	}
 	if (other.takedamage == DAMAGE_AIM)
-		{
+	{
 		ProximityGrenadeExplode();
 		self.think();
 		return;
-		}
+	}
 	sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM); // bounce sound
 	self.movetype = MOVETYPE_NONE;
 	setsize (self, '-8 -8 -8', '8 8 8');
 	self.state = 1;
-#ifdef hip_spawn
-	self.spawnmaster = other;
-#else
-	self.movetarget = other;
-#endifdef
-	};
+	self.enemy = other;
+};
+
+#define	PROX_TIMER		EWEAP.cnt
+#define	PROX_MAX		self.volume
 
 /*
 ================
@@ -727,45 +732,41 @@ ProximityBomb
 */
 void() ProximityBomb =
 {
-	local entity	head;
+#define	head		e0__
+//	local entity	head;
 	local float	 blowup;
 
-	if ((time > self.delay) || (NumProximityGrenades > 15) 
-#ifdef hip_spawn
-		|| (vlen(self.spawnmaster.velocity)>0) 
-#else
-		|| (vlen(self.movetarget.velocity)>0) 
-#endifdef
-			)
-		{
+	if ((time > self.delay) || (NumProximityGrenades > PROX_MAX) || (vlen(self.enemy.velocity)>0) )
+	{
 		ProximityGrenadeExplode();
 		self.think();
 		return;
-		}
+	}
 	self.owner = world;
 	self.takedamage = DAMAGE_YES;
 	head = findradius(self.origin, 140);
 	blowup = 0;
 
 	while (head)
-		{
+	{
 		if ((head != self) && (head.health > 0) && (head.flags & (FL_CLIENT|FL_MONSTER)) && (head.classname!=self.classname))
 			blowup = 1;
-		if ((head.classname == self.classname) && (head.state==0))
+		if ((head.classname == self.classname) && (head.state==0) && vlen(self.origin - head.origin) < 20)
 			blowup = 1;
 		traceline(self.origin,head.origin,TRUE,self);
 		if (trace_fraction != 1.0)
 			blowup = 0;
 		if (blowup==1)
-			{
+		{
 			sound (self, CHAN_WEAPON, self.target, 1, ATTN_NORM);
 			ProximityGrenadeExplode();
 			self.nextthink = time + 0.5;
 			return;
-			}
-		head = head.chain;
 		}
+		head = head.chain;
+	}
 	self.nextthink = time + 0.25;
+#undef	head
 };
 
 /*
@@ -773,7 +774,6 @@ void() ProximityBomb =
 W_FireProximityGrenade
 ================
 */
-#define	PROX_TIMER		EWEAP.cnt
 
 void() W_FireProximityGrenade =
 {
@@ -785,65 +785,71 @@ void() W_FireProximityGrenade =
 
 // prox specific stuff
 //	newmis.mode_x = IV_PROX; // for det
-	if (EWEAP) newmis.target = EWEAP.target;
+	newmis.delay = 20;
+	newmis.volume = 50;
+	newmis.health = 5;
+	if (EWEAP) 
+	{
+		newmis.delay = time + PROX_TIMER + (PROX_TIMER*random());  // time fuse - orig = time + 15 + (10*random());
+		newmis.target = EWEAP.target;
+		newmis.volume = EWEAP.volume;
+		newmis.health = EWEAP.health;
+	}
 	else newmis.target = "weapons/prox/proxwarn.wav";
 //	newmis.firecontrol = EXPLOSIVE;
 	newmis.takedamage = DAMAGE_NO;
-	newmis.health = 5;
-	newmis.state = 0;
 	newmis.avelocity = '100 600 100';
-	newmis.delay = 20;
-	if (EWEAP) newmis.delay = time + PROX_TIMER + (PROX_TIMER*random());  // time fuse - orig = time + 15 + (10*random());
 	setsize (newmis, '-1 -1 -1', '1 1 1');
 
 /*
-	local entity missile, mpuff;
+//	local entity missile, mpuff;
 
 	NumProximityGrenades = NumProximityGrenades + 1;
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 
-	sound (self, CHAN_WEAPON, EWEAP.noise3, 1, ATTN_NORM);
+	sound (self, CHAN_WEAPON, "weapons/prox/proxbomb.wav" 1, ATTN_NORM);
 
 	self.punchangle_x = -2;
 
-	missile = spawn ();
-	missile.owner = self;
-	missile.lastvictim = self;
-	missile.movetype = MOVETYPE_TOSS;
-	missile.solid = SOLID_BBOX;
-	missile.classname = "proximity_grenade";
-	missile.takedamage = DAMAGE_NO;
-	missile.health = 5;
-	missile.state = 0;
+	newmis = spawn ();
+	newmis.owner = self;
+	newmis.lastvictim = self;
+	newmis.movetype = MOVETYPE_TOSS;
+	newmis.solid = SOLID_BBOX;
+	newmis.classname = "proximity_grenade";
+	newmis.takedamage = DAMAGE_NO;
+	newmis.health = 5;
+	newmis.state = 0;
+	newmis.volume = 15;
 
-// set missile speed
+// set newmis speed
 
 	makevectors (self.v_angle);
 
 	if (self.v_angle_x)
-		missile.velocity = v_forward*600 + v_up * 200 + crandom()*v_right*10 + crandom()*v_up*10;
+		newmis.velocity = v_forward*600 + v_up * 200 + crandom()*v_right*10 + crandom()*v_up*10;
 	else
 	{
-		missile.velocity = aim(self, 10000);
-		missile.velocity = missile.velocity * 600;
-		missile.velocity_z = 200;
+		newmis.velocity = aim(self, 10000);
+		newmis.velocity = newmis.velocity * 600;
+		newmis.velocity_z = 200;
 	}
 
-	missile.avelocity = '100 600 100';
+	newmis.avelocity = '100 600 100';
 
-	missile.angles = vectoangles(missile.velocity);
+	newmis.angles = vectoangles(newmis.velocity);
 
-	missile.touch = ProximityGrenadeTouch;
+	newmis.touch = ProximityGrenadeTouch;
 
-// set missile duration
-	missile.nextthink = time + 2;
-	missile.delay = time + 15 + (10*random());
-	missile.think = ProximityBomb;
-	missile.th_die = ProximityGrenadeExplode;
+// set newmis duration
+	newmis.nextthink = time + 2;
+	newmis.delay = time + 15 + (10*random());
+	newmis.think = ProximityBomb;
+	newmis.th_die = ProximityGrenadeExplode;
 
-	setmodel (missile, "progs/proxbomb.mdl");
-	setorigin (missile, self.origin);
-	setsize (missile, '-1 -1 -1', '1 1 1');
+	setmodel (newmis, "progs/proxbomb.mdl");
+	setorigin (newmis, self.origin);
+	setsize (newmis, '-1 -1 -1', '1 1 1');
 */
 };
 
