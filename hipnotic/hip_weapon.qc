@@ -656,15 +656,9 @@ void() HIP_Precache =
 
 void() ProximityExplode =
 {
-	T_RadiusDamage (self, self.owner, 95, world);
+	T_RadiusDamage (self, self.owner, self.dmg, world);
 
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-
-	BecomeExplosion ();
+	BecomeExplosion (self);
 };
 
 //MED 10/31/96
@@ -675,14 +669,14 @@ ProximityGrenadeExplode
 ================
 */
 void() ProximityGrenadeExplode =
-	{
+{
 	self.takedamage = DAMAGE_NO;
 	NumProximityGrenades = NumProximityGrenades - 1;
-	self.deathtype = "exploding";
+//	self.deathtype = "exploding";
 	self.nextthink = time + 0.1;
 	self.owner = self.lastvictim;
 	self.think = ProximityExplode;
-	};
+};
 
 /*
 ================
@@ -788,12 +782,14 @@ void() W_FireProximityGrenade =
 	newmis.delay = 20;
 	newmis.volume = 50;
 	newmis.health = 5;
+	newmis.dmg = 95;
 	if (EWEAP) 
 	{
 		newmis.delay = time + PROX_TIMER + (PROX_TIMER*random());  // time fuse - orig = time + 15 + (10*random());
 		newmis.target = EWEAP.target;
 		newmis.volume = EWEAP.volume;
 		newmis.health = EWEAP.health;
+		newmis.dmg = EWEAP.dmg;
 	}
 	else newmis.target = "weapons/prox/proxwarn.wav";
 //	newmis.firecontrol = EXPLOSIVE;

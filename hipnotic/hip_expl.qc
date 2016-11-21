@@ -7,7 +7,7 @@
 
 #define USE_PARTICLES	1
 
-void() BecomeExplosion;
+//void() BecomeExplosion;
 
 void() exploder_fire =
 {
@@ -27,15 +27,9 @@ void() exploder_fire =
 		sound(self , CHAN_AUTO, "misc/longexpl.wav", self.volume, self.speed);
 	}
 	T_RadiusDamage(self, self.owner, self.dmg, other);
-	if (self.spawnflags & USE_PARTICLES)
-	{
-		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-		WriteCoord(MSG_BROADCAST, self.origin_x);
-		WriteCoord(MSG_BROADCAST, self.origin_y);
-		WriteCoord(MSG_BROADCAST, self.origin_z);
-	}
-	BecomeExplosion();
+	e1__ = world;
+	if (self.spawnflags & USE_PARTICLES) e1__ = self;
+	BecomeExplosion(e1__);
 };
 
 void() exploder_use =
@@ -82,12 +76,12 @@ void() func_exploder =
 	{
 		self.volume = 1.0;
 	}
-	};
+};
 
 void() multi_exploder_fire =
 {
-	local entity temp;
-	local entity expl;
+#define	expl	nspawn
+//	local entity temp;
 
 	self.nextthink = time + self.wait;
 	if (!self.state) // == 0)
@@ -95,10 +89,10 @@ void() multi_exploder_fire =
 		self.state = 1;
 		self.duration = time + self.duration;
 // check this and try trim on SUB_UseTargets if there are many wraps like this
-		temp = self;
+		e0__ = self;
 		activator = other;
 		SUB_UseTargets();
-		self = temp;
+		self = e0__;
 		other = self;
 	}
 	if (time > self.duration)
@@ -114,18 +108,13 @@ void() multi_exploder_fire =
 	expl.origin_z = self.absmin_z +(random() *(self.absmax_z - self.absmin_z));
 	sound(expl , CHAN_VOICE, "misc/shortexp.wav", self.volume, self.speed);
 	T_RadiusDamage(expl, self.owner, self.dmg, other);
-	if (self.spawnflags & USE_PARTICLES)
-	{
-		WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
-		WriteByte(MSG_BROADCAST, TE_EXPLOSION);
-		WriteCoord(MSG_BROADCAST, expl.origin_x);
-		WriteCoord(MSG_BROADCAST, expl.origin_y);
-		WriteCoord(MSG_BROADCAST, expl.origin_z);
-	}
-	temp = self;
+	e1__ = world;
+	if (self.spawnflags & USE_PARTICLES) e1__ = self;
+	e0__ = self;
 	self = expl;
-	BecomeExplosion();
-	self = temp;
+	BecomeExplosion(e1__);
+	self = e0__;
+#undef	expl
 };
 
 void( vector loc, float rad, float damage, float dur, float pause, float vol) multi_explosion =

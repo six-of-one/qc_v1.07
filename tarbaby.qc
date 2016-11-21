@@ -217,7 +217,7 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 	
-	BecomeExplosion ();
+	BecomeExplosion (world);
 };
 
 

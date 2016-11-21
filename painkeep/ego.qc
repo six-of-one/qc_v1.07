@@ -72,17 +72,9 @@ void () ego_destruct =
 {
 	T_RadiusDamage (self,self.owner,(0.8 * self.dmg),other);
 	self.origin = (self.origin - (8 * normalize (self.velocity)));
-	WriteByte (MSG_BROADCAST,SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST,TE_EXPLOSION);
-	WriteCoord (MSG_BROADCAST,self.origin_x);
-	WriteCoord (MSG_BROADCAST,self.origin_y);
-	WriteCoord (MSG_BROADCAST,self.origin_z);
 	sound (self,CHAN_VOICE,"misc/null.wav",1,ATTN_NORM);
-	self.velocity = '0 0 0';
-	self.touch = SUB_Null;
-	setmodel (self,"progs/s_explod.spr");
-	self.solid = SOLID_NOT;
-	s_explode1 ();
+
+	BecomeExplosion (self);
 };
 
 void () ego_think;
@@ -116,7 +108,6 @@ void () ego_touch =
 	WriteCoord (MSG_BROADCAST,self.origin_x);
 	WriteCoord (MSG_BROADCAST,self.origin_y);
 	WriteCoord (MSG_BROADCAST,self.origin_z);
-	self.touch = SUB_Null;
 
 #ifdef opgrade
 	if (self.f__) // ego can hit a monster(s) a few times
@@ -136,11 +127,7 @@ void () ego_touch =
 	}
 #endifdef
 
-	sound (self,CHAN_VOICE,"misc/null.wav",1,ATTN_NORM);
-	self.velocity = '0 0 0';
-	setmodel (self,"progs/s_explod.spr");
-	self.solid = SOLID_NOT;
-	s_explode1 ();
+	BecomeExplosion (world);
 };
 
 /* - deprecated - unused

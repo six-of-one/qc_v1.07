@@ -690,15 +690,8 @@ void() turret_deathAnim =
 
 	T_RadiusDamage (self, self, 100, self);
 
-	// Taken from the function T_MissileTouch in weapons.qc
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-
 	// Functions is in weapons.qc
-	BecomeExplosion ();
+	BecomeExplosion (self);
 };
 
 

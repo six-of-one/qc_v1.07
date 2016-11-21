@@ -403,8 +403,18 @@ void()	s_explode6	=	[5,		SUB_Remove] {};
 
 framer(0, 5, s_explode1, SUB_Remove, 0.1,SUB_Null());
 
-void() BecomeExplosion =
+void(entity e) BecomeExplosion =
 {
+// moved here to simplify code base - these almost always come in sequence
+	if (e)
+	{
+		WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
+		WriteByte (MSG_BROADCAST, TE_EXPLOSION);
+		WriteCoord (MSG_BROADCAST, e.origin_x);
+		WriteCoord (MSG_BROADCAST, e.origin_y);
+		WriteCoord (MSG_BROADCAST, e.origin_z);
+	}
+
 	self.movetype = MOVETYPE_NONE;
 	self.velocity = '0 0 0';
 	self.touch = SUB_Null;
@@ -452,13 +462,7 @@ void() T_MissileTouch =
 //	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
 
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-
-	BecomeExplosion ();
+	BecomeExplosion (self);
 #endifdef
 };
 
@@ -657,13 +661,7 @@ void() GrenadeExplode =
 	T_RadiusDamage (self, self.owner, self.dmg, world);
 #endifdef
 
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_EXPLOSION);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-
-	BecomeExplosion ();
+	BecomeExplosion (self);
 };
 
 void() GrenadeTouch =
