@@ -53,7 +53,7 @@ void()   player_mjolnir5 =  [42, player_mjolnir6   ] {self.weaponframe=4;};
 void()   player_mjolnir6 =  [43, player_run ] {self.weaponframe=4;};
 */
 
-framer(38, 42, player_mjolnir1, player_run, 0.1,
+framer(38, 43, player_mjolnir1, player_run, 0.1,
 
 	frame_arb(41,HIP_FireMjolnir());
 	frame_arb(38,self.weaponframe=0);
