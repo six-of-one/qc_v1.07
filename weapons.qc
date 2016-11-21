@@ -423,6 +423,13 @@ void(entity e) BecomeExplosion =
 	s_explode1 ();
 };
 
+// cant think there without the proper parm - that blows qc up
+
+void() BecomeExplosion_thk =
+{
+	BecomeExplosion(world);
+}
+
 void() T_MissileTouch =
 {
 	local float	damg;

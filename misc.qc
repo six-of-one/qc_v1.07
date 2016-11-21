@@ -253,7 +253,7 @@ void() barrel_explode =
 	particle (self.origin, '0 0 0', 75, 255);
 
 	self.origin_z = self.origin_z + 32;
-	BecomeExplosion ();
+	BecomeExplosion (self);
 };
 
 
