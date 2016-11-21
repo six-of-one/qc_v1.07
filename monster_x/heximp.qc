@@ -1,4 +1,4 @@
-/* ::-::
+f/* ::-::
  *
  * Cataboligne
  *
@@ -297,7 +297,7 @@ void() ImpBallExplode =
 	T_RadiusDamage (self, self.owner, 20, world);
 	sound (self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
-	BecomeExplosion();
+	BecomeExplosion(self);
 };
 
 /*
