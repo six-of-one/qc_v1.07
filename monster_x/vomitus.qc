@@ -409,7 +409,7 @@ void()	vom_dieb2	=[	$die2,	vom_run1	]
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 
-	self.think = BecomeExplosion;
+	self.think = BecomeExplosion_thk;
 	self.nextthink = time + 0.2;
 //	BecomeExplosion ();
 };
