@@ -328,7 +328,7 @@ void() spikemine_Touch =
 //	self.effects = self.effects | EF_MUZZLEFLASH;
 
 	T_RadiusDamage (self, self, 110, world);
-	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
+//	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	sound (self, CHAN_VOICE, "misc/null.wav", 1, ATTN_NORM);
 
 	BecomeExplosion (self);

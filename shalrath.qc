@@ -275,7 +275,7 @@ void() ShalMissileTouch =
 	GrenadeExplode();
 #else
 	T_RadiusDamage (self, self.owner, 40, world);
-	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
+//`	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
 	BecomeExplosion (self);
 #endifdef

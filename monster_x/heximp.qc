@@ -295,7 +295,7 @@ framer($heximpfir1, $heximpfir21, heximp_hit1, heximp_fly1, 0.1,
 void() ImpBallExplode =
 {
 	T_RadiusDamage (self, self.owner, 20, world);
-	sound (self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
+//	sound (self, CHAN_VOICE, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
 	BecomeExplosion(self);
 };
