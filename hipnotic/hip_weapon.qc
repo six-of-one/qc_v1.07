@@ -154,9 +154,9 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 	newmis.touch = HIP_LaserTouch;
 	newmis.count = 0;
 */
-	newmis.effects = newmis.effects | EF_FULLBRIGHT;
 	if (light)
 		newmis.effects = EF_DIMLIGHT;
+	newmis.effects = newmis.effects | EF_FULLBRIGHT;
 
 	newmis.lastvictim = self;
 	newmis.speed = LASERCAN_VEL;
