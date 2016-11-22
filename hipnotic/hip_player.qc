@@ -88,7 +88,6 @@ void() player_laser5   =[$nailatt1, player_laser1  ] {self.attack_finished = tim
 void() player_laser6   =[$nailatt2, player_laser1  ] {self.attack_finished = time + 0.1;self.weaponframe=6;self.nextthink = time + 0.09;};
 
 void() player_laser1   =[$nailatt1, player_laser3  ] {self.attack_finished = time + 0.1;self.weaponframe=1;self.nextthink = time + 0.1;HIP_FireLaser(0);};
-// check this	  -----v^			------v^
 void() player_laser2   =[$nailatt2, player_laser3  ] {self.attack_finished = time + 0.1;self.weaponframe=2;self.nextthink = time + 0.1;};
 void() player_laser3   =[$nailatt2, player_laser1  ] {self.attack_finished = time + 0.1;self.weaponframe=4;self.nextthink = time + 0.1;HIP_FireLaser(1);};
 void() player_laser4   =[$nailatt1, player_laser1  ] {self.attack_finished = time + 0.1;self.weaponframe=5;self.nextthink = time + 0.1;};
@@ -100,12 +99,13 @@ void() player_laser1   =[$nailatt1, player_laser1  ]
 	if (self.weaponframe >= 6)
 		self.weaponframe = 1;
 
-	self.attack_finished = time + 0.1;
-	self.nextthink = time + 0.09;
+	if (rune_haste(self.eweapon.attack_finished / 2))
+		self.attack_finished = time + self.eweapon.attack_finished;
+	self.nextthink = self.attack_finished;
 
 	if (!(self.weaponframe & 1)) self.frame = $nailatt2;
-	if (self.weaponframe  == 1) HIP_FireLaser(0);
-	if (self.weaponframe  == 4) HIP_FireLaser(1);
+	if (self.frame  == $nailatt1) HIP_FireLaser(0);
+	if (self.frame  == $nailatt2) HIP_FireLaser(1);
 };
 
 /*
