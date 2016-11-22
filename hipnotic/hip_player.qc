@@ -26,8 +26,22 @@ void() HIP_FireMjolnir;
 
 //MED 10/18/96 added HIPWEAPONS
 //============================================================================
-
+// mjolnir
 /*
+void()   player_hammer1 =  [$axatt1, player_hammer2   ] {self.weaponframe=1;}; // melee hit
+void()   player_hammer2 =  [$axatt2, player_hammer3   ] {self.weaponframe=2;};
+void()   player_hammer3 =  [$axatt3, player_hammer4   ] {self.weaponframe=3;};
+void()   player_hammer4 =  [$axatt4, player_hammer5   ] {self.weaponframe=4;HIP_FireMjolnir();};
+void()   player_hammer5 =  [$axatt5, player_hammer6   ] {self.weaponframe=4;};
+void()   player_hammer6 =  [$axatt6, player_run ] {self.weaponframe=4;};
+
+void()   player_mjolnir1b =  [$axattc1, player_mjolnir2   ] {self.weaponframe=1;}; // lightning fire
+void()   player_mjolnir2 =  [$axattc2, player_mjolnir3   ] {self.weaponframe=2;};
+void()   player_mjolnir3 =  [$axattc3, player_mjolnir4   ] {self.weaponframe=3;};
+void()   player_mjolnir4 =  [$axattc4, player_mjolnir5   ] {self.weaponframe=4;HIP_FireMjolnir();};
+void()   player_mjolnir5 =  [$axattc5, player_mjolnir6   ] {self.weaponframe=4;};
+void()   player_mjolnir6 =  [$axattc6, player_run ] {self.weaponframe=4;};
+
 void()   player_hammer1 =  [32, player_hammer2   ] {self.weaponframe=1;};
 void()   player_hammer2 =  [33, player_hammer3   ] {self.weaponframe=2;};
 void()   player_hammer3 =  [34, player_hammer4   ] {self.weaponframe=3;};
@@ -36,7 +50,7 @@ void()   player_hammer5 =  [36, player_hammer6   ] {self.weaponframe=4;};
 void()   player_hammer6 =  [37, player_run ] {self.weaponframe=4;};
 */
 
-framer(32, 37, player_hammer1, player_run, 0.1,
+framer($axatt1, $axatt6, player_hammer1, player_run, 0.1,
 
 	frame_arb(35,HIP_FireMjolnir());
 	frame_arb(32,self.weaponframe=0);
@@ -53,7 +67,7 @@ void()   player_mjolnir5 =  [42, player_mjolnir6   ] {self.weaponframe=4;};
 void()   player_mjolnir6 =  [43, player_run ] {self.weaponframe=4;};
 */
 
-framer(38, 43, player_mjolnir1, player_run, 0.1,
+framer($axattc1, $axattc6, player_mjolnir1, player_run, 0.1,
 
 	frame_arb(41,HIP_FireMjolnir());
 	frame_arb(38,self.weaponframe=0);
