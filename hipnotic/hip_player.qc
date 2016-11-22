@@ -52,10 +52,10 @@ void()   player_hammer6 =  [37, player_run ] {self.weaponframe=4;};
 
 framer($axatt1, $axatt6, player_hammer1, player_run, 0.1,
 
-	frame_arb(35,HIP_FireMjolnir());
-	frame_arb(32,self.weaponframe=0);
+	frame_arb($axatt4,HIP_FireMjolnir());
+	frame_arb($axatt1,self.weaponframe=0);
 	self.weaponframe = self.weaponframe + 1;
-	if (self.frame > 35) self.weaponframe=4;
+	if (self.frame > $axatt4) self.weaponframe=4;
 );
 
 /*
@@ -69,10 +69,10 @@ void()   player_mjolnir6 =  [43, player_run ] {self.weaponframe=4;};
 
 framer($axattc1, $axattc6, player_mjolnir1, player_run, 0.1,
 
-	frame_arb(41,HIP_FireMjolnir());
-	frame_arb(38,self.weaponframe=0);
+	frame_arb($axattc4,HIP_FireMjolnir());
+	frame_arb($axattc1,self.weaponframe=0);
 	self.weaponframe = self.weaponframe + 1;
-	if (self.frame > 41) self.weaponframe=4;
+	if (self.frame > $axattc4) self.weaponframe=4;
 );
 
 
