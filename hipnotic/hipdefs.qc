@@ -248,7 +248,9 @@ float dump_coord;
 // in client.qc
 
 #ifdef hip_weapons
+#ifndef code_xents
 float modelindex_hammer;
+#endifdef
 #endifdef
 
 void(float num_bubbles) DeathBubbles;

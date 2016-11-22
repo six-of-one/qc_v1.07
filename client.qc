@@ -860,8 +860,10 @@ void() PutClientInServer =
 
 // oh, this is a hack!
 #ifdef hip_weapons
+#ifndef code_xents
 	setmodel (self, "progs/playham.mdl");
 	modelindex_hammer = self.modelindex;
+#endifdef
 #endifdef
 
 #ifdef code_painkeep_
@@ -1599,9 +1601,11 @@ void() CheckPowerups =
 		self.modelindex = modelindex_eyes;
 	}
 #ifdef hip_weapons
+#ifndef code_xents
 //MED 12/04/96 added mjolnir stuff
    else if (self.weapon == IT_MJOLNIR)
       self.modelindex = modelindex_hammer;   // don't use eyes
+#endifdef
 #endifdef
 	else
 		self.modelindex = modelindex_player;	// don't use eyes
