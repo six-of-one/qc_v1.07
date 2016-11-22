@@ -367,7 +367,7 @@ void() HIP_DiversionLightningThink =
 //void(entity prev, entity owner, float dst) HIP_SpawnMjolnirLightning;
 void() HIP_LightningThink =
 {
-	local vector org;
+//	local vector org;
 	local vector dst;
 	local entity head;
 	local entity selected;
@@ -381,7 +381,7 @@ void() HIP_LightningThink =
 
 	if (time > self.delay)
 	{
-		if (self.enemy != world)
+		if (self.enemy)// != world)
 			self.enemy.struck_by_mjolnir = 0;
 		remove(self);
 		return;
@@ -393,10 +393,10 @@ void() HIP_LightningThink =
 		self.enemy = world;
 		selected = world;
 		cur_dist = self.distance;
-		head = findradius(self.owner.origin, self.distance);
+		head = findradius(self.origin, self.distance);
 		while(head)
 		{
-			if(!(head.flags & FL_NOTARGET) && ((head.flags & FL_MONSTER) || (head.flags & FL_CLIENT)))
+			if(!(head.flags & FL_NOTARGET) && ((head.flags & FL_MONSTER) || (head.flags & FL_CLIENT) || head.wad == "pk_crate"))
 			{
 //				if (visible(head) && (head!=self.owner.owner) && (head.health>0))
 				if ((visible(head)) && (head!=self.owner.owner) && (head.health>0))
@@ -416,24 +416,32 @@ void() HIP_LightningThink =
 			self.state = 1;
 			self.enemy = selected;
 			self.enemy.struck_by_mjolnir = 1;
+#ifdef warning
+//if ((WARNING & 1056) == 1056)
+{
+	bprint(" *** --- Hammer LTN hit - ");
+	bprint(item_ident(self.enemy));
+	bprint("\n");
+}
+#endifdef
 		}
 		else
 		{
-			local vector  end;
+//			local vector  end;
 
 			makevectors(self.v_angle);
-			org = self.owner.origin;
-			end = org + v_forward * 200;
-			end = end + (((400 * random()) - 200) * v_right);
+			v0__ = self.origin;
+			v1__ = v0__ + v_forward * 200;
+			v1__ = v1__ + (((400 * random()) - 200) * v_right);
 
-			traceline (org, end, TRUE, self);
+			traceline (v0__, v1__, TRUE, self);
 
 			WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 			WriteByte (MSG_BROADCAST, TE_LIGHTNING2);
 			WriteEntity (MSG_BROADCAST, self);
-			WriteCoord (MSG_BROADCAST, org_x);
-			WriteCoord (MSG_BROADCAST, org_y);
-			WriteCoord (MSG_BROADCAST, org_z);
+			WriteCoord (MSG_BROADCAST, v0___x);
+			WriteCoord (MSG_BROADCAST, v0___y);
+			WriteCoord (MSG_BROADCAST, v0___z);
 			WriteCoord (MSG_BROADCAST, trace_endpos_x);
 			WriteCoord (MSG_BROADCAST, trace_endpos_y);
 			WriteCoord (MSG_BROADCAST, trace_endpos_z);
@@ -442,15 +450,15 @@ void() HIP_LightningThink =
 //			self.think = HIP_DiversionLightningThink;
 //			self.nextthink = time;
 //			self.delay = time + 0.30;
-//			self.origin = self.owner.origin;
+//			self.origin = self.origin;
 //			self.think();
 			return;
 		}
 	}
-	org = self.lastvictim.origin;
+	v0__ = self.lastvictim.origin;
 	dst = self.enemy.absmin + 0.25 * (self.enemy.absmax-self.enemy.absmin);
 	dst = dst + (random() * 0.5 * (self.enemy.absmax-self.enemy.absmin));
-	traceline (org, dst, TRUE, self.owner.owner);
+	traceline (v0__, dst, TRUE, self.owner.owner);
 
 	if (trace_fraction != 1.0 || self.enemy.health<=0)
 	{
@@ -462,13 +470,13 @@ void() HIP_LightningThink =
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_LIGHTNING2);
 	WriteEntity (MSG_BROADCAST, self);
-	WriteCoord (MSG_BROADCAST, org_x);
-	WriteCoord (MSG_BROADCAST, org_y);
-	WriteCoord (MSG_BROADCAST, org_z);
+	WriteCoord (MSG_BROADCAST, v0___x);
+	WriteCoord (MSG_BROADCAST, v0___y);
+	WriteCoord (MSG_BROADCAST, v0___z);
 	WriteCoord (MSG_BROADCAST, trace_endpos_x);
 	WriteCoord (MSG_BROADCAST, trace_endpos_y);
 	WriteCoord (MSG_BROADCAST, trace_endpos_z);
-	vec = normalize(self.enemy.origin - self.owner.origin);
+	vec = normalize(self.enemy.origin - self.origin);
 	dot = vec * self.owner.movedir;
 	head = self;
 	self = self.owner.owner;
@@ -477,9 +485,9 @@ void() HIP_LightningThink =
 	else
 		dam = 30;
 	if (dot>0.3)
-		HIP_HammerDamage (org, trace_endpos, self, dam);
+		HIP_HammerDamage (v0__, trace_endpos, self, dam);
 	else
-		HIP_HammerDamage (org, trace_endpos, self, dam*0.5);
+		HIP_HammerDamage (v0__, trace_endpos, self, dam*0.5);
 	self = head;
 
 	self.nextthink = time + 0.2;
@@ -490,40 +498,47 @@ void(entity prev, entity own, float dst) HIP_SpawnMjolnirLightning =
 {
 //	local entity light;
 	// spawn actual lightning
-	newmis = spawn();
-	newmis.delay = time + 0.8;
-//	newmis.state = 0;
-	newmis.lastvictim = prev;
-	newmis.distance = dst;
-	newmis.owner = own;
-	newmis.v_angle = self.angles;
-	newmis.v_angle_x = 0;
-	newmis.v_angle_z = 0;
-	newmis.origin = own.origin;
-	newmis.think = HIP_LightningThink;
-	newmis.nextthink = time;
+	e1__ = spawn();
+	e1__.delay = time + 0.8;
+//	e1__.state = 0;
+	e1__.lastvictim = prev;
+	e1__.distance = dst;
+	e1__.owner = own;
+	e1__.v_angle = self.angles;
+	e1__.v_angle_x = 0;
+	e1__.v_angle_z = 0;
+	e1__.origin = own.origin;
+	e1__.think = HIP_LightningThink;
+	e1__.nextthink = time;
 };
 
 void() HIP_SpawnMjolnirBase =
 {
 //	local entity light;
 	// spawn lightning base
-	newmis = spawn();
-//	newmis.origin = self.origin - '0 0 24' + (32*v_forward);
-	newmis.origin = trace_endpos;
-//	newmis.flags = 0;
-	newmis.owner = self;
-	newmis.struck_by_mjolnir = 1;
-	newmis.think = SUB_Remove;
-	newmis.nextthink = time + 1;
-	sound (newmis, CHAN_AUTO, "hipweap/mjolslap.wav", 1, ATTN_NORM);
-	sound (newmis, CHAN_WEAPON, "hipweap/mjolhit.wav", 1, ATTN_NORM);
+	e0__ = spawn();
+//	e0__.origin = self.origin - '0 0 24' + (32*v_forward);
+	e0__.origin = trace_endpos;
+//	e0__.flags = 0;
+	e0__.owner = self;
+	e0__.struck_by_mjolnir = 1;
+	e0__.think = SUB_Remove;
+	e0__.nextthink = time + 1;
+//	sound (e0__, CHAN_AUTO, "hipweap/mjolslap.wav", 1, ATTN_NORM);
+//	sound (e0__, CHAN_WEAPON, "hipweap/mjolhit.wav", 1, ATTN_NORM);
+	if (self.eweapon)
+	{
+		sound (e0__, CHAN_AUTO, self.eweapon.noise2, 1, ATTN_NORM);			// "weapons/thors_hammer/mjolslap.wav"
+		sound (e0__, CHAN_WEAPON, self.eweapon.noise3, 1, ATTN_NORM);	// "weapons/thors_hammer/mjolhit.wav"
+	}
+	else
+		sound (e0__, CHAN_AUTO, "weapons/thors_hammer/mjolslap.wav", 1, ATTN_NORM);
 	makevectors(self.v_angle);
-	newmis.movedir = v_forward;
-	HIP_SpawnMjolnirLightning( newmis, newmis, 350 );
-	HIP_SpawnMjolnirLightning( newmis, newmis, 350 );
-	HIP_SpawnMjolnirLightning( newmis, newmis, 350 );
-	HIP_SpawnMjolnirLightning( newmis, newmis, 350 );
+	e0__.movedir = v_forward;
+	HIP_SpawnMjolnirLightning( e0__, e0__, 350 );
+	HIP_SpawnMjolnirLightning( e0__, e0__, 350 );
+	HIP_SpawnMjolnirLightning( e0__, e0__, 350 );
+	HIP_SpawnMjolnirLightning( e0__, e0__, 350 );
 };
 
 void() HIP_FireMjolnirLightning =
@@ -601,7 +616,8 @@ void() HIP_FireMjolnir =
 	{  // hit wall
 		if (trace_fraction != 1.0)
 		{
-			sound (self, CHAN_WEAPON, "hipweap/mjoltink.wav", 1, ATTN_NORM);
+//			sound (self, CHAN_WEAPON, "hipweap/mjoltink.wav", 1, ATTN_NORM);
+			sound (self, CHAN_WEAPON, self.eweapon.target, 1, ATTN_NORM); // tink sound when spanking a wall
 #ifdef nondp
 			WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 			WriteByte (MSG_BROADCAST, TE_GUNSHOT);
