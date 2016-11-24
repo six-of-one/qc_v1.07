@@ -134,7 +134,7 @@ void() HIP_LaserThink =
 
 void(vector org, vector vec, float light) HIP_LaunchLaser =
 {
-	fire_missile(LASERCAN_VEL, MOVETYPE_FLYMISSILE, FL_CTHONF, 0, org, vec, "laser", "progs/laser_m.mdl", self.eweapon.noise3, HIP_LaserTouch, 0, HIP_LaserThink, SUB_Null);
+	fire_missile(LASERCAN_VEL, MOVETYPE_FLYMISSILE, FL_CTHONF | FL_RUNEHST, 0, org, vec, "laser", "progs/laser_m.mdl", self.eweapon.noise3, HIP_LaserTouch, 0, HIP_LaserThink, SUB_Null);
 //	sound (self ,CHAN_WEAPON, self.eweapon.noise3, 1, ATTN_NORM);
 /*
 	sound (self ,CHAN_WEAPON, "weapons/lasercannon/laserg.wav", 1, ATTN_NORM);
