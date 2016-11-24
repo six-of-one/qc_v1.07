@@ -638,7 +638,7 @@ void() weapon_touch =
 
 
 #ifdef hip_weapons
-
+#ifndef code_xents
 //MED
 	else if (stemp.classname == "weapon_laser_gun")
 	{
@@ -673,6 +673,7 @@ void() weapon_touch =
 		self.ammo_rockets = self.ammo_rockets + 6;
 	}
 
+#endifdef
 #endifdef
 
 
