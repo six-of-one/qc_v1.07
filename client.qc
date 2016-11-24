@@ -1524,7 +1524,9 @@ void() PlayerPreThink =
 
 	if(time > self.attack_finished && ! self.currentammo /* == 0 */ && self.weapon != IT_AXE
 #ifdef hip_weapons
+#ifndef code_xents
 			&& self.weapon != IT_MJOLNIR
+#endifdef
 #endifdef
 		)
 	{
@@ -2126,6 +2128,7 @@ void(entity targ, entity attacker) ClientObituary =
                deathstring2 = "'s laser\n";
 				}
 //MED
+// x_ents FIX:
             if (rnum == IT_MJOLNIR)
 				{
                deathstring = " was slammed by ";
