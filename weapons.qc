@@ -1823,7 +1823,7 @@ void() ImpulseCommands =
 	e0__ = find(world,classname,"beacon");
 	if (e0__)
 	{
-		if (self.impulse == IMP_SETBEAC)			// set beacon
+		if (self.impulse == IMP_SETBEAC)			// set beacon - #: 53
 		{
 			e0__.origin = self.origin;
 			e0__.mangle = self.angles;
@@ -1831,14 +1831,14 @@ void() ImpulseCommands =
 
 // IDEA: DM protect - dont fire if another player is close
 // IDEA: SP protect - dont fire for delay secs if player just touched an ent
-		if ((self.impulse == IMP_TELEBEAC) && (e0__.teleport_time < time))			// teleport beacon
+		if ((self.impulse == IMP_TELEBEAC) && (e0__.teleport_time < time))			// teleport beacon - #: 54
 		{
 			e0__.owner = self;
 			e0__.think = mini_teleport;
 			e0__.nextthink = (time + 0.3);
 			e0__.teleport_time = time + e0__.delay;
 		}
-		if (self.impulse == IMP_SHOWBEAC)			// show beacon
+		if (self.impulse == IMP_SHOWBEAC)			// show beacon - #: 55
 		{
 			e0__.effects = (e0__.effects + 1) & 1;
 		}
