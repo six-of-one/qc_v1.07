@@ -651,7 +651,7 @@ void() player_bolt1	 =[$light1, player_bolt1  ]
 	if (!self.button0)
 		{player_run ();return;}
 	self.weaponframe = self.weaponframe + 1;
-	if (self.weaponframe == 5)
+	if (self.weaponframe >= 5)
 		self.weaponframe = 1;
 
 	if (!(self.weaponframe & 1)) self.frame = $light2;
