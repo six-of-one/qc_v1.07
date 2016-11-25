@@ -1799,6 +1799,10 @@ void() CheckPowerups =
 };
 
 
+#ifdef warning
+float wfs;
+#endifdef
+
 /*
 ================
 PlayerPostThink
@@ -1810,6 +1814,20 @@ void() PlayerPostThink =
 {
 //	local	float	mspeed, aspeed;	// fx_warning
 //	local	float	r;	// fx_warning
+
+
+#ifdef warning
+								if (wfs != self.weaponframe)
+								{
+																				bprint(" *** wf: ");
+																				bprint(ftos(self.weaponframe));
+																				bprint(", was: ");
+																				bprint(ftos(wfs));
+																				bprint("\n");
+												wfs = self.weaponframe;
+								}
+#endifdef
+
 
 #ifdef code_frikbots
 	if (BotPostFrame ())
