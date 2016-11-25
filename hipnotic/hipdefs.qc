@@ -222,7 +222,9 @@ float(float w) RankForWeapon;
 
 #ifdef hip_weapons
 // in player.qc
+#ifndef code_xents
 void()	player_hampain1;
+#endifdef
 void()  player_laser1;
 void()  player_hammer1;
 void()  player_mjolnir1;

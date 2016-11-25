@@ -141,12 +141,14 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 		self.frame = $axstnd1 + self.walkframe;
 	}
 #ifdef hip_weapons
+#ifndef code_xents
 	else if (self.weapon == IT_MJOLNIR)
 	{
 		if (self.walkframe >= 12)
 			self.walkframe = 0;
 		self.frame = 6 + self.walkframe;
 	}
+#endifdef
 #endifdef
 	else
 	{
@@ -206,6 +208,7 @@ void()	player_run =[	$rockrun1,	player_run	]
 		self.frame = $axrun1 + self.walkframe;
 	}
 #ifdef hip_weapons
+#ifndef code_xents
 	else if (self.weapon == IT_MJOLNIR)
 	{
 #ifdef codefix
@@ -216,6 +219,7 @@ void()	player_run =[	$rockrun1,	player_run	]
 			self.walkframe = 0;
 		self.frame = self.walkframe;
 	}
+#endifdef
 #endifdef
 	else
 	{
@@ -614,8 +618,10 @@ void() player_pain =
 	if (self.weapon == IT_AXE)
 		player_axpain1 ();
 #ifdef hip_weapons
+#ifndef code_xents
 	else if (self.weapon == IT_MJOLNIR)
 		player_hampain1();
+#endifdef
 #endifdef
 	else
 		player_pain1 ();

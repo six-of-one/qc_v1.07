@@ -129,6 +129,7 @@ void()   player_hampain5 =  [  22,   player_hampain6 ] {};
 void()   player_hampain6 =  [  23,   player_run  ] {};
 */
 
+#ifndef code_xents
 framer(18, 23, player_hampain1, player_run, 0.1,
 
 	frame_arb(18,
@@ -155,6 +156,7 @@ void()   player_die_ham8 =  [ 31 ,   player_die_ham8 ] {PlayerDead();};
 
 framer(24, 31, player_die_ham1, PlayerDead, 0.1,SUB_Null());
 
+#endifdef
 #endifdef
 
 //MED
