@@ -10,6 +10,8 @@
  *
  */
 
+// note: extra d items extend mask bits
+
 #ifdef code_pkplus_
 #define PK_ITEM_MASK				4095 // mask off non items bits
 #else
