@@ -96,6 +96,21 @@ void() bolt_fire =
 
 		traceline (org, org + v_forward*600, TRUE, self);
 	  endpos = trace_endpos;
+	
+#ifdef warning
+//							if (WARNING & 32)
+							{
+								bprint("*** warning: bolt_fire = ");
+								bprint(ftos(num_for_edict(self)));
+								bprint(" so: ");
+								bprint(vtos(self.origin));
+								bprint(" org: ");
+								bprint(vtos(org));
+								bprint(" end: ");
+								bprint(vtos(trace_endpos));
+								bprint("\n");
+							}
+#endifdef
 
 	  WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	  WriteByte (MSG_BROADCAST, TE_LIGHTNING3);
