@@ -63,59 +63,55 @@ void() RotateTargets =
 //	local vector vy;
 //	local vector vz;
 //	local vector org;
-#define	ent		e0__
+//#define	ent		e0__
 #define	vx		v1__
 #define	vy		v2__
 #define	vz		v3__
-#define	org		v0__
-#define	org_x		v0___x
-#define	org_y		v0___y
-#define	org_z		v0___z
+//#define	org		v0__
 
 	makevectors (self.angles);
 
-	ent = find( world, targetname, self.target);
-	while( ent )
+	e0__ = find( world, targetname, self.target);
+	while( e0__ )
 	{
-		if ( ent.rotate_type == OBJECT_SETORIGIN )
+		if ( e0__.rotate_type == OBJECT_SETORIGIN )
 		{
-			org = ent.oldorigin;
-			vx = ( v_forward * org_x );
-			vy = ( v_right	* org_y );
+			v0__ = e0__.oldorigin;
+			vx = ( v_forward * v0___x );
+			vy = ( v_right	* v0___y );
 			vy = vy * -1;
-			vz = ( v_up		* org_z );
-			ent.neworigin = vx + vy + vz;
-			setorigin( ent, ent.neworigin + self.origin );
+			vz = ( v_up		* v0___z );
+			e0__.neworigin = vx + vy + vz;
+			setorigin( e0__, e0__.neworigin + self.origin );
 		}
-		else if ( ent.rotate_type == OBJECT_ROTATE )
+		else if ( e0__.rotate_type == OBJECT_ROTATE )
 		{
-			ent.angles = self.angles;
-			org = ent.oldorigin;
-			vx = ( v_forward * org_x );
-			vy = ( v_right	* org_y );
+			e0__.angles = self.angles;
+			v0__ = e0__.oldorigin;
+			vx = ( v_forward * v0___x );
+			vy = ( v_right	* v0___y );
 			vy = vy * -1;
-			vz = ( v_up		* org_z );
-			ent.neworigin = vx + vy + vz;
-			setorigin( ent, ent.neworigin + self.origin );
+			vz = ( v_up		* v0___z );
+			e0__.neworigin = vx + vy + vz;
+			setorigin( e0__, e0__.neworigin + self.origin );
 		}
 		else
 		{
-			org = ent.oldorigin;
-			vx = ( v_forward * org_x );
-			vy = ( v_right	* org_y );
+			v0__ = e0__.oldorigin;
+			vx = ( v_forward * v0___x );
+			vy = ( v_right	* v0___y );
 			vy = vy * -1;
-			vz = ( v_up		* org_z );
-			ent.neworigin = vx + vy + vz;
-			ent.neworigin = self.origin - self.oldorigin + (ent.neworigin - ent.oldorigin);
-			ent.velocity = (ent.neworigin-ent.origin)*25;
+			vz = ( v_up		* v0___z );
+			e0__.neworigin = vx + vy + vz;
+			e0__.neworigin = self.origin - self.oldorigin + (e0__.neworigin - e0__.oldorigin);
+			e0__.velocity = (e0__.neworigin-e0__.origin)*25;
 		}
-		ent = find( ent, targetname, self.target);
+		e0__ = find( e0__, targetname, self.target);
 	}
-#undef ent
+//#undef ent
 #undef vx
 #undef vy
 #undef vz
-#undef org
 };
 
 void() RotateTargetsFinal =
