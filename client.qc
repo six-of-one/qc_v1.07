@@ -1850,11 +1850,47 @@ global float wfs;
 	if (!self.view_ofs) // == '0 0 0')
 		return;		// intermission or finale
 	if (self.deadflag)
+#ifdef code_painkeep_
+	// BOLT_START
+	{
+		if (self.deadflag == DEAD_DYING && self.bolt_conduitTimeout > time) // it's the conduit time for this player...
+		{
+			// make sure the player think is set correctly
+			self.think = player_conduitJerk;
+		}
+		return;	 // dying, so do nothing
+	}
+#else
 		return;
+#endifdef
 		
 // do weapon stuff
 
 	W_WeaponFrame ();
+
+#ifdef code_archon
+// archon spell targeting
+	if (self.mask_x & MORPH_ARCHON)
+	if (self.weapon != IT_AXE) // need to timeout when we select fire mode
+	{
+		if (self.bolt_targetTimeout > time) // reticles & targeting
+		{
+			archon_target();
+		}
+		else
+		{
+			clear_spell();
+		}
+	}
+
+	if (self.bolt_target) // clear power point protection when timed out
+	{
+		if (self.bolt_target.classname == "archon_power_act")
+		if (self.bolt_targetTimeout < time)
+			self.bolt_target = world;
+	}
+// end spell targeting
+#endifdef
 
 #ifdef hooks
 	if (!(self.hook & HOOK_ON)) // Cataboligne 9.11.3 purify
@@ -1897,6 +1933,15 @@ global float wfs;
 
 	if (!(self.flags & FL_ONGROUND))
 		self.jump_flag = self.velocity_z;
+
+#ifdef code_painkeep_
+#ifdef code_morph
+	if (!self.mask_x & MORPH_ARCHON)
+	if (self.bolt_target.classname != "gfx/reticle.spr")
+#endifdef
+	if (self.bolt_target || self.bolt_targetNext || self.weaponmodel == "progs/v_cl_off.mdl" )
+		bolt_checkTargets();
+#endifdef
 
 	CheckPowerups ();
 };
