@@ -1151,21 +1151,6 @@ void() W_SetCurrentAmmo =
 		self.weaponmodel = self.eweapon.weaponmodel;
 		self.currentammo = self.eweapon.currentammo;
 
-// hack - find better way
-#ifdef code_painkeep_
-		if (self.eweapon.pk_currentitem == PK_IT_CLIGHT)
-		{
-			if (self.bolt_changeModelTimeout < time)
-			{
-				self.weaponmodel = "progs/v_cl_off.mdl";
-			}
-			else
-			{
-				self.weaponmodel = "progs/v_cl_on.mdl";
-			}
-		}
-#endifdef
-
 		if (self.eweapon.grap_state == 66600) // fists
 		{
 			self.weaponmodel = string_null;
@@ -1443,7 +1428,7 @@ void() W_ChangeWeapon =
 #ifdef code_xents
 // swap pistol & axe
 		if (self.weapon == IT_AXE)
-		{
+		{	
 #ifdef code_painkeep_
 // NOTE: this needs to "cycle" till a new wep is selected or it goes full circle to 1
 			e0__ = self.vwepent;

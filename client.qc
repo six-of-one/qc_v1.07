@@ -888,7 +888,7 @@ void() PutClientInServer =
 	}
 	self.bolt_targetTimeoutEntity = world;
 	self.bolt_conduitTimeout = 0;
-	self.bolt_changeModelTimeout = 0;
+//	self.bolt_changeModelTimeout = 0;
 	if (self.bolt_lightningFire)
 	{
 		remove(self.bolt_lightningFire);

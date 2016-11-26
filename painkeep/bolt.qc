@@ -159,6 +159,8 @@ void() bolt_fire =
 		self.bolt_targetTimeout = time + 0.2; // set modal timeout
 	}
 
+/*
+CLEAN: all sections of this out3
 	if (self.bolt_changeModelTimeout > time)
 	{
 		self.bolt_changeModelTimeout = self.bolt_changeModelTimeout + 0.21; // set the weapon model change back..
@@ -167,6 +169,7 @@ void() bolt_fire =
 	{
 		self.bolt_changeModelTimeout = time + 1; // set the weapon model change back..
 	}
+*/
 };
 
 
@@ -501,6 +504,7 @@ void() bolt_checkTargets =
 	  self.bolt_target = world;
 	}
 
+/*
 	if (self.weapon == IT_AXE)
 	if (self.pk_currentitem == PK_IT_CLIGHT)
 	if (self.bolt_changeModelTimeout < time)
@@ -510,6 +514,7 @@ void() bolt_checkTargets =
 //		if ( !(self.cam_x & CHSCAM_ON) )
 		self.weaponmodel = "progs/v_cl_off.mdl";
 	}
+*/
 
 	if (self.bolt_targetNext)
 	if (self.bolt_targetNextTimeout < time)
@@ -641,6 +646,15 @@ void()	bolt_s_explode14	=	[4,		bolt_s_explode15] {};
 void()	bolt_s_explode15	=	[4,		bolt_s_explode16] {};
 void()	bolt_s_explode16	=	[5,		SUB_Remove] {};
 
+// cool prongs after timeout
+
+void() bolt_cool_prongs =
+{
+	if (self.owner.weaponmodel != self.target2) return;
+	if (self.owner.button0) return;
+	self.owner.weaponmodel = self.weaponmodel;
+	self.cnt = 1;
+};
 
 // chain thunderbolt fire frames
 
@@ -656,8 +670,14 @@ void() player_bolt1	 =[$light1, player_bolt1  ]
 
 	if (!(self.weaponframe & 1)) self.frame = $light2;
 
-/// note: should this be encoded in cfg data?
-	self.weaponmodel = "progs/v_cl_on.mdl"; // change to fire model...
+	if (self.eweapon)
+	{
+		self.weaponmodel = self.eweapon.target2; //"progs/v_cl_on.mdl"; // change to fire model...
+		self.eweapon.cnt = self.eweapon.cnt + 0.1;
+		if (self.eweapon.cnt > 6) self.eweapon.cnt = 6;
+		self.eweapon.think = bolt_cool_prongs;
+		self.eweapon.nextthink = time + self.eweapon.cnt;		
+	}
 
 	SuperDamageSound();
 	bolt_fire();
