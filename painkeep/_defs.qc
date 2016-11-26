@@ -221,6 +221,7 @@ float discharged;
 .float bolt_targetNextTimeout; 		// used to timeout the bolt_targetNext...
 .float bolt_targetTimeout; 			// used to timeout the bolt_target...
 
+void() bolt_checkTargets;
 void()	bolt_s_explode1;
 void() player_conduitJerk;
 
