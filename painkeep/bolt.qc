@@ -108,7 +108,7 @@ void() bolt_fire =
 	  WriteCoord (MSG_BROADCAST, endpos_z);
 	
 #ifdef warning
-//							if (WARNING & 32)
+							if (warnings == "bolt")
 							{
 								bprint("*** warning: bolt_fire = ");
 								bprint(ftos(num_for_edict(self)));
