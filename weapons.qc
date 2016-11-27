@@ -151,6 +151,15 @@ void(entity e, vector org, vector vel, float damage) SpawnBlood =
 #endifdef
 		particle (org, vel*0.1, spawn_particle, damage*2);
 
+
+#ifdef warning
+						bprint(" --- SpawnBlood: ");
+						bprint(item_ident(e));
+						bprint(" spt: ");
+						bprint(ftos(spawn_particle));
+						bprint("\n");
+#endifdef
+
 	spawn_particle = 73; // always default - dp makes this blood
 };
 
