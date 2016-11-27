@@ -396,7 +396,7 @@ void() HIP_LightningThink =
 		head = findradius(self.origin, self.distance);
 		while(head)
 		{
-			if(!(head.flags & FL_NOTARGET) && ((head.flags & FL_MONSTER) || (head.flags & FL_CLIENT) || head.wad == "pk_crate"))
+			if(!(head.flags & FL_NOTARGET) && ((head.flags & FL_MONSTER) || (head.flags & FL_CLIENT) || head.wad == "func_crate"))
 			{
 //				if (visible(head) && (head!=self.owner.owner) && (head.health>0))
 				if ((visible(head)) && (head!=self.owner.owner) && (head.health>0))

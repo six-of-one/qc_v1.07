@@ -321,7 +321,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 #ifdef code_xents
 // crate being busted open - hear it now
-	if (targ.classname == "pk_crate")
+	if (targ.classname == "func_crate")
 	if ((targ.aflag < time) || (targ.health <= 0)) // do crates use .aflag for anything?
 	{
 		targ.aflag = time + 1;
