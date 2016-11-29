@@ -689,21 +689,9 @@ void() GrenadeTouch =
 		GrenadeExplode();
 		return;
 	}
-
-bprint ("*** grenade touch - vel: ");
-bprint (vtos(self.velocity));
-bprint (", avel: ");
-bprint (vtos(self.avelocity));
-bprint ("\n");
-
-
 	sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);	// bounce sound
-	if (self.velocity == '0 0 0') {
-		self.avelocity = '0 0 0';
-
-bprint ("*** grenade spin stop\n");
-}
-
+	if (self.velocity  == '0 0 0')
+		self.avelocity = '0 0 0';			// this never seems to execute - yet stopped grenades get 0 avel
 };
 
 /*
