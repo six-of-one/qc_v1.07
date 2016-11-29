@@ -414,6 +414,7 @@ spec track by cvar
 	#define modulein
 
 	float WARNING;
+	string warnings;
 
 #endifdef
 
