@@ -436,7 +436,7 @@ void() rotate_train_use =
 {
 	if (self.think1 != rotate_train_find)
 		{
-		if ( self.velocity ) //!= '0 0 0' )
+		if ( self.velocity != '0 0 0' )
 			return;		// already activated
 		if ( self.think1 )
 		{

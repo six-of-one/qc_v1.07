@@ -14,7 +14,7 @@ void() hip_train_use =
 {
 	if (self.think != hip_func_train_find)
 		{
-		if (self.velocity) // != '0 0 0' )
+		if (self.velocity != '0 0 0')
 			return;		// already activated
 		}
 	hip_train_next();
