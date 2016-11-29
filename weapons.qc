@@ -1476,7 +1476,7 @@ void() W_ChangeWeapon =
 				{
 					self.eweapon.grap_state = 0;
 					self.eweapon.modelindex = self.eweapon.modelindex_morph;
-					self.eweapon.noise3 = "doom/dspistol.wav";
+					self.eweapon.noise3 = self.eweapon.target2;
 				}
 			}
 		}
@@ -1487,22 +1487,18 @@ void() W_ChangeWeapon =
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
 	if (self.impulse == 4) self.weapon = IT_NAILGUN;
 	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
-#ifdef hip_weapons
 	if (self.impulse == 6)
+	{
+#ifdef hip_weapons
 #ifndef code_xents
 //MED
-	{
 		if (self.weapon == IT_GRENADE_LAUNCHER)
 			self.weapon = IT_PROXIMITY_GUN;
 		else
+#endifdef
+#endifdef
 			self.weapon = IT_GRENADE_LAUNCHER;
 	}
-#else
-			self.weapon = IT_GRENADE_LAUNCHER;
-#endifdef
-#else
-	if (self.impulse == 6) self.weapon = IT_GRENADE_LAUNCHER;
-#endifdef
 	if (self.impulse == 7) self.weapon = IT_ROCKET_LAUNCHER;
 	if (self.impulse == 8) self.weapon = IT_LIGHTNING;
 
