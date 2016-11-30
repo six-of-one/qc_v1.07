@@ -1434,11 +1434,10 @@ void() W_ChangeWeapon =
 // select a new wep
 	if (self.impulse == 1) 
 	{
-#ifdef code_xents
-// swap pistol & axe
+#ifdef code_painkeep_
+// select pki
 		if (self.weapon == IT_AXE)
 		{	
-#ifdef code_painkeep_
 // NOTE: this needs to "cycle" till a new wep is selected or it goes full circle to 1
 			e0__ = self.vwepent;
 			self.eweapon = world;
@@ -1456,27 +1455,6 @@ void() W_ChangeWeapon =
 						if (!(self.pk_currentitem & PK_ITEM_MASK)) self.pk_currentitem = 1;
 						else e0__ = self.vwepent;
 					}
-				}
-			}
-
-// note: conflict once we have pk_items - each loop thru will alternate this
-			if (self.pk_currentitem == 1)
-#endifdef
-			if (self.eweapon.mcode == MC_D_PISTOL)
-			{
-				if (self.eweapon.grap_state != 66600) // set fists
-				{
-					self.eweapon.grap_state = 66600;
-//					self.eweapon.modelindex_morph = self.eweapon.modelindex; // done in the assigning
-					self.eweapon.modelindex = 0;
-					self.eweapon.noise3 = "weapons/ax1.wav"; // swish
-					return;
-				}
-				else
-				{
-					self.eweapon.grap_state = 0;
-					self.eweapon.modelindex = self.eweapon.modelindex_morph;
-					self.eweapon.noise3 = self.eweapon.target2;
 				}
 			}
 		}
