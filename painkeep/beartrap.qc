@@ -11,7 +11,6 @@
  */
 
 
-//float PK_BT_SET;
 #define	PK_BT_TIMETOFOLLOW	self.button7
 #define	PK_BT_DMG	self.dmg
 #define PK_BT_TIME	self.button6
@@ -198,21 +197,17 @@ void() beartrap_dropBearTrap =
 	}
 */
 
-//	if (!PK_BT_SET)
-	{
-//		PK_BT_SET = TRUE;
-
 		PK_BT_TIME = 90; // def
 		PK_BT_TIMETOFOLLOW = 15;
 		PK_BT_DMG = 2;
+//		self.noise3 = "weapons/btrap/bdrop_1.wav";
 
-		if (self.eweapon)
-		{
-			PK_BT_TIME = self.eweapon.button6;
-			PK_BT_TIMETOFOLLOW = self.eweapon.button7;
-			PK_BT_DMG = self.eweapon.dmg;
-		}
-
+	if (self.eweapon)
+	{
+		PK_BT_TIME = self.eweapon.button6;
+		PK_BT_TIMETOFOLLOW = self.eweapon.button7;
+		PK_BT_DMG = self.eweapon.dmg;
+//		self.noise3 = self.eweapon.noise3;
 	}
 
 	bt = spawn();
