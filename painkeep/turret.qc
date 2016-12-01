@@ -332,7 +332,7 @@ void() turret_searchForEnemy =
 	if (self.velocity_z < 0) self.movetype = MOVETYPE_NONE;
 
 	// check if needs to be seet solid
-	if (self.solid == SOLID_NOT)
+	if (self.solid != SOLID_BBOX)
 	{
 		turret_checkIfCanBeSolid();
 	}
@@ -523,7 +523,7 @@ void() turret_attackEnemy =
 	self.nextthink = time + 0.1; // Cataboligne - 6.14.10 - moved here to stop turret freeze ups
 
 	// check if needs to be seet solid
-	if (self.solid == SOLID_NOT)
+	if (self.solid != SOLID_BBOX)
 	{
 		turret_checkIfCanBeSolid();
 	}
@@ -967,17 +967,20 @@ void() turret_checkIfCanBeSolid =
 
 	f = TRUE;  // Cataboligne - UNK.10 - fix broken solidify code
 
+	self.solid = SOLID_TRIGGER; // interim - allow to be shot
+
 	// see if there are any objects that block the turret from becoming solid
 	head = findradius(self.origin, 28);
 	while (head)
 	{
-#ifdef warning
+#ifdef warning_no
 											bprint(" -- tur solid tst: ");
 											bprint(head.classname);
-											bprint(" #: ");
+											bprint(" - ");
 											bprint(ftos(num_for_edict(head)));
 											bprint("\n");
 #endifdef
+		if (head.classname != "func_maphack")
 		if (head != self.turret_base && head != self) f = FALSE;
 		head = head.chain;
 	}
