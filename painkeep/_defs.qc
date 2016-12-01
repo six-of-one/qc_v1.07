@@ -109,9 +109,8 @@ void() updateStatusDisplay;
 #define GRAV_PULL				0.5	// % chance a gravity well will pull a rune loose - mostly depends on player being caught on something and in range of pull
 #define SGRAV_PULL				0.8	// % chance a super gravity well / reality bomb will pull a rune loose
 
-float PK_GRV_TIME;
-float PK_GRV_SET;
-float PK_GRV_RSP; // special respawn override
+//float PK_GRV_TIME;
+//float PK_GRV_RSP; // special respawn override
 
 // turrets
 

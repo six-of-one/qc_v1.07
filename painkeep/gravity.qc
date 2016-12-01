@@ -23,6 +23,8 @@
 	04.2008+
 */
 
+#define	PK_GRV_TIME	self.button6
+
 // 10.29.14 - super grav well expands as it runs
 
 $frame cubelf01 cubelf02 cubelf03 cubelf04 cubelf05 cubelf06 cubelf07 cubelf08
@@ -257,7 +259,7 @@ void() gravity_pull =
 				if (random() < 0.45)
 				{
 #ifdef code_archon
-					v1 = '0 0 0';
+//					v1 = '0 0 0';
 					v1_x = crandom() * 25;
 					v1_y = crandom() * 25;
 					v1_z = crandom() * 25;
@@ -390,7 +392,7 @@ framer($cube201, $cube216, gravity_pulsex1, gravity_pulsex17, 0.1,
 
 	frame_arb($cube201,self.f__ =0);
 	self.f__ = self.f__ + 1;
-	if (self.f__ == 4)
+	if (self.f__ >= 4)
 	{
 		self.scale = self.scale + self.aflag;
 		self.f__ =0;
@@ -448,19 +450,19 @@ void() gravity_explode =
 
 void() drop_gravity =
 {
-	if (!PK_GRV_SET)
+
+	PK_GRV_TIME = 3.2; // def
+
+	if (self.eweapon)
 	{
-		PK_GRV_SET = TRUE;
-
-		PK_GRV_TIME = 3.2; // def
-
+		PK_GRV_TIME = self.eweapon.button6;
+	}
 /*
 		if (DARKPLACES || chaos)
 		{
 			PK_GRV_TIME = cvar("pk_grv_time");
 		}
 */
-	}
 
 	// create a gravity object
 	newmis = spawn();
