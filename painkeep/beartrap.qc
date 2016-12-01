@@ -11,10 +11,12 @@
  */
 
 
-float PK_BT_SET;
-float PK_BT_TIMETOFOLLOW;
-float PK_BT_DMG;
-float PK_BT_TIME;
+//float PK_BT_SET;
+#define	PK_BT_TIMETOFOLLOW	self.button7
+#define	PK_BT_DMG	self.dmg
+#define PK_BT_TIME	self.button6
+
+
 
 .entity beartrap_target;
 .float beartrapdmg_time;
@@ -30,15 +32,15 @@ void(string gibname, float dm) beartrap_throwGib =
 	new.pk_currentitem = PK_IT_BEARTRAP;
 	new.velocity = VelocityForDamage (dm);
 	new.movetype = MOVETYPE_BOUNCE;
-	new.solid = SOLID_NOT;
+//	new.solid = SOLID_NOT;
 	new.avelocity_x = random() * 600;
 	new.avelocity_y = random() * 600;
 	new.avelocity_z = random() * 600;
 	new.think = SUB_Remove;
 	new.ltime = time;
 	new.nextthink = time + 3 + random() * 3;
-	new.frame = 0;
-	new.flags = 0;
+//	new.frame = 0;
+//	new.flags = 0;
 	new.classname = "beartrap_gib";
 	new.owner = self.owner;
 	new.think = SUB_Remove;
@@ -196,21 +198,21 @@ void() beartrap_dropBearTrap =
 	}
 */
 
-	if (!PK_BT_SET)
+//	if (!PK_BT_SET)
 	{
-		PK_BT_SET = TRUE;
+//		PK_BT_SET = TRUE;
 
 		PK_BT_TIME = 90; // def
 		PK_BT_TIMETOFOLLOW = 15;
 		PK_BT_DMG = 2;
 
-#ifdef notused
+		if (self.eweapon)
 		{
-			PK_BT_TIME = cvar("pk_bt_time");
-			PK_BT_TIMETOFOLLOW = cvar("pk_bt_follow");
-			PK_BT_DMG = cvar("pk_bt_dmg");
+			PK_BT_TIME = self.eweapon.button6;
+			PK_BT_TIMETOFOLLOW = self.eweapon.button7;
+			PK_BT_DMG = self.eweapon.dmg;
 		}
-#endifdef
+
 	}
 
 	bt = spawn();
