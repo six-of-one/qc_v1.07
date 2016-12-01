@@ -126,6 +126,7 @@ void() updateStatusDisplay;
 .float turret_timeout;
 #endifdef
 
+/*
 float PK_TUR_AMMO; // base cells to fire, 0 = infinite
 float PK_TUR_HEAL; // health we get - base = 2/3 this, < 0 = no limit
 float PK_TUR_QUADCON;
@@ -134,7 +135,8 @@ float PK_TUR_SET; // set non 0 when vars loaded
 float PK_TUR_TARGOWN; // time after which turret shoots owner, 0 = dont target owner
 float PK_TUR_TIME; // time to live, after which explode, 0 = no timeout
 float PK_TUR_VARIETY; // a variety of turrets - 
-
+*/
+	
 void(entity e, float tm) turret_KillStraker;
 void() turret_dropTurret;
 

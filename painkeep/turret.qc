@@ -21,17 +21,39 @@
 
 $frame gunsearch gunfire1 gunfire2 gunfire3 gunfire4 gunmisfire1 gunmisfire2
 
+ // base cells to fire, 0 = infinite
+#define  PK_TUR_AMMO	self.volume
+ // health we get - base = 2/3 this, < 0 = no limit
+#define  PK_TUR_HEAL	self.max_health
+#define  PK_TUR_QUADCON	self.super_time
 
-float PK_TUR_RELOAD; // chance turret will reload when low on ammo
-float PK_TUR_DEATHRAD;
-float PK_TUR_CRITICALMASS; // too many in rad blows them all up
-float PK_TUR_CRITICALMASS_DIST;
-#define CRIT_BLOW 2
-//float PK_TUR_VARIETY; // a variety of turrets - 
+//#define  PK_TURRETAMMO_MAX	self.
+
+ // set non 0 when vars loaded
+//#define  PK_TUR_SET	self.button7
+ // time after which turret shoots owner, 0 = dont target owner
+#define  PK_TUR_TARGOWN	self.button7
+ // time to live, after which explode, 0 = no timeout
+#define  PK_TUR_TIME	self.dmgtime
+
+ // chance turret will reload when low on ammo
+#define	 PK_TUR_RELOAD	self.button8
+// this close to active pent destroys
+#define	 PK_TUR_DEATHRAD	self.button9
+ // too many in rad blows them all up
+#define	 PK_TUR_CRITICALMASS	self.button10
+#define	 PK_TUR_CRITICALMASS_DIST	self.button11
+ // max turrets on a given server - used if inf detected
+#define	 PK_TUR_LIMIT	self.button13
+
+#define	CRIT_BLOW 2
+// a variety of turrets
+#define	 PK_TUR_VARIETY	self.button6
 //															bits:		1 - orange kryptonite nails,	2 - lasers,	4 - pulse nails,	8 - lightning,	16 - rockets,	not done yet - 	32 - railgun,		64 - chaos
 //								fixed percentages:		60%													20%				10%						5%						4%														1%							0.5%
-float PK_TUR_LIMIT; // max turrets on a given server - used if inf detected
-#define PK_TUR_INVRETIME 80 // what to retime invs to if infinite turrets exist
+
+ // what to retime invuln respawns to if infinite turrets exist
+#define PK_TUR_INVRETIME 80
 
 #define SENTRY_SDOT 0.8 // view radius
 
@@ -86,34 +108,35 @@ void() turret_dropTurret =
 */
 	}
 
-	if (!PK_TUR_SET)
-	{
-		PK_TUR_SET = TRUE;
-// defs
 		PK_TUR_AMMO = 40;
 		PK_TUR_TIME = 20;
 		PK_TUR_HEAL = 300;
 		PK_TUR_TARGOWN = 3;
 		PK_TUR_RELOAD = 0.15; // not much chance
-		PK_TUR_VARIETY = 1; // regular orange nails
-		PK_TUR_QUADCON =  0; // if true, quad player takes ownership of turrets in deathrad
-		PK_TUR_DEATHRAD = 300; // this close to active pent destroys
-		PK_TUR_CRITICALMASS = 8; // more than this many
-		PK_TUR_CRITICALMASS_DIST = 160; // critical mass distance
+// not used if turrets time out
+//		PK_TUR_VARIETY = 1; // regular orange nails
+//		PK_TUR_QUADCON =  0; // if true, quad player takes ownership of turrets in deathrad
+//		PK_TUR_DEATHRAD = 300; // this close to active pent destroys
+//		PK_TUR_CRITICALMASS = 8; // more than this many
+//		PK_TUR_CRITICALMASS_DIST = 160; // critical mass distance
 
-#ifdef notused
-		{
-			PK_TUR_AMMO = cvar("pk_tur_ammo");
-			PK_TUR_TIME = cvar("pk_tur_time");
-			if (PK_TUR_TIME < 0) PK_TUR_TIME = 20;
-			PK_TUR_HEAL = cvar("pk_tur_health");
-			PK_TUR_TARGOWN = cvar("pk_tur_targetown");
-			PK_TUR_VARIETY = cvar("pk_tur_variety");
-			if (PK_TUR_VARIETY < 1) PK_TUR_VARIETY = 1;
-			PK_TUR_QUADCON = cvar("pk_tur_quadcon");
-		}
-#endifdef
+	if (self.eweapon)
+	{
+		PK_TUR_AMMO = self.eweapon.volume;
+		PK_TUR_TIME = self.eweapon.dmgtime;
+		PK_TUR_HEAL = self.eweapon.max_health;
+		PK_TUR_TARGOWN = self.eweapon.button7;
+		PK_TUR_VARIETY = self.eweapon.button6;
+		PK_TUR_QUADCON = self.eweapon.super_time;
+		PK_TUR_RELOAD = self.eweapon.button8;
+		PK_TUR_DEATHRAD = self.eweapon.button9;
+		PK_TUR_CRITICALMASS = self.eweapon.button10;
+		PK_TUR_CRITICALMASS_DIST = self.eweapon.button11;
+		PK_TUR_LIMIT = self.eweapon.button13;
 	}
+
+	if (PK_TUR_TIME < 0) PK_TUR_TIME = 20;
+	if (PK_TUR_VARIETY < 1) PK_TUR_VARIETY = 1;
 
 	// check if near a wall
 	makevectors(self.v_angle);
@@ -137,7 +160,7 @@ void() turret_dropTurret =
 	turret.movetype = MOVETYPE_STEP;
 //	turret.movetype = MOVETYPE_TOSS;
 //	turret.solid = SOLID_BBOX;
-	turret.solid = SOLID_NOT;
+//	turret.solid = SOLID_NOT;
 	turret.classname = "turret";
 	turret.netname = "Auto sentry";
 	turret.takedamage = TRUE;
@@ -948,6 +971,13 @@ void() turret_checkIfCanBeSolid =
 	head = findradius(self.origin, 28);
 	while (head)
 	{
+#ifdef warning
+											bprint(" -- tur solid tst: ");
+											bprint(head.classname);
+											bprint(" #: ");
+											bprint(ftos(num_for_edict(head)));
+											bprint("\n");
+#endifdef
 		if (head != self.turret_base && head != self) f = FALSE;
 		head = head.chain;
 	}
