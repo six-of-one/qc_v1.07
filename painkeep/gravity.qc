@@ -138,21 +138,27 @@ void() gravity_touch =
 
 // IDEA: reality bomb - chaos effects while active
 
+#define	gDist			self.button7
+#define	gPower	self.button8
+#define	gExt			self.button9
+#define	gPl				self.button10
+//#define	sgl				self.button11
+
 void() gravity_pull =
 {
 	local entity e;
-	local float d, i, gp;
+	local float d, i;
 //	local float sgl;
-	local vector org, v1;
+	local vector org;
 	local float gPercent;
-	local float gDist, gExt, gFal;
-	local float gPower;
+	local float gFal;
 
+/*
 	gDist = 960;		// range of the weapon
 	gPower = 512;	// ideal speed of pull
 	gExt = 0; // extra dist - only super gravwell
-	gp = GRAV_PULL; // rune pull test %
-
+	gPl = GRAV_PULL; // rune pull test %
+*/
 // either banished & went grav or grav + sphere
 #ifdef code_soa
 	if (self.classname == "sphere_annihilation") // reality bomb - these are a bit more powerfull
@@ -161,19 +167,20 @@ void() gravity_pull =
 		gPower = 640 + random() * 100;		
 		gExt = 360; // laser beam range out to 1600
 		sgl = TFL_HEAL | TFL_TKDMG | TFL_TRACE | TFL_INVIS;		// all hittable things for lazer
-		gp = SGRAV_PULL * 1.1; // rune pull test %
+		gPl = SGRAV_PULL * 1.1; // rune pull test %
 	}
 	else
 #endifdef
+/*
 	if (self.frame > $cubelf20) // super grav well = sgw
 	{
 		gDist = 1280;
 		gPower = 640;
 		gExt = 320; // laser beam range out to 1600
 //		sgl = TFL_HEAL | TFL_TKDMG | TFL_TRACE | TFL_INVIS;		// all hittable things for lazer
-		gp = SGRAV_PULL; // rune pull test %
+		gPl = SGRAV_PULL; // rune pull test %
 	}
-
+*/
 // idea: sgw -  phantom zone effect with 6 sides flying off, catching vars ents, & sweeping from level - players watch this - time out & allow respawn / return
 	if (time > self.attack_finished)
 	{
@@ -232,19 +239,19 @@ void() gravity_pull =
 					if (self.cnt) dyn_remove(e, 1, chaos_tele_expire); // cant call tele_exp directly
 #endifdef
 
-					v1 = e.origin - self.origin;
+					v1__ = e.origin - self.origin;
 #ifdef code_xents
-					self.aiment = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, self.origin, '0 0 0', '0 0 0', vectoangles(v1), '0 0 0', string_null, "progs/lzrbm_seg.mdl", SUB_Remove, 0.2, SUB_Remove, SUB_Null, self, world);
+					self.aiment = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, self.origin, '0 0 0', '0 0 0', vectoangles(v1__), '0 0 0', string_null, "progs/lzrbm_seg.mdl", SUB_Remove, 0.2, SUB_Remove, SUB_Null, self, world);
 #else
 					self.aiment = spawn();
 					setorigin(self.aiment, self.origin);
 					setmodel(self, "progs/lzrbm_seg.mdl");
-					self.angles = vectoangles(v1);
+					self.angles = vectoangles(v1__);
 					self.think = SUB_Remove;
 					self.touch = SUB_Remove;
 					self.nextthink = time + 0.2;
 #endifdef
-					i = vlen(v1);
+					i = vlen(v1__);
 					i = floor(i / 32);
 					if (i > 63) i = 63;
 					self.aiment.frame = i + 64; // larger size
@@ -259,11 +266,11 @@ void() gravity_pull =
 				if (random() < 0.45)
 				{
 #ifdef code_archon
-//					v1 = '0 0 0';
-					v1_x = crandom() * 25;
-					v1_y = crandom() * 25;
-					v1_z = crandom() * 25;
-					chaos_particle(e.origin + v1, 0, 0.8, 0);
+//					v1__ = '0 0 0';
+					v1___x = crandom() * 25;
+					v1___y = crandom() * 25;
+					v1___z = crandom() * 25;
+					chaos_particle(e.origin + v1__, 0, 0.8, 0);
 #endifdef
 
 					if (random() < 0.16)
@@ -318,7 +325,7 @@ void() gravity_pull =
 //			if (random() < 0.1) // only 1o% to try test (curr 5o%) for things getting pulled every 0.1 rels - prob be dead before this ever factored in
 				// chance to knock a rune loose
 #ifdef code_runes
-				rune_pull(e, gp);
+				rune_pull(e, gPl);
 
 			if (e.map  == "rune" && e.classname == "item_sigil") // relocate runes sucked by wells
 				e.hook = TRUE;
@@ -457,12 +464,6 @@ void() drop_gravity =
 	{
 		PK_GRV_TIME = self.eweapon.button6;
 	}
-/*
-		if (DARKPLACES || chaos)
-		{
-			PK_GRV_TIME = cvar("pk_grv_time");
-		}
-*/
 
 	// create a gravity object
 	newmis = spawn();
@@ -496,6 +497,21 @@ void() drop_gravity =
 	// For the correct death messages
 	newmis.pk_currentitem = PK_IT_GRAVITYWELL;
 	newmis.weapon = IT_AXE;
+
+
+	newmis.button7 = 960;		// range of the weapon
+	newmis.button8 = 512;	// ideal speed of pull
+	newmis.button9 = 0; // extra dist - only super gravwell
+	newmis.button10 = GRAV_PULL; // rune pull test %
+
+// pk3.0
+	if (self.eweapon)
+	{
+		newmis.button7 = self.eweapon.button7;
+		newmis.button8 = self.eweapon.button8;
+		newmis.button9 = self.eweapon.button9;
+		newmis.button10 = self.eweapon.button10;
+	}
 
 	// PAINKEEP SPLASH Make this entity splash
 #ifdef painkeep_splash
