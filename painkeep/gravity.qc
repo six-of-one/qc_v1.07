@@ -457,15 +457,7 @@ void() gravity_explode =
 
 void() drop_gravity =
 {
-
-	PK_GRV_TIME = 3.2; // def
-
-	if (self.eweapon)
-	{
-		PK_GRV_TIME = self.eweapon.button6;
-	}
-
-	// create a gravity object
+// create a gravity object
 	newmis = spawn();
 	newmis.classname = "gravity";
 	newmis.owner = self;
@@ -498,7 +490,7 @@ void() drop_gravity =
 	newmis.pk_currentitem = PK_IT_GRAVITYWELL;
 	newmis.weapon = IT_AXE;
 
-
+	newmis.button6 = 3.2; // def op time
 	newmis.button7 = 960;		// range of the weapon
 	newmis.button8 = 512;	// ideal speed of pull
 	newmis.button9 = 0; // extra dist - only super gravwell
@@ -507,6 +499,7 @@ void() drop_gravity =
 // pk3.0
 	if (self.eweapon)
 	{
+		newmis.button6 = self.eweapon.button6;
 		newmis.button7 = self.eweapon.button7;
 		newmis.button8 = self.eweapon.button8;
 		newmis.button9 = self.eweapon.button9;

@@ -278,6 +278,9 @@ void () ego_think =
 	self.nextthink = (time + 0.1);
 };
 
+#define	PKPLUS_EGO_TIME	newmis.dmgtime
+#define	PKPLUS_EGO_DMG	newmis.button6
+
 void () ego_activate =
 {
 //	local entity ent;
@@ -288,9 +291,7 @@ void () ego_activate =
 	newmis.classname = "ego";
 	newmis.owner = self;
 //	newmis.weapon = 0;
-	newmis.dmg = (250 + (50 * random ()));
 	newmis.egosoundtime = (time - 1);
-	newmis.delay = (time + POW_TIME);
 	newmis.avelocity = '30 30 30';
 	setmodel (newmis,"progs/v_ego.mdl");
 	setorigin (newmis,(self.origin + '0 0 8'));
@@ -300,5 +301,26 @@ void () ego_activate =
 	self.dmg_inflictor = self;
 	newmis.think = ego_think;
 	newmis.nextthink = (time + 0.1);
+
+	newmis.delay = (time + POW_TIME);
+	newmis.dmg = 250 + (50 * random ());
+	if (self.eweapon)
+	{
+		newmis.delay = self.eweapon.dmgtime + time;
+		newmis.dmg = self.eweapon.button6+ (50 * random ());
+	}
+/*
+	PKPLUS_EGO_TIME = POW_TIME;
+	PKPLUS_EGO_DMG = 250;
+
+	if (self.eweapon)
+	{
+		PKPLUS_EGO_TIME = self.eweapon.dmgtime;
+		PKPLUS_EGO_DMG = self.eweapon.button6;
+	}
+
+	newmis.delay = (time + PKPLUS_EGO_TIME);
+	newmis.dmg = PKPLUS_EGO_DMG+ (50 * random ());
+*/
 };
 

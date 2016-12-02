@@ -285,7 +285,7 @@ void () tomb_checkonground =
 	self.nextthink = (time + 0.2);
 };
 
-#define	PKPLUS_TOMB_TIME	self.dmgtime
+#define	PKPLUS_TOMB_TIME	newmis.dmgtime
 
 void () tomb_launch =
 {
@@ -303,14 +303,6 @@ void () tomb_launch =
 		return ;
 	}
 */
-// defs
-	PKPLUS_TOMB_TIME = 90;
-	if (self.eweapon) PKPLUS_TOMB_TIME = self.eweapon.dmgtime;
-
-	if (PKPLUS_TOMB_TIME < 0)
-			PKPLUS_TOMB_TIME = 90;
-
-
 	tomb = spawn ();
 	tomb.owner = self;
 	tomb.movetype = MOVETYPE_TOSS;
@@ -332,10 +324,22 @@ void () tomb_launch =
 	tomb.angles_z = 0;
 	tomb.v_angle = self.v_angle;
 	tomb.v_angle_z = 0;
-	if (PKPLUS_TOMB_TIME)
-		tomb.tomb_death_time = (time + PKPLUS_TOMB_TIME);
 	tomb.think = tomb_checkonground;
 	tomb.nextthink = (time + 0.5);
+
+	tomb.tomb_death_time = time + 90;
+	if (self.eweapon) tomb.tomb_death_time = time + self.eweapon.dmgtime;
+/*
+// defs
+	PKPLUS_TOMB_TIME = 90;
+	if (self.eweapon) PKPLUS_TOMB_TIME = self.eweapon.dmgtime;
+
+	if (PKPLUS_TOMB_TIME < 0)
+			PKPLUS_TOMB_TIME = 90;
+
+	if (PKPLUS_TOMB_TIME)
+		tomb.tomb_death_time = (time + PKPLUS_TOMB_TIME);
+*/
 #ifdef painkeep_splash
 	AddToSplash (tomb);
 #endifdef

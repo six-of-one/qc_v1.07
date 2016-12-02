@@ -197,20 +197,23 @@ void() beartrap_dropBearTrap =
 	}
 */
 
-		PK_BT_TIME = 90; // def
-		PK_BT_TIMETOFOLLOW = 15;
-		PK_BT_DMG = 2;
+	bt = spawn();
+
+// defs - pk 3.0 implement
+		bt.button6 = 90;		//PK_BT_TIME = 90; // def
+		bt.button7 = 15;		// PK_BT_TIMETOFOLLOW = 15;
+		bt.dmg = 2;					// PK_BT_DMG = 2;
 //		self.noise3 = "weapons/btrap/bdrop_1.wav";
 
 	if (self.eweapon)
 	{
-		PK_BT_TIME = self.eweapon.button6;
-		PK_BT_TIMETOFOLLOW = self.eweapon.button7;
-		PK_BT_DMG = self.eweapon.dmg;
+		bt.button6 = self.eweapon.button6;
+		bt.button7 = self.eweapon.button7;
+		bt.dmg = self.eweapon.dmg;
 //		self.noise3 = self.eweapon.noise3;
 	}
 
-	bt = spawn();
+
 	bt.owner = self;
 	bt.movetype = MOVETYPE_TOSS;
 	bt.solid = SOLID_TRIGGER;
@@ -227,11 +230,22 @@ void() beartrap_dropBearTrap =
 	// Used to give a few rels go get away from the trap
 	bt.beartrap_time = time + 3;
 
-	if (PK_BT_TIME)
+#ifdef warning
+								bprint("*** warning: beartrap live time: ");
+								bprint(ftos(bt.button6));
+								bprint("\n");
+#endifdef
+
+	if (bt.button6 > 0)
 	{
+
+#ifdef warning
+								bprint("*** warning: beartrap set think\n");
+#endifdef
+
 	// Kill it after 90 rels if nobody walks over it
 		bt.think = beartrapDie;
-		bt.nextthink = time + PK_BT_TIME;
+		bt.nextthink = time + bt.button6;
 	}
 
 	setmodel (bt, "progs/beartrap.mdl");

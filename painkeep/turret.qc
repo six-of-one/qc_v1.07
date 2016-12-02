@@ -105,7 +105,7 @@ void() turret_dropTurret =
 		}
 */
 	}
-
+/*
 		PK_TUR_AMMO = 40;
 		PK_TUR_TIME = 20;
 		PK_TUR_HEAL = 300;
@@ -135,6 +135,7 @@ void() turret_dropTurret =
 
 	if (PK_TUR_TIME < 0) PK_TUR_TIME = 20;
 	if (PK_TUR_VARIETY < 1) PK_TUR_VARIETY = 1;
+*/
 
 	// check if near a wall
 	makevectors(self.v_angle);
@@ -154,6 +155,30 @@ void() turret_dropTurret =
 									// NOTE: self must always then be firing entity
 
 	turret = spawn ();
+
+// defs - pk 3.0 implement
+// PK_TUR_*  cant be used directly as they are shortcuts to self.*
+	turret.volume = 40;			// PK_TUR_AMMO
+	turret.dmgtime = 20;		// PK_TUR_TIME
+	turret.max_health = 300;	// PK_TUR_HEAL
+	turret.button7 = 3;			// PK_TUR_TARGOWN
+	turret.button8 = 0.15;	// PK_TUR_RELOAD
+
+	if (self.eweapon)
+	{
+		turret.volume = self.eweapon.volume;
+		turret.dmgtime = self.eweapon.dmgtime;
+		turret.max_health = self.eweapon.max_health;
+		turret.button7 = self.eweapon.button7;
+		turret.button6 = self.eweapon.button6;
+		turret.super_time = self.eweapon.super_time;
+		turret.button8 = self.eweapon.button8;
+		turret.button9 = self.eweapon.button9;
+		turret.button10 = self.eweapon.button10;
+		turret.button11 = self.eweapon.button11;
+		turret.button13 = self.eweapon.button13;
+	}
+
 	turret.owner = self;
 	turret.movetype = MOVETYPE_STEP;
 //	turret.movetype = MOVETYPE_TOSS;
@@ -162,10 +187,10 @@ void() turret_dropTurret =
 	turret.classname = "turret";
 	turret.netname = "Auto sentry";
 	turret.takedamage = TRUE;
-	turret.health = PK_TUR_HEAL;
-	if (PK_TUR_HEAL > 0) turret.th_die = turret_deathAnim;
+	turret.health = turret.max_health; //PK_TUR_HEAL;
+	if (turret.health > 0) turret.th_die = turret_deathAnim;
 	else turret.th_die = SUB_Null; // turret_searchForEnemy; -- this was causing a badwolf loop bug when a grav well radius explosion was calling this, and the 2nd findradius was busting the .chain loop
-	turret.currentammo = turret.ammo_cells = PK_TUR_AMMO;
+	turret.currentammo = turret.ammo_cells = turret.volume; //PK_TUR_AMMO;
 // new stuff
 	turret.cnt = 0;
 	turret.AIRG_Flags = AIRG_EXCLUDEENTITY; // dont blow turret - just base
@@ -174,17 +199,17 @@ void() turret_dropTurret =
 	local float ri;
 	ri = random();
 	turret.state = 0;
-	if ((PK_TUR_VARIETY & 1) && ri < 0.6) turret.state = 1;
-	else if ((PK_TUR_VARIETY & 2) && ri < 0.8) turret.state = 2;
-	else if ((PK_TUR_VARIETY & 4) && ri < 0.9) turret.state = 4;
-	else if ((PK_TUR_VARIETY & 8) && ri < 0.95) turret.state = 8;
-	else if ((PK_TUR_VARIETY & 16) && ri < 0.99) turret.state = 16;
+	if ((turret.button6 & 1) && ri < 0.6) turret.state = 1;					// (PK_TUR_VARIETY & bf )
+	else if ((turret.button6 & 2) && ri < 0.8) turret.state = 2;
+	else if ((turret.button6 & 4) && ri < 0.9) turret.state = 4;
+	else if ((turret.button6 & 8) && ri < 0.95) turret.state = 8;
+	else if ((turret.button6 & 16) && ri < 0.99) turret.state = 16;
 
 	ri = 1;
 	if (!turret.state)
 	while (ri < 32 && !turret.state)
 	{
-		if (ri & PK_TUR_VARIETY) turret.state = ri;
+		if (ri & turret.button6) turret.state = ri;
 		ri = ri * 2;
 	}
 
@@ -198,12 +223,12 @@ void() turret_dropTurret =
 	turret.v_angle = self.v_angle;
 
 // set turret duration
-	if (!PK_TUR_TIME) turret.turret_timeout = 0;
-	else turret.turret_timeout = time + PK_TUR_TIME;
+	if (!turret.dmgtime) turret.turret_timeout = 0; // (!PK_TUR_TIME)
+	else turret.turret_timeout = time + turret.dmgtime; // PK_TUR_TIME;
 
 // set when the turret can target the owner
-	if (!PK_TUR_TARGOWN) turret.turret_ownertimeout = 0;
-	else turret.turret_ownertimeout = time + PK_TUR_TARGOWN;
+	if (!turret.button7) turret.turret_ownertimeout = 0;	// (!PK_TUR_TARGOWN)
+	else turret.turret_ownertimeout = time + turret.button7; //PK_TUR_TARGOWN;
 
 // look for enemy
 	turret.nextthink = time + 0.1;
