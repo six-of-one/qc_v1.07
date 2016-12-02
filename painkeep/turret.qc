@@ -29,8 +29,6 @@ $frame gunsearch gunfire1 gunfire2 gunfire3 gunfire4 gunmisfire1 gunmisfire2
 
 //#define  PK_TURRETAMMO_MAX	self.
 
- // set non 0 when vars loaded
-//#define  PK_TUR_SET	self.button7
  // time after which turret shoots owner, 0 = dont target owner
 #define  PK_TUR_TARGOWN	self.button7
  // time to live, after which explode, 0 = no timeout
