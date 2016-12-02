@@ -229,13 +229,14 @@ void() player_conduitJerk;
 #define PKPLUS_TOMB_TIMETOFOLLOW	20
 #define TOMB_BUFFER						3
 #define PKPLUS_TOMB_DMG				3
-float PKPLUS_TOMB_TIME;
+
+//float PKPLUS_TOMB_TIME;
+#ifndef code_xents
 float PKPLUS_EGOAMMO_MAX;
 float PKPLUS_TOMBAMMO_MAX;
 float PKPLUS_ACTORAMMO_MAX;
 float PKPLUS_PHONEAMMO_MAX;
-
-float PK_TOMB_SET;
+#endifdef
 
 #ifdef reuse_fields
 #define tomb_touchable	pk_ent

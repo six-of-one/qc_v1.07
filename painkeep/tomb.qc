@@ -285,6 +285,8 @@ void () tomb_checkonground =
 	self.nextthink = (time + 0.2);
 };
 
+#define	PKPLUS_TOMB_TIME	self.dmgtime
+
 void () tomb_launch =
 {
 //	local entity tomb;
@@ -301,22 +303,13 @@ void () tomb_launch =
 		return ;
 	}
 */
-	if (!PK_TOMB_SET)
-	{
-		PK_TOMB_SET = TRUE;
 // defs
-		PKPLUS_TOMB_TIME = 90;
-/*
-		TDO:
-//		if (DARKPLACES || chaos)
-		{
-			PKPLUS_TOMB_TIME = cvar("pk_tomb_time");
-			if (PKPLUS_TOMB_TIME < 0)
-				PKPLUS_TOMB_TIME = 90;
-		}
-*/
-	}
-		
+	PKPLUS_TOMB_TIME = 90;
+	if (self.eweapon) PKPLUS_TOMB_TIME = self.eweapon.dmgtime;
+
+	if (PKPLUS_TOMB_TIME < 0)
+			PKPLUS_TOMB_TIME = 90;
+
 
 	tomb = spawn ();
 	tomb.owner = self;
