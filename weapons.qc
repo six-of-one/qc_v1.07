@@ -152,7 +152,7 @@ void(entity e, vector org, vector vel, float damage) SpawnBlood =
 		particle (org, vel*0.1, spawn_particle, damage*2);
 
 
-#ifdef warning
+#ifdef warning_no
 						bprint(" --- SpawnBlood: ");
 						bprint(item_ident(e));
 						bprint(" spt: ");
