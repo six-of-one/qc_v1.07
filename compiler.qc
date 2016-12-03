@@ -90,7 +90,7 @@
 #pragma COPYRIGHT (c) 1.06 iD 1996, 1.07 Six 2014
 
 // more detail - takes more bytes
-//#pragma COPYRIGHT v1.06 iD (c)1996 v1.07 Number Six (c)2014 -GPL- www.moddb.com/groups/qc
+//#pragma COPYRIGHT v1.06 iD (c)1996 v1.07 Number Six (c)2014 -LGPL- www.moddb.com/groups/qc
 
 
 // version history tally														[ includes major / minor code sections by define control ]
@@ -103,9 +103,13 @@
 // 1.0.7.5			- code_painkeep
 // 1.0.7.6			- code_xents
 // 1.0.7.7			- code_viswep
+// 1.0.7.8			- code_runes
+// 1.0.7.9			- map_hack - rv2 - multi biome system
+// 1.0.7.10		- code - cubes & crates
+// 1.0.7.11		- code_painkeep 3.0
 
 
-#define VERSION 	"1.0.7.7 qc++"
+#define VERSION 	"1.0.7.11 qc++"
 
 /// **************************************
 /// code weaver section
