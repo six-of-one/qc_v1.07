@@ -230,18 +230,8 @@ void() beartrap_dropBearTrap =
 	// Used to give a few rels go get away from the trap
 	bt.beartrap_time = time + 3;
 
-#ifdef warning
-								bprint("*** warning: beartrap live time: ");
-								bprint(ftos(bt.button6));
-								bprint("\n");
-#endifdef
-
 	if (bt.button6 > 0)
 	{
-
-#ifdef warning
-								bprint("*** warning: beartrap set think\n");
-#endifdef
 
 	// Kill it after 90 rels if nobody walks over it
 		bt.think = beartrapDie;
