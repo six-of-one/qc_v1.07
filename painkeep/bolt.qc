@@ -107,7 +107,7 @@ void() bolt_fire =
 	  WriteCoord (MSG_BROADCAST, endpos_y);
 	  WriteCoord (MSG_BROADCAST, endpos_z);
 	
-#ifdef warning
+#ifdef warning_no
 							if (warnings == "bolt")
 							{
 								bprint("*** warning: bolt_fire = ");
