@@ -107,27 +107,6 @@ void() bolt_fire =
 	  WriteCoord (MSG_BROADCAST, endpos_y);
 	  WriteCoord (MSG_BROADCAST, endpos_z);
 	
-#ifdef warning_no
-							if (warnings == "bolt")
-							{
-								bprint("*** warning: bolt_fire = ");
-								bprint(ftos(num_for_edict(self)));
-								bprint(" so: ");
-								bprint(vtos(self.origin));
-								bprint(" org: ");
-								bprint(vtos(org));
-								bprint(" x: ");
-								bprint(ftos(org_x));
-								bprint(" y: ");
-								bprint(ftos(org_y));
-								bprint(" z: ");
-								bprint(ftos(org_z));
-								bprint(" end: ");
-								bprint(vtos(endpos));
-								bprint("\n");
-							}
-#endifdef
-
 		traceline (self.origin,	endpos + v_forward*4, FALSE, self);
 
 	  // if hit a entity that can take damage & can see & is not invisible, then target for next time.
