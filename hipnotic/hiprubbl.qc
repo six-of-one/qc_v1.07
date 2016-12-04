@@ -97,19 +97,19 @@ void() rubble_use =
 		{
 			hipThrowRubble( "progs/rubble_m.mdl" );
 			newmis.frame = $hiprubl1;
-			newmis.skin = $hipskin2;
+			newmis.skin = 2;
 		}
 		else if ( self.cnt == 2 )
 		{
 			hipThrowRubble( "progs/rubble_m.mdl" );
 			newmis.frame = $hiprubl3;
-			newmis.skin = $hipskin1;
+			newmis.skin = 1;
 		}
 		else
 		{
 			hipThrowRubble( "progs/rubble_m.mdl" );
 			newmis.frame = $hiprubl2;
-			newmis.skin = $hipskin1;
+			newmis.skin = 1;
 		}
 		index = index + 1;
 	}
