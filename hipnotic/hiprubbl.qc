@@ -5,6 +5,40 @@
 	Distributed (unsupported) on 3.12.97
 */
 
+// oblong (arm gib) irr block (torso gib) tetra (tetra gib) 0 1 2
+$frame hiprubl1 hiprubl2 hiprubl3
+// smaller block (cube) small block (rectangle) small block (odd) 3 4 5
+$frame blockrubl1 blockrubl2 blockrubl3
+// small beveled block, med beveled block, large beveled block 6 7 8
+$frame bevelrubl1 bevelrubl2 bevelrubl3
+// torso twists = 4, largest last 9 10 11 12
+$frame blocktwist1 blocktwist2 blocktwist3 blocktwist4
+// trapeziod solids - smaller, flat tile, odd, med, large, larger 13 14 15 16 17 18
+$frame blocktrapez1 flattile1  blocktrodd1 blocktrapez2 blocktrapez3 blocktrapez4
+// minis 19 20 21 22
+$frame bevelmini blockmini trapezmini twistmini
+// micro 23 24 25 26
+$frame bevelmicro blockmicro trapezmicro twistmicro
+// menhir - 4 sided monument - pyramid top sm, med, lg
+$frame menhirm1 menhirm2 menhirm3
+// menhir - 4 sided crystal oblong sm, med, lg
+$frame menhirco1 menhirco2 menhirco3
+// menhir - odd oblong sm, med, lg
+$frame menhiro1 menhiro2 menhiro3
+// length down from origin for punch up effect
+float menhir1_LEN = 40, menhir2_LEN = 82, menhir3_LEN = 140;
+// basalt column - skin 7
+$frame basalt1 basalt2 basalt3
+
+// rubble skin support - original hip & dm4 so far
+
+// 0 1 2 -- brown splotch, dark coppery, light coppery
+$skin hipskin1 hipskin2 hipskin3
+// 3 4 5 -- dm4 cieling, dm4 skygrate, dm4walls
+$skin metal1_6 metal1_3 mmetal1_3
+// 6 -- lava rubble skin
+$skin aa_lava
+
 void() hipRubbleTouch =
 {
 	if ( self.ltime < self.pausetime )
@@ -61,15 +95,21 @@ void() rubble_use =
 		}
 		if ( self.cnt == 1 )
 		{
-			hipThrowRubble( "progs/rubble1.mdl" );
+			hipThrowRubble( "progs/rubble_m.mdl" );
+			newmis.frame = $hiprubl1;
+			newmis.skin = $hipskin2;
 		}
 		else if ( self.cnt == 2 )
 		{
-			hipThrowRubble( "progs/rubble3.mdl" );
+			hipThrowRubble( "progs/rubble_m.mdl" );
+			newmis.frame = $hiprubl3;
+			newmis.skin = $hipskin1;
 		}
 		else
 		{
-			hipThrowRubble( "progs/rubble2.mdl" );
+			hipThrowRubble( "progs/rubble_m.mdl" );
+			newmis.frame = $hiprubl2;
+			newmis.skin = $hipskin1;
 		}
 		index = index + 1;
 	}
