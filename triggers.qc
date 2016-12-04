@@ -856,7 +856,7 @@ void() trigger_monsterjump =
 		self.speed = 200;
 	if (!self.height)
 		self.height = 200;
-	if (!self.angles) // == '0 0 0')
+	if (self.angles == '0 0 0')
 		self.angles = '0 360 0';
 #ifdef HIPNOTIC
 //MED 12/01/96 added count stuff
