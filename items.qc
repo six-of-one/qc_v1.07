@@ -1555,7 +1555,7 @@ void() powerup_touch =
 //	activator = other;
 //	SUB_UseTargets();				// fire all targets / killtargets
 };
-
+	
 
 
 /*QUAKED item_artifact_invulnerability (0 .5 .8) (-16 -16 -24) (16 16 32)

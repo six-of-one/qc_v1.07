@@ -1788,6 +1788,7 @@ void() ImpulseCommands =
 		return;
 	}
 
+// note: as coded, beacon must be started by a __spawn_? cfg set
 	e0__ = find(world,classname,"beacon");
 	if (e0__)
 	{
