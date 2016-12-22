@@ -56,12 +56,6 @@ void() light_spark_emit =
 			numSparks = MAXSPARKS - currentSparks;
 		}
 
-// Number 6 - up ( -1 ) / down ( -2 ) dir impl
-		if (self.angles == '0 -1 0')
-			self.angles = '0 0 1';
-		else if (self.angles == '0 -2 0')
-			self.angles = '0 0 -1';
-
 		// play sound
 		if (numSparks > 0)
 //			numSparks = 0;
@@ -92,6 +86,13 @@ void() light_spark_emit =
 				spark_.frame = $spark2;
 			setorigin(spark_, self.origin);
 			makevectors(self.angles);
+
+// Number 6 - up ( -1 ) / down ( -2 ) dir impl
+		if (self.angles == '0 -1 0')
+			v_forward = '0 0 1';
+		else if (self.angles == '0 -2 0')
+			v_forward = '0 0 -1';
+
 			// give a little randomability to the direction
 			spark_.velocity = v_forward * random() * 384 +
 						v_right * crandom() * 128 +
