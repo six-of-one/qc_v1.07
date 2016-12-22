@@ -56,6 +56,12 @@ void() light_spark_emit =
 			numSparks = MAXSPARKS - currentSparks;
 		}
 
+// Number 6 - up ( -1 ) / down ( -2 ) dir impl
+		if (self.angles == '0 -1 0')
+			self.angles = '0 0 1';
+		else if (self.angles == '0 -2 0')
+			self.angles = '0 0 -1';
+
 		// play sound
 		if (numSparks > 0)
 //			numSparks = 0;
