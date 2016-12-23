@@ -36,19 +36,21 @@ void() SUB_regen =
 // {n} - collected, use targets, regen this many secs
 // 0  = collected, use targets, no regen - standard singleplayer op
 // -1 = weapon "leave" option in dm == 2 (bit value now, so 2, 4, 6, etc.)
-// -2 = use targets but no bf\n, no respawn
-// -3 = monster picked up - no bf, no targets, no respawn -- item will kick out when monster dies & have targets
+// -2 = dont set respawn on collect and dont "leave" - this level for cfg script ops
+// -3 = use targets but no bf\n, no respawn
+// -4 = monster picked up - no bf, no targets, no respawn -- item will kick out when monster dies & have targets
 
 void(float tim) touched =
 {
 // expand - future code for mark 3 if monsters can pick up items - uncomment next code to "if" -3 }
-//	if (tim > -3)
+//	if (tim > -4)
 //	{
-//		if (tim > -2) 
+//		if (tim > -3) 
 			stuffcmd(other, "bf\n");
 		activator = other;
 		SUB_UseTargets();				// fire all targets / killtargets	
 //	}
+// note used -2 for no respawn dyn items
 	if (tim == -1) return;
 
 	self.solid = SOLID_NOT;
@@ -274,7 +276,7 @@ void() health_touch =
 //	self.solid = SOLID_NOT;
 
 // note: respawn special on health
-	touched(0);
+	if (!self.wait) self.wait = 20;
 
 	// Megahealth = rot down the player's super health
 	if (self.healtype == 2)
@@ -283,16 +285,21 @@ void() health_touch =
 		self.nextthink = time + 5;
 		self.think = item_megahealth_rot;
 		self.owner = other;
+		touched(0);
 	}
 	else
 	{
 //		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
 //		{
+		touched(self.wait);
+
+/*
 			if (deathmatch & 1)
 			{
 				self.nextthink = time + 20;
 				self.think = SUB_regen;
 			}
+*/
 //		}
 	}
 	
@@ -320,9 +327,9 @@ void() item_megahealth_rot =
 // just blindly subtract the flag off
 	other.items = other.items - (other.items & IT_SUPERHEALTH);
 	
-	if (deathmatch & 1)	// deathmatch 2 is silly old rules
+	if ((deathmatch & 1) && self.wait > 0)	// deathmatch 2 is silly old rules
 	{
-		self.nextthink = time + 20;
+		self.nextthink = time + self.wait;
 		self.think = SUB_regen;
 	}
 };
@@ -381,7 +388,8 @@ void() armor_touch =
 	other.armorvalue = value;
 	other.items = other.items - (other.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + bit;
 
-	touched(20);
+	if (!self.wait) self.wait = 20;		// lets script control std item respawn
+	touched(self.wait);
 
 /*
 	self.solid = SOLID_NOT;
@@ -725,7 +733,8 @@ void() weapon_touch =
 		return;
 
 // note: causes a double bf\n
-	touched(30);
+	if (!self.wait) self.wait = 30;
+	touched(self.wait);
 
 /*
 // remove it in single player, or setup for respawning in deathmatch
@@ -953,7 +962,8 @@ local float		best;
 	W_SetCurrentAmmo();
 	self = stemp;
 
-	touched(30);
+	if (!self.wait) self.wait = 30;
+	touched(self.wait);
 
 /*
 // remove it in single player, or setup for respawning in deathmatch
@@ -995,10 +1005,11 @@ void() item_shells =
 
 	if (!self.model) // allow next 3 functions to come here & not run this set
 	{
+		precache_model ("maps/b_shell1.bsp");
+		setmodel (self, "maps/b_shell1.bsp");
+		if (!self.aflag) // admin - note: model -- if you only set aflag, model will be lg box
 		if (self.spawnflags & WEAPON_BIG2)
 		{
-			precache_model ("maps/b_shell1.bsp");
-			setmodel (self, "maps/b_shell1.bsp");
 			self.aflag = 40;
 		}
 		else
@@ -1021,10 +1032,11 @@ void() item_spikes =
 {
 //	self.touch = ammo_touch;
 
+	precache_model ("maps/b_nail1.bsp");
+	setmodel (self, "maps/b_nail1.bsp");
+	if (!self.aflag) // admin
 	if (self.spawnflags & WEAPON_BIG2)
 	{
-		precache_model ("maps/b_nail1.bsp");
-		setmodel (self, "maps/b_nail1.bsp");
 		self.aflag = 50;
 	}
 	else
@@ -1049,10 +1061,11 @@ void() item_rockets =
 {
 //	self.touch = ammo_touch;
 
+	precache_model ("maps/b_rock1.bsp");
+	setmodel (self, "maps/b_rock1.bsp");
+	if (!self.aflag) // admin
 	if (self.spawnflags & WEAPON_BIG2)
 	{
-		precache_model ("maps/b_rock1.bsp");
-		setmodel (self, "maps/b_rock1.bsp");
 		self.aflag = 10;
 	}
 	else
@@ -1078,10 +1091,11 @@ void() item_cells =
 {
 //	self.touch = ammo_touch;
 
+	precache_model ("maps/b_batt1.bsp");
+	setmodel (self, "maps/b_batt1.bsp");
+	if (!self.aflag) // admin
 	if (self.spawnflags & WEAPON_BIG2)
 	{
-		precache_model ("maps/b_batt1.bsp");
-		setmodel (self, "maps/b_batt1.bsp");
 		self.aflag = 12;
 	}
 	else
@@ -1508,13 +1522,17 @@ void() powerup_touch =
 	if (deathmatch)
 	{
 		self.mdl = self.model;
-		
+
+		if (self.wait)
+			self.nextthink = time + self.wait;
+		else
 		if ((self.classname == "item_artifact_invulnerability") ||
 			(self.classname == "item_artifact_invisibility"))
 			self.nextthink = time + 60*5;
 		else
 			self.nextthink = time + 60;
-		
+
+		if (self.wait >= 0)
 		self.think = SUB_regen;
 	}	
 
@@ -1527,29 +1545,32 @@ void() powerup_touch =
 	other.items = other.items | self.items;
 //	self.model = string_null;
 
+// cfg override
+	if (!self.delay) self.delay = 30;
+
 // do the apropriate action
 	if (self.classname == "item_artifact_envirosuit")
 	{
 		other.rad_time = 1;
-		other.radsuit_finished = time + 30;
+		other.radsuit_finished = time + self.delay;
 	}
 	
 	if (self.classname == "item_artifact_invulnerability")
 	{
 		other.invincible_time = 1;
-		other.invincible_finished = time + 30;
+		other.invincible_finished = time + self.delay;
 	}
 	
 	if (self.classname == "item_artifact_invisibility")
 	{
 		other.invisible_time = 1;
-		other.invisible_finished = time + 30;
+		other.invisible_finished = time + self.delay;
 	}
 
 	if (self.classname == "item_artifact_super_damage")
 	{
 		other.super_time = 1;
-		other.super_damage_finished = time + 30;
+		other.super_damage_finished = time + self.delay;
 	}	
 
 //	activator = other;
