@@ -1293,3 +1293,38 @@ void() grap_checkIfGrap =
 	}
 };
 
+
+// harpoon frame control
+
+void() pk_harpoon_frames =
+{
+
+	if (self.weapon == IT_AXE && self.pk_currentitem == PK_IT_GRAPGUN && self.grap_cornerchainNext != world)
+	{
+		if (self.grap_state == GRAP_IN || self.grap_state == GRAP_TOHARPOON)
+		{
+			if (self.weaponframe > 11 || self.weaponframe < 9)
+			{
+				self.weaponframe = 9;
+			}
+			else
+			{
+				self.weaponframe = self.weaponframe + 1;
+			}
+//			cam_setbob(null_string);
+		}
+		else
+		{
+			self.weaponframe = 8;
+//			if ( !(self.cam_x & CHSCAM_ON) ) //stuffcmd( self, CL_BOBSET );
+//				cam_setbob(CL_BOBSET);
+		}
+	}
+	else
+	{
+		self.weaponframe=0;
+//		if ( !(self.cam_x & CHSCAM_ON) ) //stuffcmd( self, CL_BOBSET );
+//				cam_setbob(CL_BOBSET);
+	}
+
+};
