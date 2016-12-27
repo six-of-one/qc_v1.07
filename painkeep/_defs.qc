@@ -196,6 +196,8 @@ void() grap_releaseHarpoon;
 void() grap_maintainHarpoon;
 void(entity grapOwner) grap_remove;
 
+void() pk_harpoon_frames;
+
 // chain thunderbolt
 
 #ifndef HIPNOTIC

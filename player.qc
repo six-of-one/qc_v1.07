@@ -124,6 +124,10 @@ void()	player_stand1 =[	$axstnd1,	player_stand1	]
 		return;
 	}
 
+#ifdef code_painkeep_
+	pk_harpoon_frames();
+#endifdef
+
 #ifdef code_xents
 	if (FL_MELEE(self, self.weapon, 
 #ifdef code_painkeep_
@@ -186,6 +190,10 @@ void()	player_run =[	$rockrun1,	player_run	]
 		player_stand1();
 		return;
 	}
+
+#ifdef code_painkeep_
+	pk_harpoon_frames();
+#endifdef
 
 #ifdef code_xents
 	if (FL_MELEE(self, self.weapon, 
