@@ -641,7 +641,13 @@ when awakened by the player.
 */
 void() monster_zombie =
 {
-	if (deathmatch)
+	if (deathmatch
+
+// pk uses cruc zombies on DM maps
+#ifdef code_painkeep_
+						&& !(self.spawnflags & SPAWN_CRUCIFIED)
+#endifdef
+										)
 	{
 		remove(self);
 		return;
