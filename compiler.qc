@@ -428,7 +428,7 @@ spec track by cvar
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
 /// SWITCH
-//#define local_test
+#define local_test
 
 // we always tell if local test or debug are compiled in
 

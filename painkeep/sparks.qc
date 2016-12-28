@@ -16,7 +16,7 @@
 
 	"classname" 	"light_sparks"
 	"origin" 		"# # #" 	- Usual
-	"angle" 		"#"		- Direction sparks fly
+	"angle" 		"#"		- Direction sparks fly		 - up ( -1 ) / down ( -2 )
 	"light" 		"#"		- Usual (good value is 100)
 	"mean"		"#" 		- Mean time before sparks (default 5)
 	"stdev" 		"#"		- Variation around the mean time (default 0)
