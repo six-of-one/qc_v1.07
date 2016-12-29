@@ -26,7 +26,7 @@ void() updateStatusDisplay =
 		if (!self.messagetimeout)
 		{
 			self.messagetimeout = time + 10;
-			self.laststattime = time + 17;
+//			self.laststattime = time + 17;
 			self.message = string_null;
 		}
 
