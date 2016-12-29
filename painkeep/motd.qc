@@ -16,7 +16,7 @@
 
 void() updateStatusDisplay =
 {
-	local string Line5;
+//	local string Line5;
 
 	if (!self.ishuman) // bots dont get status update
 		return;
@@ -27,6 +27,7 @@ void() updateStatusDisplay =
 		{
 			self.messagetimeout = time + 10;
 			self.laststattime = time + 17;
+			self.message = string_null;
 		}
 
 		if (self.messagetimeout > time) // let the motd fly for X secs
@@ -35,15 +36,15 @@ void() updateStatusDisplay =
 		}
 
 // heh heh - scroll wheel of pain!
-		Line5 = "|";
-		if ((time & 3) == 1) Line5 = "\\";
-		else if ((time & 3) == 2) Line5 = "-";
-		else if ((time & 3) == 3) Line5 = "/";
+		s0__ = "|";
+		if ((time & 3) == 1) s0__ = "\\";
+		else if ((time & 3) == 2) s0__ = "-";
+		else if ((time & 3) == 3) s0__ = "/";
 
 		if (self.revotemsg < 0)
-			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote\n",motd2,Line5);
+			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote\n",motd2,s0__, self.message);
 		else
-			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",motd2,Line5);
+			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",motd2,s0__, self.message);
 		self.messagetimeout = time + 1;
 	
 		if (self.laststattime > time)
@@ -51,8 +52,8 @@ void() updateStatusDisplay =
 			return;
 		}
 
-		self.laststattime = time + 2;
-	  
+		self.laststattime = time + 5;
+
 		// display the HubMap data...
 		hub_control_status();
 	}

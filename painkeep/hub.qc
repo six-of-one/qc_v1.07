@@ -593,6 +593,7 @@ void(float maxplayers, float votecast, float timemins, float timerel) playerVote
 
 	WriteBFloat(MSG_ONE, votecast);
 
+	
 	// '/'
 	WriteB3(MSG_ONE, 47);
 
@@ -644,10 +645,10 @@ void() hub_control_status =
 	// print some information
 	getHighestScores();
 
-	local string str1, str2, str3, srch;
+	local string str2;
 	local float timemins, timedef, votecast, maxplayers;
 	local entity pl;
-
+/*
 	if (self.map == "painkeep")
 	{
 		str1 = "pk ";
@@ -656,11 +657,13 @@ void() hub_control_status =
 	{
 		str1 = self.map;
 	}
+*/
 
 	if (first.cnt > 0)
 	{
 		if (self.attack_state == 0)
 		{
+/*
 			if (first.map == "painkeep")
 			{
 				str2 = "pk ";
@@ -669,16 +672,19 @@ void() hub_control_status =
 			{
 				str2 = first.map;
 			}
+*/
 
 			if (self.map == string_null)
 			{
-				str3 = ftos(first.cnt);
-				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
+//				str3 = ftos(first.cnt);
+//				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
+				self.message = strcat( "\n\nPlease Vote						 Lead: ", first.map, " [", ftos(first.cnt), "]");
 			}
 			else
 			{
-				str3 = ftos(first.cnt);
-				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
+//				str3 = ftos(first.cnt);
+//				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
+				self.message = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", first.map, " [", ftos(first.cnt), "]");
 			}
 
 			self.attack_state = 1;
@@ -691,6 +697,7 @@ void() hub_control_status =
 	{
 		if (self.attack_state == 1)
 		{
+/*
 			if (second.map == "painkeep")
 			{
 				str2 = "pk ";
@@ -699,16 +706,19 @@ void() hub_control_status =
 			{
 				str2 = second.map;
 			}
+*/
 
 			if (self.map == string_null)
 			{
-				str3 = ftos(second.cnt);
-				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
+//				str3 = ftos(second.cnt);
+//				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
+				self.message = strcat( "\n\nPlease Vote						 Lead: ", second.map, " [", ftos(second.cnt), "]");
 			}
 			else
 			{
-				str3 = ftos(second.cnt);
-				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
+//				str3 = ftos(second.cnt);
+//				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
+				self.message = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", second.map, " [", ftos(second.cnt), "]");
 			}
 			self.attack_state = 2;
 			return;
@@ -721,8 +731,8 @@ void() hub_control_status =
 		if (hubStartTime > time)
 		{
 			timedef = (hubStartTime - time);
-			timemins = timedef / 60;
-			timemins = floor(timemins);
+			timemins = floor(timedef / 60);
+//			timemins = floor(timemins);
 			timedef = (hubStartTime - time) - (timemins * 60);
 		}
 		else
@@ -731,7 +741,7 @@ void() hub_control_status =
 		}
 
 		// count the numbeer of votes cast
-		srch = "player"; // *bot
+		s0__ = "player"; // *bot
 		pl = find(world, classname, "player");
 /*
 		if (!pl)
@@ -758,7 +768,7 @@ void() hub_control_status =
 				maxplayers = maxplayers + 1;
 			}
 
-			pl = find(pl, classname, srch);
+			pl = find(pl, classname, s0__);
 /*
 			if (!pl)
 			if (srch == "player") // find jafo now
