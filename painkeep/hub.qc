@@ -887,7 +887,7 @@ void() GoBack =
 
 	// JON: Tell them that they have cancled their vote
 	self.revotemsg = -1;
-	self.hubstartupmessage = time + 10;
+//	self.hubstartupmessage = time + 10;
 };
 
 

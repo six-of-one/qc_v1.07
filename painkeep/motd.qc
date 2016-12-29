@@ -9,6 +9,9 @@
  * qc - painkeep module - message of the day qc
  *
  */
+/*
+
+	deprecated for new motd method
 
 // ConnectMessage - display a message on connect.
 void() connectmessage =
@@ -131,65 +134,52 @@ if (self.classname == "player" && self.ishuman) // self.class_select != "class_b
 
 	if ((time & 3) == 3) self.msgcount = self.msgcount + 1;
 };
-
+*/
 
 
 
 void() updateStatusDisplay =
 {
-	local string Line3,Line5;
+	local string Line5;
 
 	if (!self.ishuman)
 //	if (self.class_select == "class_bot") // bots dont get status update
 		return;
 
 	if (inHubMap) // Cataboligne - 8.22.9 - custom hubs can cause this message on non pk / non hub maps
-	if (self.msgcount <= MOTDTIME)
 	{
-		if (!self.hubstartupmessage) self.hubstartupmessage = time + 15;
-	  connectmessage();
-	  return;
-	}
+		if (!self.messagetimeout)
+		{
+			self.messagetimeout = time + 10;
+			self.laststattime = time + 17;
+		}
 
-	if (self.messagetimeout > time)
-	{
-	  return;
-	}
+		if (self.messagetimeout > time) // let the motd fly for X secs
+		{
+			return;
+		}
 
-	if (inHubMap)
-	if (self.hubstartupmessage > time)
-	{
-// web site promo
-		Line3 = motd2;
 // heh heh - scroll wheel of pain!
-		if ((time & 3) == 0) Line5 = "|";
-		else if ((time & 3) == 1) Line5 = "\\";
+		Line5 = "|";
+		if ((time & 3) == 1) Line5 = "\\";
 		else if ((time & 3) == 2) Line5 = "-";
 		else if ((time & 3) == 3) Line5 = "/";
 
 		if (self.revotemsg < 0)
-			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote");
+			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote\n",motd2,Line5);
 		else
-			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",Line3,Line5);
+			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",motd2,Line5);
 		self.messagetimeout = time + 1;
-	}
 	
-	if (self.laststattime > time)
-	{
-		return;
-	}
+		if (self.laststattime > time)
+		{
+			return;
+		}
 
-
-	if (inHubMap)
-	{
-		self.laststattime = time + 10;
+		self.laststattime = time + 2;
 	  
 		// display the HubMap data...
 		hub_control_status();
-	}
-	else
-	{
-		self.laststattime = time + 10;
 	}
 };
 

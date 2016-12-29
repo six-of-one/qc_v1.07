@@ -80,13 +80,14 @@ float ply_count; // count 'em & weep
 
 .float voteIntermission;
 .float revotemsg;
-.float hubstartupmessage;
+//.float hubstartupmessage;
 .float messagetimeout;
 .float laststattime;
 
 // see if these are needed
-string vmotd					= "\\/ersion \b3\b.\b0\b\n\n";
-string motd2					= "\n\n[\\/\b3\b.\b0\b] \b_-=\b* \bC\bataboligne\n\nhttp://www.moddb.com/mods/chaos-archon/\n\n";
+//string vmotd					= "\\/ersion \b3\b.\b0\b\n\n";
+//string motd2					= "\n\n[\\/\b3\b.\b0\b] \b_-=\b* \bN\umber Six\n\nhttp://www.moddb.com/mods/chaos-archon/\n\n";
+string motd2					= "\n\n[\\/\b3\b.\b0\b] \b_-=\b* \bN\bumber Six\n\nhttp://www.moddb.com/mods/painkeep-source-update/\n\n";
 
 float PK;									// if set true painkeep code is enabled
 float pk_flags;							// replaces old usage of temp1, savedgamecfg stores this
@@ -301,7 +302,7 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 // vw thing
 #define ROPE_FWD					24 // distance to move last seg fwd when it is longer rope piece
 
-.float msgcount;
+//.float msgcount;
 .float mean, stdev;
 .float tomb_time, tomb_death_time;
 
