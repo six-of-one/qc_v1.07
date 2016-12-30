@@ -682,7 +682,7 @@ void() hub_control_status =
 			{
 //				str3 = ftos(first.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
-				s2__ = strcat( "\n\nPlease Vote						 Lead: ", first.map, " [", ftos(first.cnt), "]");
+				s2__ = strcat( "\n\nVote now						 Lead: ", first.map, " [", ftos(first.cnt), "]");
 			}
 			else
 			{
@@ -716,7 +716,7 @@ void() hub_control_status =
 			{
 //				str3 = ftos(second.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
-				s2__ = strcat( "\n\nPlease Vote						 Lead: ", second.map, " [", ftos(second.cnt), "]");
+				s2__ = strcat( "\n\nVote now						 Lead: ", second.map, " [", ftos(second.cnt), "]");
 			}
 			else
 			{
