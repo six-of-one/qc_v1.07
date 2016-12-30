@@ -78,26 +78,35 @@ void() copb_checkFart =
 //	}
 };
 
+#define  PK_CPB_HEAL	self.max_health
+
 void() copb_eatCan =
 {
 #ifdef code_morph
-	float smax_;
-	smax_ = morph_healmax(self.health_modifier, Q_MEGA_MAX);
-#else
-	#define smax_	250
+//	float smax_;
+	f0__ = morph_healmax(self.health_modifier, Q_MEGA_MAX);
 #endifdef
-	
-// allow above 100...
-	T_Heal(self, 100, 1);
-	self.healtype = HEAL_BOT; // plague, poison, fire
 
-	if (self.health > smax_) self.health = smax_; // bound to special max - 250 for human
-
-// make noise + effects
+	// make noise + effects
 	other = spawn();
 	other.owner = self;
 	other.copb_timeout = time + POW_TIME;
 //	self.search_time = time + (random() * 2);
 	other.nextthink = time + (random() * 2);
 	other.think = copb_checkFart;
+
+	f0__ = 250;
+	f1__ = 100;
+	self.healtype = HEAL_BOT; // cures plague, poison, fire
+	if (self.eweapon)
+	{
+		other.copb_timeout = time + self.eweapon.wait;
+		f0__ = self.eweapon.max_health;
+		f1__ = self.eweapon.volume;
+		self.healtype = self.eweapon.healtype;
+	}
+
+	T_Heal(self, f1__, self.healtype);
+
+	if (self.health > f0__) self.health = f0__;
 };
