@@ -790,7 +790,7 @@ void() hub_control_status =
 		s1__ = string_null;
 		if (timerel < 10) s1__ = "0";
 		s0__ = strcat(ftos(timemins),":",s1__,ftos(floor(timerel)));
-		s2__ = strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]");
+		s2__ = strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "  Time Left: [ ", s0__, " ]");
 
 		self.attack_state = 0;
 	}

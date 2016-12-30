@@ -46,7 +46,7 @@ void() updateStatusDisplay =
 			if (self.revotemsg < 0)
 				pk_centerprint(self, "Vote Cancelled.\n\nRecast your vote\n",motd2,s0__, self.message);
 			else
-				pk_centerprint(self, "Vote - enter the portal for the level you want\nOnce all players vote, the winning level loads.\n\nфире - clear this message",motd2,s0__, self.message);
+				pk_centerprint(self, "Vote - enter the portal for the level you want \nOnce all players vote, the winning level loads.\n\nфире - clear this message",motd2,s0__, self.message);
 
 
 			self.messagetimeout = time + 0.2;
