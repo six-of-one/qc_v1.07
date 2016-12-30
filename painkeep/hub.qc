@@ -682,13 +682,13 @@ void() hub_control_status =
 			{
 //				str3 = ftos(first.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						 Lead: ", str2, " [", str3, "]");
-				self.message = strcat( "\n\nPlease Vote						 Lead: ", first.map, " [", ftos(first.cnt), "]");
+				s2__ = strcat( "\n\nPlease Vote						 Lead: ", first.map, " [", ftos(first.cnt), "]");
 			}
 			else
 			{
 //				str3 = ftos(first.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "			 Lead: ", str2, " [", str3, "]");
-				self.message = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", first.map, " [", ftos(first.cnt), "]");
+				s2__ = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", first.map, " [", ftos(first.cnt), "]");
 			}
 
 			self.attack_state = 1;
@@ -716,13 +716,13 @@ void() hub_control_status =
 			{
 //				str3 = ftos(second.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nPlease Vote						Second: ", str2, " [", str3, "]");
-				self.message = strcat( "\n\nPlease Vote						 Lead: ", second.map, " [", ftos(second.cnt), "]");
+				s2__ = strcat( "\n\nPlease Vote						 Lead: ", second.map, " [", ftos(second.cnt), "]");
 			}
 			else
 			{
 //				str3 = ftos(second.cnt);
 //				pk_centerprint(self, "\n\n\n\n\n\n\n\n\n\n\nYou Voted For: ", str1, "		 Second: ", str2, " [", str3, "]");
-				self.message = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", second.map, " [", ftos(second.cnt), "]");
+				s2__ = strcat( "\n\nYou Voted For: ", self.map, "			 Lead: ", second.map, " [", ftos(second.cnt), "]");
 			}
 			self.attack_state = 2;
 			return;
@@ -790,10 +790,11 @@ void() hub_control_status =
 		s1__ = string_null;
 		if (timerel < 10) s1__ = "0";
 		s0__ = strcat(ftos(timemins),":",s1__,ftos(floor(timerel)));
-		self.message = strzone(strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]"));
+		s2__ = strzone(strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]"));
 
 		self.attack_state = 0;
 	}
+	self.message = strzone(s2__);
 };
 
 
