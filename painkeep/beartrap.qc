@@ -200,9 +200,11 @@ void() beartrap_dropBearTrap =
 	bt = spawn();
 
 // defs - pk 3.0 implement
-		bt.button6 = 90;		//PK_BT_TIME = 90; // def
-		bt.button7 = 15;		// PK_BT_TIMETOFOLLOW = 15;
-		bt.dmg = 2;					// PK_BT_DMG = 2;
+	bt.button6 = 90;		//PK_BT_TIME = 90; // def
+	bt.button7 = 15;		// PK_BT_TIMETOFOLLOW = 15;
+	bt.dmg = 2;					// PK_BT_DMG = 2;
+	bt.max_health = 50;
+	
 //		self.noise3 = "weapons/btrap/bdrop_1.wav";
 
 	if (self.eweapon)
@@ -210,6 +212,7 @@ void() beartrap_dropBearTrap =
 		bt.button6 = self.eweapon.button6;
 		bt.button7 = self.eweapon.button7;
 		bt.dmg = self.eweapon.dmg;
+		bt.max_health = self.eweapon.max_health;
 //		self.noise3 = self.eweapon.noise3;
 	}
 
@@ -219,8 +222,9 @@ void() beartrap_dropBearTrap =
 	bt.solid = SOLID_TRIGGER;
 	bt.classname = "beartrap";
 	bt.takedamage = TRUE;
-	bt.health = 50;
-	bt.th_die = beartrapDie;
+	bt.health = bt.max_health;
+	bt.th_die = SUB_Null;
+	if (bt.health > 0) bt.th_die = beartrapDie;
 	bt.netname = "Bear Trap";
 
 	// For the correct death messages
@@ -256,3 +260,4 @@ void() beartrap_dropBearTrap =
 	AddToSplash(bt);
 #endifdef
 };
+

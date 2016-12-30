@@ -188,8 +188,8 @@ void() turret_dropTurret =
 	turret.netname = "Auto sentry";
 	turret.takedamage = TRUE;
 	turret.health = turret.max_health; //PK_TUR_HEAL;
+	turret.th_die = SUB_Null; // turret_searchForEnemy; -- this was causing a badwolf loop bug when a grav well radius explosion was calling this, and the 2nd findradius was busting the .chain loop
 	if (turret.health > 0) turret.th_die = turret_deathAnim;
-	else turret.th_die = SUB_Null; // turret_searchForEnemy; -- this was causing a badwolf loop bug when a grav well radius explosion was calling this, and the 2nd findradius was busting the .chain loop
 	turret.currentammo = turret.ammo_cells = turret.volume; //PK_TUR_AMMO;
 // new stuff
 	turret.cnt = 0;
