@@ -1275,7 +1275,11 @@ void() W_Attack =
 	local	float	r;
 
 #ifdef code_painkeep_
-	if (self.messagetimeout > time) self.messagetimeout = -1; // *pk - clear hub message
+	if (self.messagetimeout > time)
+	{
+		self.messagetimeout = -1; // *pk - clear hub message
+		pk_centerprint(self, "");
+	}
 #endifdef
 
 	if (!W_CheckNoAmmo ())

@@ -528,7 +528,7 @@ void() hub_control_use =
 	// error
 	if (highest == world) // note: could be stuck on hub at this point
 	{
-		bprint("hub_control_use: highest vote not found\n");
+		bprint("hub: highest vote not found\n");
 		return;
 	}
 
@@ -539,7 +539,7 @@ void() hub_control_use =
 		// error check
 		if (c < 1)
 		{
-			bprint("hub_control_use: random map not found\n");
+			bprint("hub: random map not found\n");
 			return;
 		}
 		
@@ -547,7 +547,7 @@ void() hub_control_use =
 		highest = getMap(r);
 		if (highest == world) // note: could be stuck on hub at this point
 		{
-			bprint("hub_control_use: random map not found\n");
+			bprint("hub: random map not found\n");
 			return;
 		}
 	}
@@ -1327,7 +1327,7 @@ void() WaitForVotesThink =
 				self.attack_state = 0;
 			}
 
-		pk_centerprint(self, "You have just voted for ", self.map, ".\n\nPlease wait here while all other \nplayers finish voting.	Once all votes \nhave been cast, the winning \nlevel will start.\n");
+		pk_centerprint(self, "You voted for ", self.map, ".\n\nPlease wait while all other players vote.	Once all votes\nhave been cast, the winning level will start.           \n");
 
 			return;
 		}
