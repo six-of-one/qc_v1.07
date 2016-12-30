@@ -10,6 +10,10 @@
  *
  */
 
+#define	PKPLUS_TOMB_TIME	self.delay
+#define	PKPLUS_TOMB_TIMETOFOLLOW	self.dmgtime
+#define	PKPLUS_TOMB_DMG	self.dmg
+
 void () corpsefollow;
 /*
 framer version - replace all sequential frames
@@ -285,50 +289,63 @@ void () tomb_checkonground =
 	self.nextthink = (time + 0.2);
 };
 
-#define	PKPLUS_TOMB_TIME	newmis.dmgtime
-
 void () tomb_launch =
 {
 //	local entity tomb;
 #define tomb newmis
 
+// is the needed
 	if ( (self.pkplus_tombammo <= 0) )
 	{
 		return ;
 	}
-/*
-	if ( !self.button0 )
-	{
-		player_run ();
-		return ;
-	}
-*/
+
 	tomb = spawn ();
-	tomb.owner = self;
 	tomb.movetype = MOVETYPE_TOSS;
-	tomb.solid = SOLID_BBOX;
-	tomb.classname = "tomb";
-	tomb.takedamage = DAMAGE_AIM;
+	setorigin (tomb,self.origin);
+	tomb.angles = self.angles;
+	tomb.angles_z = 0;
+	tomb.v_angle = self.v_angle;
+	tomb.v_angle_z = 0;
+
 	tomb.health = 350;
-	tomb.th_die = tombdie;
+	tomb.dmg = 3;
+	tomb.delay = 90;
+	tomb.dmgtime = 20;
+
+	if (self.eweapon)		// pk 3 admin
+	{
+		tomb.health = self.eweapon.max_health;
+		tomb.dmg = self.eweapon.dmg;
+		tomb.delay = self.eweapon.delay;
+		tomb.dmgtime = self.eweapon.dmgtime;
+	}
+
+	e0__ = spawn();
+	copyentity(tomb, e0__);
+	tomb.tomb_touchable = e0__;
+	e0__.health = 0;
+
+	tomb.owner = self;
+	tomb.solid = SOLID_BBOX;
+	tomb.classname = "Tomb";
 	tomb.netname = "Tomb";
 	tomb.pk_currentitem = PKPLUS_IT_TOMB;
 	tomb.weapon = IT_AXE;
 	setmodel (tomb,"progs/tomb2.mdl");
 	setsize (tomb,'-16 -16 0','16 16 44');
 	tomb.skin = 1;
-	setorigin (tomb,self.origin);
 	makevectors (self.angles);
 	tomb.velocity = ((v_forward * (100 + (random () * 50))) + (v_up * (150 + (random () * 75))));
-	tomb.angles = self.angles;
-	tomb.angles_z = 0;
-	tomb.v_angle = self.v_angle;
-	tomb.v_angle_z = 0;
 	tomb.think = tomb_checkonground;
 	tomb.nextthink = (time + 0.5);
 
-	tomb.tomb_death_time = time + 90;
-	if (self.eweapon) tomb.tomb_death_time = time + self.eweapon.dmgtime;
+	if (tomb.health > 0)
+	{
+		tomb.tomb_death_time = time + tomb.delay;
+		tomb.th_die = tombdie;
+		tomb.takedamage = DAMAGE_AIM;
+	}
 /*
 // defs
 	PKPLUS_TOMB_TIME = 90;
@@ -343,19 +360,22 @@ void () tomb_launch =
 #ifdef painkeep_splash
 	AddToSplash (tomb);
 #endifdef
-	tomb.tomb_touchable = spawn ();
+
 	tomb.tomb_touchable.owner = tomb;
-	tomb.tomb_touchable.movetype = MOVETYPE_TOSS;
 	tomb.tomb_touchable.solid = SOLID_TRIGGER;
-	tomb.tomb_touchable.classname = "touchtomb";
+//	tomb.tomb_touchable.classname = "touchtomb";
 	setsize (tomb.tomb_touchable,'-18 -18 -6','18 18 46');
-	tomb.tomb_touchable.angles = tomb.angles;
-	tomb.tomb_touchable.v_angle = tomb.v_angle;
-	setorigin (tomb.tomb_touchable,tomb.origin);
 	tomb.tomb_touchable.touch = tombtouch;
 	tomb.tomb_touchable.tomb_time = (time + 2);
 	tomb.tomb_touchable.think = touchtomb_think;
 	tomb.tomb_touchable.nextthink = (time + 0.2);
+
+ 
+//	tomb.tomb_touchable.movetype = MOVETYPE_TOSS;
+//	tomb.tomb_touchable.angles = tomb.angles;
+//	tomb.tomb_touchable.v_angle = tomb.v_angle;
+//	setorigin (tomb.tomb_touchable,tomb.origin);
+
 };
 
 #undef	tomb
