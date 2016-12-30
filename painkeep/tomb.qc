@@ -346,17 +346,7 @@ void () tomb_launch =
 		tomb.th_die = tombdie;
 		tomb.takedamage = DAMAGE_AIM;
 	}
-/*
-// defs
-	PKPLUS_TOMB_TIME = 90;
-	if (self.eweapon) PKPLUS_TOMB_TIME = self.eweapon.dmgtime;
 
-	if (PKPLUS_TOMB_TIME < 0)
-			PKPLUS_TOMB_TIME = 90;
-
-	if (PKPLUS_TOMB_TIME)
-		tomb.tomb_death_time = (time + PKPLUS_TOMB_TIME);
-*/
 #ifdef painkeep_splash
 	AddToSplash (tomb);
 #endifdef
