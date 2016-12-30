@@ -219,7 +219,7 @@ void() hub_custom =
 
 	if (!self.map) // we set arc_hub map in case this hub is non functional - i.e. no proper vote portals
 	{
-		bprint("*** Custom hub without map, using Archon Hub.");
+		bprint("*** hub with no map, used Archon Hub.");
 		self.map = "arc_hub";
 		self.message = "Archon Hub!";
 	}
@@ -284,11 +284,11 @@ void() pk_cphub =
 	}
 	if (cvar("saved1") != 482)
 	{
-		bprint("{\n\"classname\" \"hub_custom\"\n\"targetname\" \"votes\"\n\"map\" \"start\"          // change to custom map base filespec - exclude .bsp\n\"message\" \"Start (hub)\"  // change to custom map message text\n\"delay\" \"0\"            // change to hub model custom frame number\n\"wait\" \"0\"             // change to hub model custom skin number\n\"style\" \"1\"            // change to 0 - remove light emission from hub\n\"origin\" \"");
+		localcmd("exec cfg/menu/cphub1.cfg");
 	}
 	else
 	{
-		bprint("{\n\"classname\" \"hub_custom\"\n\"targetname\" \"votes\"\n\"map\" \"start\"\n\"message\" \"Painkeep Hub\"\n\"delay\" \"0\"\n\"wait\" \"0\"\n\"style\" \"1\"\n\"origin\" \"");
+		localcmd("exec cfg/menu/cphub2.cfg");
 	}
 	bprint(ftos(floor(self.origin_x)));
 	bprint(" ");
