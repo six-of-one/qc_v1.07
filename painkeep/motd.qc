@@ -44,9 +44,10 @@ void() updateStatusDisplay =
 		if (self.messagetimeout > 0)
 		{
 			if (self.revotemsg < 0)
-				pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote\n",motd2,s0__, self.message);
+				pk_centerprint(self, "Vote Cancelled.\n\nRecast your vote\n",motd2,s0__, self.message);
 			else
-				pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\nфире will clear this message",motd2,s0__, self.message);
+				pk_centerprint(self, "Vote - enter the portal for the level you want\nOnce all players vote, the winning level loads.\n\nфире - clear this message",motd2,s0__, self.message);
+
 
 			self.messagetimeout = time + 0.2;
 		}
@@ -56,15 +57,15 @@ void() updateStatusDisplay =
 			return;
 		}
 
-		self.laststattime = time + 1;
-
-		// display the HubMap data...
-		hub_control_status();
-
 		if (self.messagetimeout < 0) // fire button moves message to infobar
 		{
 			stuffcmd(self, strcat("infobar 3 \"",s0__,strreplace("\n", " ", self.message), "\"\n"));
 		}
+
+		self.laststattime = time + 1;
+
+		// display the HubMap data...
+		hub_control_status();
 	}
 };
 

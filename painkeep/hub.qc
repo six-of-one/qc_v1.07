@@ -790,7 +790,7 @@ void() hub_control_status =
 		s1__ = string_null;
 		if (timerel < 10) s1__ = "0";
 		s0__ = strcat(ftos(timemins),":",s1__,ftos(floor(timerel)));
-		s2__ = strzone(strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]"));
+		s2__ = strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]");
 
 		self.attack_state = 0;
 	}
@@ -816,7 +816,7 @@ void() hub_control =
 // Cataboligne 10.2.8 - improvment:
 // already have a hub - why not remove and continue?
 #ifdef warning
-		if (WARNING & 1) bprint("\n*** warning:\nMap tried to create a second hub - removing.\n\n");
+		if (WARNING) bprint("\n*** warning:\nMap tried to create a second hub - removing.\n\n");
 #endifdef
 		remove(self);
 		return;
