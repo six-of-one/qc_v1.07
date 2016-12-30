@@ -574,6 +574,10 @@ void() hub_control_use =
 //	self.owner.nextthink = time + 0.1;
 //};
 
+/*
+
+deprecated
+
 /// re-write with strcat & centerprint
 
 void(float maxplayers, float votecast, float timemins, float timerel) playerVotesTimeLeft =
@@ -633,7 +637,7 @@ void(float maxplayers, float votecast, float timemins, float timerel) playerVote
 	WriteBFloat(MSG_ONE, timerel);
 	WriteByte(MSG_ONE, 0);
 };
-
+*/
 
 
 float hubStartTime;
@@ -646,7 +650,7 @@ void() hub_control_status =
 	getHighestScores();
 
 	local string str2;
-	local float timemins, timedef, votecast, maxplayers;
+	local float timemins, timerel, votecast, maxplayers;
 	local entity pl;
 /*
 	if (self.map == "painkeep")
@@ -728,16 +732,13 @@ void() hub_control_status =
 	if (first.cnt == 0 || first == second || second.cnt == 0 || self.attack_state == 2)
 	{
 		timemins = 0;
+		timerel = 0;
 		if (hubStartTime > time)
 		{
-			timedef = (hubStartTime - time);
-			timemins = floor(timedef / 60);
+			timerel = (hubStartTime - time);
+			timemins = floor(timerel / 60);
 //			timemins = floor(timemins);
-			timedef = (hubStartTime - time) - (timemins * 60);
-		}
-		else
-		{
-			timedef = 0;
+			timerel = (hubStartTime - time) - (timemins * 60);
 		}
 
 		// count the numbeer of votes cast
@@ -784,7 +785,12 @@ void() hub_control_status =
 			}
 */
 		}
-		playerVotesTimeLeft(maxplayers, votecast, timemins, timedef);
+		
+//		playerVotesTimeLeft(maxplayers, votecast, timemins, timedef);
+		s1__ = string_null;
+		if (timerel < 10) s1__ = "0";
+		s0__ = strcat(ftos(timemins),":",s1__,ftos(floor(timerel)));
+		self.message = strzone(strcat( "\n\nVotes Cast: ", ftos(votecast), " / ",ftos(maxplayers), "		 Time Left: [ ", s0__, " ]"));
 
 		self.attack_state = 0;
 	}

@@ -23,36 +23,37 @@ void() updateStatusDisplay =
 
 	if (inHubMap) // Cataboligne - 8.22.9 - custom hubs can cause this message on non pk / non hub maps
 	{
-		if (!self.messagetimeout)
+		if (!self.messagetimeout)			// let the motd fly for X secs
 		{
-			self.messagetimeout = time + 10;
+			self.messagetimeout = time + 7;
 //			self.laststattime = time + 17;
 			self.message = string_null;
 		}
 
-		if (self.messagetimeout > time) // let the motd fly for X secs
+		if (self.messagetimeout > time)
 		{
 			return;
 		}
 
 // heh heh - scroll wheel of pain!
 		s0__ = "|";
-		if ((time & 3) == 1) s0__ = "\\";
-		else if ((time & 3) == 2) s0__ = "-";
-		else if ((time & 3) == 3) s0__ = "/";
+		if ((time * 5 & 3) == 1) s0__ = "\\";
+		else if ((time * 5 & 3) == 2) s0__ = "-";
+		else if ((time * 5 & 3) == 3) s0__ = "/";
 
 		if (self.revotemsg < 0)
 			pk_centerprint(self, "Vote Cancelled.\n\nYou must recast your vote\n",motd2,s0__, self.message);
 		else
 			pk_centerprint(self, "To cast your vote, enter the \nteleporter for the level you \nwish to play. Once all players have \nvoted, the winning level will begin.\n\n",motd2,s0__, self.message);
-		self.messagetimeout = time + 1;
+
+		self.messagetimeout = time + 0.2;
 	
 		if (self.laststattime > time)
 		{
 			return;
 		}
 
-		self.laststattime = time + 5;
+		self.laststattime = time + 1;
 
 		// display the HubMap data...
 		hub_control_status();
