@@ -18,7 +18,7 @@ HIPNOTIC WEAPONS
 ================
 */
 #define LASER_BOUNCE			3
-#define LASER_BOUNCE_RND_DIE	0.15
+#define LASER_BOUNCE_RND_DIE	0.1
 
 void() HIP_LaserTouch =
 {
@@ -166,7 +166,7 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 
 	newmis.nextthink = time;
 	newmis.attack_finished = time + 5;
-	newmis.cnt = LASER_BOUNCE + random() * 3; 
+	newmis.cnt = LASER_BOUNCE + random() * LASER_BOUNCE; 
 
 	newmis.skin = 3;
 	newmis.frame = 4;
@@ -174,10 +174,10 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 
 	if (EWEAP) 
 	{
-		newmis.cnt = EWEAP.cnt + random() * 3;
+		newmis.cnt = EWEAP.cnt + random() * LASER_BOUNCE;  // max bounce count
 		newmis.target = EWEAP.target; // bouncy sound
 		newmis.dmg = EWEAP.dmg;
-		newmis.attack_finished = time + EWEAP.lefty;
+		newmis.attack_finished = time + EWEAP.lefty;  // time to live
 	}
 
 };
