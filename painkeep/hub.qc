@@ -229,6 +229,8 @@ void() hub_custom =
 	hub_teleport(); // init hub portal
 
 //	PK = TRUE; // *pk - in map mode, set PK for painkeep mode
+// set pk mode
+	localcmd("hbr\n");
 
 // set appearance - model has different frames & skins for variety
 // IDEA: set facing in cphub? - not for now, all portals should be "directionless"
@@ -826,6 +828,9 @@ void() hub_control =
 //	pk_map =  // deprecated - now indicates a true (recognized) pk map
 //	PK = TRUE; // *pk - in case its not an official pk hub
 
+// set pk mode
+	localcmd("hbr\n");
+
 // either triggered or timer
 	if (self.targetname)
 	{
@@ -876,14 +881,14 @@ set		__hub_control_wait		"180"
 //	if (self.map)
 //	{
 //		custom_hub_loaded = TRUE;
-		localcmd("alias hubmap \"changelevel ");
-		localcmd(self.map);
-		localcmd("\"\n");
+	localcmd("alias hubmap \"changelevel ");
+	localcmd(self.map);
+	localcmd("\"\n");
 
 // new mode - set to reload hub on level exit / timeout
-		localcmd("set pklevel \"");
-		localcmd(self.map);
-		localcmd("\"\n");
+	localcmd("set pklevel \"");
+	localcmd(self.map);
+	localcmd("\"\n");
 //	}
 
 	// so later levels know about it...
