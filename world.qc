@@ -542,13 +542,21 @@ void() InitBodyQue =
 //	local entity	e;	// fx_warning
 	
 	bodyque_head = spawn();
+#ifdef warning_no
 	bodyque_head.classname = "bodyque";
+#endifdef
 	bodyque_head.owner = spawn();
+#ifdef warning_no
 	bodyque_head.owner.classname = "bodyque";
+#endifdef
 	bodyque_head.owner.owner = spawn();
+#ifdef warning_no
 	bodyque_head.owner.owner.classname = "bodyque";
+#endifdef
 	bodyque_head.owner.owner.owner = spawn();
+#ifdef warning_no
 	bodyque_head.owner.owner.owner.classname = "bodyque";
+#endifdef
 	bodyque_head.owner.owner.owner.owner = bodyque_head;
 };
 

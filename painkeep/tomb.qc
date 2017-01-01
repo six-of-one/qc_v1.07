@@ -353,7 +353,9 @@ void () tomb_launch =
 
 	tomb.tomb_touchable.owner = tomb;
 	tomb.tomb_touchable.solid = SOLID_TRIGGER;
-//	tomb.tomb_touchable.classname = "touchtomb";
+#ifdef warning_no
+	tomb.tomb_touchable.classname = "touchtomb";
+#endifdef
 	setsize (tomb.tomb_touchable,'-18 -18 -6','18 18 46');
 	tomb.tomb_touchable.touch = tombtouch;
 	tomb.tomb_touchable.tomb_time = (time + 2);
