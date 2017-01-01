@@ -890,13 +890,8 @@ local float		best;
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
-#ifdef code_xents
-	e0__ = self.eweapon; /// REMOVE
-#endifdef
 	best = W_BestWeapon();
-#ifdef code_xents
-	self.eweapon = e0__; /// REMOVE
-#endifdef
+
 // logic change eliminates - run the code till self back to stemp with stemp as self and self as other
 //	self = stemp;
 
