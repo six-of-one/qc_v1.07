@@ -89,8 +89,8 @@ float ply_count; // count 'em & weep
 //string motd2					= "\n\n[\\/\b1\b.\b4b\b] \b_-=\b* \bN\umber Six\n\nwww.moddb.com/mods/chaos-archon/\n\n";
 string motd2					= "\n\n[\\/\b3\b.\b0\b] \b_-=\b* \bN\bumber Six\n\nwww.moddb.com/mods/painkeep-source-update/\n\n";
 
-float PK;									// if set true painkeep code is enabled
-float pk_flags;							// replaces old usage of temp1, savedgamecfg stores this
+//float PK;									// if set true painkeep code is enabled
+//float pk_flags;							// replaces old usage of temp1, savedgamecfg stores this
 
 entity theHub; // variable holding the hub
 #define inHubMap	theHub

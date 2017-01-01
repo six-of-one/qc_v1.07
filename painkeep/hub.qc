@@ -215,7 +215,7 @@ void() hub_teleport =
 
 void() hub_custom =
 {
-	local entity e;
+//	local entity e;
 
 	if (!self.map) // we set arc_hub map in case this hub is non functional - i.e. no proper vote portals
 	{
@@ -228,7 +228,7 @@ void() hub_custom =
 	self.classname = "hub_teleport";
 	hub_teleport(); // init hub portal
 
-	PK = TRUE; // *pk - in map mode, set PK for painkeep mode
+//	PK = TRUE; // *pk - in map mode, set PK for painkeep mode
 
 // set appearance - model has different frames & skins for variety
 // IDEA: set facing in cphub? - not for now, all portals should be "directionless"
@@ -245,24 +245,22 @@ void() hub_custom =
 //	if (self.frame) setorigin(self, self.origin + '0 0 -20'); // adjust on bprint
 
 // trigger for message
-	e = self;
+	e0__ = self;
 	self = spawn();
-	if (self != e)
-	{
-		e.enemy = self; // hub points to trigger - no more searching in admin
-		self.classname = "trigger_multiple";
-// bounds bigger than portal to give message
-		setorigin(self, e.origin);
-		setmodel(self, "progs/shambler.mdl"); // model is req. to have bounds - its never seen
 
-		self.message = e.message;
-		self.sounds = 4;
-		self.speed = 100;
-		self.wait = 4;
-		self.lip = self.dmg = self.delay =	self.health = 0;
-		self.style = 32;
-		trigger_multiple();
-	}
+	e0__.enemy = self; // hub points to trigger - no more searching in admin
+	self.classname = "trigger_multiple";
+// bounds bigger than portal to give message
+	setorigin(self, e0__.origin);
+	setmodel(self, "progs/shambler.mdl"); // model is req. to have bounds - its never seen
+
+	self.message = e0__.message;
+	self.sounds = 4;
+	self.speed = 100;
+	self.wait = 4;
+	self.lip = self.dmg = self.delay =	self.health = 0;
+	self.style = 32;
+	trigger_multiple();
 };
 
 // fn(pk_cphub) - print custom hub portal info for current player location - just add a map descriptor, file name, model frame & skin
@@ -520,7 +518,9 @@ void() hub_control_use =
 	if (find(world, class_select, "class_bot"))
 	{
 		e = spawn();
+#ifdef warning_no
 		e.classname = "bot_hubreload";
+#endifdef
 		e.think = GotoNextMap;
 		e.nextthink = time + 60 + (random() * 20);
 	}
@@ -802,7 +802,7 @@ void() hub_control_status =
 void() hub_control =
 {
 //	local entity timer;
-	local float temp1;
+//	local float temp1;
 
 	// if we're not in deathmatch, then we remove this thing
 	if (!deathmatch)
@@ -824,9 +824,9 @@ void() hub_control =
 	theHub = self;
 
 //	pk_map =  // deprecated - now indicates a true (recognized) pk map
-	PK = TRUE; // *pk - in case its not an official pk hub
+//	PK = TRUE; // *pk - in case its not an official pk hub
 
-// either triggered to by time
+// either triggered or timer
 	if (self.targetname)
 	{
 		self.use = hub_control_use;
@@ -842,12 +842,20 @@ void() hub_control =
 //		timer.think = hub_timer_think;
 //		timer.owner = self;
 
+/*
+		
+		deprecated - this can now be controlled with:
+		
+set		__hub_control		"1"
+set		__hub_control_wait		"180"
+
 		// let server override this time
 		temp1 = (pk_flags & PK_TP_TIMEMASK) * 60;
 		if (temp1 > 0)
 			hubStartTime = self.nextthink = time + temp1;
 //			timer.nextthink = time + temp1;
 		else
+*/
 			hubStartTime = self.nextthink = time + self.wait;
 //			timer.nextthink = time + self.wait;
 	}
@@ -855,11 +863,18 @@ void() hub_control =
 //	self.think = hub_control_status;
 //	self.nextthink = time + 30.0;
 
+// new control system for return to hub after a voted level is done
+// requires a small segment in client.qc
+
 	if (!self.map)
 		self.map = substring(world.model,5,strlen(world.model) - 5);
 
-	if (self.map)
-	{
+#ifdef code_xents
+	if (filer(self.map) < 0) self.map = "arc_hub";
+#endifdef
+
+//	if (self.map)
+//	{
 //		custom_hub_loaded = TRUE;
 		localcmd("alias hubmap \"changelevel ");
 		localcmd(self.map);
@@ -869,10 +884,10 @@ void() hub_control =
 		localcmd("set pklevel \"");
 		localcmd(self.map);
 		localcmd("\"\n");
-	}
+//	}
 
 	// so later levels know about it...
-	pk_flags = pk_flags | PK_SF_HUB;
+//	pk_flags = pk_flags | PK_SF_HUB;
 //	inHubMap = 1;
 ///		admin_sv_cfg(); // fix
 };
