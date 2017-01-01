@@ -1173,6 +1173,9 @@ void() W_SetCurrentAmmo =
 
 float() W_BestWeapon =
 {
+// this is the cube fix
+	if (self.eweapon.distance > 100) return(self.weapon);
+// check rating in viswep set
 	f0__ = 10;
 	f1__ = IT_AXE;
 	e0__ = self.vwepent;
