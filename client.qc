@@ -902,6 +902,17 @@ void() PutClientInServer =
 
 	DecodeLevelParms ();
 	
+#ifdef code_painkeep_
+// here because decode bonks items
+
+	if (inHubMap)
+	{ // give the respawn guy a fighting chance...
+		self.items = self.items | IT_INVULNERABILITY;
+		self.invincible_time = 1;
+		self.invincible_finished = time + 15;
+	}
+#endifdef
+
 	W_SetCurrentAmmo ();
 
 #ifdef code_xents
