@@ -411,6 +411,8 @@ void() enf_die =
 */
 void() monster_enforcer =
 {
+// override test
+	if (! dm_over)			// __monster_enforcer_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

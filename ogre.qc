@@ -530,6 +530,8 @@ void() ogre_melee =
 */
 void() monster_ogre =
 {
+// override test
+	if (! dm_over)			// __monster_ogre_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

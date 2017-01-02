@@ -598,8 +598,10 @@ void() ScourgeTriggerTouch =
 */
 void() monster_scourge =
 {
-	local entity trig;
+//	local entity trig;
 
+// override test
+	if (! dm_over)			// __monster_scourge_button0		"1"
 	if (deathmatch)
 {
 		remove(self);

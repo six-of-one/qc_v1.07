@@ -1825,6 +1825,8 @@ void() Gremlin_MissileAttack =
 */
 void() monster_gremlin =
 {
+// override test
+	if (! dm_over)			// __monster_gremlin_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

@@ -412,6 +412,8 @@ void () nopain =
 */
 void() monster_oldone =
 {
+// override test
+	if (! dm_over)			// __monster_oldone_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

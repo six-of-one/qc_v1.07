@@ -377,14 +377,16 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_BOSSMAN)
+*/
+// override test
+	if (! dm_over)			// __monster_bossman_button0		"1"
+//	if (!M_MONSTER_II & CB_M_BOSSMAN)
 	if (deathmatch)
 	{
 		remove(self);
 		return;
 	}
-*/
+
 	precache_model ("progs/bossman.mdl");
 	precache_model ("progs/h_bossman.mdl");
 	

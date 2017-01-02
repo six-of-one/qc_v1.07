@@ -423,6 +423,8 @@ float()	DogCheckAttack =
 */
 void() monster_dog =
 {
+// override test
+	if (! dm_over)			// __monster_dog_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

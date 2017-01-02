@@ -436,16 +436,17 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_FISH)
+*/	
+// override test
+	if (! dm_over)			// __monster_spider_button0		"1"
+//	if (!M_MONSTER_II & CB_M_FISH)
 	if (deathmatch)
-//		if (deathmatch != 4)
 	{
 		if (R_MONSTER)
 			remove(self);
 		return;
 	}	
-*/
+
 	precache_model ("progs/spider.mdl");
 	precache_model ("progs/w_spike.mdl");
 

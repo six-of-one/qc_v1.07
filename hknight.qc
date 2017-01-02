@@ -553,6 +553,8 @@ void() hknight_melee =
 */
 void() monster_hell_knight =
 {
+// override test
+	if (! dm_over)			// __monster_hell_knight_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

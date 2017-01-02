@@ -1110,7 +1110,9 @@ float()  ArmagonCheckAttack =
 void() monster_armagon =
 {
 //	local entity body;
-	local float sk;
+//	local float sk;
+// override test
+	if (! dm_over)			// __monster_armagon_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);
@@ -1119,7 +1121,7 @@ void() monster_armagon =
 
 	self.lefty = 0;
 
-	sk = cvar("skill");
+//	sk = cvar("skill");
 
 	precache_model ("progs/armabody.mdl");
 	precache_model ("progs/armalegs.mdl");
@@ -1157,13 +1159,13 @@ void() monster_armagon =
 	setsize (self, '-48 -48 -24', '48 48 84' );
 	setorigin (self, self.origin);
 	setorigin (self.trigger_field, self.trigger_field.origin);
-	if (sk==0)
+	if (cvar("skill") == 0)
 	{
 		self.yaw_speed = 5;
 		self.health = 2000;
 		self.worldtype = 0.9;
 	}
-	else if (sk==1)
+	else if (cvar("skill") == 1)
 	{
 		self.yaw_speed = 9;
 		self.health = 2500;

@@ -36,6 +36,8 @@ $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
 void() monster_spikemine =
 {
+// override test
+//	if (! dm_over)			// __monster_spikemine_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

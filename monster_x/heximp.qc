@@ -542,15 +542,17 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_HEXIMP)
+*/
+// override test
+	if (! dm_over)			// __monster_heximp_button0		"1"
+//	if (!M_MONSTER_II & CB_M_HEXIMP)
 	if (deathmatch)
 	{
 		if (R_MONSTER)
 			remove(self);
 		return;
 	}	
-*/
+
  precache_model ("progs/heximp.mdl");
  precache_model ("progs/h_heximp.mdl");
  precache_model ("progs/heximp_ball.mdl");

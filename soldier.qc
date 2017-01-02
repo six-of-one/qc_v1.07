@@ -334,6 +334,8 @@ void() army_die =
 */
 void() monster_army =
 {	
+// override test
+	if (! dm_over)			// __monster_army_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

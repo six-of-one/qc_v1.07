@@ -641,6 +641,8 @@ when awakened by the player.
 */
 void() monster_zombie =
 {
+// override test
+	if (! dm_over)			// __monster_zombie_button0		"1"
 	if (deathmatch
 
 // pk uses cruc zombies on DM maps

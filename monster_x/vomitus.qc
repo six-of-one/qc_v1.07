@@ -738,15 +738,16 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER & CB_M_VOMIT)
+*/
+// override test
+	if (! dm_over)			// __monster_vomit_button0		"1"
+//	if (!M_MONSTER & CB_M_VOMIT)
 	if (deathmatch)
 	{
 		if (R_MONSTER)
 			remove(self);
 		return;
 	}	
-*/
 
 	precache_model ("progs/vomitus.mdl");
 	precache_model ("progs/vomis.mdl");

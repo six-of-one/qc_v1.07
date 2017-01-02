@@ -787,15 +787,17 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_RAPTOR)
+*/
+// override test
+	if (! dm_over)			// __monster_raptor_button0		"1"
+//	if (!M_MONSTER_II & CB_M_RAPTOR)
 	if (deathmatch)
 	{
 		if (R_MONSTER)
 			remove(self);
 		return;
 	}	
-*/
+
 	precache_model ("progs/raptor.mdl");
 	precache_model ("progs/h_raptor.mdl");
 	precache_model ("progs/bodygib.mdl");

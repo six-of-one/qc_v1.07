@@ -806,6 +806,8 @@ void() hub_control =
 //	local entity timer;
 //	local float temp1;
 
+// override test
+	if (! dm_over)		// all this really does is allow the hub message to appear, no vote occurs
 	// if we're not in deathmatch, then we remove this thing
 	if (!deathmatch)
 	{

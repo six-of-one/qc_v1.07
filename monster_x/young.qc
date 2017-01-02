@@ -517,8 +517,11 @@ string() young_killmsg2 =
 /*QUAKED monster_young (1 0 0) (-16 -16 -24) (16 16 32) Ambush
 
 */
-void(float ign) monster_young =
+void() monster_young =
 {
+/*
+	deprecated - this will be handled from cfg from now on
+
 if (ign != A_MONSTER)
 {
 	if (M_MONSTER < 0)
@@ -527,8 +530,11 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_CLING)
+*/
+
+// override test
+	if (! dm_over)			// __monster_young_button0		"1"
+//	if (!M_MONSTER_II & CB_M_CLING)
 	if (deathmatch)
 	{
 		remove(self);
@@ -613,7 +619,7 @@ void(entity o, vector v) spawnmonster_young =
 	e = spawn();
 	e.owner = o;
 	e.enemy = o.enemy; // pass thru - cause item_call can clear things out if not dyn_
-	e.stack1 = "no_monster_wakey";
+//	e.stack1 = "no_monster_wakey";
 	item_call_save(e, "monster_young");
 	setorigin(e, v);
 };

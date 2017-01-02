@@ -138,10 +138,12 @@ void()	btf_2 =	[$bear03, btf ] {setmodel (self, "progs/bearbld.mdl");};
 void() beartrapTouch =
 {
 
+// override test
+	if (! dm_over)		// No. 6 - 017.1.1 - dm_over allows player target in sp / coop  -- __item_painkeep_beartrap_button0		"1"
 	if (!deathmatch) // Cataboligne - 5.20.10 - beartrap single player code - turn off player target, allow monster target
 	if (other.classname == "player")
 	{
-			if (cvar("sv_sp_bt_noplayer")) return;
+		return;
 	}
 
 //	if (other.classname != "pk*bot") // *bot - bots get bit

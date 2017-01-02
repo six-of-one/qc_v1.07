@@ -324,7 +324,7 @@ void() clinger_respawn = [ $idle1, clinger_idle1 ]
 /*QUAKED monster_clinger (1 0 0) (-16 -16 -56) (16 16 0) Ambush
 
 */
-void(float ign) monster_clinger
+void() monster_clinger
 {
 /*
 if (ign != A_MONSTER)
@@ -335,17 +335,18 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_CLING)
+*/
+// override test
+	if (! dm_over)			// __monster_clinger_button0		"1"
+//	if (!M_MONSTER_II & CB_M_CLING)
  	if (deathmatch)
 	{
 		remove(self);
 		return;
 	}
-*/
+
 	precache_model ("progs/clinger2.mdl");
 	precache_model ("progs/young.mdl");
-//}
 
 	self.netname = "Alien pod";
 	setmodel (self, "progs/clinger2.mdl");
@@ -359,9 +360,9 @@ if (ign != A_MONSTER)
 #endifdef
 		;
 
-	if (self.event == "dyn_monster") // Cat note: dont create a load of respawners when making random monsters
+	if (self.map	== "dyn_sp") // Cat note: dont create a load of respawners when making random monsters
 	{
-		self.stack1 = "no_monster_wakey";
+//		self.stack1 = "no_monster_wakey";
 
 		if (!self.count)  self.count = 2 + ceil( random() * 4); // loop respawn a few times, then out
 		if (!self.wait) self.wait = C_MONSTER_WAIT / self.count; // try to be done by next random up

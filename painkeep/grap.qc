@@ -485,8 +485,24 @@ void() grap_touch =
 	if (other == self.grap_owner)
 		return;
 
-	if (other.grap_firetest == 666) // 10.21.13 - entity blocked by map flags or code
+	if (other.grap_firetest == 666) // 10.21.13 - entity blocked from pull by map flags or code
+	{
+// can still damage hitabbles
+		if (other.health && other.solid != SOLID_BSP && other.solid != SOLID_NOT)
+	  {
+			if (other.solid == SOLID_SLIDEBOX) // BLOODCHECK - 7.29.13
+			{
+				spawn_touchblood (9);
+				sound(self, CHAN_AUTO, "zombie/z_hit.wav", 1, ATTN_NORM); // hit flesh sound
+			}
+			else
+			// play hit sound
+			sound(self, CHAN_AUTO, "weapons/grapple/grapf_1.wav", 1, ATTN_NORM);
+
+			T_Damage(other, self, grapOwner, 9);
+		}
 		return;
+	}
 
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{

@@ -419,6 +419,8 @@ void() sham_die =
 */
 void() monster_shambler =
 {
+// override test
+	if (! dm_over)			// __monster_shambler_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

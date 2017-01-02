@@ -318,6 +318,8 @@ void() knight_die =
 */
 void() monster_knight =
 {
+// override test
+	if (! dm_over)			// __monster_knight_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

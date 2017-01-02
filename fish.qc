@@ -225,6 +225,8 @@ void(entity attacker, float damage)	fish_pain =
 */
 void() monster_fish =
 {
+// override test
+	if (! dm_over)			// __monster_fish_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

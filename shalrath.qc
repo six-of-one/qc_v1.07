@@ -287,6 +287,8 @@ void() ShalMissileTouch =
 */
 void() monster_shalrath =
 {
+// override test
+	if (! dm_over)			// __monster_shalrath_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

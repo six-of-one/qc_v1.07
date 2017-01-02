@@ -431,6 +431,8 @@ void() Wiz_Missile =
 */
 void() monster_wizard =
 {
+// override test
+	if (! dm_over)			// __monster_wizard_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

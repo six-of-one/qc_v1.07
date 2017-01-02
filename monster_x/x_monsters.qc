@@ -59,9 +59,10 @@
 
 #else
 
-//#message         			-- exclude: extra monsters NOT compiled 
+#ifdef unused
 
-/*
+#message         			-- exclude: extra monsters NOT compiled 
+
 //	make code live if these are ever used as targeted map monsters and module is not compiled in
 
 
@@ -107,7 +108,8 @@ void() monster_heximp =
 	self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 };
 
-*/
+
+#endifdef
 
 #endifdef
 

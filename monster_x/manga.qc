@@ -552,15 +552,17 @@ if (ign != A_MONSTER)
 		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
 		return;
 	}
-	
-	if (!M_MONSTER_II & CB_M_MANGA)
+*/
+// override test
+	if (! dm_over)			// __monster_manga_button0		"1"
+//	if (!M_MONSTER_II & CB_M_MANGA)
 	if (deathmatch)
 	{
 		if (R_MONSTER)
 			remove(self);
 		return;
 	}
-*/
+
 	precache_model ("progs/manga3.mdl");
 	precache_model ("progs/h_ogre.mdl");
 	precache_model ("progs/grenade.mdl");

@@ -247,6 +247,8 @@ void() Demon_MeleeAttack =
 */
 void() monster_demon1 =
 {
+// override test
+	if (! dm_over)			// __monster_demon1_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

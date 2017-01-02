@@ -229,6 +229,8 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 */
 void() monster_tarbaby =
 {
+// override test
+	if (! dm_over)			// __monster_tarbaby_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);

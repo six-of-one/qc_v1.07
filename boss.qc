@@ -313,6 +313,8 @@ void() boss_awake =
 */
 void() monster_boss =
 {
+// override test
+	if (! dm_over)			// __monster_boss_button0		"1"
 	if (deathmatch)
 	{
 		remove(self);
