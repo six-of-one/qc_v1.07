@@ -618,8 +618,8 @@ void() trigger_changelevel =
 
 	#ifdef xvars1
 		#ifndef nondp
-// future add cvar_string("svx_tc_rndmap") - random map selected from list
-		if (cvar_string("svx_tc_defmap")) self.map = cvar_string("svx_tc_defmap");
+// future add cvar_string("svx_rndmap") - random map selected from list
+		if (cvar_string("svx_defmap")) self.map = cvar_string("svx_defmap");
 		#endifdef
 	#endifdef
 	}
