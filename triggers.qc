@@ -338,11 +338,37 @@ TELEPORT TRIGGERS
 //#define ALT_TARGET 	64
 //#define NOVEL 	128 // dont add velocity - archon moves especially
 
+string sT__;
+
 void() play_teleport =
 {
 //	local	float v;
 //	local	string tmpstr;
 
+#ifdef code_xents
+	if (self.rnd_ < 1)
+	self.rnd_ = ceil(random() * 5);
+/*
+	if (self.rnd_ < 2)				self.noise = cvar_string("tel1");
+	else if (self.rnd_ < 3)	self.noise = cvar_string("tel2");
+	else if (self.rnd_ < 4)	self.noise = cvar_string("tel3");
+	else if (self.rnd_ < 5)	self.noise = cvar_string("tel4");
+	else		
+*/
+	self.noise = cvar_string(strcat("tel",sT__,ftos(self.rnd_)));
+
+	sT__ = string_null; 		// fwd sound
+
+#ifdef warning
+																				bprint(" *** telesnd: ");
+																				bprint(ftos(self.rnd_));
+																				bprint(", wav: ");
+																				bprint(self.noise);
+																				bprint(" e: ");
+																				bprint(ftos(num_for_edict(self)));
+																				bprint("\n");
+#endifdef
+#else
 	self.rnd_ = random() * 5;
 	if (self.rnd_ < 1)
 		self.noise = "misc/r_tele1.wav";
@@ -354,6 +380,7 @@ void() play_teleport =
 		self.noise = "misc/r_tele4.wav";
 	else
 		self.noise = "misc/r_tele5.wav";
+#endifdef
 
 	sound(self, CHAN_VOICE, self.noise, 1, ATTN_NORM);
 	remove(self);
@@ -371,6 +398,9 @@ void(vector org) spawn_tfog =
 	s.origin = org;
 	s.nextthink = time + 0.2;
 	s.think = play_teleport;
+#ifdef code_painkeep_
+	s.rnd_ = self.rnd_;			// allow pk tele sound to link fwd & rev sounds
+#endifdef
 
 	WriteByte(MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte(MSG_BROADCAST, TE_TELEPORT);
@@ -485,6 +515,14 @@ local vector	org;
 
 	SUB_UseTargets ();
 
+#ifdef code_painkeep_
+// pk mode - select a random matched fwd / rev tele sound
+	if (cvar("PK"))
+	{
+		self.rnd_ = ceil(random() * 4);
+		sT__ = "r"; 		// rev sound
+	}
+#endifdef
 // put a tfog where the player was
 	spawn_tfog (other.origin);
 
@@ -544,6 +582,10 @@ local vector	org;
 
 	spawn_tfog (org);
 	spawn_tdeath(t.origin, other);
+
+#ifdef code_painkeep_
+	self.rnd_ = 0;			// clear for next
+#endifdef
 
 // move the player and lock him down for a little while
 	if (!other.health)
@@ -638,17 +680,20 @@ void() trigger_teleport =
 #endifdef
 	self.use = teleport_use;
 
+	if (!self.noise) self.noise = "ambience/hum1.wav";		// allow sound override
+
 	if (!(self.spawnflags & SILENT))
 	{
 		precache_sound("ambience/hum1.wav");
 		o = (self.mins + self.maxs)*0.5;
+
 		ambientsound(
 
 #ifdef map_hack
 		mh.origin +
 #endifdef
 		
-			o, "ambience/hum1.wav",0.5 , ATTN_STATIC);
+			o, self.noise,0.5 , ATTN_STATIC);
 	}
 };
 
@@ -790,7 +835,7 @@ void() trigger_push_touch =
 			if (other.fly_sound < time)
 			{
 				other.fly_sound = time + 1.5;
-				sound(other, CHAN_AUTO, "ambience/windfly.wav", 1, ATTN_NORM);
+				sound(other, CHAN_AUTO, self.noise, 1, ATTN_NORM);
 			}
 		}
 	}
@@ -809,6 +854,7 @@ void() trigger_push =
 	self.touch = trigger_push_touch;
 	if (!self.speed)
 		self.speed = 1000;
+	if (!self.noise) self.noise = "ambience/windfly.wav"; // override sound allow
 };
 
 //============================================================================

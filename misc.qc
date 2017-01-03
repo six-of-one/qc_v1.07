@@ -76,6 +76,16 @@ void() light_fluoro =
 	}
 	
 	precache_sound ("ambience/fl_hum1.wav");
+
+#ifdef code_painkeep_
+// pk mode - diff hum
+	if (cvar("PK"))
+	{
+		ambientsound (self.origin, "pk_ambience/fl_hum1.wav", 0.5, ATTN_STATIC);
+	}
+	else
+#endifdef
+
 	ambientsound (self.origin, "ambience/fl_hum1.wav", 0.5, ATTN_STATIC);
 };
 

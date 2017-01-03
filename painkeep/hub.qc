@@ -198,9 +198,9 @@ void() hub_teleport =
 
 	if (!(self.spawnflags & (T_SILENT | T_STEALTH)))
 	{
-		precache_sound ("ambience/hum1.wav");
+		precache_sound ("pk_ambience/hum1.wav");
 		o = (self.mins + self.maxs)*0.5;
-		ambientsound (o, "ambience/hum1.wav",0.5 , ATTN_STATIC);
+		ambientsound (o, "pk_ambience/hum1.wav",0.5 , ATTN_STATIC);
 	}
 };
 

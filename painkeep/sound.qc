@@ -18,12 +18,21 @@ QUAKED ambient_sound (0 0.5 0) (-4 -4 -4) (4 4 4)
 
 	"classname" "ambient_sound"
 	"noise" "..." - file to play as sound
+	"volume" "{n}" - volume level
 */
 
 void() ambient_sound =
 {
 	precache_sound (self.noise);
-	ambientsound (self.origin, self.noise, 0.5, ATTN_STATIC);
+	if (!self.volume) self.volume = 0.5;		// poss cfg override
+	ambientsound (self.origin, self.noise, self.volume, ATTN_STATIC);
+
+#ifdef warning
+																				syh
+																				registercvar(strcat("___ambsnd_",ftos(system_hash)),strcat(self.noise," org: ",vtos(self.origin)," e: ",ftos(num_for_edict(self))));
+
+#endifdef
+
 };
 
 /*
