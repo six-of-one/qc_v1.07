@@ -721,7 +721,9 @@ void(float to, string s) WriteString	= #58;
 void(float to, entity s) WriteEntity	= #59;
 
 void(entity client, string s, ...) centerprint = #73;	// sprint, but in middle
+#ifndef map_hack
 void(entity e, float chan, string samp, float vol, float atten) sound = #8;
+#endifdef
 void(entity client, string s)stuffcmd = #21;
 void(entity client, string s) sprint = #24;
 void(entity e) setspawnparms		= #78;		// set parm1... to the

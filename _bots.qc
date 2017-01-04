@@ -180,6 +180,15 @@ vector(entity e, float sped) aim =
 void(entity e, float chan, string samp, float vol, float atten) sound = 
 {
 
+	s0__ = cvar_string(strcat("__",samp));
+	if (strlen(s0__) > 1) samp = s0__;
+
+#ifdef warning
+																				syh
+																				registercvar(strcat("___snd_",ftos(system_hash)),strcat(samp," org: ",vtos(e.origin)," e: ",ftos(num_for_edict(e))));
+
+#endifdef
+
 	_b_sound(e, chan, samp, vol, atten);
 //	pk_sound(e, chan, samp, vol, atten);
 	
