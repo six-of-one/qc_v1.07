@@ -29,7 +29,7 @@ void() ambient_sound =
 
 #ifdef warning
 																				syh
-																				registercvar(strcat("___ambsnd_",ftos(system_hash)),strcat(self.noise," org: ",vtos(self.origin)," e: ",ftos(num_for_edict(self))));
+																				registercvar(strcat("___pk_ambsnd_",ftos(system_hash)),strcat(self.noise," org: ",vtos(self.origin)," e: ",ftos(num_for_edict(self))));
 
 #endifdef
 
