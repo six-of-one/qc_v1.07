@@ -864,11 +864,24 @@ void() GibPlayer =
 		sound (self, CHAN_VOICE, "player/teledth1.wav", 1, ATTN_NONE);
 		return;
 	}
-		
+	
+#ifdef code_painkeep_
+	f0__ = rint ((random() * 4) + 1);
+
+	if (cvar("PK") < 2) f0__ = 4 + floor(random() * 1.99);
+// pk 1.1 did not use extra gib sounds, pk2, 3 do
+	if (f0__ < 4) 
+		sound (self, CHAN_VOICE, strcat("player/gib_",ftos(self.rnd_),".wav"), 1, ATTN_NONE);
+	else if (f0__ == 4)
+		sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
+	else //if (f0__ == 5)
+		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NONE);
+#else
 	if (random() < 0.5)
 		sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 	else
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NONE);
+#endifdef
 };
 
 void() PlayerDie =
