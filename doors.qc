@@ -510,14 +510,19 @@ void() func_door =
 
 {
 
+#ifndef opgrade
 	if (! world.worldtype) // == 0)
 	{
+#endifdef
 		precache_sound ("doors/medtry.wav");
 		precache_sound ("doors/meduse.wav");
 		self.noise3 = "doors/medtry.wav";
 		self.noise4 = "doors/meduse.wav";
+#ifndef opgrade
 	}
-	else if (world.worldtype == 1)
+	else 
+#endifdef
+				if (world.worldtype == 1)
 	{
 		precache_sound ("doors/runetry.wav");
 		precache_sound ("doors/runeuse.wav");
