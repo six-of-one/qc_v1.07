@@ -250,6 +250,14 @@ void() door_touch =
 				centerprint (other, "You need the silver key");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
+// some other worldtype
+#ifdef opgrade
+			else
+			{
+				centerprint (other, "You need a key");
+				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
+			}
+#endifdef
 		}
 		else
 		{
@@ -268,6 +276,14 @@ void() door_touch =
 				centerprint (other, "You need the gold key");
 				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			}
+// some other worldtype
+#ifdef opgrade
+			else
+			{
+				centerprint (other, "You need a key");
+				sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
+			}
+#endifdef
 		}
 		return;
 	}
