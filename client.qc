@@ -732,9 +732,14 @@ entity() SelectSpawnPoint =
 
 // testinfo_player_start is only found in regioned levels
 	spot = find (world, classname, "testplayerstart");
+#ifdef opgrade
+// if this exists anywhere, is not blocked 2048 "not in dm", and the map is run DM, there is only one spawn
+	if ((!deathmatch && !coop) || cvar("saved1") == 666) // if a developer wanted this in dm | coop they need to set saved1
+#endifdef
 	if (spot)
 		return spot;
-		
+
+// code was not in pk 1 - left in so pk items can be used in coop
 // choose a info_player_deathmatch point
 	if (coop)
 	{
@@ -744,59 +749,102 @@ entity() SelectSpawnPoint =
 		if (lastspawn) // != world)
 			return lastspawn;
 	}
-	else if (deathmatch)
+	else if (!deathmatch)
 	{
-		spot = lastspawn;
-		while (1)
+		if (serverflags & 15)
+		{	// return with a rune to start
+			spot = find (world,classname,"info_player_start2");
+			if (spot)
+				return spot;
+		}
+
+		spot = find (world,classname,"info_player_start");
+		if (spot) return(spot);
+#ifdef noobjerr
+#ifdef warning
+			bprint ("*** Warning: no info_player_start on level - using dm start");
+#endifdef
+#else
+		error ("PutClientInServer: no info_player_start on level");					//opgrade protected
+#endifdef
+	}
+
+//	else if (deathmatch)
+	spot = find(world, classname, "info_player_deathmatch");
+	if (spot)		// make sure we have one before endless loop is run
+	{
+		if (cvar("PK") < 1)
 		{
-			spot = find(spot, classname, "info_player_deathmatch");
-			if (spot) // != world)
+			spot = lastspawn;
+			while (1)
 			{
-				if (spot == lastspawn)
-					return lastspawn;
-				pcount = 0;
-				thing = findradius(spot.origin, 32);
-				while(thing)
+				spot = find(spot, classname, "info_player_deathmatch");
+				if (spot) // != world)
 				{
-					if (thing.classname == "player")
-						pcount = pcount + 1;
-					thing = thing.chain;
-				}
-				if (! pcount) // == 0)
-				{
-					lastspawn = spot;
-					return spot;
+					if (spot == lastspawn)
+						return lastspawn;
+					pcount = 0;
+					thing = findradius(spot.origin, 32);
+					while(thing)
+					{
+						if (thing.classname == "player")
+							pcount = pcount + 1;
+						thing = thing.chain;
+					}
+					if (! pcount) // == 0)
+					{
+						lastspawn = spot;
+						return spot;
+					}
 				}
 			}
 		}
+// pk 1 - 3 spawn picker
+		if (cvar("PK") == 1)
+		{
+			f1__ = cnt_ent(self, classname,  "info_player_deathmatch");
+			spot = find_tselect(f1__, self.chain);
+		}
+		else
+		spot = find_tdest(1);
+
+		lastspawn = spot;
+		while (spot)
+		{
+			pcount = 0;
+			thing = findradius(spot.origin, 256);
+			while(thing)
+			{
+				if (thing.classname == "player")
+					pcount = pcount + 1;
+				thing = thing.chain;
+			}
+			if (! pcount) return spot;
+			spot = spot.chain;		// test next spot till end
+		}
+		spot = lastspawn; // just use this
+	}
+	else		// no dm spawns
+	{
+		spot = find_tdest(1);
 	}
 
-	if (serverflags)
-	{	// return with a rune to start
-		spot = find (world, classname, "info_player_start2");
-		if (spot)
-			return spot;
-	}
-	
-	spot = find (world, classname, "info_player_start");
-	if (!spot)
-#ifdef noobjerr
+
+/*
 	{
 // later use our uber random find dest
 		spot = find (world, classname, "info_player_deathmatch");
 		if (!spot) spot = find (world, classname, "info_teleport_destination");
 		if (!spot) spot = find (world, classname, "info_intermission");
-		if (!spot)
-		{
-			spot = spawn(); // bounce player in at 0, 0, 0 - might be a bad move, maybe create temp plat & message trigger
-			spot.classname =  "info_player_start"; // save for DM / coop spawns
-		}
 
 	}
-#else
-		error ("PutClientInServer: no info_player_start on level");					//opgrade protected
-#endifdef
-	
+*/
+	if (!spot)
+	{
+		spot = spawn(); // bounce player in at 0, 0, 0 - might be a bad move, maybe create temp plat & message trigger
+		spot.classname =  "info_player_start"; // save for DM / coop spawns
+	}
+
 	return spot;
 };
 
