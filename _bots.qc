@@ -189,6 +189,25 @@ void(entity e, float chan, string samp, float vol, float atten) sound =
 
 #endifdef
 
+#ifdef code_xents
+// q2 silencer for wep channel stuff
+	if (chan == CHAN_WEAPON)
+	if (e.silencer_finished)
+	{
+		if (e.silencer_finished > time)
+		{
+			vol = vol * Q2_SILENCE;
+		}
+		else
+		{
+			e.silencer_finished = 0;
+// ? #ifdef hud code test
+			stuffcmd(e, "hud_message \"Silencer used up\"\n");
+//			sprint (e, "Silencer used up\n");
+		}
+	}
+#endifdef
+
 	_b_sound(e, chan, samp, vol, atten);
 //	pk_sound(e, chan, samp, vol, atten);
 	
