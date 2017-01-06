@@ -806,7 +806,7 @@ entity() SelectSpawnPoint =
 			spot = find_tselect(f1__, self.chain);
 		}
 		else
-		spot = find_tdest(1);
+		spot = find_tdest(0);
 
 		lastspawn = spot;
 		while (spot)
@@ -826,7 +826,7 @@ entity() SelectSpawnPoint =
 	}
 	else		// no dm spawns
 	{
-		spot = find_tdest(1);
+		spot = find_tdest(0);
 	}
 
 
