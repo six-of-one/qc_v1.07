@@ -1173,10 +1173,16 @@ void() W_SetCurrentAmmo =
 
 float() W_BestWeapon =
 {
+
+#ifdef warning
+													bprint(" *** WARNING - enter W_BestWeapon\n");
+#endifdef
+
+
 // this is the cube fix
 	if (self.eweapon.distance > 100) return(self.weapon);
 // check rating in viswep set
-	f0__ = 10;
+	f0__ = 9;
 	f1__ = IT_AXE;
 	e0__ = self.vwepent;
 	while (e0__)
@@ -1188,6 +1194,16 @@ float() W_BestWeapon =
 			e1__ = e0__;
 			f0__ = e0__.distance;
 			f1__ = e0__.weapon;
+
+#ifdef warning
+							{
+								bprint("*** warning: picked: ");
+								bprint(ftos(f1__));
+								bprint("\n");
+							}
+#endifdef
+
+
 		}
 		e0__ = e0__.vwepent;
 	}
@@ -1621,6 +1637,12 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_NAILGUN && self.ammo_nails < 1) am = 1;
 		if (self.weapon == IT_SUPER_SHOTGUN && self.ammo_shells < 2) am = 1;
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
+// hack, but need to reject clg with no ammo
+		if (self.weapon == IT_AXE && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
+		{
+			am = 1;
+			self.pk_currentitem = PK_IT_AXE; // note: clg could be set inf ammo by cmd - this fails that if cells are zeroed by another wep
+		}
 
 #ifdef code_morph
 		if (self.weapon & self.builtin) am = 0; // can always select morph builtins
@@ -1642,6 +1664,8 @@ void() CycleWeaponCommand =
 				self.forcewchange = 1;
 				am = 0;
 			}
+			else			// fix x_weps not having ammo, but slot they are in having ammo & allowing select
+				am = 1;
 			e0__ = e0__.vwepent;
 		}
 #endifdef
@@ -1653,8 +1677,7 @@ void() CycleWeaponCommand =
 			return;
 		}
 
-		// dont cycle single select
-//		if (self.impulse < 10) return; // fails under mission pack / expansion
+// dont cycle single select
 		if (self.f__ == 1) return;
 	}
 
