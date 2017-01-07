@@ -1174,11 +1174,6 @@ void() W_SetCurrentAmmo =
 float() W_BestWeapon =
 {
 
-#ifdef warning
-													bprint(" *** WARNING - enter W_BestWeapon\n");
-#endifdef
-
-
 // this is the cube fix
 	if (self.eweapon.distance > 100) return(self.weapon);
 // check rating in viswep set
@@ -1194,16 +1189,6 @@ float() W_BestWeapon =
 			e1__ = e0__;
 			f0__ = e0__.distance;
 			f1__ = e0__.weapon;
-
-#ifdef warning
-							{
-								bprint("*** warning: picked: ");
-								bprint(ftos(f1__));
-								bprint("\n");
-							}
-#endifdef
-
-
 		}
 		e0__ = e0__.vwepent;
 	}
