@@ -871,7 +871,7 @@ void() GibPlayer =
 	if (cvar("PK") < 2) f0__ = 4 + floor(random() * 1.99);
 // pk 1.1 did not use extra gib sounds, pk2, 3 do
 	if (f0__ < 4) 
-		sound (self, CHAN_VOICE, strcat("player/gib_",ftos(self.rnd_),".wav"), 1, ATTN_NONE);
+		sound (self, CHAN_VOICE, strcat("player/gib_",ftos(f0__),".wav"), 1, ATTN_NONE);
 	else if (f0__ == 4)
 		sound (self, CHAN_VOICE, "player/gib.wav", 1, ATTN_NONE);
 	else //if (f0__ == 5)
