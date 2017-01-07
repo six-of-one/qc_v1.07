@@ -291,7 +291,7 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 #ifndef code_xents
 
 #define gsf	f0__
-#define	theowner	groundentity
+#define	theowner	goalentity
 #define	null_model		"progs/null.mdl"
 
 // bottle deal
