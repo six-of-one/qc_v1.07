@@ -84,6 +84,9 @@ float ply_count; // count 'em & weep
 .float messagetimeout;
 .float laststattime;
 
+// item reposition in DM for map placed items
+.vector ip_orgOrigin;
+
 // see if these are needed
 //string vmotd					= "\\/ersion \b3\b.\b0\b\n\n";
 //string motd2					= "\n\n[\\/\b1\b.\b4b\b] \b_-=\b* \bN\umber Six\n\nwww.moddb.com/mods/chaos-archon/\n\n";
