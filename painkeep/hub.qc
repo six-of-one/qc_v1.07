@@ -883,7 +883,7 @@ set		__hub_control_wait		"180"
 //	if (self.map)
 //	{
 //		custom_hub_loaded = TRUE;
-	localcmd("alias hubmap \"changelevel ");
+	localcmd("alias hub \"changelevel ");
 	localcmd(self.map);
 	localcmd("\"\n");
 
