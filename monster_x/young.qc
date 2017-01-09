@@ -232,9 +232,9 @@ void()	young_run1	=[	$run1,		young_run1	]
 //	if (! self.flags & FL_ONGROUND) - flag says they are on ground
 //	if (random() > 0.9) droptofloor(0, 0);
 
-	if (self.ip_orgOrigin != self.origin)
+	if (self.ip_org != self.origin)
 	{
-		self.ip_orgOrigin = self.origin;
+		self.ip_org = self.origin;
 		self.cnt = 0;
 	}
 	else

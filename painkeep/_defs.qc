@@ -85,7 +85,7 @@ float ply_count; // count 'em & weep
 .float laststattime;
 
 // item reposition in DM for map placed items
-.vector ip_orgOrigin;
+.vector ip_org;
 
 // see if these are needed
 //string vmotd					= "\\/ersion \b3\b.\b0\b\n\n";

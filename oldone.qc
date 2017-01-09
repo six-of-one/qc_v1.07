@@ -207,7 +207,7 @@ void() finale_1 =
 	{
 #ifdef map_hack
 // save all player locs
-		pl.ip_orgOrigin = pl.origin;
+		pl.ip_org = pl.origin;
 		pl.mangle = pl.angles;
 #endifdef
 
@@ -353,7 +353,7 @@ void() finale_4 =
 		other = find (world, classname, "player");
 		while (other) // != world)
 		{
-			setorigin(other,other.ip_orgOrigin);
+			setorigin(other,other.ip_org);
 			other.angles = other.mangle;
 			other.fixangle = TRUE;		// turn this way immediately
 			other.map = string_null;

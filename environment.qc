@@ -162,7 +162,7 @@ void() fade_relocate =
 	{
 		self.lip = 0.05;
 #ifdef code_runes
-		setorigin(self, self.ip_orgOrigin);
+		setorigin(self, self.ip_org);
 #endifdef
 #ifdef code_xents
 		item_eject(self, MED_BOUNCE);		
@@ -179,7 +179,7 @@ void() fade_relocate =
 // runes is using this - might be able to remove		
 #ifdef code_runes
 		if (self.map == "dyn_item")
-			self.ip_orgOrigin = '0 0 0'; // clear for out of bounds ***
+			self.ip_org = '0 0 0'; // clear for out of bounds ***
 #endifdef
 		self.think = self.th_stand; // done - back to the usual
 		self.th_stand = SUB_Null;
