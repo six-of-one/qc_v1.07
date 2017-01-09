@@ -22,6 +22,11 @@ void() SUB_regen =
 	setmodel(self, self.mdl); // restore original model x_ents version - because crates are burger kings
 
 	setorigin (self, self.origin);
+
+#ifdef code_xents
+// restore location on DM map items
+	if (self.ip_org != '0 0 0') setorigin (self, self.ip_org);
+#endifdef
 };
 
 
