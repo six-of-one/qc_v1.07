@@ -178,7 +178,7 @@ void() fade_relocate =
 
 // runes is using this - might be able to remove		
 #ifdef code_runes
-		if (self.event == "dyn_item")
+		if (self.map == "dyn_item")
 			self.ip_orgOrigin = '0 0 0'; // clear for out of bounds ***
 #endifdef
 		self.think = self.th_stand; // done - back to the usual
