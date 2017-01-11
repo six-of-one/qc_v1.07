@@ -1345,7 +1345,14 @@ void() WaterMove =
 			self.dmg = self.dmg + 2;
 			if (self.dmg > 15)
 				self.dmg = 10;
+// PK armor fix
+#ifdef code_xents
+			self.ignorearmor = IGN_ARM;
 			T_Damage (self, world, world, self.dmg);
+			self.ignorearmor = 0;
+#else
+			T_Damage (self, world, world, self.dmg);
+#endifdef
 			self.pain_finished = time + 1;
 		}
 	}

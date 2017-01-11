@@ -178,13 +178,22 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // save damage based on the target's armor level
 
-	save = ceil(targ.armortype * damage);
-	if (save >= targ.armorvalue)
+#ifdef code_xents
+	if (targ.ignorearmor != IGN_ARM)
 	{
-		save = targ.armorvalue;
-		targ.armortype = 0;	// lost all armor
-		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+#endifdef
+		save = ceil(targ.armortype * damage);
+		if (save >= targ.armorvalue)
+		{
+			save = targ.armorvalue;
+			targ.armortype = 0;	// lost all armor
+			targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+		}
+#ifdef code_xents
 	}
+	else
+		save = 0;
+#endifdef
 	
 	take = ceil(damage - save);
 
