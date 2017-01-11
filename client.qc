@@ -2037,7 +2037,7 @@ void() ClientConnect =
 	bprint (self.netname);
 #ifdef code_painkeep_
 	f0__ = rint(random() * 7);
-		cvar_string(strcat("hi",ftos(f0__)));
+	bprint(cvar_string(strcat("hi",ftos(f0__))));
 #else
 	bprint (" entered the game\n\n");
 #endifdef
