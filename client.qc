@@ -1922,7 +1922,13 @@ global float wfs;
 #else
 		return;
 #endifdef
-		
+
+// faell out of level - use beacon impulse to recover player / frikbot
+#ifdef code_xents
+	if (self.velocity_z < FALLOUT_VELOCITY)			// note: ever falling corridor level / poss. wind tunnels
+		self.impulse = IMP_TELEBEAC;
+#endifdef
+
 // do weapon stuff
 
 	W_WeaponFrame ();
