@@ -2033,8 +2033,14 @@ void() ClientConnect =
 	ClientInRankings();
 #endifdef
 
+	bprint("\n");
 	bprint (self.netname);
-	bprint (" entered the game\n");
+#ifdef code_painkeep_
+	f0__ = rint(random() * 7);
+		cvar_string(strcat("hi",ftos(f0__)));
+#else
+	bprint (" entered the game\n\n");
+#endifdef
 	
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
