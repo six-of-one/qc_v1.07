@@ -1282,7 +1282,7 @@ void() W_Attack =
 	if (self.messagetimeout > time)
 	{
 		self.messagetimeout = -1; // *pk - clear hub message
-		pk_centerprint(self, "");
+		pk_centerprint(self, string_null);
 	}
 #endifdef
 
