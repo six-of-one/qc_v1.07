@@ -1611,3 +1611,104 @@ float(float cn) bot_vote =
 	}
 	return(FALSE);
 };
+
+
+// uncomment to compile
+//#define comp_hub_links
+#ifdef comp_hub_links
+
+// admin special - list all hub links, best guess tie between hub_control and message ent
+// call with sv_cmd hub_links
+
+void() hub_links =
+{
+	local entity e, f, b;
+//	local vector v2;
+	local float dx, mm;
+	e = find(world, classname, "hub_teleport");
+	if (!e)
+		bprint("---------------------\nHub NOT FOUND\n---------------------\n\n");
+	else
+	{
+		bprint("---------------------\nHub map set\n---------------------\n\n");
+		while (e)
+		{
+			if (e.model == "progs/hub_port.mdl" || e.model == null_model)
+			{
+				if (v1__ != '0 0 0' && mm < 2)
+				{
+					bprint("\nmixed mode --- custom hub + regular hub!\n\n");
+					mm = 2;
+				}
+				else
+					if (mm < 2) mm = -1;
+				bprint(e.map);
+				bprint(", trg: ");
+				b = e.enemy; // we know trigger messages for custom hubs
+				if (!b) bprint("NO TRIGGER!");
+				else { bprint(b.message); if (fabs(b.origin_z - e.origin_z) > 25) { bprint(" : Z > 25");} }
+				bprint("\n");
+				e = find(e, classname, "hub_teleport");
+			}
+			else
+		 {
+				if (!v1__) bprint("hub_control maps:\n\n");
+				if (mm < 0)
+				{
+					bprint("\nmixed mode --- custom hub + regular hub!\n\n");
+					mm = 2;
+				}
+				bprint(e.map);
+
+// possible target message - list all after this
+			dx = 8001;
+			v1__ = (e.absmin + e.absmax) * 0.5;
+			f = findradius(v1__, 8000);
+			b = world;
+			while (f)
+			{
+				if (f.classname == "trigger_multiple")
+				if (f.message != string_null && f.message != "\n" && f.message != " ")
+				{
+					v2__ = (f.mins + f.maxs) * 0.5;
+					if (vlen(v1__ - v2__) < dx)
+					{
+						b = f;
+						dx = vlen(v1__ - v2__);
+					}
+				}
+			f = f.chain;
+			}
+			if (b)
+			{
+				bprint(", possible trg: ");
+				bprint(b.message);
+				if (fabs(b.origin_z - e.origin_z) > 25) bprint(" : Z > 25");
+			}
+
+
+				bprint("\n");
+				e = find(e, classname, "hub_teleport");
+			if (!e)
+			{
+			bprint("\npossible map messages:\n\n");
+			f = findradius(world.origin, 32000);
+			while (f)
+			{
+				if (f.classname == "trigger_multiple")
+				if (f.message != string_null && f.message != "\n" && f.message != " ")
+				{
+					bprint(f.message);
+					bprint("\n");
+				}
+			f = f.chain;
+			}
+				
+			}
+		 }
+	  }
+
+		bprint("\n---------------------\n");
+  }
+};
+#endifdef
