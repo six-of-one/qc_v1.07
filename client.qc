@@ -2036,8 +2036,11 @@ void() ClientConnect =
 	bprint("\n");
 	bprint (self.netname);
 #ifdef code_painkeep_
+// from 1.1: Let's put some variety in the joining game msgs - qc 2.0 style
 	f0__ = rint(random() * 7);
 	bprint(cvar_string(strcat("hi",ftos(f0__))));
+	bprint("\n");
+	bprint("\n");
 #else
 	bprint (" entered the game\n\n");
 #endifdef
