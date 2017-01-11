@@ -1923,6 +1923,7 @@ global float wfs;
 		return;
 #endifdef
 
+// TDO: coop with quantum tunnel device
 // faell out of level - use beacon impulse to recover player / frikbot
 #ifdef code_xents
 	if (self.velocity_z < FALLOUT_VELOCITY)			// note: ever falling corridor level / poss. wind tunnels
