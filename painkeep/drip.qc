@@ -6,7 +6,7 @@
  *
  * date: 016.2.25
  *
- * qc - painkeep module - func_drip qc
+ * qc - painkeep module - func_drip
  *
  */
 
