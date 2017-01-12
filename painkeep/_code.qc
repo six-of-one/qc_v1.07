@@ -103,8 +103,9 @@
 #messagecompiling painkeep/zombie2.qc 
 #include </zombie2.qc>
 
-#messagecompiling painkeep/fallaway.qc 
-#include </fallaway.qc>
+// consensus is: this module has not been used in a map yet
+//#messagecompiling painkeep/fallaway.qc 
+//#include </fallaway.qc>
 
 
 #messagecompiling painkeep/tomb.qc 
