@@ -156,6 +156,15 @@ void() ai_face =
 {
 	self.ideal_yaw = vectoyaw(self.enemy.origin - self.origin);
 	ChangeYaw();
+
+#ifdef mon_speed
+// monster speed controls
+	if (self.speed > 0)
+	{
+		if (self.speed_div <= 0) self.speed_div = 1; // local speed divisor
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.speed_div);
+	}
+#endifdef
 };
 
 /*

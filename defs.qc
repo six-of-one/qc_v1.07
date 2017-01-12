@@ -784,7 +784,7 @@ float(entity targ, entity inflictor) CanDamage;
 #messagecompiling x_ent/x_defs.qc 
 #include <x_ent/x_defs.qc>
 
-// every instance of this needs checked - with all changes it is involved in
+// NOTE: every instance of this needs checked - with all changes it is involved in
 #define gsf	f0__
 #endifdef
 
@@ -797,6 +797,8 @@ float(entity targ, entity inflictor) CanDamage;
 #messagecompiling runes/_defs.qc 
 #include <runes/_defs.qc>
 #endifdef
+
+#include <monster_x/monster_defs.qc>
 
 // engine needs this
 #ifndef code_frikbots

@@ -17,6 +17,7 @@
 //
 // ****************************************************************************
 
+// see speed module in quake_monsters.qc
 
 #ifdef xmonsters
 

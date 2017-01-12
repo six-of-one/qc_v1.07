@@ -10,13 +10,14 @@
  *
  */
 
-
 // allow exclusion of quake one standard monsters
 // controlled by compiler.qc defines
 // can extend control to individual monsters
 // files called here should #message         compiling {filename.qc} to indicate compile
 //
 // ****************************************************************************
+
+// see speed module in quake_monsters.qc
 
 #ifdef quakemonsters
 
@@ -218,7 +219,6 @@ void() monster_zombie =
 };
 
 	#ifndef hip_monsters
-// NOTE: hipnotic monster, move this ***
 void() monster_scourge =
 {
 	self.think = remove_monster;
