@@ -235,7 +235,7 @@ local_ent(fire_fly)
 	setorigin (fireball, self.origin);
 	fireball.nextthink = time + 5;
 	fireball.think = SUB_Remove;
-	fireball.touch = fire_touch;
+	fireball.touch = fire_touch;					// TDO: fire_fly_touch - upgrade fix chaos bomb issues - 11.15.13
 	
 #ifndef map_hack
 	self.nextthink = time + (random() * 5) + 3;
@@ -251,6 +251,9 @@ local_ent_exit(fire_fly)
 
 void() fire_touch =
 {
+#ifdef code_morph
+	if (other.mask_x != CB_CTHON) // Cataboligne - 9.22.11 - only here till we get chaos_ff done IMP: remove
+#endifdef
 	T_Damage (other, self, self, 20);
 	remove(self);
 };
@@ -480,6 +483,9 @@ void() bubble_bob;
 void() air_bubbles =
 
 {
+#ifdef code_xents
+	if (! dm_over)                  // __air_bubbles_button0             "1"
+#endifdef
 	if (deathmatch)
 	{
 		remove (self);
@@ -748,6 +754,11 @@ void() ambient_suck_wind =
 {
 	precache_sound ("ambience/suck1.wav");
 	ambientsound (self.origin, "ambience/suck1.wav", 1, ATTN_STATIC);
+#ifdef opgrade_no
+// 17.1.11 - this will blow maphack non static ambient sounds
+// 11.7.14 - these should be safely removed - once ambientsound is called the sound is a static ent looping the sound on the map
+	remove(self);
+#endifdef
 };
 
 /*QUAKED ambient_drone (0.3 0.1 0.6) (-10 -10 -8) (10 10 8)
