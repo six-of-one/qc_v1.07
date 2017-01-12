@@ -129,6 +129,7 @@ void() light_lightning =
 	lightstyle(14, "a");
 
 // make sure all get spawned
+// this is called instantly on spawn - then 3 sec later on think
 	if (time < 2) return;
 
 	// ok find the next light_lightning
