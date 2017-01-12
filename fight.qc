@@ -180,6 +180,15 @@ float(entity targ) range;
 
 void(float d) ai_charge =
 {
+#ifdef mon_speed
+// monster speed controls
+	if (self.speed > 0)
+	{
+		if (self.speed_div <= 0) self.speed_div = 1; // local speed divisor
+		d = d * ((0.1 / self.speed) / self.speed_div) / MON_SPEED_DIV;
+	}
+#endifdef
+
 	ai_face ();	
 	movetogoal (d);		// done in C code...
 };
