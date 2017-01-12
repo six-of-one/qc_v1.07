@@ -77,6 +77,10 @@ void() light_fluoro =
 	
 	precache_sound ("ambience/fl_hum1.wav");
 	ambientsound (self.origin, "ambience/fl_hum1.wav", 0.5, ATTN_STATIC);
+
+#ifdef opgrade
+	if (!self.targetname) remove(self); // not targeted, so dump it
+#endifdef
 };
 
 /*QUAKED light_fluorospark (0 1 0) (-8 -8 -8) (8 8 8)
@@ -92,6 +96,10 @@ void() light_fluorospark =
 
 	precache_sound ("ambience/buzz1.wav");
 	ambientsound (self.origin, "ambience/buzz1.wav", 0.5, ATTN_STATIC);
+
+#ifdef opgrade
+	if (!self.targetname) remove(self); // not targeted, so dump it
+#endifdef
 };
 
 /*QUAKED light_globe (0 1 0) (-8 -8 -8) (8 8 8)
@@ -104,6 +112,10 @@ void() light_globe =
 	precache_model ("progs/s_light.spr");
 	setmodel (self, "progs/s_light.spr");
 	makestatic (self);
+#ifdef code_pkbots__
+// useless as static ents are removed
+	self.classname = "light";
+#endifdef
 };
 
 void() FireAmbient =
@@ -112,6 +124,9 @@ void() FireAmbient =
 // attenuate fast
 	ambientsound (self.origin, "ambience/fire1.wav", 0.5, ATTN_STATIC);
 	makestatic(self);
+#ifdef code_pkbots__
+	self.classname = "light";
+#endifdef
 };
 
 /*QUAKED light_torch_small_walltorch (0 .5 0) (-10 -10 -20) (10 10 20)
