@@ -103,6 +103,9 @@
 #messagecompiling painkeep/zombie2.qc 
 #include </zombie2.qc>
 
+#messagecompiling painkeep/fallaway.qc 
+#include </fallaway.qc>
+
 
 #messagecompiling painkeep/tomb.qc 
 #include </tomb.qc>
