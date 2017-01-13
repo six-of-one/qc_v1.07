@@ -913,3 +913,124 @@ void() trigger_monsterjump =
 	self.touch = trigger_monsterjump_touch;
 };
 
+
+#ifdef code_xents
+// Archon expanded triggers
+
+
+#endifdef
+/*QUAKED trigger_hurt_switch (.5 .5 .5) ? START_OFF
+Switchable - when target is called .touch will toggle
+wait - time between toggles, if -1 switch is disabled after 1 call
+delay - time elapse before toggle when target called
+Any object touching this will be hurt
+set dmg to damage amount
+defalt dmg = 5
+frags - take away this many upon death, default 0
+noise*  - custom death messages to give
+
+spawnflags & 1 - start off
+deadflag & 2 - use noenvcide if enabled - frags must be set, default is 1
+
+custom message = self.noise - one obituary string
+deadflag & 1 - print target name first
+random:
+noise2, noise3, noise4 - string for obituary
+cnt = rnd chance of 2 vs 3 - default 50%
+style = separate rnd chance of 4 if set - default 10%
+*/
+
+void() hurt_switch =
+{
+	if (self.classname == "hurt_trigger_delay") // delayed effect
+	{
+		if (self.enemy)
+		if (self.enemy.touch == hurt_touch)
+			self.enemy.touch = SUB_Null;
+		else
+			self.enemy.touch = hurt_touch;
+		remove(self);
+		return;
+	}
+
+	if (self.attack_finished > time) return; // cant toggle right now
+
+// convert from old method - REMOVE - hurt_switch is not on any maps
+/*
+	if (self.noise) self.stack4 = self.noise;
+	if (self.noise1) self.stack1 = self.noise1;
+	if (self.noise2) self.stack2 = self.noise2;
+	if (self.noise3) self.stack3 = self.noise3;
+*/
+
+// setup msg - done in map ent
+// this selects amongst the possible messages when first loading on map
+//	self.deadflag = self.deadflag | 1;
+/*
+	TDO:
+
+	if (self.stack2 != string_null && self.stack3 != string_null)
+	{
+		if (self.button1 <= 0) self.button1 = 0.5;
+		if (self.button2 <= 0) self.button2 = 0.1;
+		if (random() < self.button1)
+			self.stack16 = self.stack2; //" turned into hot slag";
+		else
+			self.stack16 = self.stack3; // " visits the Volcano God";
+		if (self.stack4 != string_null)
+		if (random() < self.button2)
+			self.stack16 = self.stack4; // " is playing geologist again";
+	}
+	else
+	if (self.stack16 == string_null && self.stack2 != string_null || self.stack3 != string_null)
+	{
+		if (self.stack2 != string_null) self.stack16 = self.stack2;
+		if (self.stack3 != string_null) self.stack16 = self.stack3;
+	}
+	if (self.stack16 != string_null)
+		self.class_select = "CDM"; // custom death msg
+*/
+
+	if (self.wait)
+	{
+		if (self.wait < 0)
+			self.use = SUB_Null;
+		else
+			self.attack_finished = time + self.wait;
+	}
+
+	if (self.delay)
+	{
+		local entity e;
+		e = spawn();
+		e.classname = "hurt_trigger_delay";
+		e.think = hurt_switch;
+		e.nextthink = time + self.delay;
+		e.enemy = self;
+		return;
+	}
+
+	if (self.touch == hurt_touch)
+		self.touch = SUB_Null;
+	else
+		self.touch = hurt_touch;
+};
+
+void () trigger_hurt_switch =
+{
+	InitTrigger ();
+	if ((self.spawnflags & 1) && self.targetname != string_null) // if no targetname is given this becomes a regular hurt trigger!
+		self.touch = SUB_Null;
+	else
+		self.touch = hurt_touch;
+
+	if (!self.dmg)
+		self.dmg = 5;
+
+	if (self.deadflag & 2)
+	if (!self.frags)
+		self.frags = 1;
+
+	if (self.targetname)
+		self.use = hurt_switch;
+};
