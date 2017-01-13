@@ -34,6 +34,10 @@ void() push_use =
 		return;
 	}
 */
+// fallout fix - and fails
+	self.movetype = MOVETYPE_STEP;
+	self.owner.movetype = MOVETYPE_PUSH;
+
 	makevectors(other.angles);
 	
 //	x = fabs( v_forward_x );
@@ -84,6 +88,8 @@ void() push_use =
 Pushable walls.
 */
 
+// something wrong where these fall from the level
+
 void() func_pushable =
 {
 //	local entity new;
@@ -94,7 +100,8 @@ void() func_pushable =
 
 	self.classname = "pushablewall";
 	self.solid = SOLID_BSP;
-	self.movetype = MOVETYPE_PUSH;
+//	self.movetype = MOVETYPE_PUSH;
+	self.movetype = MOVETYPE_NONE;
 	setmodel (self, self.model);
 	setorigin( self, self.origin );
 	setsize (self, self.mins, self.maxs );
@@ -107,11 +114,19 @@ void() func_pushable =
 
 	nspawn.classname = "pushablewallproxy";
 	nspawn.solid = SOLID_BBOX;
-	nspawn.movetype = MOVETYPE_STEP;
+//	nspawn.movetype = MOVETYPE_STEP;
+	nspawn.movetype = MOVETYPE_NONE;
 	nspawn.origin = ( self.mins + self.maxs ) * 0.5 + '0 0 1';
 	self.v__ = ( self.maxs - self.mins ) * 0.5;
 	nspawn.mins = '-1 -1 0' - self.v__;
 	nspawn.maxs = '1 1 -2' + self.v__;
+	if (self.spawnflags)
+	{
+		setmodel (self, self.mdl);
+		nspawn.origin = self.origin;
+		nspawn.maxs = self.maxs;
+		nspawn.mins = self.mins;
+	}
 	setsize( nspawn, nspawn.mins, nspawn.maxs );
 	setorigin( nspawn, nspawn.origin );
 	nspawn.oldorigin = nspawn.origin;
