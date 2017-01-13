@@ -80,6 +80,9 @@ void() push_use =
 		}
 	}
 
+	self.velocity_z = 0;
+	self.owner.velocity_z = 0;
+
 //	delta = self.origin - self.oldorigin;
 	setorigin (self.owner, self.owner.oldorigin + (self.origin - self.oldorigin) );	//delta );
 };
