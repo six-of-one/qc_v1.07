@@ -148,7 +148,7 @@ void() func_pushable =
 	self.v__ = ( self.maxs - self.mins ) * 0.5;
 	nspawn.mins = '-1 -1 0' - self.v__ + nspawn.view_ofs;
 	nspawn.maxs = '1 1 -2' + self.v__;
-	if (nspawn.spawnflags & 1) setmodel (self, self.mdl);		// _only_ works with target ent!
+	if (nspawn.spawnflags & 1) setmodel (self, self.mdl);		// _only_ works with target ent! - a pure pushable MUST use the map brush supplied
 	if (nspawn.spawnflags & 2)
 	{
 		nspawn.origin = self.origin;
