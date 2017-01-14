@@ -80,11 +80,13 @@ void() push_use =
 		}
 	}
 
-	self.velocity_z = 0;
-	self.owner.velocity_z = 0;
+// this makes blocks un-pushable
+// and some blocks still went thru floor, just slower
+//	self.velocity_z = 0;
+//	self.owner.velocity_z = 0;
 
 //	delta = self.origin - self.oldorigin;
-	setorigin (self.owner, self.owner.oldorigin + (self.origin - self.oldorigin) );	//delta );
+	setorigin (self.owner, self.owner.oldorigin + (self.origin - self.oldorigin) + self.view_ofs );	//delta );
 };
 
 /*QUAKED func_pushable (0 .5 .8) ?
@@ -92,25 +94,51 @@ Pushable walls.
 */
 
 // something wrong where these fall from the level
+// initial MOVETYPE_NONE fixes this, but still fsck on ops with these
+// fall from level is a result of bottom of proxy being embedded in floor
 
 void() func_pushable =
 {
 //	local entity new;
 //	local vector newsize;
 
-	self.mangle = self.angles;
-	self.angles = '0 0 0';
+	if (self.target != "")
+	{
+		if (time < 3)		// cant find target before it spawns
+		{
+			self.think = func_pushable;
+			self.nextthink = time + 2;
+			return;
+		}
+		nspawn = self;
+		self = find (world, targetname, nspawn.target);
 
-	self.classname = "pushablewall";
-	self.solid = SOLID_BSP;
-//	self.movetype = MOVETYPE_PUSH;
-	self.movetype = MOVETYPE_NONE;
-	setmodel (self, self.model);
-	setorigin( self, self.origin );
-	setsize (self, self.mins, self.maxs );
-	self.oldorigin = self.origin;
+registercvar(strcat("___push_",ftos(num_for_edict(nspawn))),strcat(" ref: ",ftos(num_for_edict(self))));
 
-	nspawn = spawn();
+		if (!self) return;		// reload may correct this asp
+		self.solid = SOLID_BSP;
+		self.movetype = MOVETYPE_NONE;
+		self.oldorigin = self.origin;
+		self.targetname = nspawn.targetname;		// in case of a remove target on pushable
+//		nspawn.origin = self.origin; // does not relocate pushable
+	}
+	else
+	{
+		self.mangle = self.angles;
+		self.angles = '0 0 0';
+
+		self.classname = "pushablewall";
+		self.solid = SOLID_BSP;
+	//	self.movetype = MOVETYPE_PUSH;
+		self.movetype = MOVETYPE_NONE;
+		setmodel (self, self.model);
+		setorigin( self, self.origin );
+		setsize (self, self.mins, self.maxs );
+		self.oldorigin = self.origin;
+
+		nspawn = spawn();
+		nspawn.targetname = self.targetname;		// in case pushable is targeted
+	}
 	nspawn.owner = self;
 	nspawn.mangle = self.mangle;
 	nspawn.angles = self.angles;
@@ -121,14 +149,14 @@ void() func_pushable =
 	nspawn.movetype = MOVETYPE_NONE;
 	nspawn.origin = ( self.mins + self.maxs ) * 0.5 + '0 0 1';
 	self.v__ = ( self.maxs - self.mins ) * 0.5;
-	nspawn.mins = '-1 -1 0' - self.v__;
+	nspawn.mins = '-1 -1 0' - self.v__ + nspawn.view_ofs;
 	nspawn.maxs = '1 1 -2' + self.v__;
-	if (self.spawnflags)
+	if (nspawn.spawnflags & 1) setmodel (self, self.mdl);		// _only_ works with target ent!
+	if (nspawn.spawnflags & 2)
 	{
-		setmodel (self, self.mdl);
 		nspawn.origin = self.origin;
-		nspawn.maxs = self.maxs;
-		nspawn.mins = self.mins;
+		nspawn.maxs = self.maxs + '1 1 -2';
+		nspawn.mins = '-1 -1 0' + self.mins + nspawn.view_ofs;
 	}
 	setsize( nspawn, nspawn.mins, nspawn.maxs );
 	setorigin( nspawn, nspawn.origin );
