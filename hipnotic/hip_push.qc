@@ -112,9 +112,6 @@ void() func_pushable =
 		}
 		nspawn = self;
 		self = find (world, targetname, nspawn.target);
-
-registercvar(strcat("___push_",ftos(num_for_edict(nspawn))),strcat(" ref: ",ftos(num_for_edict(self))));
-
 		if (!self) return;		// reload may correct this asp
 		self.solid = SOLID_BSP;
 		self.movetype = MOVETYPE_NONE;
