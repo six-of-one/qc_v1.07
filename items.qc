@@ -119,7 +119,7 @@ void() PlaceItem =
 	if (self.think1 != SUB_Null)
 	{
 		self.think = self.think1;
-		self.nextthink = time + self.mean;
+		self.nextthink = time + self.speed;
 	}
 
 // let items bounce if ejected
