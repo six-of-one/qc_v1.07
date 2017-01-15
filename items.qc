@@ -114,8 +114,15 @@ void() PlaceItem =
 	oldz = self.origin_z;
 #endifdef
 
-// let items bounce if ejected
 #ifdef code_xents
+// allow a think re-assign
+	if (self.think1 != SUB_Null)
+	{
+		self.think = self.think1;
+		self.nextthink = time + self.mean;
+	}
+
+// let items bounce if ejected
 	if (!self.punchangle)
 	{
 #endifdef
