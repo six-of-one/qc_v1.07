@@ -185,7 +185,8 @@ void() fade_relocate =
 		if (self.map == "dyn_item")
 			self.ip_org = '0 0 0'; // clear for out of bounds ***
 #endifdef
-		self.think = self.th_stand; // done - back to the usual
+		self.touch = self.th_walk; // done - back to the usual
+		self.think = self.th_stand;
 		self.th_stand = SUB_Null;
 		self.nextthink = self.lefty;
 	}
