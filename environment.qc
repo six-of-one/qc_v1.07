@@ -145,6 +145,10 @@ void (entity targ, entity inflictor, entity attacker, float damage) T_FireDamage
 
 // could move anything, effect should prob be client sided
 
+// on entry lip must be negative to fade out
+// positive lip on entry could be used for fade / spawn effect
+// lip = -0.06 for fade remove
+
 void() fade_relocate =
 {
 	if (!self.alpha) self.alpha = 1.03; // make sure the fade doesnt hit 0 and fire this again
@@ -153,22 +157,22 @@ void() fade_relocate =
 	self.nextthink = time + 0.1;
 
 	if (self.alpha < 0.6) self.touch = SUB_Null;
-//	else self.touch = painkeep_touch;
 
 	self.alpha = self.alpha + self.lip;
 
+// full fade out done - relocate, reverse & fade back in
 	if (self.lip < 0)
 	if (self.alpha < 0.05)
 	{
+// IDEA: fade remove code here -- .lip == -0.06
 		self.lip = 0.05;
-#ifdef code_runes
-		setorigin(self, self.ip_org);
-#endifdef
 #ifdef code_xents
+		setorigin(self, self.ip_org);				// note - without this no relocate occurs
 		item_eject(self, MED_BOUNCE);		
 #endifdef
 	}
 
+// finished - exit
 	if (self.lip > 0)
 	if (self.alpha > 1)
 	{
@@ -177,7 +181,7 @@ void() fade_relocate =
 //		self.revotemsg = 0; // used to block removal tests in splash.qc
 
 // runes is using this - might be able to remove		
-#ifdef code_runes
+#ifdef code_runes_notused
 		if (self.map == "dyn_item")
 			self.ip_org = '0 0 0'; // clear for out of bounds ***
 #endifdef
