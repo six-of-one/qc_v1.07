@@ -641,6 +641,17 @@ framer(0, 5, bolt_s_explode1, SUB_Remove, 0.1,
 		self.lefty = self.lefty + 1;
 	}
 	self.frame = self.lefty;
+
+#ifdef warning
+//					if (warnings == "ics")
+					{
+						bprint(" --- bolt_s_expl fr: ");
+						bprint(ftos(self.frame));
+						bprint(" c: ");
+						bprint(ftos(self.cnt));
+						bprint("\n");
+					}
+#endifdef
 );
 
 // cool prongs after timeout
