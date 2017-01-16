@@ -613,7 +613,7 @@ float(entity targetEntity) bolt_infront =
 };
 
 
-
+/*
 void()	bolt_s_explode1	=	[0,		bolt_s_explode2] {};
 void()	bolt_s_explode2	=	[0,		bolt_s_explode3] {};
 void()	bolt_s_explode3	=	[0,		bolt_s_explode4] {};
@@ -630,6 +630,18 @@ void()	bolt_s_explode13	=	[4,		bolt_s_explode14] {};
 void()	bolt_s_explode14	=	[4,		bolt_s_explode15] {};
 void()	bolt_s_explode15	=	[4,		bolt_s_explode16] {};
 void()	bolt_s_explode16	=	[5,		SUB_Remove] {};
+*/
+// TDO: test pring
+framer(0, 5, bolt_s_explode1, SUB_Remove, 0.1,
+
+	self.cnt = self.cnt + 1;
+	if (self.cnt > 2)
+	{
+		self.cnt = 0;
+		self.lefty = self.lefty + 1;
+	}
+	self.frame = self.lefty;
+);
 
 // cool prongs after timeout
 
