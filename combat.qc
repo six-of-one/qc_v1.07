@@ -500,9 +500,30 @@ void(string hd) gibbs =
 {
 // some code needs to play other sounds - call sound() with the same channel and this will not be heard
 	sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
+
+	s1__ = "progs/gib1.mdl";
+	s2__ = "progs/gib2.mdl";
+// PK expand - extra gib parts
+#ifdef code_painkeep_
+	if (cvar("PK") > 0 && self.classname == "player")
+	{
+		if (random() < 0.5) hd = "progs/qtgib3.mdl";
+		if (random() < 0.5) s1__ = "progs/qtgib1.mdl";
+		if (random() < 0.5) s2__ = "progs/qtgib2.mdl";
+
+	ThrowGib ("progs/g_arm.mdl", self.health);
+	//ThrowGib ("progs/g_arm.mdl", self.health);
+	ThrowGib ("progs/g_boot.mdl", self.health);
+	ThrowGib ("progs/g_eye.mdl", self.health);
+	//ThrowGib ("progs/g_eye.mdl", self.health);
+	//ThrowGib ("progs/g_fore.mdl", self.health);
+	ThrowGib ("progs/g_fore.mdl", self.health);
+	ThrowGib ("progs/g_leg.mdl", self.health);
+	}
+#endifdef
 	if (hd) ThrowHead (hd, self.health);
-	ThrowGib ("progs/gib1.mdl", self.health);
-	ThrowGib ("progs/gib2.mdl", self.health);
+	ThrowGib (s1__, self.health);
+	ThrowGib (s2__, self.health);
 	ThrowGib ("progs/gib3.mdl", self.health);
 };
 

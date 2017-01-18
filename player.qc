@@ -982,7 +982,7 @@ void() PlayerDie =
 // have to drop keys for qone
 	mh_drop_key();
 #endifdef
-	
+
 	self.weaponmodel=string_null;
 	self.view_ofs = '0 0 -8';
 	self.deadflag = DEAD_DYING;
@@ -992,8 +992,16 @@ void() PlayerDie =
 	if (self.velocity_z < 10)
 		self.velocity_z = self.velocity_z + random()*300;
 
+#ifdef code_archon_a
+// archon - death in lava is instagib
+	if (pointcontents(self.origin) == CONTENT_LAVA) self.health = -44;
+#endifdef
+
 	if (self.health < -40)
 	{
+#ifdef code_painkeep_
+		self.skin = 0; // turn off dmg skins for head - note: archon genre conflict
+#endifdef
 		GibPlayer ();
 		return;
 	}
