@@ -913,6 +913,9 @@ void() PlayerDie =
 
 
 #ifdef code_painkeep_
+
+	self.pk_tout = 0;		//copb_timeout = 0;
+
 #ifdef code_pkplus
 	self.pkplus_actortype = 0; // Cataboligne 8.12.9 purify - pk artifacts
 #endifdef
@@ -996,7 +999,22 @@ void() PlayerDie =
 // archon - death in lava is instagib
 	if (pointcontents(self.origin) == CONTENT_LAVA) self.health = -44;
 #endifdef
+/*
+	Archon:
 
+	if (self.health < -40 || (!XENV && pointcontents(self.origin) == CONTENT_LAVA)) gib = TRUE;// TEST: - new feature, need full height test
+
+	if (deathmatch || coop || (DEAD_GIBPACK & 2))
+	if (!gib || DEAD_GIBPACK)
+		DropBackpack();
+
+	if (DEAD_THROW)
+	if ((DEAD_THROW & 16) || !gib)
+		DeadThrowWeps(newmis, self.origin); // newmis is the pack - ammo must be accounted
+
+	if (self.velocity_z < 10)
+		self.velocity_z = self.velocity_z + random()*300;
+*/
 	if (self.health < -40)
 	{
 #ifdef code_painkeep_
@@ -1011,13 +1029,14 @@ void() PlayerDie =
 	self.angles_x = 0;
 	self.angles_z = 0;
 	
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE)			//		 && self.pk_currentitem == PK_IT_AXE)
 	{
 		player_die_ax1 ();
 		return;
 	}
 
 #ifdef debug
+// PAINKEEP commented out cas temp1 is now used in the Hub system.			- not anymore
 // seems like this is test code that got left in - temp1 overrides death frame selection if set to non zero
 	self.f__ = cvar("temp1");
 	if (!self.f__)
@@ -1043,6 +1062,8 @@ void() set_suicide_frame =
 	if (self.model != "progs/vw_player.mdl")
 		return;
 	viswep_ld(self, -2);
+
+//		if (self.modelindex != self.modelindex_morph) return;			// archon vers
 #else
 	if (self.model != "progs/player.mdl")
 		return;	// allready gibbed
