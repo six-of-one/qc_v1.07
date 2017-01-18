@@ -464,7 +464,6 @@ framer($death1, $death14, ogre_die1, SUB_Null, 0.1,
 		self.solid = SOLID_NOT;
 		self.ammo_rockets = 5;
 		DropBackpack();
-		drop_wep(weapon_grenadelauncher, "weapon_grenadelauncher");
 	);
 );
 
