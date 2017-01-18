@@ -464,6 +464,7 @@ framer($death1, $death14, ogre_die1, SUB_Null, 0.1,
 		self.solid = SOLID_NOT;
 		self.ammo_rockets = 5;
 		DropBackpack();
+		drop_wep(weapon_grenadelauncher, "weapon_grenadelauncher");
 	);
 );
 
@@ -490,6 +491,7 @@ framer($bdeath1, $bdeath10, ogre_bdie1, SUB_Null, 0.1,
 		self.solid = SOLID_NOT;
 		self.ammo_rockets = 5;
 		DropBackpack();
+		drop_wep(weapon_grenadelauncher, "weapon_grenadelauncher");
 	);
 	ai_rep($bdeath2, ai_forward, 5, -6, 1, 3, 7, 25, -6, -6);
 );
