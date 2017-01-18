@@ -630,14 +630,35 @@ void()	bolt_s_explode13	=	[4,		bolt_s_explode14] {};
 void()	bolt_s_explode14	=	[4,		bolt_s_explode15] {};
 void()	bolt_s_explode15	=	[4,		bolt_s_explode16] {};
 void()	bolt_s_explode16	=	[5,		SUB_Remove] {};
-*/
-// TDO: test pring
-framer(0, 5, bolt_s_explode1, SUB_Remove, 0.1,
 
-	self.cnt = self.cnt + 1;
-	if (self.cnt > 2)
+tested:
+ --- bolt_s_expl fr: 0 c: 1 mc: 1
+ --- bolt_s_expl fr: 0 c: 2 mc: 2
+ --- bolt_s_expl fr: 0 c: 3 mc: 3
+ --- bolt_s_expl fr: 1 c: 1 mc: 4
+ --- bolt_s_expl fr: 1 c: 2 mc: 5
+ --- bolt_s_expl fr: 1 c: 3 mc: 6
+ --- bolt_s_expl fr: 2 c: 1 mc: 7
+ --- bolt_s_expl fr: 2 c: 2 mc: 8
+ --- bolt_s_expl fr: 2 c: 3 mc: 9
+ --- bolt_s_expl fr: 3 c: 1 mc: 10
+ --- bolt_s_expl fr: 3 c: 2 mc: 11
+ --- bolt_s_expl fr: 3 c: 3 mc: 12
+ --- bolt_s_expl fr: 4 c: 1 mc: 13
+ --- bolt_s_expl fr: 4 c: 2 mc: 14
+ --- bolt_s_expl fr: 4 c: 3 mc: 15
+ --- bolt_s_expl fr: 5 c: 1 mc: 16
+
+*/
+framer(0, 6, bolt_s_explode1, SUB_Remove, 0.1,
+
+	if (self.lefty > 4) SUB_Remove();
+	else
 	{
-		self.cnt = 0;
+	self.cnt = self.cnt + 1;
+	if (self.cnt > 3)
+	{
+		self.cnt = 1;
 		self.lefty = self.lefty + 1;
 	}
 	self.frame = self.lefty;
@@ -645,13 +666,17 @@ framer(0, 5, bolt_s_explode1, SUB_Remove, 0.1,
 #ifdef warning
 //					if (warnings == "ics")
 					{
+						self.count = self.count + 1;
 						bprint(" --- bolt_s_expl fr: ");
 						bprint(ftos(self.frame));
 						bprint(" c: ");
 						bprint(ftos(self.cnt));
+						bprint(" mc: ");
+						bprint(ftos(self.count));
 						bprint("\n");
 					}
 #endifdef
+	}
 );
 
 // cool prongs after timeout
