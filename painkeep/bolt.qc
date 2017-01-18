@@ -653,8 +653,7 @@ tested:
 framer(0, 6, bolt_s_explode1, SUB_Remove, 0.1,
 
 	if (self.lefty > 4) SUB_Remove();
-	else
-	{
+
 	self.cnt = self.cnt + 1;
 	if (self.cnt > 3)
 	{
@@ -662,21 +661,6 @@ framer(0, 6, bolt_s_explode1, SUB_Remove, 0.1,
 		self.lefty = self.lefty + 1;
 	}
 	self.frame = self.lefty;
-
-#ifdef warning
-//					if (warnings == "ics")
-					{
-						self.count = self.count + 1;
-						bprint(" --- bolt_s_expl fr: ");
-						bprint(ftos(self.frame));
-						bprint(" c: ");
-						bprint(ftos(self.cnt));
-						bprint(" mc: ");
-						bprint(ftos(self.count));
-						bprint("\n");
-					}
-#endifdef
-	}
 );
 
 // cool prongs after timeout
