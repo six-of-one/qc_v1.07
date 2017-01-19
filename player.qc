@@ -111,6 +111,7 @@ void() player_run;
 
 void()	player_stand1 =[	$axstnd1,	player_stand1	]
 {
+// Archon: check gremlin_spawning & wk_frames combine for stand / run
 	self.weaponframe=0;
 	if (self.velocity_x || self.velocity_y)
 	{
@@ -318,6 +319,15 @@ void()	player_run =[	$rockrun1,	player_run	]
 #undef ms___
 #endifdef
 
+/*
+	Archon:
+	if (self._run != SUB_Null)
+	{
+		self._run();
+		return;
+	}
+*/
+
 	self.walkframe = self.walkframe + 1;
 };
 
@@ -505,6 +515,18 @@ void() PainSound =
 		return;
 	}
 
+/*
+	Archon:
+// Cataboligne - 3.8.11 - custom death message ent causing specific pain sounds (by watertype specced in self.sounds of ent)
+	local float fs;
+	if (damage_attacker.class_select == "CDM")
+		fs = damage_attacker.sounds;
+
+	if (self.watertype == CONTENT_WATER && self.waterlevel == 3 || fs == CONTENT_WATER)
+	if (self.watertype == CONTENT_SLIME || fs == CONTENT_SLIME)
+	if (self.watertype == CONTENT_LAVA || fs == CONTENT_LAVA)
+
+*/
 // water pain sounds
 	if (self.watertype == CONTENT_WATER && self.waterlevel == 3)
 	{
@@ -623,7 +645,7 @@ void() player_pain =
 	if (self.invisible_finished > time)
 		return;		// eyes don't have pain frames
 
-	if (self.weapon == IT_AXE)
+	if (self.weapon == IT_AXE)				//  && self.pk_currentitem == PK_IT_AXE)		- TDO: needs to be melee item frames detect
 		player_axpain1 ();
 #ifdef hip_weapons
 #ifndef code_xents
@@ -723,7 +745,7 @@ void() DeathSound =
 	// water death sounds
 	if (self.waterlevel == 3)
 	{
-		DeathBubbles(20);
+		DeathBubbles(20);			// Archon code has this as 5
 		sound (self, CHAN_VOICE, "player/h2odeath.wav", 1, ATTN_NONE);
 		return;
 	}
@@ -756,6 +778,14 @@ vector(float dm) VelocityForDamage =
 {
 	local vector v;
 
+/*
+	Archon: PK3 vers:
+	if (damage_inflictor) // *pk - used by the player gib functions to calculate the direction of the gib to go in.
+	{
+		makevectors(damage_inflictor.angles);
+		v = (300 * v_forward * random()) + (100 * v_right * crandom()) + (v_up * 300 * random());
+	}
+*/
 #ifdef HIPNOTIC
 //MED 01/17/97
 	if (vlen(damage_inflictor.velocity) > 0)
@@ -848,7 +878,20 @@ void() GibPlayer =
 	ThrowGib ("progs/gib2.mdl", self.health);
 	ThrowGib ("progs/gib3.mdl", self.health);
 */
-// gibbs plays a sound that we take over below				
+/*
+	Archon:
+//	if (random() > 0.5)
+	if (self.mask_x & CB_HUMAN) // note: interim fix, need proper heads for all morphs
+	{
+		f = 0;
+		if (self.mdl == "progs/plyr_bw.mdl") f = HEADSKN_W;
+		else if (self.mdl == "progs/plyr_dm.mdl") f = HEADSKN_D;
+		else if (self.mdl == "progs/plyr_q3.mdl") f = HEADSKN_Q3;
+		ThrowHead ("progs/h_player.mdl", self.health);
+		self.skin = f;
+	}
+*/
+// gibbs plays a sound that we take over below	
 	gibbs("progs/h_player.mdl");
 
 	self.deadflag = DEAD_DEAD;
