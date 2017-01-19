@@ -20,6 +20,10 @@ void() button_done =
 
 void() button_return =
 {
+#ifdef code_archon
+	if (self.sounds == DOOR_2S)				// cataboligne - 6.29.11 --- wd buttons - return sound
+		sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
+#endifdef
 	self.state = STATE_DOWN;
 	SUB_CalcMove(self.pos1, self.speed, button_done);
 	self.frame = 0;			// use normal textures
@@ -54,14 +58,26 @@ void() button_fire =
 void() button_use =
 {
 	self.enemy = activator;
+#ifdef code_pkbots
+	if (other.classname == "pk*bot")
+		bot_triggered (other);
+#endifdef
 	button_fire();
 };
 
 void() button_touch =
 {
-	if (other.classname != "player")
+	if (other.classname != "player"
+#ifdef code_pkbots
+					 && other.classname != "pk*bot"
+#endifdef
+					)
 		return;
 	self.enemy = other;
+#ifdef code_pkbots
+	if (other.classname == "pk*bot")
+		bot_triggered (other);
+#endifdef
 	button_fire();
 };
 
@@ -70,6 +86,10 @@ void() button_killed =
 	self.enemy = damage_attacker;
 	self.health = self.max_health;
 	self.takedamage = DAMAGE_NO;	// wil be reset upon return
+#ifdef code_pkbots
+	if (other.classname == "pk*bot")
+		bot_triggered (other);
+#endifdef
 	button_fire();
 };
 
@@ -80,7 +100,7 @@ When a button is touched, it moves some distance in the direction of it's angle,
 "angle"		determines the opening direction
 "target"	all entities with a matching targetname will be used
 "speed"		override the default 40 speed
-"wait"		override the default 1 second wait (-1 = never return)
+"wait"		override the default 1 rel wait (-1 = never return)
 "lip"		override the default 4 pixel lip remaining at end of move
 "health"	if set, the button must be killed instead of touched
 "sounds"
@@ -92,6 +112,10 @@ When a button is touched, it moves some distance in the direction of it's angle,
 void() func_button =
 {
 //local float		gtemp, ftemp;	// fx_warning
+
+#ifdef code_archon
+	button_sounds_d();				// cataboligne - 6.28.11 doom buttons
+#endifdef
 
 	if (! self.sounds) // == 0)
 	{
@@ -123,6 +147,9 @@ void() func_button =
 	self.blocked = button_blocked;
 	self.use = button_use;
 
+#ifdef code_pkbots
+	self.th_weight = buttonweight;
+#endifdef
 	if (self.health)
 	{
 		self.max_health = self.health;
