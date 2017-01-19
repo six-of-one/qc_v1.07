@@ -59,7 +59,7 @@ void() button_use =
 {
 	self.enemy = activator;
 #ifdef code_pkbots
-	if (other.classname == "pk*bot")
+	if (other.map == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();
@@ -68,14 +68,14 @@ void() button_use =
 void() button_touch =
 {
 	if (other.classname != "player"
-#ifdef code_pkbots
-					 && other.classname != "pk*bot"
+#ifdef code_pkbots_notused
+					 && other.map != "pk*bot"
 #endifdef
 					)
 		return;
 	self.enemy = other;
 #ifdef code_pkbots
-	if (other.classname == "pk*bot")
+	if (other.map == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();
@@ -87,7 +87,7 @@ void() button_killed =
 	self.health = self.max_health;
 	self.takedamage = DAMAGE_NO;	// wil be reset upon return
 #ifdef code_pkbots
-	if (other.classname == "pk*bot")
+	if (other.map == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();
