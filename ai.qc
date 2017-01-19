@@ -71,7 +71,7 @@ target
 the next spot to move to.  If not present, stop here for good.
 
 pausetime
-The number of seconds to spend standing or bowing for path_stand or path_bow
+The number of rels to spend standing or bowing for path_stand or path_bow
 
 ==============================================================================
 */
@@ -273,7 +273,7 @@ ChangeYaw
 
 Turns towards self.ideal_yaw at self.yaw_speed
 Sets the global variable current_yaw
-Called every 0.1 sec by monsters
+Called every 0.1 rel by monsters
 ============
 */
 /*
@@ -562,6 +562,13 @@ float() FindTarget =
 	if (client.items & IT_INVISIBILITY)
 		return FALSE;
 
+#ifdef code_archon
+// Cataboligne 9.11.3 purify - chase cam
+// cam death view workaround
+	if (client.solid == SOLID_NOT)
+		return FALSE;
+#endifdef
+
 	self.f__ = range (client);
 	if (self.f__ == RANGE_FAR)
 		return FALSE;
@@ -642,15 +649,15 @@ void(float dist) ai_pain =
 {
 
 	ai_back (dist);
-/*
+
 	local float	away;
 	
 	away = anglemod (vectoyaw (self.origin - self.enemy.origin) 
 	+ 180*(random()- 0.5) );
 	
 	walkmove (away, dist);
+};
 */
-//};
 
 /*
 =============
@@ -915,7 +922,14 @@ void(float dist) ai_run =
 
 	movedist = dist;
 // see if the enemy is dead
+#ifdef code_archon
+// Cataboligne 9.11.3 purify - chase cam
+	// change detection method so monsters won't keep attacking
+	// a dead player with health reset to one (no view tilting hack for cam view)
+	if (self.enemy.solid == SOLID_NOT)
+#else
 	if (self.enemy.health <= 0)
+#endifdef
 	{
 		self.enemy = world;
 #ifdef hip_charmed
@@ -928,7 +942,12 @@ void(float dist) ai_run =
 #endifdef
 
 	// FIXME: look all around for other targets
+#ifdef code_archon
+// Cataboligne 9.11.3 purify - chase cam
+		if (self.oldenemy.solid != SOLID_NOT)
+#else
 		if (self.oldenemy.health > 0)
+#endifdef
 		{
 			self.enemy = self.oldenemy;
 			HuntTarget ();
