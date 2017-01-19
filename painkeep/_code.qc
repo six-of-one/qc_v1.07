@@ -100,6 +100,9 @@
 #messagecompiling painkeep/lightning.qc 
 #include </lightning.qc>
 
+#messagecompiling painkeep/train2d.qc 
+#include </train2d.qc>
+
 #messagecompiling painkeep/zombie2.qc 
 #include </zombie2.qc>
 
