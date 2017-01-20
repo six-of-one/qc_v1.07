@@ -258,13 +258,14 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	dprint(inflictor.classname);
 	dprint("\n");
 */
+#endifdef
 
 #ifdef code_runes
 //	r = cvar("sv_c_rune");
 	if (attacker.rune_flag & RUNE_FLG_DM) // dmg rune - idea: could do more under rules > 2
 	{
 		if (RUNES > 1)
-		if (targ == attacker) return; // lith rules
+		if (targ == attacker) return; // lith rules - note: this blocks rocket jump push
 
 		damage = damage * 2;
 
@@ -276,6 +277,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	if (attacker.rune_flag & TECH_AMP) // dmg tech
 		damage = damage * 2;
 #endifdef
+
+#ifdef hip_items
 //MED
 //check for empathy shields
 //	if ((targ.items2 & HIP_IT_EMPATHY_SHIELDS) && !(inflictor.items2 & HIP_IT_EMPATHY_SHIELDS) && (targ != attacker))
