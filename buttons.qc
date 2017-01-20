@@ -67,11 +67,7 @@ void() button_use =
 
 void() button_touch =
 {
-	if (other.classname != "player"
-#ifdef code_pkbots_notused
-					 && other.map != "pk*bot"
-#endifdef
-					)
+	if (other.classname != "player")
 		return;
 	self.enemy = other;
 #ifdef code_pkbots
