@@ -97,7 +97,7 @@ float footsteps;
 // in combat.qc
 
 //MED 01/10/97 added empathyused variable
-float empathyused;
+float empathy_dmg;
 
 #endifdef
 // gremlin stuff

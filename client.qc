@@ -2174,7 +2174,7 @@ void(entity targ, entity attacker) ClientObituary =
 
 #ifdef hip_items
 //MED 01/19/97
-				if (empathyused == 1)
+				if (empathy_dmg == 1)
 				{
 					bprint (targ.netname);
 					if (random()<0.5)
