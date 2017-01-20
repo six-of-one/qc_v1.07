@@ -1931,6 +1931,9 @@ void() ImpulseCommands =
 #ifdef code_xents
 // allow weps to be switched on touch
 	if (self.impulse == 29) self.aflag = IGN_INV;
+// power armor toggle
+	if (self.impulse == IMP_PARM)
+		power_armor_impulse();
 #endifdef
 
 	self.impulse = 0;
