@@ -81,6 +81,9 @@ void(entity targ, entity attacker) Killed =
 #endifdef
 #endifdef
 
+#ifdef code_archon
+	if (! self.flags & (FL_CLIENT | FL_MONSTER)) // because some elements of chaos mod mk I used movetype none
+#endifdef
 
 	if (self.movetype == MOVETYPE_PUSH || self.movetype == MOVETYPE_NONE)
 	{	// doors, triggers, etc
@@ -94,22 +97,56 @@ void(entity targ, entity attacker) Killed =
 // bump the monster counter
 	if (self.flags & FL_MONSTER)
 	{
+#ifdef code_archon
+		if (self.owner.flags & FL_MONSTER) self.owner = world; // clear summoned count for limits
+//		if (attacker.flags & FL_CLIENT)
+			attacker.xp = attacker.xp + self.archon; // pts for monster kills
+#endifdef
 		killed_monsters = killed_monsters + 1;
 		WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
 	}
-
+#ifdef code_pkbots
+	if (self.map == "pk*bot" || attacker.map == "pk*bot") // note: handles "player" setting for pk*bot obit fn - we need this
+		bot_kill(self, attacker); // *bot - tie in to count bot kills / deaths
+	else
+#endifdef
 	ClientObituary(self, attacker);
 	
 	self.takedamage = DAMAGE_NO;
 	self.touch = SUB_Null;
 
+// TDO: do we need this when we start throwing weps on die?
+//	if (self.vwepent) vw_chain(self); // re chain any vweps before death - which can throw weps
+
 	monster_death_use();
+#ifdef code_archon
+	if (self.goalentity.think == de_archon_thk) // no return this vector if he got de-archoned
+	{
+		if (self.th_die) self.th_die ();
+	}
+	else
+	if ((self.height == IMP_MCHAOS && self.morphy != IMP_MCHAOS) ||
+		 (self.height == IMP_MORDER && self.morphy != IMP_MORDER)) // death returns to Archon form from polymorph - no pts req. for now
+	{
+		if (self.goalentity.classname == "archon_morph")
+			self.goalentity.think();
+		else
+		chaos_morph_chg(self, 0); // CHECK: this for order
+	}
+	else
+//	if (self.th_die != (void()) 0) // something got thru with 0 th_die on server test 10.28.11
+	if (self.th_die) // something got thru with 0 th_die on server test 10.28.11 - fteqcc mode
+#endifdef
 	self.th_die ();
 
 #ifdef code_viswep
 	if (self.vwepent) viswep_ld(self, -2); // still have visweps
 #endifdef
-
+#ifdef code_archon
+	if ((self.morphy != IMP_MCHAOS) && (self.morphy != IMP_MORDER))
+	if (self.ishuman) // Cataboligne 9.19.11 - monsters were calling - just never saw because werent using dp cam
+		dead_cam_set(); // Cataboligne 9.11.3 purify - chase cam
+#endifdef
 	self = oself;
 };
 
@@ -128,21 +165,88 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 {
 	local	vector	dir;
 	local	entity	oldself;
-	local	float	save;
+	local	float	save, pwr_save;
 	local	float	take;
 
 	if (!targ.takedamage)
 		return;
 
 // used by buttons and triggers to set activator for target firing
+#ifndef code_painkeep_
+#ifndef HIPNOTIC
 	damage_attacker = attacker;
+#endifdef
+#endifdef
+
+#ifdef code_archon
+// Archons dont use health - no damage & no additive - 9.19.13
+	if (targ.flags & FL_CLIENT)
+	if (targ.mask_x & MORPH_ARCHON)
+	{
+// runes take portion of damage & reduce archon power of an attacked Archon - before multipliers
+		save = 0;
+		take = 0;
+		if ((attacker.rune_flag & RUNE_FLG_DM) || (attacker.rune_flag & TECH_AMP))
+		{
+			save = 0.25;
+			take = 2; // possibly amplify next rune
+			if (targ.rune_flag & RUNE_FLG_RS) save = 0.125;
+		}
+
+		if (attacker.rune_flag & RUNE_VAMPIRE)
+		{
+			if (take) save = save * take;
+			take = damage * save;
+			if ((targ.archon - take) < 0) // cant add negative pts
+			{
+				take = (targ.archon - take) + take;
+			}
+			if (targ.armorvalue <= 0) attacker.archon = attacker.archon + take; // add points to attackers
+		}
+
+// magic shield goes here - prevent archon power loss but reduce shield power
+
+		if (targ.armorvalue > 0)
+		{
+			targ.armorvalue = targ.armorvalue - (damage * save);
+			if (targ.armorvalue < 0) targ.armorvalue = 0; // shield gone
+		}
+		else
+		{
+			if ((damage * save) > 1)
+			if ((time & 3) == 3)
+				stuffcmd(targ, "hud_message \"WARNING: Archon power loss ***\"\n");
+
+			targ.archon = targ.archon - (damage * save);
+		}
+		if (attacker.archon < 0) de_archon(attacker);
+		return;
+	}
+
+#endifdef
 
 // check for quad damage powerup on the attacker
+#ifdef code_runes
+	if (!( (RUNES > 1) && ( (attacker.rune_flag & RUNE_FLG_DM) || (attacker.rune_flag & TECH_AMP) ) ) || RUNE_QUAD_COMB ) // rune overpowers quad on higher rule sets 
+#endifdef
+
 	if (attacker.super_damage_finished > time)
+#ifdef code_pkplus
+	if (attacker.pkplus_actortype != PKPLUS_ACTORQUAD) // pk art code here
+#endifdef
+#ifdef code_archon
+	if ((attacker.group != "Berserk rage...nearly over...Hulk sad") || (attacker.eweapon.grap_state == 66600)) // fists only *4
+#endifdef
+	{
 		damage = damage * 4;
+#ifdef warning_no
+// test for berserk pack + fists
+			if (WARNING & 64) bprint(" ------------ ***          damage * 4\n");
+#endifdef
+	}
 
 #ifdef hip_items
-	if (discharged && targ.wetsuit_finished )
+	if (discharged && targ.wetsuit_finished )	//&& (targ.items & IT_SUIT)) // lightning underwater & wearing suit
 		return;
 //MED moved damage_attacker down a bit
 /*
@@ -155,15 +259,43 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	dprint("\n");
 */
 
+#ifdef code_runes
+//	r = cvar("sv_c_rune");
+	if (attacker.rune_flag & RUNE_FLG_DM) // dmg rune - idea: could do more under rules > 2
+	{
+		if (RUNES > 1)
+		if (targ == attacker) return; // lith rules
+
+		damage = damage * 2;
+
+		if (attacker.rune_flag & TECH_AMP) // combind with dmg tech!
+		if (RUNE_TECH_DMG_COMB)
+			damage = damage * 2;
+	}
+	else
+	if (attacker.rune_flag & TECH_AMP) // dmg tech
+		damage = damage * 2;
+#endifdef
 //MED
 //check for empathy shields
-	if ((targ.items2 & HIP_IT_EMPATHY_SHIELDS) && !(inflictor.items2 & HIP_IT_EMPATHY_SHIELDS) && (targ != attacker))
-		{
-		empathyused = 1;
+//	if ((targ.items2 & HIP_IT_EMPATHY_SHIELDS) && !(inflictor.items2 & HIP_IT_EMPATHY_SHIELDS) && (targ != attacker))
+	if ((targ.empathy_finished) && !(inflictor.empathy_finished) && (targ != attacker))
+	{
+		empathy_dmg = 1;
 		damage = damage/2;
 		T_Damage (attacker,targ,targ,damage);
-		empathyused = 0;
+
+#ifdef code_archon
+		if (attacker.mask_x & MORPH_ARCHON) // empathy shield drains archon pts when Archon attacks a player protected by it
+		{
+			empathy_dmg = 0.25;
+			if (attacker.rune_flag & RUNE_FLG_RS) empathy_dmg = 0.125;
+// IMP: magic shield goes here - prevent archon power loss but reduce shield power
+			attacker.archon = attacker.archon - (damage * empathy_dmg); // reduce by 1/4 of the 1/2 damage just set
 		}
+#endifdef
+		empathy_dmg = 0;
+	}
 #endifdef
 
 #ifdef HIPNOTIC
@@ -174,6 +306,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 //MED
 // used to keep track of what hit us
 	damage_inflictor = inflictor;
+#else
+#ifdef code_painkeep_
+	damage_inflictor = inflictor;
+#endifdef
 #endifdef
 
 // save damage based on the target's armor level
@@ -181,21 +317,30 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 #ifdef code_xents
 	if (targ.ignorearmor != IGN_ARM)
 	{
+		pwr_save = power_armor(targ, inflictor, damage); // calc damage taken by power armor
+
+		if (pwr_save < damage)
 #endifdef
-		save = ceil(targ.armortype * damage);
+		save = ceil(targ.armortype * (damage
+#ifdef code_xents
+					 - pwr_save
+#endifdef
+						));
+
 		if (save >= targ.armorvalue)
-		{
 			save = targ.armorvalue;
-			targ.armortype = 0;	// lost all armor
-			targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
-		}
+
 #ifdef code_xents
 	}
 	else
 		save = 0;
 #endifdef
 	
-	take = ceil(damage - save);
+	take = ceil(damage - save
+#ifdef code_xents
+				 - pwr_save
+#endifdef
+				);
 
 #ifdef code_runes
 
@@ -203,6 +348,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		take = floor(take / 2);
 		save = floor(save / 2);
+//		if (( RUNE_TECH_RS_COMB || !ENHANCED ) && (targ.rune_flag & RUNE_FLG_RS) && (targ.rune_flag & TECH_DSH))
 		if (
 //#ifdef  - former conditional
 			RUNE_TECH_RS_COMB && 
@@ -228,6 +374,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // moved because rune code can affect save
 	targ.armorvalue = ceil(targ.armorvalue - save);
 
+	if (targ.armorvalue < 1)
+	{
+		targ.armortype = 0;	// lost all armor
+		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
+	}
+
 // add to the damage total for clients, which will be sent as a single
 // message at the end of the frame
 // FIXME: remove after combining shotgun blasts?
@@ -239,7 +391,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	}
 
 // figure momentum add
-	if ( (inflictor) /* != world) */ && (targ.movetype == MOVETYPE_WALK) )
+	if ( (inflictor) /* != world) */ && ((targ.movetype == MOVETYPE_WALK)  || targ.map == "pk*bot"))
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
@@ -251,22 +403,26 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		return;
 	if (targ.invincible_finished >= time)
 	{
-		if (self.invincible_sound < time)
+		if (targ.invincible_sound < time) // Cataboligne - 10.1.11 - the targ was self
 		{
 			sound (targ, CHAN_ITEM, "items/protect3.wav", 1, ATTN_NORM);
-			self.invincible_sound = time + 2;
+			targ.invincible_sound = time + 2;
 		}
+#ifdef code_pkplus
+		if (targ.pkplus_actortype != PKPLUS_ACTORPENT) // pk art code here
+#endifdef
 		return;
 	}
 
 #ifdef hip_items
 //MED
-	if (targ.items2 & HIP_IT_EMPATHY_SHIELDS)
+//	if (targ.items2 & HIP_IT_EMPATHY_SHIELDS)
+   if (targ.empathy_finished)
 	{
-		if (self.empathy_sound < time)
+      if (targ.empathy_sound < time) // Cataboligne - 10.1.11 - the targ was self
 		{
 			sound (targ, CHAN_ITEM, "hipitems/empathy2.wav", 1, ATTN_NORM);
-			self.empathy_sound = time + 0.5;
+         		targ.empathy_sound = time + 0.5;
 		}
 	}
 #endifdef
@@ -290,6 +446,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
    if (! targ.empathy_finished)
 #endifdef
 //#ifdef enhanced - former conditional
+
    if (! (targ.rune_flag & RUNE_VAMPIRE))
    if (! (targ.rune_flag & RUNE_FLG_RG)) // regen immune to feeders
    if (! (targ.rune_flag & TECH_ADOC))
@@ -355,13 +512,36 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // react to the damage
 	oldself = self;
 	self = targ;
+#ifdef code_pkbots
+	if (self.map == "pk*bot")
+	{
+		if (attacker != world && inflictor != world)
+		{
+// xrp code - looks good
+			if ((attacker != self) && !coop)
+			{
+				if (self.enemy)
+				{
+					secondEnemy (attacker);
+				}
+				else
+				{
+					self.enemy = attacker;
+					BotFoundTarget ();
+				}
+			}
+		}
+	}
+	else
+	{		/// finis
+#endifdef
 
 	if ( (self.flags & FL_MONSTER) && attacker) // != world)
 	{
 	// get mad unless of the same class (except for soldiers)
 		if (self != attacker && attacker != self.enemy
 #ifdef hip_charmed
-			  && (self.charmer!=attacker)
+			  && (self.charmer != attacker)
 #endifdef
 			)
 		{
@@ -383,6 +563,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		}
 	}
 
+#ifdef code_pkplus
+	if (self.pkplus_actortype != PKPLUS_ACTORPENT || random() < 0.1) // pk art code here - fake it for pent acting most of the time	if (targ.pkplus_actortype != PKPLUS_ACTORPENT) // pk art code here
+#endifdef
 	if (self.th_pain)
 	{
 		self.th_pain (attacker, take);
@@ -418,15 +601,21 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 				if (points < 0)
 					points = 0;
 				points = damage - points;
-				if (head == attacker)
+				if (head == attacker
+#ifdef code_archon
+						 || inflictor.classname == "chaos_prox"
+#endifdef
+							)
 					points = points * 0.5;
+//				if (head.morphy == IMP_MCHAOS) points = 0; // Cat - imp 9.19.13 - so chaos proxmines dont hurt chaos - archon takes no damage
+
 				if (points > 0)
 				{
 					if (CanDamage (head, inflictor))
 					{	// shambler takes half damage from all explosions
 #ifdef quakemonsters
 						if (head.classname == "monster_shambler")						
-							T_Damage (head, inflictor, attacker, points*0.5);
+							T_Damage (head, inflictor, attacker, points*0.5);	//  * BlastProof(head)); //0.5);
 						else
 #endifdef
 							T_Damage (head, inflictor, attacker, points);
@@ -467,7 +656,11 @@ void(entity attacker, float damage) T_BeamDamage =
 				if (CanDamage (head, attacker))
 				{
 #ifdef quakemonsters
-					if (head.classname == "monster_shambler")						
+					if (head.classname == "monster_shambler"
+#ifdef code_archon
+							 || head.morphy == IMP_MSHAMBLR
+#endifdef
+											)
 						T_Damage (head, attacker, attacker, points*0.5);
 					else
 #endifdef
@@ -526,8 +719,6 @@ void(string hd) gibbs =
 	ThrowGib (s2__, self.health);
 	ThrowGib ("progs/gib3.mdl", self.health);
 };
-
-
 
 
 
