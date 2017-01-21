@@ -321,6 +321,7 @@ entity(float num) getMap =
 	{
 		f = TRUE;
 
+#ifdef code_xents
 		if (!m_score_rel1)
 		if (e.target1 == "score_rel1") // bot vote or random must block locked maps
 			f = FALSE;
@@ -328,6 +329,7 @@ entity(float num) getMap =
 		if (!m_score_rel2)
 		if (e.target1 == "score_rel2")
 			f = FALSE;
+#endifdef
 
 /* removed - yet to be used
 		if (deathmatch)
@@ -434,6 +436,7 @@ entity() getHighestWithoutRandom =
 			r = 1;
 			if (!e.cnt) // no votes on this map - block locked
 			{
+#ifdef code_xents
 				if (!m_score_rel1)
 				if (e.target1 == "score_rel1") // bot vote or random must block locked maps
 					r = FALSE;
@@ -441,7 +444,9 @@ entity() getHighestWithoutRandom =
 				if (!m_score_rel2)
 				if (e.target1 == "score_rel2")
 					r = FALSE;
+#endifdef
 		
+/* removed - yet to be used
 				if (deathmatch)
 				if (e.count > 0)
 				{
@@ -453,6 +458,7 @@ entity() getHighestWithoutRandom =
 					if (e.target1 == "!player_count")
 						r = FALSE;
 				}
+*/
 #ifdef warning
 if (WARNING & 2049)
 {
