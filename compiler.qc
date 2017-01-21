@@ -599,6 +599,18 @@ spec track by cvar
 	#define modulein
 #endifdef
 
+// zerstorer
+// a small amount of zerstorer code has been ported - at this time, the plats module
+/// SWITCH
+#define zerst
+
+#ifdef zerst
+	#ifdef module_list
+	#message         			- zerstorer 
+	#endifdef
+	#define modulein
+#endifdef
+
 // ******************************************************************************************************************
 
 // painkeep
