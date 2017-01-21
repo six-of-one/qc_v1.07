@@ -408,6 +408,19 @@ void() worldspawn =
 #ifdef code_xents
 	MAP_MODE = self.event;		// see if mapper designated a genre
 
+// score deal - this is where they get reloaded for a server session
+
+	m_score_rel1 = (serverflags & FL_SCORE1) | cvar("sv_adm");
+	m_score_rel2 = (serverflags & FL_SCORE2) | cvar("sv_adm");
+
+// action is the same for failing to meet score for this map
+	if (!m_score_rel1)
+	if (world.target1 == "score_rel1")
+		localcmd("exec cfg/noscore.cfg\n");
+	if (!m_score_rel2)
+	if (world.target1 == "score_rel2")
+		localcmd("exec cfg/noscore.cfg\n");
+
 	s4__ = entityfieldname(1);
 	f0__ = 1;
 	while (s4__ != string_null)

@@ -86,7 +86,7 @@ void() SetNewParms =
 
 void() DecodeLevelParms =
 {
-	if (serverflags)
+	if (serverflags & 15)
 #ifdef opgrade
 	if (!deathmatch)
 #endifdef
@@ -2176,6 +2176,44 @@ void(entity targ, entity attacker) ClientObituary =
 			else
 			{
 				attacker.frags = attacker.frags + 1;
+
+#ifdef code_xents
+// Cataboligne - 017.1.20 - scores deal
+#ifdef code_highscore
+// TDO: high score
+				if (attacker.frags > high_score)
+				{
+					high_score = attacker.frags; // secretly for bot morph decision making
+					high_score_nn = attacker.netname;
+					
+// the "high score" in frags
+					if (high_score > autocvar_master_high_score)
+					{
+						localcmd("seta master_high_score \"");
+						localcmd(ftos(high_score));
+						localcmd("\"\n");
+//						cvar_set("master_high_score", ftos(high_score));
+						localcmd("seta master_high_nick \"");
+						localcmd(high_score_nn);
+						localcmd("\"\n");
+					}
+				}
+#endifdef
+
+				if (attacker.ishuman)		//class_select == "class_player")	// note: bots cant get these !
+				{
+					if (attacker.frags > cvar("score_rel1"))
+					{
+						serverflags = serverflags | FL_SCORE1;
+						m_score_rel1 = 1;
+					}
+					if (attacker.frags > cvar("score_rel2"))
+					{
+						serverflags = serverflags | FL_SCORE2;
+						m_score_rel2 = 1;
+					}
+				}
+#endifdef
 
 #ifdef hip_items
 //MED 01/19/97
