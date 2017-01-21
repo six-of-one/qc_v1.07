@@ -332,6 +332,7 @@ entity(float num) getMap =
 #endifdef
 
 /* removed - yet to be used
+				--- current plan is to block designated high player count map vote portals behind a door that makes this test
 		if (deathmatch)
 		if (e.count > 0)
 		{
