@@ -64,24 +64,13 @@ void() hub_teleport_touch =
 		return;
 	}
 
-	if (!m_score_rel1)
-	if (self.target1 == "score_rel1")
-		return;
+// server manage spc
+// NOTE: this ent cant use .cnt for manage here
 
-	if (!m_score_rel2)
-	if (self.target1 == "score_rel2")
-		return;
-
-	if (self.count > 0)
-	{
-		if (ply_count < self.count)
-		if (self.target1 == "player_count")
-			return;
-
-		if (ply_count >= self.count)
-		if (self.target1 == "!player_count")
-			return;
-	}
+#ifdef code_xents
+// Cataboligne - 017.1.20 - call to handle vars special condition
+	if (score_cnt()) return;
+#endifdef
 
 	// change of vote?
 	if (other.map != string_null)
@@ -340,6 +329,7 @@ entity(float num) getMap =
 		if (e.target1 == "score_rel2")
 			f = FALSE;
 
+/* removed - yet to be used
 		if (deathmatch)
 		if (e.count > 0)
 		{
@@ -351,6 +341,7 @@ entity(float num) getMap =
 			if (e.target1 == "!player_count")
 				f = FALSE;
 		}
+*/
 #ifdef warning
 if (WARNING & 2049)
 {
