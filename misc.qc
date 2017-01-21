@@ -54,6 +54,9 @@ void() light =
 		else
 			lightstyle(self.style, "m");
 	}
+#ifdef code_pkbots
+	self.classname = "light";
+#endifdef
 };
 
 
@@ -81,6 +84,9 @@ void() light_fluoro =
 #ifdef opgrade
 	if (!self.targetname) remove(self); // not targeted, so dump it
 #endifdef
+#ifdef code_pkbots__
+	self.classname = "light";	// note remove above
+#endifdef
 };
 
 /*QUAKED light_fluorospark (0 1 0) (-8 -8 -8) (8 8 8)
@@ -100,6 +106,9 @@ void() light_fluorospark =
 #ifdef opgrade
 	if (!self.targetname) remove(self); // not targeted, so dump it
 #endifdef
+#ifdef code_pkbots__
+	self.classname = "light";	// note remove above
+#endifdef
 };
 
 /*QUAKED light_globe (0 1 0) (-8 -8 -8) (8 8 8)
@@ -113,8 +122,7 @@ void() light_globe =
 	setmodel (self, "progs/s_light.spr");
 	makestatic (self);
 #ifdef code_pkbots__
-// useless as static ents are removed
-	self.classname = "light";
+	self.classname = "light";	// note: makestatic removes ent!
 #endifdef
 };
 
@@ -125,7 +133,7 @@ void() FireAmbient =
 	ambientsound (self.origin, "ambience/fire1.wav", 0.5, ATTN_STATIC);
 	makestatic(self);
 #ifdef code_pkbots__
-	self.classname = "light";
+	self.classname = "light";	// note: makestatic removes ent!
 #endifdef
 };
 
@@ -387,6 +395,11 @@ void() spikeshooter_use =
 		newmis.velocity = self.movedir * 500;
 		if (self.spawnflags & SPAWNFLAG_SUPERSPIKE)
 		{
+/* cm2 has this on opgrade
+			setmodel (newmis,"progs/s_spike.mdl");					// superspike_tch replace code
+			setsize (newmis, v0, v0);
+			newmis.touch = spike_touch;
+*/
 			newmis.touch = superspike_touch;
 			newmis.dmg = 18;
 		}
@@ -648,6 +661,7 @@ This is just a solid wall if not inhibitted
 */
 void() func_wall =
 {
+// Cataboligne - 4.11.11 - walls not in mod maps -- handled by prespawn now
 // v107 - this code is repeated twice below, and can even be used as-is for func_illusionary
 	self.angles = '0 0 0';
 	self.movetype = MOVETYPE_PUSH;	// so it doesn't get pushed by anything
