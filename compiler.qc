@@ -602,9 +602,9 @@ spec track by cvar
 // zerstorer
 // a small amount of zerstorer code has been ported - at this time, the plats module
 /// SWITCH
-#define zerst
+#define code_zer
 
-#ifdef zerst
+#ifdef code_zer
 	#ifdef module_list
 	#message         			- zerstorer 
 	#endifdef
