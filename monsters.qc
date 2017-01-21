@@ -125,7 +125,10 @@ void() monster_go =
 
 	self.use = monster_use;
 	self.flags = self.flags | FL_MONSTER;
-
+#ifdef code_xents
+	self.max_health = self.health;
+#endifdef
+	
 	self.pausetime = 99999999;
 	self.th_stand();
 
@@ -325,3 +328,90 @@ framerloop($stand1, $stand9, fr_stand9, 0.1,
 	ai_stand();
 	if (self.classname == "monster_ogre") frame_arb($stand5,if (random() < 0.2) sound(self, CHAN_VOICE, "ogre/ogidle.wav", 1, ATTN_IDLE));
 );
+
+
+#ifdef code_archon
+/*
+================
+SummonMonster
+
+Badder monsters (super & super extra mad) have a chance to summon help
+
+mark I - Super Shalrath could summon up to 3 spike mines when idle
+		 - 0.1 - gave deathknight, 6 spike wizard same power
+mark II - added more monsters (wizard & fluffy) and extended to calling for various help while on the move
+		  - 0.2 - tfog & tdeath added for non spike mines, better random away from summoner
+================
+*/
+
+// NOTE: called by other monsters
+// set spike mines, or summon other monsters
+
+// ms - if not null, summon this - must be a valid spawn func classname
+
+// - if null, uses spike mine limit - 2 + skill
+// - if non null, limit is not checked here
+
+void(string ms) SummonMonster =
+{
+
+	local entity e;
+	local vector v;
+
+// mine limit in aflag for mine makers
+// can make 3 mines on skill 1
+
+	if (ms == null_string) // default to spike mine & check limits
+	{
+		ms = "trap_spike_mine";
+
+		if (self.aflag >= 2 + skill) // SV_MINELIM
+		{
+// count them - some could have exploded
+			self.aflag = cnt_ent(world, "owner",  ms);
+
+// fail - he has made max number of mines
+			if (self.aflag >= 2 + skill) return; // SV_MINELIM - 3 mines
+		}
+	}
+
+// luck was not his this time, go back
+	if (skill > 2) if (random() > 0.5) return;
+	else if (random() > 0.15) return; // SV_SETMINE - 0.15 % chance
+
+// make a new mine - YAY!
+
+	e = spawn();
+	e.classname = e.wad = ms; //monster_id(CB_M_SPIKEMINE, MON_FUNC_REG); // get spawn func
+	item_call_save(e, e.classname);
+
+	if (self.charmer) // charmed monsters that summon make minons charmed as well
+	{
+		e.charmer = self.charmer;
+		e.charmed = 1;
+		e.effects = e.effects | self.effects; // copy dimlight or other effects if on
+	}
+	e.owner = self; // so we can count them
+
+// IMP: when gathering all random loc fn(), nearby in a radius & not in solid, monster or player
+	v = self.origin;
+	v_z = v_z + 32;
+	v_x = v_x + crandom() * 60;
+	if (v_x < self.origin_x) v_x = v_x - 50; // make sure we clear the summoner
+	else v_x = v_x + 40;
+	v_y = v_y + crandom() * 60;
+	if (v_y < self.origin_y) v_y = v_y - 50;
+	else v_y = v_y + 40;
+	setorigin(e, v);
+//	random_monster_location(v); // no good - this moves self
+
+	if (ms != "trap_spike_mine")
+	{
+		spawn_tfog (e.origin);
+		spawn_tdeath(e.origin, e); // test - make sure he doesnt telefrag his summoner!
+	}
+
+	self.aflag = self.aflag + 1;
+	self.count = self.count + 1;
+};
+#endifdef
