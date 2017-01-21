@@ -37,6 +37,13 @@ void() multi_trigger =
 		return;		// allready been triggered
 	}
 
+// server manage spc
+
+#ifdef code_xents
+// Cataboligne - 017.1.20 - call to handle vars special condition
+	if (score_cnt()) return;
+#endifdef
+
 	if (self.classname == "trigger_secret")
 	{
 		if (self.enemy.classname != "player")

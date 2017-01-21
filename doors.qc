@@ -46,6 +46,9 @@ void() door_blocked =
 
 void() door_hit_top =
 {
+#ifdef code_xents
+	if (self.sounds != DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
+#endifdef
 	sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_TOP;
 	if (self.spawnflags & DOOR_TOGGLE)
@@ -56,12 +59,20 @@ void() door_hit_top =
 
 void() door_hit_bottom =
 {
+#ifdef code_xents
+	if (self.sounds != DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
+#endifdef
 	sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_BOTTOM;
 };
 
 void() door_go_down =
 {
+#ifdef code_xents
+	if (self.sounds == DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
+		sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
+	else
+#endifdef
 	sound (self, CHAN_VOICE, self.noise2, 1, ATTN_NORM);
 	if (self.max_health)
 	{
@@ -122,6 +133,13 @@ void() door_fire =
 		objerror("door_fire: self.owner != self");					//opgrade protected
 #endifdef
 
+// server manage spc
+
+#ifdef code_xents
+// Cataboligne - 017.1.20 - call to handle vars special condition
+	if (score_cnt()) return;
+#endifdef
+
 // play use key sound
 
 	if (self.items)
@@ -164,6 +182,13 @@ void() door_use =
 {
 	local entity oself;
 
+#ifdef code_pkbots
+	signalnoise (other,self);
+	if (other.map == "pk*bot")
+	{
+		bot_touched ();
+	}
+#endifdef
 	self.message = string_null;			// door message are for touch only
 	self.owner.message = string_null;	
 	self.enemy.message = string_null;
@@ -224,7 +249,41 @@ void() door_touch =
 		centerprint (other, self.owner.message);
 		sound (other, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
 	}
-	
+
+#ifdef code_pkbots
+	if (other.enemy.map == "pk*bot")
+		enemy_touched ();
+	if (other.map == "pk*bot")
+		bot_touched ();
+#endifdef
+
+#ifdef code_xents
+// Cataboligne - 9.13.11 - implement x items (extra key) door code
+	if (self.x_items) // was set for door - check touch ent x_items
+	{
+		if ((self.x_items & other.x_items) != self.x_items)
+		{
+//			local string sr;
+			s0__ = self.netname; // pre coded on map ent
+			if (!s0__) s0__ = x_key_print(self.x_items);
+			if (!s0__) s0__ = "special key";
+			pk_centerprint(other, "You need the ", s0__, ".");
+			sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
+			return;
+		}
+
+//		other.x_items = other.x_items - (other.x_items & self.x_items); // these keep keys - doom doors.
+		if (self.wait < 0)
+		{
+			self.touch = SUB_Null;
+			if (self.enemy)
+				self.enemy.touch = SUB_Null;	// get paired door
+		}
+		door_use ();
+		return;
+	}
+#endifdef
+
 // key door stuff
 	if (!self.items)
 		return;
@@ -578,6 +637,9 @@ void() func_door =
 		self.noise2 = "doors/ddoor1.wav";
 	}
 
+#ifdef code_xents
+	door_sounds_wd();				// cataboligne - 6.28.11 wd doors
+#endifdef
 
 	SetMovedir();
 
@@ -627,8 +689,18 @@ void() func_door =
 	
 	if (self.items)
 		self.wait = -1;
-		
+
+#ifdef code_xents
+// Cataboligne - 9.13.11 - x_item giveaway for doors
+	if (deathmatch)
+	if (self.x_items) x_item_dm_giveaway = x_item_dm_giveaway | self.x_items;
+	if (!self.items) self.items = self.x_items; // keys doors must have an items value - must be engine deal
+#endifdef
+
 	self.touch = door_touch;
+#ifdef code_pkbots
+	self.th_weight = doorweight;
+#endifdef
 
 // LinkDoors can't be done until all of the doors have been spawned, so
 // the sizes can be detected properly.
@@ -728,6 +800,10 @@ void () fd_secret_move2 =
 void () fd_secret_move3 =
 {
 	sound(self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
+#ifdef code_pkbots
+	if (self.lastbot.goalentity.goalentity == self)
+		self.lastbot.search_time = time;
+#endifdef
 	if (!(self.spawnflags & SECRET_OPEN_ONCE))
 	{
 		self.nextthink = self.ltime + self.wait;
@@ -742,7 +818,7 @@ void () fd_secret_move4 =
 	SUB_CalcMove(self.dest1, self.speed, fd_secret_move5);		
 };
 
-// Wait 1 second...
+// Wait 1 rel...
 void () fd_secret_move5 = 
 {
 	self.nextthink = self.ltime + 1.0;
@@ -801,7 +877,7 @@ void() secret_touch =
 
 /*QUAKED func_door_secret (0 .5 .8) ? open_once 1st_left 1st_down no_shoot always_shoot
 Basic secret door. Slides back, then to the side. Angle determines direction.
-wait  = # of seconds before coming back
+wait  = # of rels before coming back
 1st_left = 1st move is left of arrow
 1st_down = 1st move is down from arrow
 always_shoot = even if targeted, keep shootable
@@ -859,6 +935,9 @@ void () func_door_secret =
 	setorigin (self, self.origin);	
 	
 	self.touch = secret_touch;
+#ifdef code_pkbots
+	self.th_weight = doorweight;
+#endifdef
 	self.blocked = secret_blocked;
 	self.speed = 50;
 	self.use = fd_secret_use;
@@ -871,5 +950,125 @@ void () func_door_secret =
 	}
 	self.oldorigin = self.origin;
 	if (!self.wait)
-		self.wait = 5;		// 5 seconds before closing
+		self.wait = 5;		// 5 rels before closing
 };
+
+
+#ifdef code_xents
+
+// expanded door code
+
+// fn(door_sounds_wd) - handle door sounds for doom / wolf
+
+// if map genre doom or wolf and no door sounds, use defaults.  mapped doors will only need to set alt sounds
+
+// self is door
+
+void() door_sounds_wd =
+{
+
+	if (self.sounds == 0)
+	if (self.noise1 == string_null || self.noise1 == "misc/null.wav")
+	if (self.noise2 == string_null || self.noise2 == "misc/null.wav")
+	{
+/*dr1_end
+		precache_sound ("doom/dsdorcls.wav");
+		precache_sound ("doom/dsdoropn.wav");
+		precache_sound ("doom/dsbdcls.wav");
+		precache_sound ("doom/dsbdopn.wav");
+		precache_sound ("wolf/door_opn.wav");
+		precache_sound ("wolf/door_cls.wav");
+*/
+		if (MAP_MODE == "W" || self.map == "W")
+		{
+			self.sounds = DOOR_2S;
+			self.noise1 = "wolf/door_cls.wav";
+			self.noise2 = "wolf/door_opn.wav";
+		}
+		if (MAP_MODE == "D" || self.map == "D")
+		{
+			self.sounds = DOOR_2S;
+			self.noise1 = "doom/dsdorcls.wav";
+			self.noise2 = "doom/dsdoropn.wav";
+		}
+		if (MAP_MODE == "Q2" || self.map == "Q2")
+		{
+			self.sounds = DOOR_2S;
+			self.noise1 = "q2_snd/dr1_end.wav";
+			self.noise2 = "q2_snd/dr1_strt.wav";
+		}
+	}
+
+//		self.noise3 = "doors/basetry.wav";
+#ifdef nondp
+	if (self.noise1 != string_null) precache_sound (self.noise1);
+	if (self.noise2 != string_null) precache_sound (self.noise2);
+	if (self.noise3 != string_null) precache_sound (self.noise3);
+	if (self.noise4 != string_null) precache_sound (self.noise4);
+#endifdef
+};
+
+// fn(button_sounds_d) - handle button sounds for doom
+
+void() button_sounds_d =
+{
+	if (self.sounds == 0)
+	if (self.noise == string_null)
+	{
+//		precache_sound ("doom/dsdorcls.wav");
+//		precache_sound ("doom/dsdoropn.wav");
+/*
+		if (MAP_MODE == "W")
+		{
+			self.sounds = DOOR_2S;
+		}
+*/
+		if (MAP_MODE == "D")
+		{
+			self.sounds = DOOR_2S;
+			self.noise = "doom/dsswtchn.wav";
+		}
+	}
+
+#ifdef nondp
+	if (self.noise != string_null) precache_sound (self.noise);
+#endifdef
+};
+
+// generate a string for key on an x_item door (if netname not set on door) based on map mode & x_item bit
+
+// for map mode door, self is door - .map is map mode code
+
+string(float xi) x_key_print =
+{
+//	local string drm;
+
+// at this point this is always a door
+//	if (self.classname == "door") drm = self.map;
+
+	if (MAP_MODE == "D" || self.map == "D")
+	{
+		xi = xi & X_D_KEY_BIT;
+		if (xi & X_D_KEY_CRED) return ("Red card key");
+		if (xi & X_D_KEY_CBLUE) return ("Blue card key");
+		if (xi & X_D_KEY_CYEL) return ("Yellow card key");
+		if (xi & X_D_KEY_SKRED) return ("Red Skull key");
+		if (xi & X_D_KEY_SKBLUE) return ("Blue Skull key");
+		if (xi & X_D_KEY_SKYEL) return ("Yellow Skull key");
+	}
+	if (MAP_MODE == "Q2" || self.map == "Q2")
+	{
+		xi = xi & X_Q2_KEY_BIT;
+		if (xi & X_Q2_KEY_RED) return ("Red Key");
+		if (xi & X_Q2_KEY_BLUE) return ("Blue Key");
+		if (xi & X_Q2_KEY_PYRAMID) return ("Pyramid Key");
+		if (xi & X_Q2_KEY_CUBE) return ("Power Cube");
+		if (xi & X_Q2_KEY_PASS) return ("Pass Key");
+		if (xi & X_Q2_KEY_AIRSTRK) return ("Airstrike Target");
+		if (xi & X_Q2_KEY_DATACD) return ("Data CD");
+		if (xi & X_Q2_KEY_CDSPIN) return ("Data Spinner");
+		if (xi & X_Q2_KEY_CHEAD) return ("Commanders Head");
+	}
+	return(string_null);
+};
+#endifdef

@@ -62,11 +62,6 @@ void()	pk_DmgSkin;
 
 // hub
 
-/// FIX: this is the score / activate things deal
-float m_score_rel1;
-float m_score_rel2;
-float ply_count; // count 'em & weep
-
 // only in hub - these need transition to std centerprint
 #define	SVC_CENTERPRINT		26
 
@@ -148,10 +143,6 @@ void() turret_dropTurret;
 // pulse spikes
 
 void() pulse_rebound;
-
-/// figure this out
-
-string MAP_MODE; // genre of loaded map (if detected) Q quake (default), Q2 quake 2, Q3 quake 3, D doom, W wolf, PK painkeep
 
 // air cannon / horn
 

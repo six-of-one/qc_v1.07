@@ -406,6 +406,8 @@ void() worldspawn =
 //		- because entityfieldname returns the same field for diff values of f0__
 //		- so we grab the first of each & validate all loops using this code
 #ifdef code_xents
+	MAP_MODE = self.event;		// see if mapper designated a genre
+
 	s4__ = entityfieldname(1);
 	f0__ = 1;
 	while (s4__ != string_null)
