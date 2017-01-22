@@ -627,7 +627,8 @@ spec track by cvar
 	#define modulein
 // plus modules
 	#define code_pkplus_
-
+// uncomment to use pk splash module
+//#define painkeep_splash
 #endifdef
 
 // use pk bots

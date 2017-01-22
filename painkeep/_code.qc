@@ -106,6 +106,11 @@
 #messagecompiling painkeep/zombie2.qc 
 #include </zombie2.qc>
 
+	#ifdef painkeep_splash
+	#messagecompiling painkeep/splash.qc 
+	#include </splash.qc>
+	#endifdef
+
 // consensus is: this module has not been used in a map yet
 //#messagecompiling painkeep/fallaway.qc 
 //#include </fallaway.qc>
