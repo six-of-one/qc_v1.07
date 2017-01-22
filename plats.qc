@@ -1,4 +1,10 @@
 
+/**************************************/
+/* DHM modified - added a PLAT_TOGGLE */
+/* spawnflag.  Plat will stay in the  */
+/* top or bottom position until       */
+/* triggered.  - from zerstorerer	  */
+/**************************************/
 
 void() plat_center_touch;
 void() plat_outside_touch;
@@ -6,7 +12,8 @@ void() plat_trigger_use;
 void() plat_go_up;
 void() plat_go_down;
 void() plat_crush;
-#define PLAT_LOW_TRIGGER 1
+#define PLAT_LOW_TRIGGER	1
+#define PLAT_TOGGLE	2
 
 void() plat_spawn_inside_trigger =
 {
@@ -72,8 +79,24 @@ void() plat_hit_top =
 {
 	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_TOP;
+
+#ifdef code_zer
+// ********
+// * dhm - if PLAT_TOGGLE then don't set timer to go down.
+// ********
+	if (self.spawnflags & PLAT_TOGGLE)
+		return;
+#endifdef
 	self.think = plat_go_down;
 	self.nextthink = self.ltime + 3;
+#ifdef code_pkbots
+	if (self.lastbot.goalentity.goalentity == self) // *bot
+	if (self.lasttime > (time - 10))
+	{
+		self.lastbot.search_time = time;
+		self.lastbot.goalentity.goalentity = self.lastbot.goalentity;
+	}
+#endifdef
 };
 
 #define plat_hit_bottom		door_hit_bottom
@@ -85,6 +108,7 @@ void() plat_hit_bottom =
 {
 	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_BOTTOM;
+// same bot code goes here if uncommented
 };
 */
 
@@ -104,7 +128,7 @@ void() plat_go_up =
 
 void() plat_center_touch =
 {
-	if (other.classname != "player")
+	if (other.classname != "player")	// pkbot test
 		return;
 		
 	if (other.health <= 0)
@@ -112,14 +136,28 @@ void() plat_center_touch =
 
 	self = self.enemy;
 	if (self.state == STATE_BOTTOM)
+	{
+#ifdef code_pkbots
+		if (other.map == "pk*bot")
+		if (other.goalentity.goalentity == self)
+			other.search_time = (time + 6);
+#endifdef
 		plat_go_up ();
+	}
 	else if (self.state == STATE_TOP)
+	{
+#ifdef code_pkbots
+		if (other.map == "pk*bot")
+		if (other.goalentity.goalentity == self)
+			other.search_time = time;
+#endifdef
 		self.nextthink = self.ltime + 1;	// delay going down
+	}
 };
 
 void() plat_outside_touch =
 {
-	if (other.classname != "player")
+	if (other.classname != "player")	// pkbot test
 		return;
 
 	if (other.health <= 0)
@@ -128,7 +166,14 @@ void() plat_outside_touch =
 //dprint ("plat_outside_touch\n");
 	self = self.enemy;
 	if (self.state == STATE_TOP)
+	{
+#ifdef code_pkbots
+		if (other.classname == "pk*bot")
+		if (other.goalentity.goalentity == self)
+			other.search_time = (time + 6);
+#endifdef
 		plat_go_down();
+	}
 };
 
 void() plat_trigger_use =
@@ -177,6 +222,21 @@ void() plat_crush =
 
 void() plat_use =
 {
+#ifdef code_zer
+// ********
+// * dhm - if PLAT_TOGGLE then move plat to the next state.
+// ********
+	if (self.spawnflags & PLAT_TOGGLE)
+	{
+		if (self.state == STATE_UP || self.state == STATE_TOP)
+			plat_go_down ();
+		else if (self.state == STATE_DOWN || self.state == STATE_BOTTOM)
+			plat_go_up ();
+		else dprint("Plat error: bad state on use.\n");
+		return;
+	}	
+#endifdef
+
 	self.use = SUB_Null;
 	if (self.state != STATE_UP)
 #ifdef noobjerr
@@ -231,8 +291,21 @@ void() func_plat =
 		self.t_width = 10;
 
 	if (! self.sounds) // == 0)
+	{
+#ifdef code_xents
+// use noise & noise1 for custom plat sound - Cataboligne - 11.2.12
+/*
+		if (!DARKPLACES)
+		{
+			if (self.noise != null_string) precache_sound (self.noise);
+			if (self.noise1 != null_string) precache_sound (self.noise1);
+		}
+*/
+		if (self.noise == null_string && self.noise1 == null_string) // in case any old map compiles assume no setting means use sounds 2
+#endifdef
 		self.sounds = 2;
-// FIX THIS TO LOAD A GENERIC PLAT SOUND
+	}
+// done: FIX THIS TO LOAD A GENERIC PLAT SOUND
 
 	if (self.sounds == 1)
 	{
@@ -261,6 +334,9 @@ void() func_plat =
 	setmodel (self, self.model);
 	setsize (self, self.mins , self.maxs);
 
+#ifdef code_pkbots
+	self.th_weight = platweight;
+#endifdef
 	self.blocked = plat_crush;
 	if (!self.speed)
 		self.speed = 150;
@@ -275,6 +351,12 @@ void() func_plat =
 
 	self.use = plat_trigger_use;
 
+#ifdef code_zer
+// *********
+// * dhm - if PLAT_TOGGLE, don't set a trigger.  Must be used.
+// *********
+	if (!(self.spawnflags & PLAT_TOGGLE))
+#endifdef
 	plat_spawn_inside_trigger();	// the "start moving" trigger	
 
 	if (self.targetname)
@@ -290,6 +372,9 @@ void() func_plat =
 };
 
 //============================================================================
+// code_zer
+//dhm - trains can now be restarted when they hit endpoints, by being
+//	triggered again.
 
 void() train_next;
 void() func_train_find;
@@ -305,6 +390,14 @@ void() train_use =
 {
 	if (self.think != func_train_find)
 		return;		// already activated
+#ifdef code_zer
+		if (self.delay)
+		{
+			self.think = train_next;
+			self.nextthink = time + self.delay;
+			return;
+		}
+#endifdef
 	train_next();
 };
 
@@ -314,6 +407,15 @@ void() train_wait =
 	{
 		self.nextthink = self.ltime + self.wait;
 		sound(self, CHAN_VOICE, self.noise, 1, ATTN_NORM);
+#ifdef code_zer
+//dhm - If train hits a 'wait' of -1, reset self.think so it can be
+//	  triggered to start moving again.
+		if (self.wait < 0)
+			self.think = func_train_find;
+		else
+			self.think = train_next;
+		return;
+#endifdef
 	}
 	else
 		self.nextthink = self.ltime + 0.1;
@@ -352,6 +454,12 @@ void() train_next =
 		self.wait = targ.wait;
 	else
 		self.wait = 0;
+
+#ifdef code_zer
+//dhm - if the target has a speed field, copy it to the train
+	if (targ.speed)
+		self.speed = targ.speed;
+#endifdef
 	sound(self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	SUB_CalcMove (targ.origin - self.mins, self.speed, train_wait);
 };
@@ -371,17 +479,56 @@ void() func_train_find =
 	}
 };
 
+#ifdef code_zer
+/***  Modified by Darin McNeil - zerstorer ***/
+void() train_teleporter = 
+{
+//local string	otarg;
+//local float		otime;//, oflag;
+
+	s0__ = self.target;
+	f0__ = self.nextthink;
+	self.target = self.netname;
+	self.nextthink = time + 10000;
+	teleport_touch();
+	self.target = s0__;
+	self.nextthink = f0__;
+};
+#endifdef
+
 /*QUAKED func_train(0 .5 .8) ?
 Trains are moving platforms that players can ride.
 The targets origin specifies the min point of the train at each corner.
 The train spawns at the first target it is pointing at.
 If the train is the target of a button or trigger, it will not begin moving until activated.
-speed	default 100
-dmg		default	2
-sounds
-1) ratchet metal
+You may now also put a "speed" field on a
+path_corner, and the train will travel that speed when APPROACHING that
+point.
 
+TRAIN_TOUCH(1) will cause the train to hurt the player on touch.
+TRAIN_TELEPORTER(2) will make a teleporter out of the train.  If you want to
+ target a specific destination, use the "netname" field to target it. Or,
+ if you want to use random teleport destinations, you MUST USE a "spawnflags"
+ of "6" on the func_train.  This will make it a random teleporter, and don't
+ forget to put a "count" field with the number of random destination points
+ in the level (like I did).
+
+speed:	default 100
+dmg:	default	2
+sounds:
+0) None
+1) ratchet metal
+2) stone
+3) base
+4) stone chain
+5) screechy metal
 */
+
+#define		TRAIN_TOUCH	1
+#define		TRAIN_TELEPORTER	2
+#define		TRAIN_LIGHT	8
+// 16 - spec a bsp model in mdl
+
 void() func_train =
 {	
 	if (!self.speed)
@@ -404,18 +551,66 @@ void() func_train =
 		self.noise1 = ("plats/train1.wav");
 		precache_sound("plats/train1.wav");
 	}
+#ifdef code_zer
+//dhm - new sounds from 'func_door'
+	else if (self.sounds == 2)
+	{
+		precache_sound ("doors/drclos4.wav");
+		precache_sound ("doors/doormv1.wav");
+		self.noise = "doors/drclos4.wav";
+		self.noise1 = "doors/doormv1.wav";
+	}
+	else if (self.sounds == 3)
+	{
+		precache_sound ("doors/hydro1.wav");
+		precache_sound ("doors/hydro2.wav");
+		self.noise1 = "doors/hydro1.wav";
+		self.noise = "doors/hydro2.wav";
+	}
+	else if (self.sounds == 4)
+	{
+		precache_sound ("doors/stndr1.wav");
+		precache_sound ("doors/stndr2.wav");
+		self.noise1 = "doors/stndr1.wav";
+		self.noise = "doors/stndr2.wav";
+	}
+	else if (self.sounds == 5)
+	{
+		precache_sound ("doors/ddoor1.wav");
+		precache_sound ("doors/ddoor2.wav");
+		self.noise = "doors/ddoor2.wav";
+		self.noise1 = "doors/ddoor1.wav";
+	}
+#endifdef
 
 	self.cnt = 1;
 	self.solid = SOLID_BSP;
 	self.movetype = MOVETYPE_PUSH;
 	self.blocked = train_blocked;
-	self.use = train_use;
+//	self.use = train_use;
 	self.classname = "train";
 
 // moved to comply with Archon code
 //	setmodel (self, self.model);
 //	setsize (self, self.mins , self.maxs);
 //	setorigin(self, self.origin);
+
+#ifdef code_zer
+// *****
+// * dhm - Add a self.touch so that a train can harm player when touched.
+// *     Add a spawnflag of 1 to make a train hurt player when touched.
+// *****
+	if (self.spawnflags & TRAIN_TOUCH)
+	{
+		self.solid = SOLID_TRIGGER;
+		self.touch = train_blocked;
+	}
+	if (self.spawnflags & TRAIN_TELEPORTER)
+	{
+		self.solid = SOLID_TRIGGER;
+		self.touch = train_teleporter;
+	}
+#endifdef
 
 // moved because the non-remove option is to leave an inert solid platform
 	if (!self.target)
@@ -436,6 +631,12 @@ void() func_train =
 		objerror("func_train without a target");					//opgrade protected
 #endifdef
 
+// moved so intert platform doesnt use train code
+	self.use = train_use;
+
+#ifdef code_pkbots
+	self.th_weight = platweight;
+#endifdef
 	setmodel (self,self.model);
 #ifdef code_archon_a
 
@@ -473,7 +674,7 @@ void() misc_teleporttrain =
 	self.noise1 = ("misc/null.wav");
 	precache_sound("misc/null.wav");
 
-	precache_model2 ("progs/teleport.mdl");
+	precache_model ("progs/teleport.mdl");
 	setmodel (self, "progs/teleport.mdl");
 	setsize (self, self.mins , self.maxs);
 	setorigin(self, self.origin);
