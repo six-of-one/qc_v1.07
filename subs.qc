@@ -233,7 +233,7 @@ SUB_UseTargets
 the global "activator" should be set to the entity that initiated the firing.
 
 If self.delay is set, a DelayedUse entity will be created that will actually
-do the SUB_UseTargets after that many seconds have passed.
+do the SUB_UseTargets after that many rels have passed.
 
 Centerprints any self.message to the activator.
 
@@ -275,6 +275,9 @@ void() SUB_UseTargets =
 		centerprint (activator, self.message);
 		if (!self.noise)
 			sound (activator, CHAN_VOICE, "misc/talk.wav", 1, ATTN_NORM);
+//	pk - not needed with 3.0 system code base
+//    if (inHubMap) // *pk - Stop showing the hub help message
+//      activator.hubstartupmessage = 0;
 	}
 
 // map_hack turns the worldspawn data into a trigger - it must set worldtype
