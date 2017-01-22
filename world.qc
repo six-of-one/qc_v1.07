@@ -588,6 +588,11 @@ void(entity ent) CopyToBodyQue =
 	bodyque_head.movetype = ent.movetype;
 	bodyque_head.velocity = ent.velocity;
 	bodyque_head.flags = 0;
+#ifdef code_painkeep
+// DAMAGE_SKINS_START
+	bodyque_head.skin = ent.skin;
+// DAMAGE_SKINS_END
+#endifdef
 	setorigin (bodyque_head, ent.origin);
 	setsize (bodyque_head, ent.mins, ent.maxs);
 	bodyque_head = bodyque_head.owner;
