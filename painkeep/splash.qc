@@ -78,25 +78,25 @@ void(entity e) MakeSplash =
 {
 	if (splash_count < 20)
 	{
-		local entity newent;
+//		local entity nspawn;
 
-		newent = spawn();
+		nspawn = spawn();
 
-		setorigin(newent, e.origin);
-		newent.solid = SOLID_NOT;
-		newent.movetype = MOVETYPE_NONE;
+		setorigin(nspawn, e.origin);
+		nspawn.solid = SOLID_NOT;
+		nspawn.movetype = MOVETYPE_NONE;
 
-		newent.nextthink = time + 0.1;
+		nspawn.nextthink = time + 0.1;
 
 		if (pc == CONTENT_LAVA || e.inwater == CONTENT_LAVA)
 		{
-			setmodel(newent, "progs/s_splava.spr");
-			newent.think = do_lava_splash1;
+			setmodel(nspawn, "progs/s_splava.spr");
+			nspawn.think = do_lava_splash1;
 		}
 		else
 		{
-			setmodel(newent, "progs/s_splash.spr");
-			newent.think = e.splash_func;
+			setmodel(nspawn, "progs/s_splash.spr");
+			nspawn.think = e.splash_func;
 		}
 
 		splash_count = splash_count + 1;
