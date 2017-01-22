@@ -232,7 +232,9 @@ void() plat_use =
 			plat_go_down ();
 		else if (self.state == STATE_DOWN || self.state == STATE_BOTTOM)
 			plat_go_up ();
+	#ifndef nodprint
 		else dprint("Plat error: bad state on use.\n");
+	#endifdef
 		return;
 	}	
 #endifdef
@@ -297,11 +299,11 @@ void() func_plat =
 /*
 		if (!DARKPLACES)
 		{
-			if (self.noise != null_string) precache_sound (self.noise);
-			if (self.noise1 != null_string) precache_sound (self.noise1);
+			if (self.noise != string_null) precache_sound (self.noise);
+			if (self.noise1 != string_null) precache_sound (self.noise1);
 		}
 */
-		if (self.noise == null_string && self.noise1 == null_string) // in case any old map compiles assume no setting means use sounds 2
+		if (self.noise == string_null && self.noise1 == string_null) // in case any old map compiles assume no setting means use sounds 2
 #endifdef
 		self.sounds = 2;
 	}
