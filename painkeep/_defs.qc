@@ -315,3 +315,13 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 vector(entity hent) grap_vw_adj;
 
 #endifdef
+
+
+// splash - not intending to use if we have a better looking splash
+
+#ifdef painkeep_splash
+
+void(entity e) AddToSplash;
+void(entity e) AddToSplashBig;
+
+#endifdef
