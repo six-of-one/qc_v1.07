@@ -588,7 +588,7 @@ void(entity ent) CopyToBodyQue =
 	bodyque_head.movetype = ent.movetype;
 	bodyque_head.velocity = ent.velocity;
 	bodyque_head.flags = 0;
-#ifdef code_painkeep
+#ifdef code_painkeep_
 // DAMAGE_SKINS_START
 	bodyque_head.skin = ent.skin;
 // DAMAGE_SKINS_END

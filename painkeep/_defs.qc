@@ -299,7 +299,7 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 
 //.float msgcount;
 .float mean, stdev;
-.float tomb_time, tomb_death_time;
+//.float tomb_time, tomb_death_time;
 
 .float dodmg;
 .string target1;
