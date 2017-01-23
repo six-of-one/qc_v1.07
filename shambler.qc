@@ -455,6 +455,10 @@ void() monster_shambler =
 	self.th_melee = sham_melee;
 	self.th_missile = sham_magic1;
 	self.th_pain = sham_pain;
-	
+
+#ifdef monsters_plus
+	self.netname = "Shambler";
+#endifdef
+
 	walkmonster_start;
 };
