@@ -174,12 +174,12 @@ framer($shoot1, $shoot9, army_atk1, army_run1, 0.1,
 void() army_firenails =
 {
 //	local vector d;
-	local entity	e;
+//	local entity	e;
 
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 	self.attack_finished = time;
-	e = self.enemy;
-	self.dest = e.origin - e.velocity*0.2;
+	e0__ = self.enemy;
+	self.dest = e0__.origin - e0__.velocity*0.2;
 	self.dest = normalize (self.dest - self.origin);
 	launch_spike (self.origin + '0 0 16', self.dest);
 };
@@ -499,11 +499,11 @@ void() monster_army =
 //	if ((enhance) || (self.spawnflags & ARMY_XWEP))
 	if (self.spawnflags & ARMY_XWEP)
 	{
-		local float r;
+//		local float r;
 		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
 
 		chance = army_ofone;
-//		if (ign == A_MONSTER) chance = army_rndenh;	// TDO: det dyn spawn
+		if (self.map	== "dyn_sp") chance = army_rndenh;
 
 		if (!self.spawnflags & ARMY_XWEP) // not map specced - enhance him
 		if (random() < chance)

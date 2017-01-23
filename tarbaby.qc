@@ -617,9 +617,9 @@ void() monster_tarbaby =
 		self.wad = "SUPER";
 	}
 
-if (self.cnt > 0)
 //	if (ign != A_MONSTER || self.cnt > 0)
 //	if ((ENHANCED && random() < MAP_LAVABABY) || self.cnt > 0) // hot tarbaby converted from a map spawned baby
+if ((self.cnt > 0) || (self.map	== "dyn_sp"))
 	{
 		setmodel(self,"progs/lavabomb.mdl"); // this model has rocket trail flag set
 		setsize (self, '-16 -16 -24', '16 16 40');
@@ -634,7 +634,7 @@ if (self.cnt > 0)
 		return;
 	}
 
-	self.cnt = (self.spawnflags & 32); //TB_RANDOM); // mapper | code selected random
+	self.cnt = (self.spawnflags & TB_RANDOM); // mapper | code selected random
 
 	if (self.spawnflags & TB_HELLS)
 	{

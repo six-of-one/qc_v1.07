@@ -809,30 +809,31 @@ void() monster_wizard =
 #ifdef monsters_plus
 	self.netname = "Scragg"; // check: these
 
-	enhance = FALSE;
+	self.a__ = FALSE;
 
 //	if (ENHANCED)
-	if (ENH_Q1_MAP_MONSTERS || (ign == A_MONSTER))
-		enhance = TRUE;
+//	if (ENH_Q1_MAP_MONSTERS || (ign == A_MONSTER))
+	if (self.map	== "dyn_sp")
+		self.a__ = TRUE;
 
-	if ((enhance) || (self.spawnflags & W_UPG))
+	if ((self.a__) || (self.spawnflags & W_UPG))
 	{
-		chance = wl_imp;
-		if (skill == 3) chance = wl_imp + wl_imp;
-		if (ign == A_MONSTER) chance = wl_rnd;
+		self.rnd_ = wl_imp;
+		if (skill == 3) self.rnd_ = wl_imp + wl_imp;
+		if (ign == A_MONSTER) self.rnd_ = wl_rnd;
 
 		if (!self.spawnflags & W_UPG) // not map specced - enhance him
-		if (random() < chance)
+		if (random() < self.rnd_)
 		{
-			enhance = W_2HEAD;
+			self.a__ = W_2HEAD;
 	
-			chance = random(); // pick an upgrade
-			if ((chance < wl_sup3spike) && (rnd_super_spike3 < (skill + 1))) enhance = W_SUP3SPIKE;
-			else if (chance < wl_3spike) enhance = W_3SPIKE;
-			else if (chance < wl_lgspike) enhance = W_LGSPIKE;
-			else if (chance < wl_spike) enhance = W_SPIKE;
+			self.rnd_ = random(); // pick an upgrade
+			if ((self.rnd_ < wl_sup3spike) && (rnd_super_spike3 < (skill + 1))) self.a__ = W_SUP3SPIKE;
+			else if (self.rnd_ < wl_3spike) self.a__ = W_3SPIKE;
+			else if (self.rnd_ < wl_lgspike) self.a__ = W_LGSPIKE;
+			else if (self.rnd_ < wl_spike) self.a__ = W_SPIKE;
 
-			self.spawnflags = self.spawnflags | enhance;
+			self.spawnflags = self.spawnflags | self.a__;
 
 // any upgrade can get lava added
 			if (random() < wl_lava)
