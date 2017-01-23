@@ -20,11 +20,48 @@ $frame death1 death2 death3 death4 death5 death6 death7
 
 $frame	walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10
 $frame	walk11 walk12
+// NOTE: how does this impach supes
 $frame walkeoc
+
+// CHECK: keeping this?
+// super shalrath!
+$frame lgattack1 lgattack2 lgattack3 lgattack4 lgattack5 lgattack6 lgattack7 lgattack8
+$frame lgattack9 lgattack10 lgattack11
+
+$frame lgpain1 lgpain2 lgpain3 lgpain4 lgpain5
+
+$frame lgdeath1 lgdeath2 lgdeath3 lgdeath4 lgdeath5 lgdeath6 lgdeath7
+
+$frame	lgwalk1 lgwalk2 lgwalk3 lgwalk4 lgwalk5 lgwalk6 lgwalk7 lgwalk8 lgwalk9 lgwalk10
+$frame	lgwalk11 lgwalk12
+
+$frame lgattackb1 lgattackb2 lgattackb3 lgattackb4
 
 void() shalrath_pain;
 void() ShalMissile;
-void() shal_stand     =[      $walk1,       shal_stand    ] {ai_stand();};
+void() shal_stand     =[      $walk1,       shal_stand    ] 
+{
+#ifdef monsters_plus
+	self.count = self.count + 1;
+
+	if (self.wad == "SUPER")
+	{
+		if (SV_MINEALLOW & CB_M_SVORE)
+		if ((time & SV_CKTIME) == SV_CKTIME)
+		if (self.count > 5)
+		if (random() < 0.35)
+		{
+			SummonMonster(null_string);
+			self.count = 0;
+		}
+
+// charge him up - note buku XP if killed while he has this
+		if (self.archon < 100) self.archon = self.health + random() * (self.health / 2);
+	}
+#endifdef
+
+	ai_stand();
+};
 
 /*
 void() shal_walk1     =[      $walk2,       shal_walk2    ] {
@@ -62,6 +99,18 @@ framerloop($walk1, $walk12, shal_walk1, 0.1,
 framerloop($walk2, $walkeoc, shal_walk1, 0.1,
 
 	frame_arb($walk2,if (random() < 0.2) sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE));
+#ifdef monsters_plus
+	frame_arb($walk7,
+
+		if (self.wad == "SUPER")
+		{
+			if (SV_MINEALLOW & CB_M_SVORE)
+			if ((time & SV_CKTIME) == SV_CKTIME) SummonMonster(null_string);
+
+			if (self.archon < 100) self.archon = self.health + random() * (self.health / 2);
+		}
+	);
+#endifdef
 
 	ai_rep($walk2, ai_walk, 6, 4, 0, 0, 0, 0, 5, 6);
 	ai_rep($walk10, ai_walk, 5, 0, 4, 5, -6, -6, -6, -6);
@@ -102,9 +151,57 @@ framerloop($walk1, $walk12, shal_run1, 0.1,
 
 #else
 */
+#ifdef monsters_plus
+// some bizzare ass compiler failure when this is in frame_arb - even tho code DOES NOT COMPILE!
+void() fukee1 =
+{
+		if (self.wad == "SUPER")
+		if (sphere_a.owner != self) // dont summon while we have the sphere
+		if ((time & SV_CKTIME) == SV_CKTIME)
+		{
+			self.count = cnt_ent(world, "owner",  "monster_shalrath");
+			self.count = self.count + cnt_ent(world, "owner",  "monster_wizard");
+			self.count = self.count + cnt_ent(world, "owner",  "monster_spider");
+			self.count = self.count + cnt_ent(world, "owner",  "monster_vomit");
+			if (self.count < 4 + skill)
+			{
+				self.cnt = random();
+				if (self.cnt < 0.15) SummonMonster("monster_shalrath");
+				else if (self.cnt < 0.3) SummonMonster("monster_wizard");
+				else if (self.cnt < 0.4) SummonMonster("monster_spider");
+				else if (self.cnt < 0.6) SummonMonster("monster_vomit");
+			}
+		}
+};
+
+void() fukee2 =
+{
+		if (self.wad == "SUPER")
+		{
+			self.cnt = random();
+			if (self.cnt < 0.05) self.weapon = 0; // got back to explody balls
+			else 
+			if (self.cnt < 0.12) // change weps
+			{
+				self.cnt = random();
+				if (self.cnt < 0.3) self.weapon = IT_LIGHTNING;
+				else if (self.cnt < 0.4) self.weapon = 2;
+				else self.weapon = IT_SUPER_NAILGUN;
+			}
+#ifdef local_test
+	// REMOVE
+//		self.weapon = IT_LIGHTNING;
+#endifdef
+		}
+};
+#endifdef
+
 framerloop($walk2, $walkeoc, shal_run1, 0.1,
 
 	frame_arb($walk2,if (random() < 0.2) sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE));
+#ifdef monsters_plus
+	frame_arb($walk5,fukee1());
+#endifdef
 
 	ai_rep($walk2, ai_run, 6, 4, 0, 0, 0, 0, 5, 6);
 	ai_rep($walk10, ai_run, 5, 0, 4, 5, -6, -6, -6, -6);
@@ -112,6 +209,30 @@ framerloop($walk2, $walkeoc, shal_run1, 0.1,
 );
 //#endifdef
 
+// super shal-rath - Vorerel - Vaareziel
+
+// 2nd attack - lightning, summon sphere, portal, other magics
+/*
+
+deprecated - using player vore 2nd attack frames :TDO:
+
+void() s_shal_attackb1     =[      $lgattackb1,       s_shal_attackb2    ] 
+{
+	sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM); // IMP: new sounds for super
+	ai_frame(self.walkframe);
+	ai_face();
+};
+void() s_shal_attackb2     =[      $lgattackb2,       s_shal_attackb3    ] {ai_face();ai_frame(self.walkframe);};
+void() s_shal_attackb3     =[      $lgattackb3,       s_shal_attackb4    ] {ai_face();ai_frame(self.walkframe);};
+void() s_shal_attackb4     =[      $lgattackb4,       s_shal_attackb5    ]
+{
+	ShalMissile(); // IMP: attack 2 - new att
+	ai_frame(self.walkframe);
+};
+void() s_shal_attackb5    =[      $lgattackb3,      s_shal_attackb6   ] {ai_face();ai_frame(self.walkframe);};
+void() s_shal_attackb6    =[      $lgattackb2,      shal_run1   ] {ai_frame(self.walkframe);};
+
+*/
 
 /*
 void() shal_attack1     =[      $attack1,       shal_attack2    ] {
@@ -132,8 +253,27 @@ void() shal_attack11    =[      $attack11,      shal_run1   ] {};
 
 framer($attack1, $attack11, shal_attack1, shal_run1, 0.1,
 	
-	frame_arb($attack1,sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM));
-	
+	frame_arb($attack1,
+
+#ifdef monsters_plus
+		fukee2();
+
+		if ((sphere_a.owner == self) && self.weapon != 2) shal_run1();
+		else
+		if (self.weapon) player_shalrath_lightning1(); //s_shal_attackb1();
+		else
+#endifdef
+		sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM)
+	);
+
+#ifdef monsters_plus
+	frame_arb($attack1,
+
+		if (self.wad == "SUPER")
+		if (random() < 0.8) ShalMissile();
+	);
+#endifdef
+
 	if (self.frame == $attack9) ShalMissile();
 	else ai_face();
 );
@@ -169,6 +309,9 @@ void() shalrath_pain =
 	sound (self, CHAN_VOICE, "shalrath/pain.wav", 1, ATTN_NORM);
 	shal_pain1();
 	self.pain_finished = time + 3;
+#ifdef monsters_plus
+	if (self.wad == "SUPER") self.pain_finished = time + 5;
+#endifdef
 };
 
 void() shalrath_die =
@@ -184,6 +327,9 @@ void() shalrath_die =
 		ThrowGib ("progs/gib3.mdl", self.health);
 */
 		gibbs("progs/h_shal.mdl");
+#ifdef monsters_plus
+		if (self.walkframe > 0) self.scale = 1.25;	// CHECK: is test valid?
+#endifdef
 		return;
 	}
 
@@ -243,6 +389,51 @@ void() ShalHome =
 {
 //	local vector	dir, vtemp;
 	self.v__ = self.enemy.origin + '0 0 10';
+
+#ifdef code_morph
+// fix a bug where morph fired trackers are removed instantly, or strangely track to the world ent
+	if (self.morphy) // fired by a morph player
+	if (!self.enemy || self.enemy.health < 1) // fired with no target or target died
+	{
+// look for targets near flight path - idea: forward looking radar with longer range
+		other = findradius(self.origin, 480);
+		while (other)
+		{
+			if (other.solid != SOLID_NOT) // only solids
+			if (other.health > 1) // can take damage && is not dead
+			if (other.takedamage)
+			if (other != self)	// not the bomb
+			if (other != self.owner)	// not the shotter
+			if (other.owner != self.owner)	// not summoned by the owner
+			if (other.charmer != self.owner)	// not summoned by horn
+			{
+				self.lip = vlen(other.origin - self.origin);
+				traceline(self.origin, other.origin, TRUE, self);
+
+				if (trace_fraction >= 1) // can see the ent
+// note - this targets invisible pk*bots
+				if (other.classname != "player" || (!(other.items & IT_INVISIBILITY) && !coop && (other.classname != OBSERVER))) // dont target players / bots in coop
+				{
+					if (self.lip < self.lefty) // closer thing
+					{
+						self.enemy = other;
+						self.lefty = self.lip;
+					}
+// but prioritize player or monster further than the closest thing
+					if (other.classname == "player") self.enemy = other;
+					else if (other.class_select == "class_monster") self.enemy = other;
+
+					if (self.enemy) self.dest1 = self.enemy.origin; // target this
+				}
+			}
+			other = other.chain;
+		}
+		self.nextthink = time + 0.1;
+		self.think = ShalHome;
+		return;
+	}
+#endifdef
+
 	if (self.enemy.health < 1)
 	{
 		remove(self);
@@ -255,12 +446,26 @@ void() ShalHome =
 		self.velocity = self.v__ * 250;
 	self.nextthink = time + 0.2;
 	self.think = ShalHome;	
+
+#ifdef monsters_plus
+// for homing spikes & such
+	if (self.classname != "vorespike")
+		self.angles = vectoangles(dir);
+#endifdef
 };
 
 void() ShalMissileTouch =
 {
 	if (other == self.owner)
 		return;		// don't explode on owner
+
+#ifdef monsters_plus
+	if (self.owner.class_select == "class_monster") // not a morphed player or bot
+	{
+		if (other.owner == self.owner) return; // dont blow on SV summoned monster
+		if (other.model == "progs/shalrath.mdl") return; // dont blow on other monster vore / supervore
+	}
+#endifdef
 
 	if (other.classname == "monster_zombie")
 		T_Damage (other, self, self, 110);	
@@ -275,7 +480,7 @@ void() ShalMissileTouch =
 	GrenadeExplode();
 #else
 	T_RadiusDamage (self, self.owner, 40, world);
-//`	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
+//	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 
 	BecomeExplosion (self);
 #endifdef
@@ -283,7 +488,7 @@ void() ShalMissileTouch =
 
 //=================================================================
 
-/*QUAKED monster_shalrath (1 0 0) (-32 -32 -24) (32 32 48) Ambush
+/*QUAKED monster_shalrath (1 0 0) (-32 -32 -24) (32 32 48) Ambush Super
 */
 void() monster_shalrath =
 {
@@ -326,4 +531,65 @@ void() monster_shalrath =
 #endifdef
 	self.nextthink = time + 0.1 + random ()*0.1;	
 
+#ifdef monsters_plus
+	self.netname = "Shalrath";
+#endifdef
+
 };
+
+//=================================================================
+/*QUAKED monster_supervore (1 0 0) (-32 -32 -24) (32 32 48) Ambush
+*/
+
+#ifdef monsters_plus
+void() monster_supervore =
+{
+
+// override test
+	if (! dm_over)			// __monster_supervore_button0		"1"
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+
+	precache_model ("progs/shalrath.mdl");
+	precache_model ("progs/h_shal.mdl");
+	precache_model ("progs/v_spike.mdl");
+
+	precache_sound ("shalrath/attack.wav");
+	precache_sound ("shalrath/attack2.wav");
+	precache_sound ("shalrath/death.wav");
+	precache_sound ("shalrath/idle.wav");
+	precache_sound ("shalrath/pain.wav");
+	precache_sound ("shalrath/sight.wav");
+
+	self.think = monster_start;
+	self.nextthink = time + 0.1 + random ()*0.1;
+
+
+	if (random() < 0.3)
+		self.netname = "Vorerel";
+	else
+		self.netname = "Vaareziel";		// from Rothrin
+
+	self.solid = SOLID_SLIDEBOX;
+	self.movetype = MOVETYPE_STEP;
+	self.walkframe = $lgattack1;
+
+	setmodel (self, "progs/shalrath.mdl");
+	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
+	self.health = 800; // wowsers - NOTE: might need tweaked down a bit
+
+	self.th_stand = shal_stand;
+	self.th_walk = shal_walk1;
+	self.th_run = shal_run1;
+	self.th_die = shalrath_die;
+	self.th_pain = shalrath_pain;
+	self.th_missile = shal_attack1;
+
+	self.wad = "SUPER";
+
+//	if (ign == A_MONSTER) walkmonster_start(); // dyns have to call this
+};
+#endifdef
