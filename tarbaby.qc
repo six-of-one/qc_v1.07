@@ -25,6 +25,34 @@ $frame jump1 jump2 jump3 jump4 jump5 jump6
 $frame fly1 fly2 fly3 fly4
 
 $frame exp
+/*
+	monster enhance - what to do with all this ?
+
+// larger spawn
+$frame lgwalk1 lgwalk2 lgwalk3 lgwalk4 lgwalk5 lgwalk6 lgwalk7 lgwalk8 lgwalk9 lgwalk10
+$frame lgwalk11 lgwalk12 lgwalk13 lgwalk14 lgwalk15 lgwalk16 lgwalk17 lgwalk18 lgwalk19
+$frame lgwalk20 lgwalk21 lgwalk22 lgwalk23 lgwalk24 lgwalk25
+
+$frame lgrun1 lgrun2 lgrun3 lgrun4 lgrun5 lgrun6 lgrun7 lgrun8 lgrun9 lgrun10 lgrun11 lgrun12 lgrun13
+$frame lgrun14 lgrun15 lgrun16 lgrun17 lgrun18 lgrun19 lgrun20 lgrun21 lgrun22 lgrun23
+$frame lgrun24 lgrun25
+
+$frame lgjump1 lgjump2 lgjump3 lgjump4 lgjump5 lgjump6
+
+$frame lgfly1 lgfly2 lgfly3 lgfly4
+
+$frame lgexp
+
+*/
+// super tarbaby - just because
+#define TB_SUPER	64
+
+#define SUPER_SPAWN_CHANCE	0.1
+// how much a super spawn could heal in a pain frame
+#define super_spawn_emheal	40
+// chance to heal
+#define super_spawn_emheal_chn	0.1
+
 
 void()	tbaby_stand1	=[	$walk1,		tbaby_stand1	] {ai_stand();};
 
@@ -110,11 +138,24 @@ void()	Tar_JumpTouch =
 {
 //	local	float	ldmg;
 
+#ifdef monsters_plus
+	if (other.takedamage)// && other.classname != self.classname)
+	if (other.classname != "monster_tarbaby")
+	if (other.classname != "monster_lavabomb")
+	if (other.classname != "monster_vomit")
+	if (other.morphy !=  IMP_MCTHON)
+	{
+		self.duration = time + 5;
+#else
 	if (other.takedamage && other.classname != self.classname)
 	{
+#endifdef
 		if ( vlen(self.velocity) > 400 )
 		{
 			self.ldmg_ = 10 + 10*random();
+#ifdef monsters_plus
+			if (self.spawnflags & TB_SUPER) self.dmg = self.dmg * 4;
+#endifdef
 			T_Damage (other, self, self, self.ldmg_);	
 			sound (self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
 		}
@@ -184,7 +225,17 @@ void()	tbaby_jump3		=[	$jump3,	tbaby_jump4		] {ai_face();};
 void()	tbaby_jump4		=[	$jump4,	tbaby_jump5		] {ai_face();};
 */
 void()	tbaby_jump5		=[	$jump5,	tbaby_jump6		]
-{	
+{
+#ifdef monsters_plus
+//	if (ENHANCED)
+	if (self.duration < time)
+	{
+		self.duration = MAXFL;
+		self.movetype = MOVETYPE_STEP;
+		self.th_run();
+		return;
+	}
+#endifdef
 	self.movetype = MOVETYPE_BOUNCE;
 	self.touch = Tar_JumpTouch;
 	makevectors (self.angles);
@@ -199,14 +250,102 @@ void()	tbaby_jump6	=[	$jump6,tbaby_fly1	] {};
 
 framer($jump1, $jump4, tbaby_jump1, tbaby_jump5, 0.1,ai_face());
 
+#ifdef monsters_plus
+// tb fires a shot - handles super babys
+
+void() tbaby_shot =
+{
+	if (!checkbottom(self)) // flew
+ 	if (random() < 0.65)
+		return;
+
+// TDO: admin to turn off this
+#ifndef enhanced__fix
+//	if (!ENHANCED)
+	if (self.model != "progs/lavabomb.mdl")
+	if (!self.spawnflags & TB_SUPER)
+	{
+		self.th_melee();
+		return;
+	}
+#endifdef
+
+	if (self.enemy)
+	if (vlen(self.enemy.origin - self.origin) < 300)
+	if (random() < 0.5)
+	{
+		self.th_melee();
+		return;
+	}
+
+	boss_missile(v0);
+
+	newmis.dmg = 20 + random() * 4;
+	newmis.skin = 2;
+
+	if (self.model != "progs/lavabomb.mdl")
+	if (self.skin > 0)
+	{
+		setmodel (newmis, "progs/w_spike.mdl");
+		newmis.avelocity = v0;
+	}
+
+	if (self.spawnflags & TB_SUPER) // large baby, larger shot, more dmg
+	{
+		newmis.dmg = 40 + random() * 8;
+		if (newmis.model == "progs/lavaball.mdl")
+			newmis.frame = 13;
+		else
+		newmis.frame = 1;
+	}
+
+	setsize(newmis, v0, v0);
+};
+#endifdef
+
 //=============================================================================
+
+#ifdef ROGUE
+	#define tb_mitosis
+#endifdef
+
+#ifdef monsters_plus
+	#define tb_mitosis
+#endifdef
+
+#ifdef tb_mitosis
+void(float ign) tbaby_mitosis;
+#endifdef
 
 void()	tbaby_die1	=[	$exp,		tbaby_die2	] {
 self.takedamage = DAMAGE_NO;
 };
 void()	tbaby_die2	=[	$exp,		tbaby_run1	] 
 {
-	T_RadiusDamage (self, self, 120, world);
+	self.dmg = 120;	// TDO: override
+#ifdef monsters_plus
+	ai_frame(self.walkframe);
+
+	if (self.spawnflags & TB_SUPER)
+	{
+		if (random() < 0.2) // baby blast!
+		{
+			self.wad  = null_string; // clear flag so pain code doesnt run
+			self.dmg = random() * 6;
+			while (self.dmg > 0)
+			{
+				tbaby_mitosis(self.dmg);
+				item_eject(newmis, GEN_BOUNCE);
+				self.dmg = self.dmg - 1;
+			}
+			remove(self);
+			return;
+		}
+		self.dmg = 220;
+	}
+#endifdef
+
+	T_RadiusDamage (self, self, self.dmg, world);
 
 	sound (self, CHAN_VOICE, "blob/death1.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
@@ -217,16 +356,205 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 	
-	BecomeExplosion (world);
+	BecomeExplosion (world);	// note: maybe makes these un-respawnable
 };
 
+#ifdef tb_mitosis
+//=============================================================================
+// rogue - do some extra stuff
 
+void() tbaby_checknew =
+{
+// note: this causes freeze frame death
+	if (!walkmove(0,0))
+	{
+//		remove(self);
+		self.model = null_string; // note - may have fade remove or crumble process later
+		self.think = SUB_Remove;
+		self.nextthink = time + 1;
+		return;
+	}
+	
+//	self.enemy = self.owner.enemy;
+//	if (self.owner.class_select != "class_monster") // owner is lava morph or other
+//	{
+		self.th_stand = tbaby_stand1;
+		self.th_walk = tbaby_walk1;
+		self.th_run = tbaby_run1;
+		self.th_missile = tbaby_shot;
+		self.th_melee = tbaby_jump1;
+		self.th_die = tbaby_die1;
+/*
+super tarbaby just mitosis regular babies for now
+	}
+	else // owner is monster - handle larger sizing
+	{
+		self.th_stand = self.owner.th_stand;
+		self.th_walk = self.owner.th_walk;
+		self.th_run = self.owner.th_run;
+		self.th_missile = self.owner.th_missile;
+		self.th_melee = self.owner.th_melee;
+		self.th_die = self.th_die;
+		self.wad = self.owner.wad; // super flag
+	}
+*/
+
+	self.origin_z = self.origin_z + 3;      // raise off floor a bit
+	droptofloor(0,0);
+
+	if (!walkmove(0,0))
+	{
+// ISSUE: what if the owner explodes after mitosing
+
+		self.owner.th_pain = tbaby_mitosis;
+//		remove(self);
+		self.think = SUB_Remove;
+		self.nextthink = time + 1 + random() * 2;
+		return;
+	}
+
+// Cataboligne - 11.14.12 - fast / slow code
+	if (self.speed <= 0) self.speed = MON_NORM;
+	self.lip = 1; // local speed divisor
+// map specced - wont happen on mytosis
+//	if (self.netname == CFAST) self.speed = MON_FAST;
+//	else if (self.netname == CSLOW) self.speed = MON_SLOW;
+
+// server controls set all monsters fast or slow if not specced - this includes random monsters
+//	else 
+	if (FAST_MONSTER & CB_M_TARBABY) self.speed = MON_FAST;
+	else if (SLOW_MONSTER & CB_M_TARBABY) self.speed = MON_SLOW;
+
+
+	self.takedamage = DAMAGE_AIM;
+	self.ideal_yaw = self.angles * '0 1 0';
+	if (!self.yaw_speed)
+		self.yaw_speed = 20;
+	self.view_ofs = '0 0 25';
+	self.use = monster_use;
+	self.flags = self.flags | FL_MONSTER;
+	self.pausetime = 99999999;
+	self.th_stand ();
+	self.nextthink = self.nextthink + random()*0.5;
+
+	if (self.model == "progs/lavabomb.mdl")
+		self.th_missile = tbaby_shot;
+
+	self.class_select = "class_monster";
+
+	total_monsters = total_monsters + 1;
+  	
+	WriteByte (MSG_BROADCAST, SVC_UPDATESTAT);
+	WriteByte (MSG_BROADCAST, STAT_TOTALMONSTERS);
+	WriteLong (MSG_BROADCAST, total_monsters);
+};
+
+// Cataboligne - 12.6.12 - added ignore for super baby explode or sac mode burst, make babys for sure
+
+void(float ign) tbaby_mitosis =
+{
+	local entity    e;
+
+	newmis = world;
+	if (( random() < 0.35 ) || ign)
+	{
+		newmis = e = spawn();
+		e.classname = self.classname;
+		e.netname = self.netname;
+		e.movetype = MOVETYPE_STEP;
+		setsize (e, '-16 -16 -24', '16 16 40');
+		e.health = 80;
+// chaos improvements - handle lava bomb
+		if (self.model == "progs/lavabomb.mdl")
+			e.health = 160;
+		else if (self.skin == 1)
+			e.health = 60;
+		else if (self.skin == 2)
+			e.health = 100;
+
+		e.owner = self;
+		self.th_pain = SUB_Null;
+		
+		setmodel (e, self.model);
+		e.solid = SOLID_SLIDEBOX;
+		e.skin = self.skin;
+		if (self.class_select == "class_monster") 
+			e.frame = self.frame;
+		
+		setorigin (e, self.origin);              
+		e.think = tbaby_checknew;
+		e.nextthink = time + 0.5;
+
+		sound (e, CHAN_VOICE, "blob/mytosis.wav", 1, ATTN_NORM);
+	}
+
+	if (self.wad == "SUPER")
+	if (self.class_select == "class_monster") 
+	if (self.pain_finished < time)
+	{
+		if (random() < 0.1) // SUPER_SPAWN_EMHEAL_CHN
+		{
+			self.health = self.health + (40 * random()); // SUPER_SPAWN_EMHEAL
+		}
+
+		if (self.speed > mon_superspeedup_max)
+		if (random() < (mon_superspeed_chn * 5))
+		{
+			self.speed  = self.speed - mon_superspeed_fact;
+			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
+		}
+
+		self.pain_finished = time + 2;
+	}
+};
+
+//=============================================================================
+
+// detect spawn type creatures
+/*
+
+deactivated - only used in 1 place
+
+float(entity e) IS_SPAWN =
+{
+	local float f;
+
+	f = FALSE;
+	if (e.model == "progs/tarbaby.mdl") f = TRUE;
+	if (e.model == "progs/lavabomb.mdl") f = TRUE;
+	return(f);
+};
+*/
+#endifdef
 
 //=============================================================================
 
 
-/*QUAKED monster_tarbaby (1 0 0) (-16 -16 -24) (16 16 24) Ambush
+/*QUAKED monster_tarbaby (1 0 0) (-16 -16 -24) (16 16 24) Ambush Blue Green Spots Lavabomb random Super
+Spawn (Tarbaby), 80 health points.
+
+--------  CAT  -------
+"Lavabomb" - the new uber spawn, Lava mode
+"random" - select a rogue type at random
+"Super" - larger tarbaby, all versions
+
+-------- ROGU --------
+The Spawn (and hellspawn)
+
+The spawn type is random by default on rogue maps
+If you want a specific type, select "Blue", "Green", or "Spots".
+"blue"  - plain old tarbaby, 80 health
+"green" - new toxic skin - 60 health
+"spots" - rogue hellspawn - 100 health
 */
+
+#define	TB_BLUE		2
+#define	TB_GREEN	4
+#define	TB_HELLS	8
+#define	TB_LAVA		16
+#define	TB_RANDOM	32
+
+
 void() monster_tarbaby =
 {
 // override test
@@ -242,7 +570,7 @@ void() monster_tarbaby =
 	precache_sound2 ("blob/hit1.wav");
 	precache_sound2 ("blob/land1.wav");
 	precache_sound2 ("blob/sight1.wav");
-	
+
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
 
@@ -258,5 +586,118 @@ void() monster_tarbaby =
 	self.th_melee = tbaby_jump1;
 	self.th_die = tbaby_die1;
 
+#ifdef monsters_plus
+	if (random() < 0.25) // MAP_LAVABABY) 
+		self.spawnflags = self.spawnflags | TB_LAVA;
+
+	self.netname = "Spawn"; // check: these
+
+	self.cnt = (self.spawnflags & TB_LAVA); // mapper | code selected | rnd map convert - lava bomb
+
+#ifdef enhanced
+//	if (ENHANCED)
+//	if (ign == A_MONSTER) // checks for random monsters
+	{
+		if (random() < 0.1) // SUPER_SPAWN_CHANCE
+			self.spawnflags = self.spawnflags | TB_SUPER;
+
+		if (random() < 0.3) // RND_LAVABABY) 
+			self.cnt = 16; //TB_LAVA; // hot tarbaby from random
+	}
+#endifdef
+
+	if (self.spawnflags & TB_SUPER)
+	{
+		self.health = 200 + (80 * random());
+		self.walkframe = $lgwalk1;
+		self.waitmax = 2;
+
+		self.th_missile = tbaby_shot;
+		self.th_pain = tbaby_mitosis;
+		self.wad = "SUPER";
+	}
+
+if (self.cnt > 0)
+//	if (ign != A_MONSTER || self.cnt > 0)
+//	if ((ENHANCED && random() < MAP_LAVABABY) || self.cnt > 0) // hot tarbaby converted from a map spawned baby
+	{
+		setmodel(self,"progs/lavabomb.mdl"); // this model has rocket trail flag set
+		setsize (self, '-16 -16 -24', '16 16 40');
+		if (ign == A_MONSTER)
+		if (random() < 0.2) self.skin = 2; // pk lava skin
+//		self.health = 160;
+		self.health = self.health + 80; // add to what we already have, could be a super
+		self.th_missile = tbaby_shot;
+		if (random() < 0.75) self.th_pain = tbaby_mitosis;
+		self.netname = "Bomb";
+		walkmonster_start ();
+		return;
+	}
+
+	self.cnt = (self.spawnflags & 32); //TB_RANDOM); // mapper | code selected random
+
+	if (self.spawnflags & TB_HELLS)
+	{
+		self.th_missile = tbaby_shot;
+		self.th_pain = tbaby_mitosis;
+		self.skin = 2;
+//		self.health = 100;
+		self.health = self.health + 20;
+	}
+	else if (self.spawnflags & TB_GREEN)
+	{
+		self.th_pain = tbaby_mitosis;
+		self.skin = 1;
+//		self.health = 60;
+		self.health = self.health - 20;
+	}
+	else if (self.spawnflags & TB_BLUE)
+	{
+		self.skin = 0;
+	}
+	else
+	if (rogue_map(world.model) || self.cnt)
+	{
+//		skill = cvar("skill");
+		if (self.cnt) // TB_RANDOM - make a random selection
+			self.cnt = random();
+		else // rogue map tarbaby
+		{
+			self.cnt = skill * 0.2;
+			self.cnt = self.cnt + random();
+			if (self.cnt > 0.8)
+			if (skill <= 1) // skill > 1 test moved here
+				self.cnt = 0.7;
+		}
+
+//		if (self.cnt > 0.8 && skill > 1)
+		if (self.cnt > 0.8)
+		{
+			self.th_missile = tbaby_shot;
+			self.th_pain = tbaby_mitosis;
+			self.skin = 2;
+//			self.health = 100;
+			self.health = self.health + 20;
+		}
+		else if (self.cnt > 0.5)
+		{
+			self.th_pain = tbaby_mitosis;
+			self.skin = 1;
+	//		self.health = 60;
+			self.health = self.health - 20;
+		}
+	}
+
+#endifdef
+
 	walkmonster_start;
 };
+
+/*
+
+deprecated - set spawnflag and use previous fn call
+
+// enhanced tarbaby - the chaos mod lavabomb
+
+void(float ign) monster_lavabomb =
+*/
