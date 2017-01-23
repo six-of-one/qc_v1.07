@@ -386,7 +386,7 @@ framer($deathc1, $deathc11, army_cdie1, SUB_Null, 0.1,
 	ai_rep($deathc2, ai_back, 5, 4, 13, 3, 4, -6, -6, -6);
 );
 
-#ifdef code_painkeep
+#ifdef code_painkeep_
 // BOLT_START
 void() army_die;
 
@@ -435,8 +435,8 @@ void() army_die =
 // regular death
 	sound (self, CHAN_VOICE, "soldier/death1.wav", 1, ATTN_NORM);
 
-#ifdef code_painkeep
-/ BOLT_START
+#ifdef code_painkeep_
+// BOLT_START
 	if (self.bolt_conduitTimeout > time) // it's the conduit time for this monster...
   {
   	army_conduitPain1();
