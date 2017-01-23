@@ -56,7 +56,9 @@ SOLDIER CODE
 #define	army_fire_grenades		0.87 // chance to fire grenades if he has some
 #define	army_canhas_grenades		5 // random grenades to give enhanced grunts
 
+#ifdef monsters_plus
 void() army_firenails;
+#endifdef
 
 #define	ARMY_ROCKET_DMG		20 // dmg from soldier rockets
 
