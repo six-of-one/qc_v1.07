@@ -541,6 +541,23 @@ void() monster_shalrath =
 /*QUAKED monster_supervore (1 0 0) (-32 -32 -24) (32 32 48) Ambush
 */
 
+ /*
+"the Upgrade"
+
+The larger cousin of the purple traking bomb chuckin vore - also know as the "Super-vore".
+
+Super-vore did not join his smaller cousin in support of Shubs, Armagon, or whoever was in charge in Dissolution.
+
+He stayed home.  Thus the player has not seen him.
+
+Not in the original time line anyway.
+
+But since Chaos has involved itself, he has appeared.
+
+He got concerned about his smaller cousin when he heard stories about how easy Shubs was to poink the first time.
+
+*/
+
 #ifdef monsters_plus
 void() monster_supervore =
 {
