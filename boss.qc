@@ -245,6 +245,15 @@ void(vector p) boss_missile =
 	local	vector	org; //, vec, d;
 //	local	float	t;
 
+#ifdef code_morph
+	if (self.enemy.mask_x & CB_CTHON) // dont attack soc
+	{
+		if (self.model == "progs/boss.mdl") // because super tarbaby calls this
+		boss_idle1 ();
+		return;
+	}
+#endifdef
+
 	offang = vectoangles (self.enemy.origin - self.origin);	
 	makevectors (offang);
 
@@ -274,6 +283,9 @@ void(vector p) boss_missile =
 	sound (self, CHAN_WEAPON, "boss1/throw.wav", 1, ATTN_NORM);
 
 // check for dead enemy
+#ifdef monsters_plus
+	if (self.model == "progs/boss.mdl") // because super tarbaby calls this
+#endifdef
 	if (self.enemy.health <= 0)
 		boss_idle1 ();
 
@@ -333,7 +345,15 @@ void() monster_boss =
 
 	total_monsters = total_monsters + 1;
 
+#ifdef monsters_plus
+//	cthon didnt have fast mode inits
+//	self.netname = "Cthon";
+
+	if (deathmatch) boss_awake();
+	else
+#endifdef
 	self.use = boss_awake;
+
 };
 
 //===========================================================================
