@@ -29,7 +29,77 @@ $frame death1 death2 death3 death4 death5 death6 death7 death8 death9
 $frame attacka1 attacka2 attacka3 attacka4 attacka5 attacka6 attacka7 attacka8
 $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
+/*
+	Archon: wwe do with this?
+// dbl demon / black orange beast w/ skin + tail
+
+$frame dblstand1 dblstand2 dblstand3 dblstand4 dblstand5 dblstand6 dblstand7 dblstand8 dblstand9
+$frame dblstand10 dblstand11 dblstand12 dblstand13
+
+$frame dblwalk1 dblwalk2 dblwalk3 dblwalk4 dblwalk5 dblwalk6 dblwalk7 dblwalk8
+
+$frame dblrun1 dblrun2 dblrun3 dblrun4 dblrun5 dblrun6
+
+$frame dblleap1 dblleap2 dblleap3 dblleap4 dblleap5 dblleap6 dblleap7 dblleap8 dblleap9 dblleap10
+$frame dblleap11 dblleap12
+
+$frame dblpain1 dblpain2 dblpain3 dblpain4 dblpain5 dblpain6
+
+$frame dbldeath1 dbldeath2 dbldeath3 dbldeath4 dbldeath5 dbldeath6 dbldeath7 dbldeath8 dbldeath9
+
+$frame dblattacka1 dblattacka2 dblattacka3 dblattacka4 dblattacka5 dblattacka6 dblattacka7 dblattacka8
+$frame dblattacka9 dblattacka10 dblattacka11 dblattacka12 dblattacka13 dblattacka14 dblattacka15
+
+// super demon
+$frame superstand1 superstand2 superstand3 superstand4 superstand5 superstand6 superstand7 superstand8 superstand9
+$frame superstand10 superstand11 superstand12 superstand13
+
+$frame superwalk1 superwalk2 superwalk3 superwalk4 superwalk5 superwalk6 superwalk7 superwalk8
+
+$frame superrun1 superrun2 superrun3 superrun4 superrun5 superrun6
+
+$frame superleap1 superleap2 superleap3 superleap4 superleap5 superleap6 superleap7 superleap8 superleap9 superleap10
+$frame superleap11 superleap12
+
+$frame superpain1 superpain2 superpain3 superpain4 superpain5 superpain6
+
+$frame superdeath1 superdeath2 superdeath3 superdeath4 superdeath5 superdeath6 superdeath7 superdeath8 superdeath9
+
+$frame superattacka1 superattacka2 superattacka3 superattacka4 superattacka5 superattacka6 superattacka7 superattacka8
+$frame superattacka9 superattacka10 superattacka11 superattacka12 superattacka13 superattacka14 superattacka15
+
+// extra mad
+
+$frame semstand1 semstand2 semstand3 semstand4 semstand5 semstand6 semstand7 semstand8 semstand9
+$frame semstand10 semstand11 semstand12 semstand13
+
+$frame semwalk1 semwalk2 semwalk3 semwalk4 semwalk5 semwalk6 semwalk7 semwalk8
+
+$frame semrun1 semrun2 semrun3 semrun4 semrun5 semrun6
+
+$frame semleap1 semleap2 semleap3 semleap4 semleap5 semleap6 semleap7 semleap8 semleap9 semleap10
+$frame semleap11 semleap12
+
+$frame sempain1 sempain2 sempain3 sempain4 sempain5 sempain6
+
+$frame semdeath1 semdeath2 semdeath3 semdeath4 semdeath5 semdeath6 semdeath7 semdeath8 semdeath9
+
+$frame semattacka1 semattacka2 semattacka3 semattacka4 semattacka5 semattacka6 semattacka7 semattacka8
+$frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattacka14 semattacka15
+
+*/
 //============================================================================
+
+float	DEMON_DBL	= 2;
+float	DEMON_SUPER	= 4;
+//float	DEMON_BOB	= 8;
+float	DEMON_SUPER_MAD	= 16; // got extra mad
+//float DEMON_BOOM = 32; // raged and exploding
+
+//float super_demon_chance = 0.08;
+//float dbl_demon_chance = 0.25;
+//float super_demon_emheal = 100; // how much a super demon thats extra mad could heal in a pain frame
+//float super_demon_emheal_chn = 0.33; // chance to heal
 
 /*
 void()	demon1_stand1	=[	$stand1,	demon1_stand2	] {ai_stand();};
@@ -48,6 +118,18 @@ void()	demon1_stand13	=[	$stand13,	demon1_stand1	] {ai_stand();};
 */
 
 framerloop($stand1, $stand13, demon1_stand1, 0.1,ai_stand());
+
+// demon summons aid
+/*
+
+decided not too - super demon is one bad mofo, and would NOT ask for any help
+
+	if (self.frame == $stand5)
+	if (self.spawnflags & SUPER)
+	if ((time & SV_CKTIME) == SV_CKTIME)
+	if (random() < 0.25)
+		SummonMonster("monster_dog");
+*/
 
 /*
 void()	demon1_walk1	=[	$walk1,		demon1_walk2	] {
@@ -115,7 +197,7 @@ self.nextthink = time + 3;
 };
 */
 
-// if three seconds pass, assume demon is stuck and jump again
+// if three rels pass, assume demon is stuck and jump again
 
 framerloop($leap1, $leap10, demon1_jump1, 0.1,
 
@@ -162,8 +244,18 @@ void()	demon1_atta15	=[	$attacka15,		demon1_run1] {ai_charge(4);};
 
 framer($attacka1, $attacka15, demon1_atta1, demon1_run1, 0.1,
 
-	frame_arb($attacka5, Demon_Melee(200));
-	frame_arb($attacka11, Demon_Melee(-200));
+	frame_arb($attacka5, Demon_Melee(200)
+
+#ifdef monsters_plus
+		if (self.spawnflags & 6) Demon_Melee(200);
+#endifdef
+	);
+	frame_arb($attacka11, Demon_Melee(-200)
+
+#ifdef monsters_plus
+		if (self.spawnflags & 6) Demon_Melee(-200);
+#endifdef
+	);
 
 	ai_rep($attacka1, ai_charge, 4, 0, 0, 1, 2, 1, 6, 8);
 	ai_rep($attacka9, ai_charge, 4, 2, -6, 5, 8, 4, 4, -6);
@@ -221,10 +313,26 @@ framer($death1, $death9, demon1_die1, SUB_Null, 0.1,
 void() demon_die =
 {
 // check for gib
-	if (self.health < -80)
+	self.dmg = -80;
+#ifdef monsters_plus
+	if (self.spawnflags & DEMON_DBL) self.dmg = -100;
+	if (self.spawnflags & DEMON_SUPER) self.dmg = -350;
+
+	if (self.flags & FL_DEMONBOOM) // heh heh - little enhancement, mostly for player morph
+	{
+		self.attack_finished = 0; // make sure we boom
+		player_demon_explode();
+		return;
+	}
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowHead ("progs/h_demon.mdl", self.health);
+#ifdef monsters_plus
+		if (self.spawnflags & DEMON_SUPER) self.scale = 1.6;
+#endifdef
 		ThrowGib ("progs/gib1.mdl", self.health);
 		ThrowGib ("progs/gib1.mdl", self.health);
 		ThrowGib ("progs/gib1.mdl", self.health);
@@ -242,55 +350,7 @@ void() Demon_MeleeAttack =
 };
 */
 
-/*QUAKED monster_demon1 (1 0 0) (-32 -32 -24) (32 32 64) Ambush
 
-*/
-void() monster_demon1 =
-{
-// override test
-	if (! dm_over)			// __monster_demon1_button0		"1"
-	if (deathmatch)
-	{
-		remove(self);
-		return;
-	}
-	precache_model ("progs/demon.mdl");
-	precache_model ("progs/h_demon.mdl");
-
-	precache_sound ("demon/ddeath.wav");
-	precache_sound ("demon/dhit2.wav");
-	precache_sound ("demon/djump.wav");
-	precache_sound ("demon/dpain1.wav");
-	precache_sound ("demon/idle1.wav");
-	precache_sound ("demon/sight2.wav");
-
-	self.solid = SOLID_SLIDEBOX;
-	self.movetype = MOVETYPE_STEP;
-
-	setmodel (self, "progs/demon.mdl");
-
-	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 300;
-
-	self.th_stand = demon1_stand1;
-	self.th_walk = demon1_walk1;
-	self.th_run = demon1_run1;
-	self.th_die = demon_die;
-	self.th_melee = demon1_atta1;		// one of two attacks
-	self.th_missile = demon1_jump1;			// jump attack
-	self.th_pain = demon1_pain;
-
-	walkmonster_start;
-};
-
-
-/*
-==============================================================================
-
-DEMON
-
-==============================================================================
-*/
 
 /*
 ==============
@@ -366,6 +426,8 @@ float()	DemonCheckAttack =
 		return TRUE;
 	}
 
+// NOTE: cm2 code set these in monster setup
+
 	self.dest2_x = 100;		// spot2_
 	self.dest2_y = 200;		// spot2_
 	self.dest2_z = 0;			// spot2_
@@ -416,13 +478,185 @@ void(float side)	Demon_Melee =
 		
 	sound (self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
 	self.ldmg_ = 10 + 5*random();
+#ifdef monsters_plus
+	if (self.spawnflags & DEMON_SUPER_MAD) self.ldmg_ = 60 + 60*random();
+	else
+	if (self.spawnflags & DEMON_SUPER) self.ldmg_ = 20 + 20*random();
+#endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);	
 
 	makevectors (self.angles);
 	SpawnMeatSpray (self.origin + v_forward*16, side * v_right);
 };
 
+/*
+	Archon code:
 
+// CLEAN: move to monster.qc or fight.qc
+
+void()	Monster_JumpTouch =
+{
+	if (self.health <= 0)
+		return;
+
+	self.nextthink = time + 0.1;
+
+	if (self.classname == "monster_young")
+	if (other.classname == self.classname)
+		return;
+
+	if (other.takedamage)
+	{
+		if (vlen(self.velocity) > self.jump_flag) // 400 - demon, 300 - dog
+		{
+			if ((self.classname == "monster_demon1") &&
+				self.spawnflags & DEMON_SUPER_MAD) self.dmg = 100 + 100*random();
+			else
+//			if (self.spawnflags & DEMON_SUPER) self.dmg = 80 + 40*random();
+//			else
+			self.dmg = self.dodmg + 10*random(); // 40 - demon, 10 - dog
+			T_Damage (other, self, self, self.dmg);	
+		}
+	}
+
+	if (!checkbottom(self))
+	{
+		if (self.flags & FL_ONGROUND)
+		{	// jump randomly to not get hung up
+//dprint ("popjump\n");
+	self.touch = SUB_Null;
+	self.think = self._jump;
+//	self.nextthink = time + 0.1;
+
+//			self.velocity_x = (random() - 0.5) * 600;
+//			self.velocity_y = (random() - 0.5) * 600;
+//			self.velocity_z = 200;
+//			self.flags = self.flags - FL_ONGROUND;
+		}
+		return;	// not on ground yet
+	}
+
+	self.touch = SUB_Null;
+	self.think = self._jump2;
+//	self.nextthink = time + 0.1;
+};
+*/
+
+//============================================================================
+
+// run double demon - 4 claws for 4x the fun
+
+
+//============================================================================
+
+// run super demon - 4 super claws for 4x the super fun
+
+
+//============================================================================
+
+// run extra mad demon stuff - "oh shit son"
+
+
+//============================================================================
+
+/*QUAKED monster_demon1 (1 0 0) (-32 -32 -24) (32 32 64) Ambush Double Super BOB MAD Boom 
+
+--------  CAT  -------
+"netname" - fast = fast ogre, slow = slow ogre
+"speed" - 0.1 normal, 0.05 fast, 0.2 slow
+"Double": double the demon, double the fun
+"Super": mega demon - watch out, use with care
+"BOB": use black orange beast
+
+*/
+void() monster_demon1 =
+{
+// override test
+	if (! dm_over)			// __monster_demon1_button0		"1"
+	if (deathmatch)
+	{
+		remove(self);
+		return;
+	}
+	precache_model ("progs/demon.mdl");
+	precache_model ("progs/h_demon.mdl");
+
+	precache_sound ("demon/ddeath.wav");
+	precache_sound ("demon/dhit2.wav");
+	precache_sound ("demon/djump.wav");
+	precache_sound ("demon/dpain1.wav");
+	precache_sound ("demon/idle1.wav");
+	precache_sound ("demon/sight2.wav");
+
+	self.solid = SOLID_SLIDEBOX;
+	self.movetype = MOVETYPE_STEP;
+
+	setmodel (self, "progs/demon.mdl");
+
+	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
+	self.health = 300;
+
+	self.th_stand = demon1_stand1;
+	self.th_walk = demon1_walk1;
+	self.th_run = demon1_run1;
+	self.th_die = demon_die;
+	self.th_melee = demon1_atta1;		// one of two attacks
+	self.th_missile = demon1_jump1;			// jump attack
+	self.th_pain = demon1_pain;
+
+#ifdef monsters_plus
+	self.netname = "Fiend";
+
+
+	if (self.map == "dyn_sp")
+	if (random() < 0.08) // super_demon_chance)
+		self.spawnflags = self.spawnflags | DEMON_SUPER;
+	else
+	if (random() < 0.25) // dbl_demon_chance)
+		self.spawnflags = self.spawnflags | DEMON_DBL;
+
+	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
+
+// Cataboligne - 11.24.12 - super & double code
+	if (self.spawnflags & DEMON_SUPER)
+	{
+		self.health = 600 + (100 * random()) + (100 * random());
+		self.wad = "SUPER";
+
+		self.walkframe = $superstand1;
+		self.waitmax = 4;
+// jumptouch multi
+		self.dodmg = 90;
+	}
+	else
+	if (self.spawnflags & DEMON_DBL)
+	{
+		self.health = 400;
+		self.wad = "MEGA";
+
+		self.walkframe = $dblstand1;
+		self.waitmax = 2;
+// jumptouch multi
+		self.dodmg = 60;
+	}
+	else
+	{
+		self.health = 300;
+
+// jumptouch multi
+		self.dodmg = 40;
+	}
+/*
+jt stuff
+// jumptouch multi /b
+	self.jump_flag = 400;
+	self._jump = demon1_jump1;
+	self._jump2 = demon1_jump11;
+*/
+#endifdef
+
+	walkmonster_start;
+};
 
 
 
