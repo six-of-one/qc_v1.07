@@ -1,7 +1,7 @@
 /*
 ==============================================================================
 
-SOLDIER / PLAYER
+ENFORCER
 
 ==============================================================================
 */
@@ -67,6 +67,9 @@ void(vector org, vector vec) LaunchLaser =
 	newmis.movetype = MOVETYPE_FLY;
 //	newmis.solid = SOLID_BBOX;
 	newmis.effects = EF_DIMLIGHT;
+#ifdef code_painkeep_
+	 newmis.AIRG_Flags = AIRG_EXCLUDEENTITY; // *pk - This code excludes the Laser fire from enforcers as well as the laser fire from laser turrets as well from the affect of the AirGun. 
+#endifdef
 
 	setmodel (newmis, "progs/laser.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');		
@@ -116,6 +119,27 @@ $frame paind9 paind10 paind11 paind12 paind13 paind14 paind15 paind16
 $frame paind17 paind18 paind19
 
 
+// enhanced - more weapons
+
+#define ENF_LTN 2 // lightning
+#define ENF_HLASER 4 // hip laser
+#define ENF_RAIL 8 // rail gun
+#define ENF_ROCK 16 // rockets
+#define ENF_SSG 32 // super shot gun
+#define ENF_XWEP 62 // det all x bits
+
+#define enf_imprv 0.4 // total chance for a better map enforcer
+#define enf_rndenh 0.9 // total chance for a better random enforcer
+#define enf_extend 16 // if set, extend extra weps to include rocket & ssg as bits indicate
+#define enf_railslugs 20 // base rail slug count
+// #define enf_fire_grenades 0.87 // chance to fire 
+// #define enf_canhas_grenades 5 // random to give enhanced enforcers
+
+#define ENF_ROCKET_DMG 45 // dmg from enforcer rockets
+
+// end more weapons
+
+
 
 void() enforcer_fire =
 {
@@ -123,9 +147,37 @@ void() enforcer_fire =
 
 	self.effects = self.effects | EF_MUZZLEFLASH;
 	makevectors (self.angles);
-	
+
 	self.v__ = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
+#ifdef monsters_plus
+	if ((self.spawnflags & ENF_RAIL) && (self.ammo_slug > 0))
+	{
+		X_FireRailgun();
+	}
+	else if ((self.spawnflags & ENF_ROCK) && (self.ammo_rockets > 0))
+	{
+		W_FireRocket();
+		newmis.dmg = ENF_ROCKET_DMG;
+	}
+	else if (self.spawnflags & ENF_HLASER)
+	{
+		HIP_FireLaser(1);
+	}
+	else if (self.spawnflags & ENF_LTN)
+	{
+		W_FireLightning();
+	}
+	else if (self.spawnflags & ENF_SSG)
+	{
+		org = self.enemy.origin - self.enemy.velocity*0.2;
+		org = normalize (org - self.origin);
+		
+		sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM); 
+		FireBullets (14, org, '0.1 0.1 0');
+	}
+	else
+#endifdef
 	LaunchLaser(self.v__, self.enemy.origin - self.origin);
 };
 
@@ -221,7 +273,20 @@ void()	enf_atk9	=[	$attack5,	enf_atk10	] {ai_face();};
 framer($attack1, $attack8, enf_atk1, enf_atk9, 0.1,
 
 	ai_face();
-	frame_arb($attack6,enforcer_fire());
+	frame_arb($attack6,
+
+#ifdef monsters_plus
+		if (self.spawnflags & ENF_RAIL)
+		{
+			if (self.ammo_slug > 0) enf_run1();
+			else enforcer_fire();
+		}
+		else
+		if (self.spawnflags & ENF_SSG) enf_run1();
+		else 
+#endifdef
+		enforcer_fire()
+	);
 );
 
 framer($attack6, $attack10, enf_atk10, enf_run1, 0.1,
@@ -447,6 +512,44 @@ void() monster_enforcer =
 	self.th_pain = enf_pain;
 	self.th_die = enf_die;
 	self.th_missile = enf_atk1;
+
+#ifdef monsters_plus
+	self.netname = "Enforcer";
+
+	if ((self.map == "dyn_sp") || (self.spawnflags & ENF_XWEP))
+	{
+		local float r;
+
+		self.rnd_ = enf_imprv;
+		if (self.map == "dyn_sp") self.rnd_ = enf_rndenh;
+
+		if (!self.spawnflags & ENF_XWEP) // not map specced - enhance him
+		if (random() < chance)
+		{
+			r = random();
+			if (r > 0.95) self.spawnflags = self.spawnflags | ENF_RAIL; // not many of these guys
+			else if (r > 0.6) self.spawnflags = self.spawnflags | ENF_HLASER;
+			else
+			{
+				if (r < 0.1)
+				{
+					if (enf_extend & ENF_ROCK) self.spawnflags = self.spawnflags | ENF_ROCK;
+					if (enf_extend & ENF_SSG) self.spawnflags = self.spawnflags | ENF_SSG;
+				}
+				if (!self.spawnflags & enf_extend)
+				self.spawnflags = self.spawnflags | ENF_LTN;
+			}
+		}
+
+		if (self.spawnflags & ENF_RAIL)
+		{
+//			self.th_missile = army_natk1;
+			self.ammo_slug = ceil(enf_railslugs + random() * 5); //army_canhas_grenades);
+		}
+		if (self.spawnflags & ENF_ROCK)
+			self.ammo_rockets = ceil((enf_railslugs * 2) + random() * 5); //army_canhas_grenades);
+	}
+#endifdef
 
 	walkmonster_start;
 };
