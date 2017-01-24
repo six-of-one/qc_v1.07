@@ -350,5 +350,9 @@ void() monster_knight =
 	self.th_pain = knight_pain;
 	self.th_die = knight_die;
 
+#ifdef monsters_plus
+	self.netname = "Knight";
+#endifdef
+
 	walkmonster_start;
 };
