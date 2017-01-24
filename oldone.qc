@@ -5,6 +5,9 @@ OLD ONE
 
 ==============================================================================
 */
+
+// Cataboligne - 10.2.11 - moded for viswep models the mod now uses.  attempt to grab real player model because of mroe changes
+
 $cd id1/models/old_one
 $origin 0 0 24
 $base base
@@ -146,6 +149,10 @@ framer($shake1, $shake20, old_thrash1, SUB_Null, 0.1,
 #endifdef
 
 //============================================================================
+#ifdef code_morph
+// once we have morphs, shubs killer could look different
+entity shub_killer;
+#endifdef
 
 void() finale_1 =
 {
@@ -155,6 +162,14 @@ void() finale_1 =
 #ifdef opgrade
 	killed_monsters = killed_monsters + 1;
 	WriteByte (MSG_ALL, SVC_KILLEDMONSTER);	// FIXME: reliable broadcast
+#endifdef
+
+#ifdef code_morph
+	shub_killer = world; // may be re-entry on maphack
+// the only other way to be sure is when a player hits the teleport for the teletrain
+// this does NOT always work - sometimes this is a gib - wut?!
+	if (damage_attacker.classname == "player")
+		shub_killer = damage_attacker; // Cataboligne - 10.2.11 - so we can set the correct player model for shubs killer
 #endifdef
 
 	intermission_exittime = time + 10000000;	// never allow exit
@@ -205,6 +220,11 @@ void() finale_1 =
 	pl = find (world, classname, "player");
 	while (pl) // != world)
 	{
+#ifdef code_morph
+		if (!coop && !deathmatch) shub_killer = pl; // in SP we know its him
+		pl.mdl = pl.model; // Cataboligne - 10.2.11 - proper model save for shub killer
+#endifdef
+
 #ifdef map_hack
 // save all player locs
 		pl.ip_org = pl.origin;
@@ -219,14 +239,23 @@ void() finale_1 =
 		pl.takedamage = DAMAGE_NO;
 		pl.solid = SOLID_NOT;
 		pl.movetype = MOVETYPE_NONE;
+		pl.modelindex = 0;	// opgrade - was not here, from cm2
 		setorigin (pl, pos.origin);
 		pl = find (pl, classname, "player");
 	}	
-	
+
+// Cataboligne - 10.11.11 - remove visweps		- cm2 - wwe do with this?
+#ifdef code_viswep__fix
+// IDEA: just hide & restore for mh ?
+	if (find(world,classname,"viswep")) vw_remove();
+// end viswep
+#endifdef
+
+
 	// make fake versions of all players as standins, and move the real
 	// players to the intermission spot
 	
-	// wait for 1 second
+	// wait for 1 rel
 	timer = spawn();
 	timer.nextthink = time + 1;
 	timer.think = finale_2;	
@@ -361,7 +390,7 @@ void() finale_4 =
 			other.takedamage = DAMAGE_AIM;
 			other.solid = SOLID_SLIDEBOX;
 			other.movetype = MOVETYPE_WALK;
-			other.modelindex = modelindex_player;
+			other.modelindex = modelindex_player;	// TDO: morphindex
 			other.nextthink = time + 0.1;
 			centerprint(other, string_null);
 			other = find (other, classname, "player");
@@ -373,12 +402,34 @@ void() finale_4 =
 
 	{
 // put a player model down
-	nspawn = spawn();
-	setmodel (nspawn, "progs/player.mdl");
-	self.v__ = self.v__ - '32 264 0';
-	setorigin (nspawn, self.v__);
-	nspawn.angles = '0 290 0';
-	nspawn.frame = 1;
+		nspawn = spawn();
+		setmodel (nspawn, "progs/player.mdl");
+		self.v__ = self.v__ - '32 264 0';
+		setorigin (nspawn, self.v__);
+		nspawn.angles = '0 290 0';
+		nspawn.frame = 1;
+		nspawn.cnt = TRUE; // make axe - since viswep system has no wep in plyr model
+#ifdef code_morph
+		if (shub_killer)
+		{
+			if (shub_killer.mdl) setmodel (nspawn, shub_killer.mdl);
+			if (shub_killer.morphy != CHAR_Q && (shub_killer.morphy != CHAR_PK)) nspawn.cnt = FALSE;
+			nspawn.frame = shub_killer.frame;
+		}
+#endifdef
+
+#ifdef code_viswep
+// now - make an axe
+		if (nspawn.cnt)
+		{
+			nspawn.frame = $axstnd1;
+			nspawn = spawn();
+			setmodel (nspawn, "progs/vw_axe.mdl");
+			setorigin (nspawn, self.v__);
+			nspawn.angles = '0 290 0';
+			nspawn.frame = $axstnd1;
+		}
+#endifdef
 	}
 
 	remove (self);
@@ -399,6 +450,7 @@ void() finale_4 =
 
 void () nopain =
 {
+// IDEA: alternate shubs kill methods could change this
 	self.health = 40000;
 };
 
@@ -417,12 +469,12 @@ void() monster_oldone =
 		return;
 	}
 
-	precache_model2 ("progs/oldone.mdl");
+	precache_model ("progs/oldone.mdl");
 
-	precache_sound2 ("boss2/death.wav");
-	precache_sound2 ("boss2/idle.wav");
-	precache_sound2 ("boss2/sight.wav");
-	precache_sound2 ("boss2/pop2.wav");
+	precache_sound ("boss2/death.wav");
+	precache_sound ("boss2/idle.wav");
+	precache_sound ("boss2/sight.wav");
+	precache_sound ("boss2/pop2.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
@@ -435,9 +487,14 @@ void() monster_oldone =
 	self.nextthink = time + 0.1;	
 	self.takedamage = DAMAGE_YES;
 	self.th_pain = nopain;
+// IDEA: something different in DM if shubs is bit mapped in - like a gibs fountain explode
 	self.th_die = finale_1;
 	shub = self;
 	
 	total_monsters = total_monsters + 1;
+
+#ifdef monsters_plus
+	self.netname = "Shub Niggurath";
+#endifdef
 };
 
