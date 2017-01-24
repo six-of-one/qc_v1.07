@@ -600,8 +600,13 @@ framer($death2, $death8, wiz_death2, SUB_Null, 0.1,frame_arb($death3,self.solid 
 
 void() wiz_die =
 {
+	self.dmg = -40;
+#ifdef monsters_plus
+	if (self.wad == "SUPER") self.dmg = -200;
+#endifdef
+
 // check for gib
-	if (self.health < -40)
+	if (self.health < self.dmg)
 	{
 #ifdef monsters_plus
 		if (self.spawnflags & 160) // larger scrags - 32 & 128

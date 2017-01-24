@@ -90,16 +90,16 @@ $frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattack
 */
 //============================================================================
 
-float	DEMON_DBL	= 2;
-float	DEMON_SUPER	= 4;
-//float	DEMON_BOB	= 8;
-float	DEMON_SUPER_MAD	= 16; // got extra mad
-//float DEMON_BOOM = 32; // raged and exploding
+#define	DEMON_DBL		2
+#define	DEMON_SUPER		4
+#define	DEMON_BOB		8
+#define	DEMON_SUPER_MAD		16		// got extra mad
+#define	DEMON_BOOM		32		// raged and exploding
 
-//float super_demon_chance = 0.08;
-//float dbl_demon_chance = 0.25;
-//float super_demon_emheal = 100; // how much a super demon thats extra mad could heal in a pain frame
-//float super_demon_emheal_chn = 0.33; // chance to heal
+#define	super_demon_chance		0.08
+#define	dbl_demon_chance		0.25
+#define	super_demon_emheal		100		// how much a super demon thats extra mad could heal in a pain frame
+#define	super_demon_emheal_chn		0.33		// chance to heal
 
 /*
 void()	demon1_stand1	=[	$stand1,	demon1_stand2	] {ai_stand();};
@@ -609,10 +609,10 @@ void() monster_demon1 =
 
 
 	if (self.map == "dyn_sp")
-	if (random() < 0.08) // super_demon_chance)
+	if (random() < super_demon_chance)
 		self.spawnflags = self.spawnflags | DEMON_SUPER;
 	else
-	if (random() < 0.25) // dbl_demon_chance)
+	if (random() < dbl_demon_chance)
 		self.spawnflags = self.spawnflags | DEMON_DBL;
 
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
@@ -657,13 +657,4 @@ jt stuff
 
 	walkmonster_start;
 };
-
-
-
-
-
-
-
-
-
 

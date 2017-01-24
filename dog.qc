@@ -407,8 +407,13 @@ framer($deathb1, $deathb9, dog_dieb1, SUB_Null, 0.1,SUB_Null());
 
 void() dog_die =
 {
+	self.dmg = -35;
+#ifdef monsters_plus
+	if (self.spawnflags & 4) self.dmg = -100;
+#endifdef
+
 // check for gib
-	if (self.health < -35)
+	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowGib ("progs/gib3.mdl", self.health);
