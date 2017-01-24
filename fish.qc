@@ -232,11 +232,11 @@ void() monster_fish =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/fish.mdl");
+	precache_model ("progs/fish.mdl");
 
-	precache_sound2 ("fish/death.wav");
-	precache_sound2 ("fish/bite.wav");
-	precache_sound2 ("fish/idle.wav");
+	precache_sound ("fish/death.wav");
+	precache_sound ("fish/bite.wav");
+	precache_sound ("fish/idle.wav");
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
