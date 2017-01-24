@@ -257,6 +257,10 @@ void() monster_fish =
 	self.th_pain = fish_pain;
 	self.th_melee = f_attack1;
 
+#ifdef monsters_plus
+	self.netname = "Fishy";
+#endifdef
+
 	swimmonster_start;
 };
 
