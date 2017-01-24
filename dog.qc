@@ -31,6 +31,68 @@ $frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
 
 $frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8
 
+/*
+	Archon: wwe do with this?
+$frame sleep1 sleep2 sleep3 sleep4
+
+// two headed dog - woof woof - woof woof
+
+$frame thattack1 thattack2 thattack3 thattack4 thattack5 thattack6 thattack7 thattack8
+
+$frame thdeath1 thdeath2 thdeath3 thdeath4 thdeath5 thdeath6 thdeath7 thdeath8 thdeath9
+
+// placeholder for addative
+$frame dummyb1 dummyb2 dummyb3 dummyb4 dummyb5 dummyb6 dummyb7 dummyb8
+$frame dummyb9
+
+$frame thpain1 thpain2 thpain3 thpain4 thpain5 thpain6
+
+// placeholder for addative
+$frame fakeb1 fakeb2 fakeb3 fakeb4 fakeb5 fakeb6 fakeb7 fakeb8 fakeb9 fakeb10
+$frame fakeb11 fakeb12 fakeb13 fakeb14 fakeb15 fakeb16
+
+$frame thrun1 thrun2 thrun3 thrun4 thrun5 thrun6 thrun7 thrun8 thrun9 thrun10 thrun11 thrun12
+
+$frame thleap1 thleap2 thleap3 thleap4 thleap5 thleap6 thleap7 thleap8 thleap9
+
+$frame thstand1 thstand2 thstand3 thstand4 thstand5 thstand6 thstand7 thstand8 thstand9
+
+$frame thwalk1 thwalk2 thwalk3 thwalk4 thwalk5 thwalk6 thwalk7 thwalk8
+
+$frame thsleep1 thsleep2 thsleep3 thsleep4
+
+// Fluffy - WOOF WOOF - WOOF WOOF - WOOF WOOF!
+
+$frame rxattack1 rxattack2 rxattack3 rxattack4 rxattack5 rxattack6 rxattack7 rxattack8
+
+$frame rxdeath1 rxdeath2 rxdeath3 rxdeath4 rxdeath5 rxdeath6 rxdeath7 rxdeath8 rxdeath9
+
+// placeholder for addative
+$frame dummyc1 dummyc2 dummyc3 dummyc4 dummyc5 dummyc6 dummyc7 dummyc8
+$frame dummyc9
+
+$frame fakepc1 fakepc2 fakepc3 fakepc4 fakepc5 fakepc6
+
+$frame faked1 faked2 faked3 faked4 faked5 faked6 faked7 faked8 faked9 faked10
+$frame faked11 faked12 faked13 faked14 faked15 faked16
+
+
+$frame rxrun1 rxrun2 rxrun3 rxrun4 rxrun5 rxrun6 rxrun7 rxrun8 rxrun9 rxrun10 rxrun11 rxrun12
+
+$frame rxleap1 rxleap2 rxleap3 rxleap4 rxleap5 rxleap6 rxleap7 rxleap8 rxleap9
+
+$frame rxstand1 rxstand2 rxstand3 rxstand4 rxstand5 rxstand6 rxstand7 rxstand8 rxstand9
+
+$frame rxwalk1 rxwalk2 rxwalk3 rxwalk4 rxwalk5 rxwalk6 rxwalk7 rxwalk8
+
+$frame rxsleep1 rxsleep2 rxsleep3 rxsleep4
+
+$frame rxlaydown1 rxlaydown2 rxlaydown3 rxlaydown4 rxlaydown5
+
+$frame rxlaytorun1
+
+// end dog framing
+*/
 
 void() dog_leap1;
 void() dog_run1;
@@ -60,6 +122,9 @@ void() dog_bite =
 		return;
 
 	self.ldmg_ = (random() + random() + random()) * 8;
+#ifdef monsters_plus
+	if (self.spawnflags & 4) self.dmg = self.dmg * 1.8;
+#endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
 
@@ -163,6 +228,15 @@ void() dog_run12	=[	$run12  ,	dog_run1	] {ai_run(32);};
 framerloop($run1, $run12, dog_run1, 0.1,
 
 	frame_arb($run1  ,if (random() < 0.2) sound(self, CHAN_VOICE, "dog/idle.wav", 1, ATTN_IDLE));
+#ifdef monsters_plus
+	frame_arb($run5,
+
+		if (self.spawnflags & 4)
+		if ((time & SV_CKTIME) == SV_CKTIME)
+		if (random() < 0.25)
+			SummonMonster("monster_dog");
+	);
+#endifdef
 	ai_rep($run1, ai_run, 16, 32, 32, 20, 64, 32, 16, 32);
 	ai_rep($run9, ai_run, 32, 20, 64, 32, -6, -6, -6, -6);
 );
@@ -189,6 +263,18 @@ framer($attack1, $attack8, dog_atta1, dog_run1, 0.1,
 	}
 	else
 		ai_charge(10);
+#ifdef monsters_plus
+	frame_arb($attack5,
+
+	if (self.spawnflags & 6) dog_bite(); // 2 or 3 head - 2nd bite
+	);
+	frame_arb($attack6,
+
+	if (self.spawnflags & 4) // fluffy sometimes gets 3rd bite
+	if (random() < 0.3)
+		dog_bite();
+	);
+#endifdef
 );
 
 /*
@@ -272,7 +358,20 @@ void() dog_pain =
 {
 	sound (self, CHAN_VOICE, "dog/dpain1.wav", 1, ATTN_NORM);
 
-	if (random() > 0.5)
+#ifdef monsters_plus
+	if (self.spawnflags & 4) // FLUFFY
+	{
+		if ((random() < 0.1) || (self.health < 60))
+			self.health = self.health + (30 * random());
+		if (random() < 0.05)
+			self.health = self.health + (30 * random());
+//		self.max_health = self.health;
+		dog_walk4(); // has no pain frames
+		return;
+	}
+#endifdef
+
+	if (random() > 0.5)	// CHECK: walkframe
 		dog_pain1 ();
 	else
 		dog_painb1 ();
@@ -323,7 +422,7 @@ void() dog_die =
 	sound (self, CHAN_VOICE, "dog/ddeath.wav", 1, ATTN_NORM);
 	self.solid = SOLID_NOT;
 
-	if (random() > 0.5)
+	if (random() > 0.5)	// CHECK: walkframe
 		dog_die1 ();
 	else
 		dog_dieb1 ();
@@ -418,7 +517,10 @@ float()	DogCheckAttack =
 
 //===========================================================================
 
-/*QUAKED monster_dog (1 0 0) (-32 -32 -24) (32 32 40) Ambush
+/*QUAKED monster_dog (1 0 0) (-32 -32 -24) (32 32 40) Ambush TWOHEAD FLUFFY
+
+"TwoHead" - two heads are better than one, double health, double attacks
+"Fluffy" - oh crap.  Cerebus - 3 heads, large, demon leap attack
 
 */
 void() monster_dog =
@@ -454,6 +556,47 @@ void() monster_dog =
 	self.th_die = dog_die;
 	self.th_melee = dog_atta1;
 	self.th_missile = dog_leap1;
+
+#ifdef monsters_plus
+	self.netname = "Doggy";
+
+	self.waitmax = 0;
+	self.walkframe = 0;
+
+	if ((self.map == "dyn_sp") || (self.spawnflags & 6))
+	{
+		self.rnd_ = 0.2;
+		if (skill == 3) self.rnd_ = 0.4;
+		if (ign == A_MONSTER) self.rnd_ = 0.8;
+
+		if (!self.spawnflags & 6) // not map specced - enhance him
+		if (random() < self.rnd_)
+		{
+//			enhance = 2; // TWOHEAD
+			self.spawnflags = self.spawnflags | 2; // fluffy is NOT an upgrade option
+		}
+
+#ifdef testset
+		if (random() < 0.1) self.spawnflags = 4; // test a fluffy
+#endifdef
+
+		if (self.spawnflags & 4) // FLUFFY
+		{
+			setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
+			self.health = 300;
+			self.walkframe = $rxattack1;
+			self.wad = "SUPER";
+			self.waitmax = 4;
+			self.dodmg = 30; // jump touch damage
+		}
+		else if (self.spawnflags & 2) // two head
+		{
+			self.health = 50;
+			self.walkframe = $thattack1;
+			self.waitmax = 2;
+		}
+	}
+#endifdef
 
 	walkmonster_start;
 };

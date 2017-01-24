@@ -504,11 +504,11 @@ void() monster_army =
 //		local float r;
 		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
 
-		chance = army_ofone;
-		if (self.map	== "dyn_sp") chance = army_rndenh;
+		self.rnd_ = army_ofone;
+		if (self.map	== "dyn_sp") self.rnd_ = army_rndenh;
 
 		if (!self.spawnflags & ARMY_XWEP) // not map specced - enhance him
-		if (random() < chance)
+		if (random() < self.rnd_)
 		{
 			r = random();
 			if (r > 0.85) self.spawnflags = self.spawnflags | ARMY_ROCK;
