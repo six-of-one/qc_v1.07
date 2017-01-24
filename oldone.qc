@@ -368,10 +368,10 @@ void() finale_4 =
 		}
 	}
 	else
-	{
 // IDEA: for maphack, put player that buggedered shubs where the model goes below
 #endifdef
 
+	{
 // put a player model down
 	nspawn = spawn();
 	setmodel (nspawn, "progs/player.mdl");
@@ -379,10 +379,7 @@ void() finale_4 =
 	setorigin (nspawn, self.v__);
 	nspawn.angles = '0 290 0';
 	nspawn.frame = 1;
-
-#ifdef map_hack
 	}
-#endifdef
 
 	remove (self);
 
