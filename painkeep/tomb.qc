@@ -129,7 +129,8 @@ void () corpsefollow =
 	}
 
 #ifdef code_pkbots
-	if (self.tomb_target.class_select == "class_bot") // Cataboligne - 10.3.11 - just for stationary bots
+// CHECK: need to hit frikbot as well?
+	if (self.tomb_target.map == "pk*bot") // Cataboligne - 10.3.11 - just for stationary bots
 	if (random() < 0.3)
 		self.dodmg = 1;
 #endifdef

@@ -872,7 +872,7 @@ set		__hub_control_wait		"180"
 // requires a small segment in client.qc
 
 	if (!self.map)
-		self.map = substring(world.model,5,strlen(world.model) - 5);
+		self.map = substring(world.model,5,strlen(world.model) - 5);		// CHECK: dp has a map base name
 
 #ifdef code_xents
 	if (filer(self.map) < 0) self.map = "arc_hub";
@@ -1581,7 +1581,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.class_select == "class_pk*bot") pk_voteframe(self);
+				if (self.map == "pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}
@@ -1601,7 +1601,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.class_select == "class_pk*bot") pk_voteframe(self);
+				if (self.map == "pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}

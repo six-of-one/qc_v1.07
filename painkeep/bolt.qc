@@ -32,7 +32,7 @@ void() bolt_fire =
 #ifdef code_xents
 	e_use_ammo();
 #else
-	if (cells == 0) cells = 100;
+//	if (cells == 0) cells = 100;		// this was inf ammo test - if (ammo_con(2, self, null_string) == 0) cells = Q1_CELLAMMO_MAX;
 #endifdef
 
 	if (cells < 2)
@@ -704,6 +704,10 @@ void() player_bolt1	 =[$light1, player_bolt1  ]
 	self.attack_finished = time + 0.2;
 
 #ifdef code_morph
-	if (self.morphy == IMP_MENF) self.frame = 33;
+	if (self.morphy == IMP_MENF)
+	{
+		self.frame = 33;
+		if (!(self.weaponframe & 1)) self.frame = 35;
+	}
 #endifdef
 };
