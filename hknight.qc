@@ -51,10 +51,31 @@ $frame w_attack21 w_attack22
 $frame magicc1 magicc2 magicc3 magicc4 magicc5 magicc6 magicc7 magicc8
 $frame magicc9 magicc10 magicc11
 
+#define	HK_STATUE  2 // rogue
+#define	DK  4 // death knight - based on mod by Patrick Martin : cimartin@flash.net
+
+#define	dk_rnd  0.8 // total chance for a better random hknight
+#define	dk_imp  0.2 // total chance for a better map hknight
+#define	dk_track  0.4 // chance a straight shot will be trackers
+#define	dk_track_dmg  20 // damage done by tracker
+#define	DK_FIRE_TRACK  -62346 // fire tracking flares this attack		TDO: change
 
 void() hknight_char_a1;
 void() hknight_run1;
 void() hk_idle_sound;
+#ifdef monsters_plus
+//-------------------------------------------------------- Martin Code -----
+//TDO: update all his code to qc++  
+
+void() hknight_char_b1;
+void() DK_SwordSwing;
+void() DK_CheckForSwing;
+void() DK_HellKnight_ChooseMagic;
+void(float offset) DK_Vertical;
+void(float tr) DK_Straight;
+void() DK_DeathBlow;
+//--------------------------------------------------------------------------
+#endifdef
 
 void(float offset) hknight_shot =
 {
@@ -81,6 +102,16 @@ void(float offset) hknight_shot =
 	newmis.velocity = self.v__ * 300;
 	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 
+#ifdef monsters_plus
+	if (self.spawnflags & DK)
+	{
+//-------------------------------------------------------- Martin Code -----
+//  Faster flares on higher skill levels.
+        if (skill > 2)          newmis.velocity = vec * 500;
+        else if (skill > 1)     newmis.velocity = vec * 400;
+//--------------------------------------------------------------------------
+	}
+#endifdef
 #undef offang
 #undef offang_y
 };
@@ -97,10 +128,26 @@ if ( fabs(self.origin_z - self.enemy.origin_z) > 20)
 if ( vlen (self.origin - self.enemy.origin) < 80)
 	return;		// use regular attack
 
+#ifdef monsters_plus
+//-------------------------------------------------------- Martin Code -----
+//  This lets the death knight break the charge on Nightmare.
+	if (self.spawnflags & DK)
+	if (skill > 2)
+	if (random() < 0.5) 
+		return;
+//--------------------------------------------------------------------------
+#endifdef
 // charge		
 	SUB_AttackFinished (2);
 	hknight_char_a1 ();
 
+#ifdef monsters_plus
+//-------------------------------------------------------- Martin Code -----
+	if (self.spawnflags & DK)
+	if (random() < 0.5)
+		 hknight_char_b1 ();
+//--------------------------------------------------------------------------
+#endifdef
 };
 
 void() CheckContinueCharge =
@@ -132,7 +179,22 @@ void()	hknight_stand9	=[	$stand9,	hknight_stand1	] {ai_stand();};
 */
 
 //framer($stand1, $stand9, hknight_stand1, frd1, 0.1,ai_stand());
-//framerloop($stand1, $stand9, hknight_stand1, 0.1,ai_stand());
+
+#ifdef monsters_plus
+framerloop($stand1, $stand9, hknight_stand1, 0.1,
+
+	ai_stand()
+
+	frame_arb($stand5,
+
+		if (SV_MINEALLOW & CB_M_HKNIGHT)
+		if (self.spawnflags & DK)
+		if ((time & SV_CKTIME) == SV_CKTIME)
+		if (random() < 0.5)
+			SummonMonster(null_string);
+	);
+);
+#endifdef
 
 //===========================================================================
 
@@ -173,6 +235,15 @@ framerloop($walk1, $walk20, hknight_walk1, 0.1,
 		ai_rep($walk9, ai_walk, 3, 4, 3, 4, 6, 2, 2, 4);
 	else
 		ai_rep($walk17, ai_walk, 3, 3, 3, 2, -6, -6, -6, -6);
+#ifdef monsters_plus
+	frame_arb($walk6,
+
+		if (SV_MINEALLOW & CB_M_HKNIGHT)
+		if (self.spawnflags & DK)
+		if ((time & SV_CKTIME) == SV_CKTIME)
+			SummonMonster(null_string);
+	);
+#endifdef
 );
 
 //===========================================================================
@@ -194,6 +265,18 @@ framerloop($run1, $run8, hknight_run1, 0.1,
 
 	ai_rep($run1, ai_run, 20, 25, 18, 16, 14, 25, 21, 13);
 	frame_arb($run1,hk_idle_sound(); CheckForCharge ());
+#ifdef monsters_plus
+	frame_arb($run5,
+
+	if (self.spawnflags & DK)
+	if ((time & SV_CKTIME) == SV_CKTIME)
+	{
+		self.count = cnt_ent(world, "owner",  "monster_knight");
+		if (self.count < 4 + skill)
+		if (random() < 0.15) SummonMonster("monster_knight");
+	}
+	);
+#endifdef
 );
 
 //============================================================================
@@ -305,7 +388,11 @@ framer($magica1, $magica14, hknight_magica1, hknight_run1, 0.1,
 
 	if (self.frame < $magica7 || self.frame > $magica12) ai_face();
 	else
+#ifdef monsters_plus
+	ai_rep($magica7, DK_Vertical, 3, 2, 1, 0, -1, -2, -6, -6);
+#else
 	ai_rep($magica7, hknight_shot, -2, -1, 0, 1, 2, 3, -6, -6);
+#endifdef
 );
 
 //============================================================================
@@ -328,9 +415,22 @@ void()	hknight_magicb13 =[	$magicb13,	hknight_run1] {ai_face();};
 
 framer($magicb1, $magicb13, hknight_magicb1, hknight_run1, 0.1,
 
-	if (self.frame < $magicb7 || self.frame > $magicb12) ai_face();
+	if (self.frame < $magicb7 || self.frame > $magicb12)
+	{
+		ai_face();
+#ifdef monsters_plus
+		self.aflag = 0;
+#endifdef
+	}
 	else
-	ai_rep($magicb7, hknight_shot, -2, -1, 0, 1, 2, 3, -6, -6);
+	{
+#ifdef monsters_plus
+		frame_arb($magicb7,if (random() < 0.4) self.aflag = DK_FIRE_TRACK);
+		ai_rep($magicb7, DK_Straight, self.aflag, self.aflag, self.aflag, self.aflag, self.aflag, self.aflag, -6, -6);
+#else
+		ai_rep($magicb7, hknight_shot, -2, -1, 0, 1, 2, 3, -6, -6);
+#endifdef
+	}
 );
 	
 //============================================================================
@@ -385,6 +485,20 @@ framer($char_a1, $char_a16, hknight_char_a1, hknight_run1, 0.1,
 
 	ai_rep($char_a1, ai_charge, 20, 25, 18, 16, 14, 20, 21, 13);
 	ai_rep($char_a9, ai_charge, 20, 20, 18, 16, 14, 25, 21, 13);
+#ifdef monsters_plus
+		frame_arb($char_a1,
+
+//-------------------------------------------------------- Martin Code -----
+        sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);  };
+//--------------------------------------------------------------------------
+		);
+		frame_arb($char_a12,
+
+//-------------------------------------------------------- Martin Code -----
+        sound (self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
+//--------------------------------------------------------------------------
+		);
+#endifdef
 );
 
 
@@ -407,7 +521,23 @@ framerloop($char_b1, $char_b6, hknight_char_b1, 0.1,
 	ai_melee();
 
 	ai_rep($char_b1, ai_charge, 23, 17, 12, 22, 18, 8, -6, -6);
+
+#ifdef monsters_plus
+		frame_arb($char_b1,
+
+	if (self.spawnflags & DK)
+		DK_SwordSwing();
+	else
+		CheckContinueCharge();
+		);
+		frame_arb($char_b6,
+
+	if (self.spawnflags & DK)
+		DK_CheckForSwing();
+		);
+#else
 	frame_arb($char_b1,CheckContinueCharge ());
+#endifdef
 );
 
 
@@ -500,9 +630,223 @@ framer($w_attack1, $w_attack22, hknight_watk1, hknight_run1, 0.1,
 
 	framerange_arb($w_attack17,$w_attack19,ai_melee());
 	ai_rep($w_attack17, ai_charge, 1, 3, 4, 6, 7, 3, -6, -6);
+
+#ifdef monsters_plus
+		frame_arb($w_attack15,
+
+//-------------------------------------------------------- Martin Code -----
+        sound (self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
+//--------------------------------------------------------------------------
+		);
+
+#endifdef
+);
+
+#ifdef monsters_plus
+// Cataboligne - 12.4.12 - tracking flares
+// this might be a code_archon module
+
+void() MiniGrenadeExplode;
+
+// blow tracking flares on damage taking ents
+
+void() dk_track_touch =
+{
+	if (other == self.owner)
+		return;		// don't explode on owner
+
+	if (other.classname != "monster_hell_knight") // dont blow on hell knights - smart missile tech
+	if (other.morphy != CB_HKNIGHT)
+	if (other.takedamage == DAMAGE_AIM)
+	{
+		MiniGrenadeExplode();
+		return;
+	}
+
+	remove(self);
+};
+
+
+#endifdef
+
+//============================================================================
+#ifdef monsters_plus
+// start Martin big chunk
+// mod by Patrick Martin : cimartin@flash.net - the "death knight", an improved hell knight
+
+//-------------------------------------------------------- New Code --------
+//  This gives the death knight a new melee attack which lets him
+//  do an overhead smash on his opponent.  Unlike all his other
+//  melee attacks, all the damage is done in a single frame, rather
+//  than spread out in many frames.  Hence, the attack is a bit slow,
+//  but if it connects, it can (and usually does) inflict major damage.
+//--------------------------------------------------------------------------
+/*
+void()  hknight_berserk1  =[ $magica1,   hknight_berserk2 ] {ai_charge(3);};
+void()  hknight_berserk2  =[ $magica2,   hknight_berserk3 ] {ai_charge(2);};
+void()  hknight_berserk3  =[ $magica3,   hknight_berserk4 ] {ai_charge(1);};
+void()  hknight_berserk4  =[ $magica4,   hknight_berserk5 ] {ai_charge(0);};
+void()  hknight_berserk5  =[ $magica5,   hknight_berserk6 ] {ai_charge(0);};
+void()  hknight_berserk6  =[ $magica6,   hknight_berserk7 ] {ai_charge(0);};
+void()  hknight_berserk7  =[ $magica7,   hknight_berserk8 ] {ai_charge(0);};
+void()  hknight_berserk8  =[ $magica8,   hknight_berserk9 ] {ai_charge(1);};
+void()  hknight_berserk9  =[ $magica9,   hknight_berserk10] {ai_charge(3);};
+void()  hknight_berserk10 =[ $magica10,  hknight_berserk11]
+{  ai_charge(6); DK_DeathBlow();  };
+void()  hknight_berserk11 =[ $magica11,  hknight_berserk12] {ai_charge(3);};
+void()  hknight_berserk12 =[ $magica12,  hknight_berserk13] {ai_charge(2);};
+void()  hknight_berserk13 =[ $magica13,  hknight_berserk14] {ai_charge(0);};
+void()  hknight_berserk14 =[ $magica14,  hknight_run1     ] {ai_charge(0);};
+*/
+
+framer($magica1, $magica14, hknight_berserk1, hknight_run1, 0.1,
+
+	ai_rep($magica1, ai_charge, 3, 2, 1, 0, 0, 0, 0, 1);
+
+	ai_rep($magica9, ai_charge, 3, 6, 3, 2, 0, 0, -6, -6);
+	frame_arb($magica10,DK_DeathBlow());
+
 );
 
 //============================================================================
+
+//-------------------------------------------------------- New Code --------
+//  The sword makes noise as it swings.
+//--------------------------------------------------------------------------
+void() DK_SwordSwing =
+{
+        if (random() < 0.5)
+            sound (self, CHAN_WEAPON, "knight/sword1.wav", 1, ATTN_NORM);
+	else
+            sound (self, CHAN_WEAPON, "knight/sword2.wav", 1, ATTN_NORM);
+};
+
+//-------------------------------------------------------- New Code --------
+//  The death knight may swing his sword repeatedly like helicopter blades.
+//--------------------------------------------------------------------------
+void() DK_CheckForSwing =
+{
+        if ( (!enemy_vis) || (random() < 0.5) ||
+             (fabs(self.origin_z - self.enemy.origin_z) > 20) ||
+             (vlen (self.origin - self.enemy.origin) < 80) )
+                hknight_run1();
+        else
+                hknight_char_b1 ();
+};
+
+//-------------------------------------------------------- New Code --------
+//  The death knight has three different attack patterns to choose from.
+//  #1)  Vertical spread of flares.       20%
+//  #2)  All flares aimed at target.      30%
+//  #3)  Normal horizontal flare spread.  50%
+//--------------------------------------------------------------------------
+void() DK_HellKnight_ChooseMagic =
+{
+        local   float   r;
+
+	if (!self.spawnflags & DK) // not a death knight
+	{
+		hknight_magicc1();
+		return;
+	}
+
+        r = random();
+        if (r < 0.2)
+                hknight_magica1();      // vertical spread
+        else if (r < 0.5)
+                hknight_magicb1();      // straight blast - can turn into tracers
+	else
+                hknight_magicc1();      // regular spread
+};
+
+//-------------------------------------------------------- New Code --------
+//  This is similar to the id's hknight_shot except it is modified
+//  so that the shot's 'offset' determines how high or low it will
+//  go.  Aside from elevation, it is shot forward.
+//--------------------------------------------------------------------------
+void(float offset) DK_Vertical =
+{
+	local	vector	org, vec;
+
+	self.dest = vectoangles (self.enemy.origin - self.origin);
+
+	makevectors (self.dest);
+
+	org = self.origin + self.mins + self.size*0.5 + v_forward * 20;
+
+	// set missile speed
+	vec = normalize (v_forward);
+	vec_z = offset*0.1 - vec_z + (random() - 0.5)*0.1;
+
+	launch_spike (org, vec);
+	newmis.classname = "knightspike";
+	setmodel (newmis, "progs/k_spike.mdl");
+	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);		
+	if (skill > 2)          newmis.velocity = vec * 500;
+	else if (skill > 1)     newmis.velocity = vec * 400;
+	else                    newmis.velocity = vec * 300;
+	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+};
+
+//-------------------------------------------------------- New Code --------
+//  This is similar to the id's hknight_shot except it is modified so
+//  that any shot is directed forward at the target.  These flares
+//  usually travel faster than those in the flare spread functions.
+//--------------------------------------------------------------------------
+void(float tr) DK_Straight =
+{
+	local	vector	org, vec;
+	
+	self.dest = vectoangles (self.enemy.origin - self.origin);
+
+	makevectors (self.dest);
+
+	org = self.origin + '0 0 20'; 
+
+	// set missile speed
+	vec = normalize (v_forward);
+	vec_z = 0 - vec_z;
+
+	launch_spike (org, vec);
+	newmis.classname = "knightspike";
+	setmodel (newmis, "progs/k_spike.mdl");
+	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
+	if (skill > 2)       newmis.velocity = vec * 900;
+	else if (skill > 1)  newmis.velocity = vec * 600;
+	else if (skill > 0)  newmis.velocity = vec * 450;
+	else                 newmis.velocity = vec * 300;
+	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+
+	if (tr == DK_FIRE_TRACK) Track_Missile(newmis, dk_track_touch, 20); // dk_track_dmg);
+};
+
+//-------------------------------------------------------- New Code --------
+//  The death knights' berserk attack inflicts 15-90 points of damage.
+//  45 points is the median.  If the death knight is critically injured
+//  (i.e. less than 20 hit points left), 15 extra points of damage is
+//  added to the total.
+//--------------------------------------------------------------------------
+void() DK_DeathBlow =
+{
+//	local   float   d1, d2, d3;     // Random 'dice'.
+
+	if (!self.enemy)  return;
+
+	self.dest = self.enemy.origin - self.origin; // Distance from knight to target
+
+	if (vlen(self.dest) > 90)  return;
+	if (!CanDamage (self.enemy, self))  return;
+
+//	d1 = random();  d2 = random();  d3 = random();
+	self.dmg = (random() + random() + random()) * 30;
+	if (self.dmg < 15)  self.dmg = 15;
+	if (self.health < 20)  self.dmg = self.dmg + 15;  // really berserk!
+	T_Damage (self.enemy, self, self, self.dmg);
+};
+
+// end Martin big chunk
+#endifdef
+//========================================================================
 
 void() hk_idle_sound =
 {
@@ -517,6 +861,9 @@ void(entity attacker, float damage)	hknight_pain =
 
 	sound (self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM);
 
+#ifdef monsters_plus
+	if (!self.spawnflags & DK)
+#endifdef
 	if (time - self.pain_finished > 5)
 	{	// allways go into pain frame if it has been a while
 		hknight_pain1 ();
@@ -538,6 +885,23 @@ void() hknight_melee =
 	hknight_type = hknight_type + 1; // #enhance this
 
 	sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);
+#ifdef monsters_plus
+	if (self.spawnflags & DK)
+//-------------------------------------------------------- Martin Code -----
+//  Use the new attack occasionally (5% per skill) or if:
+//  #1)  Enemy is a zombie.  The death knight knows what it takes to kill it.
+//  #2)  Death knight is critically injured.  (GIVE ME STRENGTH!)
+//  NOTE:  The death knight will never use this attack on Easy.
+//--------------------------------------------------------------------------
+        if ( (self.health < 20) || (random() < skill*0.05) ||
+             (self.enemy.classname == "monster_zombie") && (skill > 0) )
+        {
+                hknight_berserk1();     // go for the kill!
+                hknight_type = hknight_type - 1;        // restore type
+        }
+	else
+//--------------------------------------------------------------------------
+#endifdef
 	if (hknight_type == 1)
 		hknight_slice1 ();
 	else if (hknight_type == 2)
@@ -549,7 +913,7 @@ void() hknight_melee =
 	}
 };
 
-/*QUAKED monster_hell_knight (1 0 0) (-16 -16 -24) (16 16 40) Ambush
+/*QUAKED monster_hell_knight (1 0 0) (-16 -16 -24) (16 16 40) Ambush Statue Death
 */
 void() monster_hell_knight =
 {
@@ -560,19 +924,19 @@ void() monster_hell_knight =
 		remove(self);
 		return;
 	}
-	precache_model2 ("progs/hknight.mdl");
-	precache_model2 ("progs/k_spike.mdl");
-	precache_model2 ("progs/h_hellkn.mdl");
+	precache_model ("progs/hknight.mdl");
+	precache_model ("progs/k_spike.mdl");
+	precache_model ("progs/h_hellkn.mdl");
 
 	
-	precache_sound2 ("hknight/attack1.wav");
-	precache_sound2 ("hknight/death1.wav");
-	precache_sound2 ("hknight/pain1.wav");
-	precache_sound2 ("hknight/sight1.wav");
+	precache_sound ("hknight/attack1.wav");
+	precache_sound ("hknight/death1.wav");
+	precache_sound ("hknight/pain1.wav");
+	precache_sound ("hknight/sight1.wav");
 	precache_sound ("hknight/hit.wav");		// used by C code, so don't sound2
-	precache_sound2 ("hknight/slash1.wav");
-	precache_sound2 ("hknight/idle.wav");
-	precache_sound2 ("hknight/grunt.wav");
+	precache_sound ("hknight/slash1.wav");
+	precache_sound ("hknight/idle.wav");
+	precache_sound ("hknight/grunt.wav");
 
 	precache_sound ("knight/sword1.wav");
 	precache_sound ("knight/sword2.wav");
@@ -585,13 +949,48 @@ void() monster_hell_knight =
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 250;
 
+#ifdef monsters_plus
+	self.th_stand = hknight_stand1;
+#else
 	self.th_stand = fr_stand9;
+#endifdef
 	self.th_walk = hknight_walk1;
 	self.th_run = hknight_run1;
 	self.th_melee = hknight_melee;
 	self.th_missile = hknight_magicc1;
 	self.th_pain = hknight_pain;
 	self.th_die = hknight_die;
-	
+
+#ifdef monsters_plus
+	self.netname = "Hell Knight";
+
+
+#ifdef local_test
+// REMOVE
+self.spawnflags = self.spawnflags | DK;
+#endifdef
+
+	if (!self.spawnflags & HK_STATUE)
+	if ((self.map == "dyn_sp") || (self.spawnflags & DK))
+	{
+		self.rnd_ = dk_imp;
+		if (skill == 3) self.rnd_ = 0.4; // dk_imp + dk_imp;
+		if (ign == A_MONSTER) self.rnd_ = dk_rnd;
+
+		if (!self.spawnflags & DK) // not map specced - enhance him
+		if (random() < self.rnd_)
+			self.spawnflags = self.spawnflags | DK;
+
+		if (self.spawnflags & DK)
+		{
+			self.skin = 2;
+			if (random() < 0.3) self.skin = 1;
+			self.health = 350;
+			if ((random() < 0.25) || (self.skin == 1)) self.health = 350 + random() * 100;
+			self.wad = "MEGA";
+		}
+	}
+#endifdef
+
 	walkmonster_start;
 };
