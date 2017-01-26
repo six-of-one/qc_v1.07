@@ -96,7 +96,7 @@ direct messages to the bots, it crashes quake :-(
 */
 void(entity	client, string s) stuffcmd =
 {
-	if (client.class_select == "class_pk*bot") return; // *bot
+	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_stuffcmd(client, s);
 	b_temp1 = player_head;
@@ -133,7 +133,7 @@ void(entity	e) setspawnparms =
 };
 void(entity	client, string s) sprint =
 {
-	if (client.class_select == "class_pk*bot") return; // *bot
+	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_sprint(client, s);
 	b_temp1 = player_head;
@@ -155,7 +155,7 @@ void(entity	client, string s) sprint =
 
 void(entity	client, string s) centerprint =
 {
-	if (client.class_select == "class_pk*bot") return; // *bot
+	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_centerprint(client, s);
 	b_temp1 = player_head;
@@ -174,6 +174,9 @@ void(entity	client, string s) centerprint =
 vector(entity e, float sped) aim =
 {
 	e.missile_speed = sped;
+#ifdef code_pkbots
+	if (e.map == "pk*bot") return(botaim());
+#endifdef
 	return _b_aim(e, sped);
 };
 

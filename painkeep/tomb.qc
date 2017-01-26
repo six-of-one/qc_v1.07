@@ -130,7 +130,7 @@ void () corpsefollow =
 
 #ifdef code_pkbots
 // CHECK: need to hit frikbot as well?
-	if (self.tomb_target.map == "pk*bot") // Cataboligne - 10.3.11 - just for stationary bots
+	if (self.tomb_target.group == "pk*bot") // Cataboligne - 10.3.11 - just for stationary bots
 	if (random() < 0.3)
 		self.dodmg = 1;
 #endifdef
@@ -177,7 +177,7 @@ void () tombtouch =
 	}
 	else
 */
-	if (other.classname != "player") // && other.classname != "pk*bot")
+	if (other.classname != "player") // && other.group != "pk*bot")
 #ifdef opgrade
 	if (! (other.flags & FL_MONSTER))
 	  return;

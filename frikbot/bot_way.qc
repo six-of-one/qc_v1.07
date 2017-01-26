@@ -801,7 +801,7 @@ void(entity this) mark_path =
 	self = oself;
 	// FIXME
 	// ugh, better way to find players please!!!
-	if (this.classname != "player" && this.classname != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	if (this.classname != "player") // && this.group != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 		this.current_way = t;
 		
 	if (t.enemy == world)

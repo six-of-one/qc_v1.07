@@ -142,7 +142,7 @@ void(float shots) W_FireShotgunExploder =
 	self.punchangle_x = -2 * shots;
 
 #ifdef code_pkbots_notused
-	if (self.classname == "pk*bot")
+	if (self.group == "pk*bot")
 		dir = botaim ();
 	else
 #endifdef

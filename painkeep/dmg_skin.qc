@@ -23,7 +23,7 @@ void()	pk_DmgSkin =
 // player selectable skins like t800, c3p0, etc
 //	if (self.model == "progs/plyr_skins.mdl") return; // skin support added back in
 
-	if (self.classname == "player") // || self.classname == "pk*bot") // ignores observers, etc.
+	if (self.classname == "player") // || self.group == "pk*bot") // ignores observers, etc.
 	if (self.solid != SOLID_NOT ) // Cataboligne - 5.11.10 - doent set skin for dead cam player
 //	if (self.model != "progs/player_sh.mdl") // Cataboligne - 9.11.11 - q3 shell deal - diff skins
 #ifdef code_morph

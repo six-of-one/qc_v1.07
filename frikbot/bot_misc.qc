@@ -600,7 +600,7 @@ float (entity targ) fisible =
 	{
 		pc1 = pointcontents(org);
 		pc2 = pointcontents(spot1);
-		if (targ.classname == "player" || targ.class_select == "class_pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+		if (targ.classname == "player" || targ.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 			thruwater = FALSE;
 		else if (pc1 == CONTENT_LAVA)
 			return FALSE;

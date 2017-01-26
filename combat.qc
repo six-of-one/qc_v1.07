@@ -106,7 +106,7 @@ void(entity targ, entity attacker) Killed =
 		WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
 	}
 #ifdef code_pkbots
-	if (self.map == "pk*bot" || attacker.map == "pk*bot") // note: handles "player" setting for pk*bot obit fn - we need this
+	if (self.group == "pk*bot" || attacker.group == "pk*bot") // note: handles "player" setting for pk*bot obit fn - we need this
 		bot_kill(self, attacker); // *bot - tie in to count bot kills / deaths
 	else
 #endifdef
@@ -394,7 +394,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	}
 
 // figure momentum add
-	if ( (inflictor) /* != world) */ && ((targ.movetype == MOVETYPE_WALK)  || targ.map == "pk*bot"))
+	if ( (inflictor) /* != world) */ && ((targ.movetype == MOVETYPE_WALK)  || targ.group == "pk*bot"))
 	{
 		dir = targ.origin - (inflictor.absmin + inflictor.absmax) * 0.5;
 		dir = normalize(dir);
@@ -516,7 +516,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	oldself = self;
 	self = targ;
 #ifdef code_pkbots
-	if (self.map == "pk*bot")
+	if (self.group == "pk*bot")
 	{
 		if (attacker != world && inflictor != world)
 		{

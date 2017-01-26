@@ -138,7 +138,7 @@ void() plat_center_touch =
 	if (self.state == STATE_BOTTOM)
 	{
 #ifdef code_pkbots
-		if (other.map == "pk*bot")
+		if (other.group == "pk*bot")
 		if (other.goalentity.goalentity == self)
 			other.search_time = (time + 6);
 #endifdef
@@ -147,7 +147,7 @@ void() plat_center_touch =
 	else if (self.state == STATE_TOP)
 	{
 #ifdef code_pkbots
-		if (other.map == "pk*bot")
+		if (other.group == "pk*bot")
 		if (other.goalentity.goalentity == self)
 			other.search_time = time;
 #endifdef
@@ -168,7 +168,7 @@ void() plat_outside_touch =
 	if (self.state == STATE_TOP)
 	{
 #ifdef code_pkbots
-		if (other.classname == "pk*bot")
+		if (other.group == "pk*bot")
 		if (other.goalentity.goalentity == self)
 			other.search_time = (time + 6);
 #endifdef

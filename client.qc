@@ -558,7 +558,7 @@ void() execute_changelevel =
 	}	
 
 #ifdef code_pkbots
-	if (find(world,classname,"pk*bot")) bot_changelevel(); // *bot - reload bots on next level, handle intermission
+	if (find(world,group,"pk*bot")) bot_changelevel(); // *bot - reload bots on next level, handle intermission
 #endifdef
 
 #ifdef map_hack

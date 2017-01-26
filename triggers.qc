@@ -61,7 +61,7 @@ void() multi_trigger =
 	activator = self.enemy;
 
 #ifdef code_pkbots
-	if (activator.map == "pk*bot")
+	if (activator.group == "pk*bot")
 		bot_triggered (activator);
 #endifdef
 	SUB_UseTargets();
@@ -112,7 +112,7 @@ void() multi_touch =
 		return;
 
 #ifdef code_pkbots
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 	{
 		self.enemy = other;
 		bot_touched ();
@@ -694,7 +694,7 @@ local vector	org;
 #endifdef
 
 #ifdef code_pkbots
-	if (other.enemy.map == "pk*bot")
+	if (other.enemy.group == "pk*bot")
 	{
 		enemy_touched ();
 	}
@@ -719,7 +719,7 @@ local vector	org;
 	other.angles = t.mangle;
 
 #ifdef code_pkbots
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 	{
 		bot_touched ();
 	}
@@ -1008,7 +1008,7 @@ void() trigger_push_touch =
 #ifdef code_pkbots
 		else
 		{
-			if (other.map == "pk*bot")
+			if (other.group == "pk*bot")
 			{
 				if ((self.movedir_x < 0.1) && (self.movedir_y < 0.1))
 				{
@@ -1022,7 +1022,7 @@ void() trigger_push_touch =
 				}
 			}
 		}
-		if (other.enemy.map == "pk*bot")
+		if (other.enemy.group == "pk*bot")
 		{
 			enemy_touched ();
 		}

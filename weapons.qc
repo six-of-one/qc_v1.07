@@ -50,7 +50,7 @@ void() W_FireAxe =
 	makevectors (self.v_angle);
 	source = self.origin + '0 0 16';
 #ifdef code_pkbots
-	if (self.map == "pk*bot") source = botaim ();
+	if (self.group == "pk*bot") source = botaim ();
 #endifdef
 	traceline (source, source + v_forward*64, FALSE, self);
 	if (trace_fraction == 1.0)

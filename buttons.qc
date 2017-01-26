@@ -59,7 +59,7 @@ void() button_use =
 {
 	self.enemy = activator;
 #ifdef code_pkbots
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();
@@ -71,7 +71,7 @@ void() button_touch =
 		return;
 	self.enemy = other;
 #ifdef code_pkbots
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();
@@ -83,7 +83,7 @@ void() button_killed =
 	self.health = self.max_health;
 	self.takedamage = DAMAGE_NO;	// wil be reset upon return
 #ifdef code_pkbots
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 		bot_triggered (other);
 #endifdef
 	button_fire();

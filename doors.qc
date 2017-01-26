@@ -184,7 +184,7 @@ void() door_use =
 
 #ifdef code_pkbots
 	signalnoise (other,self);
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 	{
 		bot_touched ();
 	}
@@ -251,9 +251,9 @@ void() door_touch =
 	}
 
 #ifdef code_pkbots
-	if (other.enemy.map == "pk*bot")
+	if (other.enemy.group == "pk*bot")
 		enemy_touched ();
-	if (other.map == "pk*bot")
+	if (other.group == "pk*bot")
 		bot_touched ();
 #endifdef
 

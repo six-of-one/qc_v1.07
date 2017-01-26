@@ -113,7 +113,7 @@ notes: might still need observer
 		if (!spot)
 		{
 			srch = "pk*bot";
-			spot = find(world, classname, srch);
+			spot = find(world, group, srch);
 		}
 */
 	local float notDone;
@@ -140,7 +140,7 @@ notes: might still need observer
 		if (srch == OBSERVER) // *bot - search out bots too
 		{
 			srch = "pk*bot";
-			spot = find(world, classname, srch);
+			spot = find(world, group, srch);
 		}
 */
 	}
@@ -753,7 +753,7 @@ void() hub_control_status =
 		if (!pl) // this shouldnt ever be possible! - even on a dedicated server running only pk*s
 		{
 			srch = "pk*bot";
-			pl = find(world, classname, srch);
+			pl = find(world, group, srch);
 		}
 */
 		maxplayers = votecast = 0;
@@ -781,7 +781,7 @@ void() hub_control_status =
 			if (srch == OBSERVER) // *bot - search out bots too
 			{
 				srch = "pk*bot";
-				pl = find(world, classname, srch);
+				pl = find(world, group, srch);
 			}
 */
 		}
@@ -1386,7 +1386,7 @@ void() WaitForVotesThink =
 			if (!pl) // this shouldnt ever be possible! - even on a dedicated server running only pk*s
 			{
 				srch = "pk*bot";
-				pl = find(world, classname, srch);
+				pl = find(world, group, srch);
 			}
 */
 			maxplayers = votecast = 0;
@@ -1420,7 +1420,7 @@ void() WaitForVotesThink =
 				if (srch == OBSERVER) // *bot - search out bots too
 				{
 					srch = "pk*bot";
-					pl = find(world, classname, srch);
+					pl = find(world, group, srch);
 				}
 */
 			}
@@ -1581,7 +1581,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.map == "pk*bot") pk_voteframe(self);
+				if (self.group == "pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}
@@ -1601,7 +1601,7 @@ float(float cn) bot_vote =
 				bot_votereveal(self);
 //				WaitForVotes(self);
 				self.stack1 = "botvoted"; // Cataboligne - 10.30.12 - let death frames finish out - frikbot
-				if (self.map == "pk*bot") pk_voteframe(self);
+				if (self.group == "pk*bot") pk_voteframe(self);
 //				self.nextthink = -1;
 				return(TRUE);
 			}

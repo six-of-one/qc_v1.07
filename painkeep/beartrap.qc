@@ -146,7 +146,7 @@ void() beartrapTouch =
 		return;
 	}
 
-//	if (other.classname != "pk*bot") // *bot - bots get bit
+//	if (other.group != "pk*bot") // *bot - bots get bit
 	if (other.classname != "player")
 //	if ((!other.flags & FL_MONSTER) || !ENHANCED) // monsters in dm now
 #ifdef opgrade
