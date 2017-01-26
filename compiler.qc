@@ -235,14 +235,6 @@ this is fixed with
 /// SWITCH
 #define nomultidmg
 
-// deprecated as autoaim is controlled with sv_aim from console
-// remove autoaim from code
-// this is done by translating all aim() calls as v_forward, which is set in PlayerPreThink() from v_angle
-// more properly this should re-calculate v_forward every time aim() is called - see defs.qc
-
-/// SWITCH
-//#define noautoaim
-
 
 // instead of a regular function
 // this saves a function def and a global def at the expense of more statements
