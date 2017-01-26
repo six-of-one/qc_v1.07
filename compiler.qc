@@ -95,7 +95,7 @@
 
 // version history tally														[ includes major / minor code sections by define control ]
 
-// 1.0.7				- qc++															[ opgrade, codefix, unused, pointless_warning, noobjerr, debug, warning, nodprint, noautoaim, xvars?, nondp, glowcorpse ]
+// 1.0.7				- qc++															[ opgrade, codefix, unused, pointless_warning, noobjerr, debug, warning, nodprint, xvars?, nondp, glowcorpse ]
 // 1.0.7.1			- quake monsters now optional, x monsters +8 pack		[ local_test ]
 // 1.0.7.2			- hipnotic code base shoehorn
 // 1.0.7.3			- map_hack										+	[ q_mapseq, hip_mapseq, has_issues, no_bossgate, no_epgate ]
@@ -235,12 +235,13 @@ this is fixed with
 /// SWITCH
 #define nomultidmg
 
+// deprecated as autoaim is controlled with sv_aim from console
 // remove autoaim from code
 // this is done by translating all aim() calls as v_forward, which is set in PlayerPreThink() from v_angle
 // more properly this should re-calculate v_forward every time aim() is called - see defs.qc
 
 /// SWITCH
-#define noautoaim
+//#define noautoaim
 
 
 // instead of a regular function
@@ -296,12 +297,6 @@ this is fixed with
 	#message         			- unused 
 	#endifdef
 	#define modulein
-#endifdef
-
-#ifdef noautoaim
-	#ifdef module_list
-	#message         			- noautoaim 
-	#endifdef
 #endifdef
 
 #ifdef no_bossgate
@@ -1352,7 +1347,6 @@ numtemps 811
                 		- qc++
                 		- opgrade
                 		- codefix
-                		- noautoaim
                 		- noobjerr
                 		- nodprint
                 		- warning

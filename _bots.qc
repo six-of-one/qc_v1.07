@@ -49,13 +49,7 @@ void(entity client, string s)	_b_sprint = #24;
 void(entity client, string s, ...)	_b_centerprint = #73;
 void(entity e)			_b_setspawnparms = #78;
 
-#ifdef noautoaim
-// qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
-// note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
-#define _b_aim(ign,igntwo) v_forward
-#else
 vector(entity e, float sped)	_b_aim = #44;		// returns the shooting vector	
-#endifdef
 
 
 #ifndef map_hack

@@ -43,10 +43,6 @@ void(float ox) W_FirePulseSpikes =
 
 	fire_missile(SPIKE_VEL, MOVETYPE_FLYMISSILE, FL_MSL | FL_PUNCH | FL_USEAMMO
 
-#ifndef noautoaim
-																								 | FL_AIM1K
-#endifdef
-
 #ifdef code_runes
 										 | FL_RUNEHST 
 #endifdef

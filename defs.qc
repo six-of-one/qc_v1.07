@@ -634,15 +634,9 @@ float(vector v) pointcontents		= #41;		// returns a CONTENT_*
 float(float f) fabs = #43;
 
 #ifndef code_bots
-// need aim fn call to set aim for pk*bot
-	#ifdef noautoaim
-// qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
-// note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
-#define aim(ign,igntwo) v_forward
-	#else
-// may be affected by sv_aim
+// may be affected by sv_aim "1" uses v_forward
+// engine code (dp / ports) has speed commented out
 vector(entity e, float speed) aim = #44;		// returns the shooting vector
-	#endifdef
 #endifdef
 
 float(string s) cvar = #45;						// return cvar.value
