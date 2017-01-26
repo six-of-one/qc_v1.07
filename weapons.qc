@@ -43,16 +43,33 @@ void() W_FireAxe =
 	local	vector	source;
 	local	vector	org;
 
+#ifdef code_pkbots__fs
+	ax_dmg = 0; // Cataboligne - 10.11.11 - bot endless axe war preventative deal
+#endifdef
+
 	makevectors (self.v_angle);
 	source = self.origin + '0 0 16';
+#ifdef code_pkbots
+	if (self.map == "pk*bot") source = botaim ();
+#endifdef
 	traceline (source, source + v_forward*64, FALSE, self);
 	if (trace_fraction == 1.0)
+	{
+#ifdef code_pkbots
+		if (self.class_select == "class_bot") Bot_Melee();
+#endifdef
 		return;
+	}
 	
 	org = trace_endpos - v_forward*4;
 
 	if (trace_ent.takedamage)
 	{
+#ifdef code_xents
+		self.tomb_time = 20; // axe dmg - mod vector
+		if (self.eweapon.grap_state == 666000)
+			self.tomb_time = ceil(10 * random()) + ceil(10 * random()); // fist damage
+#endifdef
 		trace_ent.axhitme = 1;
 		SpawnBlood(trace_ent, org, '0 0 0', 20);
 		T_Damage (trace_ent, self, self, 20);
@@ -79,7 +96,12 @@ void() W_FireAxe =
 		te_gunshot(org);
 #endifdef
 	}
-
+#ifdef code_pkbots__fs
+// if no axe damage happen in attack, call up special bot melee routine
+	if (!ax_dmg)
+	if (self.class_select == "class_bot")
+		Bot_Melee();
+#endifdef
 };
 
 
@@ -129,6 +151,10 @@ void(vector org, vector vel) SpawnMeatSpray =
 	setmodel (missile, "progs/zom_gib.mdl");
 	setsize (missile, '0 0 0', '0 0 0');		
 	setorigin (missile, org);
+
+#ifdef painkeep_splash
+			AddToSplash(missile);
+#endifdef
 #undef missile
 };
 
@@ -429,6 +455,7 @@ void(entity e) BecomeExplosion =
 	self.touch = SUB_Null;
 	setmodel (self, "progs/s_explod.spr");
 	self.solid = SOLID_NOT;
+//	self.class_select = null_string; // stop ops on this -- dwn
 	s_explode1 ();
 };
 
@@ -446,13 +473,23 @@ void() T_MissileTouch =
 	if (other == self.owner)
 		return;		// don't explode on owner
 
+#ifdef monsters_plus
+	if (self.wad == "BIG") // note - special, becuase 2 rockets SHOULD hose each other
+	if (other.touch == self.touch) // explosive wep fix for scrag
+		return;
+#endifdef
 	if (pointcontents(self.origin) == CONTENT_SKY)
 	{
 		remove(self);
 		return;
 	}
 
+#ifdef opgrade]
+	if (!self.dmg) self.dmg = 120;
+	damg = self.dmg - 20 + random()*20;
+#else
 	damg = 100 + random()*20;
+#endifdef
 	
 	if (other.health)
 	{
@@ -464,8 +501,6 @@ void() T_MissileTouch =
 #ifdef opgrade
 
 	self.origin = self.origin - 8*normalize(self.velocity);
-
-	if (!self.dmg) self.dmg = 120;
 
 // same explode code except for 8 q-unit reposition				- note: other adjust in fn call
 	GrenadeExplode();
@@ -499,7 +534,12 @@ void() W_FireRocket =
 
 	self.punchangle_x = -2;
 
-	launch_spike(self.origin + v_forward*8 + '0 0 16', aim(self, 1000));
+	v0__ = self.origin + v_forward*8 + '0 0 16';
+#ifdef code_viswep__fix
+	if (!autocvar_sv_centerwep)
+		v0__ = self.origin + v_forward * VWX_ROCKETL + v_right * VWY_ROCKETL + v_up * VWZ_ROCKETL; // Cataboligne - 9.30.9 - near true position fire point
+#endifdef
+	launch_spike(v0__, aim(self, 1000));
 
 /*
 	newmis = spawn ();
@@ -508,9 +548,18 @@ void() W_FireRocket =
 	newmis.solid = SOLID_BBOX;
 */
 	newmis.classname = "missile";
-		
+	newmis.weapon = IT_ROCKET_LAUNCHER; // Cataboligne - 2.19.11 - correct obit in pk_clientobit
+
 // set missile speed	
 
+#ifdef monsters_plus
+	if (self.class_select == "class_monster") // enhanced - monster firing a rocket
+	{
+		bfwd = self.enemy.origin - self.enemy.velocity*0.2;
+		newmis.velocity = normalize (bfwd - self.origin);
+		newmis.dmg = 80; // not as strong as player unless set that way
+	}
+#endifdef
 /*
 	makevectors (self.v_angle);
 //	newmis.velocity = aim(self, 1000);
@@ -528,6 +577,9 @@ void() W_FireRocket =
 	setmodel (newmis, "progs/missile.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');		
 //	setorigin (newmis, self.origin + v_forward*8 + '0 0 16');
+#ifdef painkeep_splash
+			AddToSplash(newmis);
+#endifdef
 };
 
 /*
@@ -607,6 +659,16 @@ void() W_FireLightning =
 	local	vector		org;
 	local	float		cells;
 
+#ifdef monsters_plus
+	if (self.class_select == "class_monster") // enhanced - monster firing lightning
+	{
+		v_forward = normalize (self.enemy.origin - self.origin);
+//		makevectors(v_forward);
+		wlevel = CheckWaterLevel ();
+		cells = 10 + random() * 10;
+	}
+	else
+#endifdef
 	if (self.ammo_cells < 1)
 	{
 		self.weapon = W_BestWeapon ();
@@ -615,8 +677,6 @@ void() W_FireLightning =
 	}
 
 // explode if under water
-	if (self.waterlevel > 1)
-	if (self.waterlevel > 1)
 	if (self.waterlevel > 1)
 	{
 		cells = self.ammo_cells;
@@ -645,6 +705,10 @@ void() W_FireLightning =
 	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 
 	org = self.origin + '0 0 16';
+#ifdef code_viswep__fix
+	if (!autocvar_sv_centerwep)
+		org = self.origin + v_right * VWY_THUNDER + v_forward * VWX_THUNDER + v_up * VWZ_THUNDER;
+#endifdef
 	
 	traceline (org, org + v_forward*600, TRUE, self);
 
@@ -689,6 +753,24 @@ void() GrenadeTouch =
 		GrenadeExplode();
 		return;
 	}
+
+#ifdef code_xents
+// can this be done from the portal / teleport touch side?
+	if (other.classname == "portal_entrance" || other.classname == "portal_exit")
+	{
+		self.enemy = other;
+		other = self;
+		self = other.enemy;
+		other.enemy = world;
+		PortalTouch();
+		return;
+	}
+
+	if (self.noise != string_null)
+		sound (self, CHAN_WEAPON, self.noise, 1, ATTN_NORM);	// bounce sound
+	else
+#endifdef
+
 	sound (self, CHAN_WEAPON, "weapons/bounce.wav", 1, ATTN_NORM);	// bounce sound
 	if (self.velocity  == '0 0 0')
 		self.avelocity = '0 0 0';			// this never seems to execute - yet stopped grenades get 0 avel
@@ -764,6 +846,14 @@ void() W_FireGrenade =
 	setmodel (newmis, "progs/grenade.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');		
 	setorigin (newmis, self.origin);
+#ifdef code_viswep__fix
+	if (!autocvar_sv_centerwep)
+		setorigin (newmis, self.origin + v_forward * VWX_GRENADEL + v_right * VWY_GRENADEL + v_up * VWZ_GRENADEL); // Cataboligne - 9.30.9 - true position fire point
+#endifdef
+
+#ifdef painkeep_splash
+			AddToSplash(newmis);
+#endifdef
 };
 
 
@@ -812,6 +902,10 @@ void(vector org, vector dir) launch_spike =
 	if ((self.rune_flag & RUNE_FLG_HS) || (self.rune_flag & TECH_TEIM))
 		newmis.velocity = newmis.velocity * 2;
 #endifdef
+
+#ifdef painkeep_splash
+			AddToSplash(newmis);
+#endifdef
 };
 
 #ifdef opgrade
@@ -843,13 +937,13 @@ void(float ox) W_FireSpikes =
 
 	if (self.ammo_nails >= 2 && self.weapon == IT_SUPER_NAILGUN) ox = 0;
 
-#ifdef noautoaim
-	launch_spike (self.origin + '0 0 16' + v_right*ox, v_forward);
-#else
-	local vector	dir;
-	dir = aim (self, 1000);
-	launch_spike (self.origin + '0 0 16' + v_right*ox, dir);
+	v0__ = aim (self, 1000);
+#ifdef code_viswep__fix
+	if (!autocvar_sv_centerwep)
+		launch_spike (self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG, v0__);
+	else
 #endifdef
+	launch_spike (self.origin + '0 0 16' + v_right*ox, v0__);
 	
 // ox = 0 means super spike from SNG
 	if (!ox)
@@ -1063,6 +1157,9 @@ void() W_SetCurrentAmmo =
 	}
 #endifdef
 
+#ifdef code_pkbots
+	signalnoise (self,self); // *bot
+#endifdef
 	if (self.weapon == IT_AXE)
 	{
 		self.currentammo = 0;
@@ -1807,6 +1904,15 @@ void() ImpulseCommands =
 		return;
 	}
 
+/*
+try with alias?
+// crosshair
+	if (self.impulse == IMP_CROSSHAIR)
+	{
+		crosshair_con(self, 1);
+	}
+*/
+
 // note: as coded, beacon must be started by a __spawn_? cfg set
 	e0__ = find(world,classname,"beacon");
 	if (e0__)
@@ -1936,6 +2042,18 @@ void() ImpulseCommands =
 		power_armor_impulse();
 #endifdef
 
+/*
+	- natch - worked via admin /user menu
+// inventory
+		if (self.impulse == IMP_INV)
+			inventory();
+		else if (self.impulse == IMP_DROPI) // CHECK: *_100
+		{
+				self.admin = -1; // USER-MENU
+			self.aflag = self.impulse; // this affects Archon Chaos
+		}
+	}
+*/
 	self.impulse = 0;
 };
 
@@ -1986,6 +2104,20 @@ void() W_WeaponFrame =
 		SuperDamageSound ();
 		W_Attack ();
 	}
+
+#ifdef code_xents
+//	doom_pistol_spread(self.button0); // Cataboligne - 9.12.11 - because doom has a burger king pistol with better acurracy on a single shot aspect
+// de looping
+	if (self.eweapon)
+	if (self.eweapon.vwepmdl == "progs/vw_d_pistol.mdl")
+	{
+		if (!self.button0)
+			self.eweapon.bulletspread = '0.0 0.0 0';	
+		else
+			self.eweapon.bulletspread = '0.02 0.02 0'; // button held down - accuracy level
+	}
+#endifdef
+
 };
 
 /*
