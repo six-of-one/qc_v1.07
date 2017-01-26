@@ -634,6 +634,7 @@ float(vector v) pointcontents		= #41;		// returns a CONTENT_*
 float(float f) fabs = #43;
 
 #ifndef code_bots
+// need aim fn call to set aim for pk*bot
 	#ifdef noautoaim
 // qc++ remove autoaim entirely - aim fn is normally controlled by an engine cvar
 // note: this entirely counts on v_forward being pre-calculated at some point - as happens in PlayerPreThink - makevectors (self.v_angle);
