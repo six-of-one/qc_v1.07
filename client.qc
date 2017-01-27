@@ -648,7 +648,13 @@ void() respawn =
 	if (coop)
 	{
 		// make a copy of the dead body for appearances sake
+//TDO:		if (self.model != null_model) // Cataboligne - 8.14.9 - dead cam etc
 		CopyToBodyQue (self);
+
+#ifdef code_morph
+		morph_clearparms(self, TRUE);
+#endifdef
+
 		// get the spawn parms as they were at level start
 		setspawnparms (self);
 		// respawn		
@@ -657,7 +663,11 @@ void() respawn =
 	else if (deathmatch)
 	{
 		// make a copy of the dead body for appearances sake
+//TDO:		if (self.model != null_model) // Cataboligne - 8.14.9 - dead cam etc
 		CopyToBodyQue (self);
+#ifdef code_morph
+		morph_clearparms(self, TRUE);
+#endifdef
 		// set default spawn parms
 		SetNewParms ();
 		// respawn		
@@ -665,6 +675,11 @@ void() respawn =
 	}
 	else
 	{	// restart the entire server
+#ifdef code_morph
+// died in SP hack to restart
+		cvar_set("scratch3",ftos(0 - self.morphy)); // Cataboligne - 9.28.3
+#endifdef
+
 		localcmd ("restart\n");
 	}
 };
@@ -864,6 +879,9 @@ void() PutClientInServer =
 	local	entity spot;
 
 	spot = SelectSpawnPoint ();
+#ifdef code_painkeep_
+	ClearSpawnPoint(spot);
+#endifdef
 
 	self.classname = "player";
 	self.health = 100;
@@ -899,11 +917,12 @@ void() PutClientInServer =
 #ifdef HIPNOTIC
 	self.gravity = 1.0;
 	//JIM
+#endifdef
 	// Clear out velocity so you're not launched into the air
 	// when you respawn.
+// PAINKEEP Fix the velocity on respawn bug
 #ifndef opgrade
 	self.velocity = '0 0 0';
-#endifdef
 #endifdef
 
 // oh, this is a hack!
@@ -915,15 +934,19 @@ void() PutClientInServer =
 #endifdef
 
 #ifdef code_painkeep_
+	self.pk_currentInventory = 
 	self.pk_currentitem = 
 	self.pkprevweapon = PK_IT_AXE;
 
+//TDO:	self.pkplus_actortype = 0;
 	self.beartrap_time = 0;
 	self.bt_immune_time = time + BT_BUFFER;
+	self.voteIntermission = 0;
 
 	self.skin = 0; // damage skins, etc - needs to be before morphy
 
 	grap_releaseHarpoon();
+	self.grap_owner = world;
 
 // bolt stuff
 	self.bolt_target = world;
@@ -942,6 +965,9 @@ void() PutClientInServer =
 		remove(self.bolt_lightningFire);
 	}
 	self.bolt_lightningFire = world;
+
+// PK - not a disconnected player entity
+//	self.disconnectPlayer = 0;
 
 #ifdef painkeep_splash
 	AddToSplash(self);
@@ -1047,8 +1073,12 @@ void() PutClientInServer =
 		chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 1, 0,  spot.oh.origin, '-8 -8 -8', '8 8 8', '0 0 0', '0 0 0', "maphack_trigger", string_null, SUB_Null, 0.05, maphack_trigger, SUB_Null, spot.oh, world);
 #endifdef
 
-#ifndef code_frikbots
+#ifndef code_bots
 	self.ishuman = TRUE; // if not bot code compiled, always indicate human
+#endifdef
+
+#ifdef painkeep_splash
+	AddToSplashBig(self); // *pk - splash tossed items
 #endifdef
 
 };
@@ -1691,6 +1721,11 @@ void() CheckPowerups =
 		{
 			if (self.invincible_time == 1)
 			{
+#ifdef code_painkeep_fs
+				if (self.pkplus_actortype == PKPLUS_ACTORPENT)
+					sprint (self,"Get ready to leave the RED stage - Good Performance!\n");
+				else
+#endifdef
 				sprint (self, "Protection is almost burned out\n");
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/protect2.wav", 1, ATTN_NORM);
@@ -1709,6 +1744,10 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_INVULNERABILITY);
 			self.invincible_time = 0;
 			self.invincible_finished = 0;
+#ifdef code_painkeep_fs
+			if (self.pkplus_actortype == PKPLUS_ACTORPENT)
+				self.pkplus_actortype = 0;
+#endifdef
 		}
 		if (self.invincible_finished > time)
 			self.effects = self.effects | EF_DIMLIGHT;
@@ -1726,6 +1765,11 @@ void() CheckPowerups =
 		{
 			if (self.super_time == 1)
 			{
+#ifdef code_painkeep_fs
+				if (self.pkplus_actortype == PKPLUS_ACTORQUAD)
+					sprint (self,"The BLUE Curtain is dropping - You really frightened them!\n");
+				else
+#endifdef
 				sprint (self, "Quad Damage is wearing off\n");
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/damage2.wav", 1, ATTN_NORM);
@@ -1744,6 +1788,10 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_QUAD);
 			self.super_damage_finished = 0;
 			self.super_time = 0;
+#ifdef code_painkeep_fs
+			if (self.pkplus_actortype == PKPLUS_ACTORQUAD)
+				self.pkplus_actortype = 0;
+#endifdef
 		}
 		if (self.super_damage_finished > time)
 			self.effects = self.effects | EF_DIMLIGHT;
@@ -2083,7 +2131,32 @@ void() ClientDisconnect =
 
 
 #ifdef code_painkeep_
+// PK - set flag so that we know that it's a disconnected entity.
+//	self.disconnectPlayer = 1;
+
 	grap_releaseHarpoon();
+	self.beartrap_time = 0;
+	self.voteIntermission = 0;
+
+// TDO: check this - gen fn in bolt.qc
+// BOLT_START
+	self.bolt_target = world;
+	self.bolt_targetNext = world;
+	self.bolt_targetTimeout = 0;
+	self.bolt_targetNextTimeout = 0;
+  if(self.bolt_targetTimeoutEntity)
+  {
+  	remove(self.bolt_targetTimeoutEntity);
+  }
+	self.bolt_targetTimeoutEntity = world;
+	self.bolt_conduitTimeout = 0;
+//	self.bolt_changeModelTimeout = 0;
+  if(self.bolt_lightningFire)
+  {
+  	remove(self.bolt_lightningFire);
+  }
+  self.bolt_lightningFire = world;
+// BOLT_END
 #endifdef
 
 	// let everyone else know
@@ -2111,11 +2184,35 @@ void(entity targ, entity attacker) ClientObituary =
 	local	string deathstring, deathstring2;
 	rnum = random();
 
+#ifdef code_bots
+// TDO:	if (attacker.classname == "bot_fix") return;
+#endifdef
+
 	if (targ.classname == "player")
 	{
-		if (attacker.classname == "teledeath")
+#ifdef code_morph
+//		if (targ.watertype != CONTENT_LAVA && (targ.flags & FL_DEMONBOOM || targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
+		if (targ.watertype != CONTENT_LAVA && (targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
+		{
+			targ.deathtype = null_string;
+			bprint (targ.netname);
+			bprint (" went to pieces in a fit of rage!\n");
+			return;
+		}
+#endifdef
+
+		if (attacker.classname == "teledeath"
+#ifdef code_xents
+							|| attacker.classname == "portalteledeath"
+#endifdef
+							)
 		{
 			bprint (targ.netname);
+#ifdef code_xents
+			if (attacker.classname == "portalteledeath")
+				bprint (" was quantum fragged by ");
+			else
+#endifdef
 			bprint (" was telefragged by ");
 			bprint (attacker.owner.netname);
 			bprint ("\n");
@@ -2133,6 +2230,146 @@ void(entity targ, entity attacker) ClientObituary =
 			targ.frags = targ.frags - 1;
 			return;
 		}
+
+#ifdef code_pkplus_
+// Cataboligne 8.12.9 purify - pk artifacts
+		if (damage_inflictor.classname == "ego")
+		{
+//			rnum = random ();
+			bprint (targ.netname);
+			if (damage_inflictor.owner == targ)
+			{
+//				if (!NOPKCIDE)
+//					targ.frags = (targ.frags - frag_minus());
+					targ.frags = (targ.frags - 1);
+//				nocide(targ);
+				if (rnum < 0.250)
+					bprint (" had a mental breakdown!\n");
+				else if (rnum < 0.5)
+					bprint (" let his EGO get out of control!\n");
+				else if (rnum < 0.750)
+					bprint ("'s own EGO was self destructive!\n");
+				else
+					bprint ("'s EGO sometimes has a mind of its own!\n");
+				return;
+			}
+			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
+//			attacker.xp = (attacker.xp + ARCHON_FRAG);
+			if (rnum < 0.250)
+				bprint (" was impressed by the power of ");
+			else if (rnum < 0.5)
+				bprint (" was counseled by ");
+			else if (rnum < 0.750)
+				bprint (" was overpowered by ");
+			else
+				bprint (" was manipulated by ");
+			bprint (attacker.netname);
+			bprint ("'s EGO\n");
+			return;
+		}
+		if (damage_inflictor .classname == "corpse")
+		{
+//			rnum = random ();
+			bprint (targ.netname);
+			if (damage_inflictor.owner == targ)
+			{
+//				if (!NOPKCIDE)
+//					targ.frags = (targ.frags - frag_minus());
+					targ.frags = (targ.frags - 1);
+//				nocide(targ);
+				if (rnum < 0.250)
+					bprint (" was caught robbing the family grave!\n");
+				else if (rnum < 0.5)
+						bprint (" could not get away from a relative's corpse\n");
+				else if (rnum < 0.750)
+					bprint (" should not have gone for the family's jewelry\n");
+				else
+					bprint (" was brought down by an old friend\n");
+				return;
+			}
+			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
+//			attacker.xp = (attacker.xp + ARCHON_FRAG);
+			if (rnum < 0.250)
+				bprint (" was dragged down by an old friend in ");
+			else if (rnum < 0.5)
+				bprint (" was laid to rest by ");
+			else if (rnum < 0.750)
+				bprint (", poor kid, got tuckered out dragging someone in ");
+			else
+				bprint (" should not have defiled ");
+			bprint (attacker.netname);
+			bprint ("'s Tomb\n");
+			return;
+		}
+// end pk_art
+#endifdef
+#ifdef code_archon
+		if (damage_inflictor.classname == "sphere_annihilation")
+		{
+			local string sa;
+			bprint (targ.netname);
+			deathstring = rnd_string('90.0 60.0 60.0'," has his ass crushed by  "," finds out where the black hole goes for ",null_string,null_string," goes beyond the event horizion of ");
+			if (sphere_a.owner)
+			{
+				if (sphere_a.owner ==  targ) // whoopsie - got a wee bit too close
+				{
+//					if (!NOPKCIDE)
+						targ.frags = (targ.frags - 1); //frag_minus());
+					if (rnum < 0.5)
+					{
+						deathstring = rnd_string('90.0 60.0 60.0'," got dumb and set a sphere of annihlation free...good going chump!\n"," checked his own event horizon\n",null_string,null_string," made a really bad mistake\n");
+						bprint (deathstring);
+					}
+					else
+						bprint(" - oh my god...its full of stars.\n");
+					return;
+				}
+
+				sa = sphere_a.owner.netname;
+			}
+			else sa = " a wild ";
+			bprint (deathstring);
+			bprint (sa);
+			bprint(" sphere of annihilation\n");
+			attacker.frags = (attacker.frags + frag_plus(attacker)); // add it up
+			attacker.xp = (attacker.xp + ARCHON_FRAG);
+		return;
+		}
+#endifdef
+
+#ifdef code_painkeep_
+// TURRET_START
+// Cataboligne - moved 8.7.13 - catch before we "spike" out
+		if (damage_inflictor.classname == "turret" || attacker.classname == "turret" || attacker.classname == "turret_gib")
+		{
+			bprint(targ.netname);
+
+		// check if killed the droper of the turret.
+			if (attacker.owner == targ) {
+					// killed self
+//					if (!NOPKCIDE)
+						targ.frags = targ.frags - 1; // frag_minus();
+#ifdef enhanced
+//					if (ENHANCED)
+					bprint(rnd_string('90.0 60.0 60.0'," got shot in the arse by his own autosentry\n"," learns a valuable lesson about automated weapons\n",null_string,null_string," forgot to hide from his autosentry\n"));
+//					else
+#else
+					bprint(" forgot to hide from his own AutoSentry!\n");
+#endifdef
+			return;
+			}
+
+		// increase frags & print message.
+			attacker.owner.frags = attacker.owner.frags + 1; // frag_plus(attacker.owner);
+//			attacker.owner.xp = attacker.owner.xp + ARCHON_FRAG;
+
+			bprint(" was ventilated by ");
+			bprint(attacker.owner.netname);
+			bprint("'s AutoSentry\n");
+			return;
+		}
+// TURRET_END
+#endifdef
 
 		if (attacker.classname == "player")
 		{
@@ -2230,11 +2467,34 @@ void(entity targ, entity attacker) ClientObituary =
 				}
 #endifdef
 
+#ifdef code_archon
+            if (targ.deathtype == "banished")
+				{
+					bprint (targ.netname);
+					bprint (" was banished by \bArchon ");
+					bprint (attacker.netname);
+					bprint ("\n");
+					return;
+				}
+#endifdef
+
 #ifdef hip_weapons
 //MED 11/18/96
 				if (targ.dmg_inflictor.classname == "proximity_grenade")
 				{
 					bprint (targ.netname);
+#ifdef code_morph
+					if (damage_inflictor.morphy == IMP_MSCOURGE)
+					{
+						if (rnum < 0.5)
+							bprint (" was bombed by ");
+						else
+							bprint (" tried to disarm a bomb set by ");
+						bprint (attacker.netname);
+						bprint ("\n");
+						return;
+					}
+#endifdef
 					if (random()<0.5)
 						bprint (" got too friendly with ");
 					else
@@ -2444,7 +2704,11 @@ void(entity targ, entity attacker) ClientObituary =
 					bprint (" can't exist on slime alone\n");
 				return;
 			}
-			else if (rnum == -5)
+			else if (rnum == -5
+#ifdef code_xents
+						|| targ.deathtype == "lavadead" || targ.deathtype == "lavadead2" // Cataboligne - 10.19.12 - allow other things (like triggers) to set a lava deathtype
+#endifdef
+						)
 			{
 				if (targ.health < -15)
 				{
@@ -2465,7 +2729,7 @@ void(entity targ, entity attacker) ClientObituary =
 				bprint (" fell to his death\n");
 				return;
 			}
-			// hell if I know; he's just dead!!!
+			// its worse than that - he's dead Jim
 			bprint (" died\n");
 		}
 	}
