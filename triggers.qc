@@ -659,7 +659,9 @@ local vector	org;
 		t.mangle = t.angles;
 #endifdef
 
-//	if (PK) ClearSpawnPoint(t);		// going to use this?
+#ifdef code_painkeep_
+			if (cvar("PK")) ClearSpawnPoint(t);
+#endifdef
 // spawn a tfog flash in front of the destination
 #ifdef code_xents
 	if (self.classname == "chaos_teleport" && t.classname != "info_teleport_destination") // - Cataboligne 1.23.8 - because chaos going to non tdest has no mangle

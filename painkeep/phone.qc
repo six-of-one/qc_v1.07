@@ -85,9 +85,7 @@ void () phone_teleport =
 #define	phonedest	self.e__
 
 	phonedest = SelectPhoneDestination (self.owner);
-#ifdef notused
 	ClearSpawnPoint (phonedest);
-#endifdef
 
 #ifndef code_xents
 	makevectors (phonedest.mangle);

@@ -1468,9 +1468,7 @@ void(entity e) WaitForVotes =
 	//intermission_running = 1;
 
 	pos = SelectSpawnPoint ();
-#ifdef notused
 	ClearSpawnPoint(pos);
-#endifdef
 
 	e.view_ofs = '0 0 0';
 	e.angles = e.v_angle = pos.angles;
@@ -1495,6 +1493,37 @@ void(entity e) WaitForVotes =
 	e.voteIntermission = 1;
 };
 
+
+// Cataboligne - 017.1.26 - moved from client
+
+void(entity spot) ClearSpawnPoint =
+{
+//	local	entity thing;
+
+  if(deathmatch < 2)
+  	return;
+
+  e0__ = findradius(spot.origin, 80);
+  while(e0__)
+  {
+    if(e0__.solid == SOLID_TRIGGER && e0__.takedamage == DAMAGE_NO &&
+    			e0__.classname != "trigger_teleport")
+    {
+    	// crash point!!!
+      // make it respawn...
+      e0__.solid = SOLID_NOT;
+	    e0__.model = string_null;
+      e0__.nextthink = time + 10;
+	    e0__.think = SUB_regen;
+    }
+    else if(e0__.think == SUB_regen)
+    {
+      e0__.nextthink = e0__.nextthink + 10;
+    }
+
+    e0__ = e0__.chain;
+  }
+};
 
 // Cataboligne - 5.12.10 - special, bot voting
 

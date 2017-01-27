@@ -102,6 +102,7 @@ float st_pk_hub;				// cvar to turn off hub - fix
 float(float cn) bot_vote;			// bot...vote
 void() hub_control_status;
 void() updateStatusDisplay;
+void(entity spot) ClearSpawnPoint;
 
 // grav
 
