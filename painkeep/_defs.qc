@@ -187,6 +187,7 @@ void() grap_checkIfGrap;
 
 .entity grap_cornerchainNext;	// next in the rope corner chain.
 .float grap_firetest;
+.entity grap_owner; // Can't use owner cas the object can't see the owner!
 
 void() grap_releaseHarpoon;
 void() grap_maintainHarpoon;

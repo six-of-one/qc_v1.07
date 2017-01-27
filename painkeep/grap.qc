@@ -23,7 +23,7 @@
 //.float grap_firetest;
 
 .entity grap_ropechainPrev;	// prev in the rope chain.
-.entity grap_owner; // Can't use owner cas the object can't see the owner!
+//.entity grap_owner; // Can't use owner cas the object can't see the owner!
 .entity grap_pull;
 .float grap_checkTimeout;
 .float grap_state;
