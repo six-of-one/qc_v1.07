@@ -1500,8 +1500,8 @@ void(entity spot) ClearSpawnPoint =
 {
 //	local	entity thing;
 
-  if(deathmatch < 2)
-  	return;
+	if(deathmatch & 1) return;
+	if (!cvar("PK")) return;
 
   e0__ = findradius(spot.origin, 80);
   while(e0__)

@@ -660,7 +660,7 @@ local vector	org;
 #endifdef
 
 #ifdef code_painkeep_
-			if (cvar("PK")) ClearSpawnPoint(t);
+			ClearSpawnPoint(t);
 #endifdef
 // spawn a tfog flash in front of the destination
 #ifdef code_xents
