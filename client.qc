@@ -2188,6 +2188,21 @@ void(entity targ, entity attacker) ClientObituary =
 // TDO:	if (attacker.classname == "bot_fix") return;
 #endifdef
 
+bprint ("  *** Cobit att c: ");
+bprint (attacker.classname);
+bprint (" n: ");
+bprint (attacker.netname);
+bprint ("targ c: ");
+bprint (targ.classname);
+bprint (" n: ");
+bprint (targ.netname);
+bprint (" inf c: ");
+bprint (damage_inflictor.classname);
+bprint (" n: ");
+bprint (damage_inflictor.netname);
+bprint ("\n");
+
+
 	if (targ.classname == "player")
 	{
 #ifdef code_morph
@@ -2706,10 +2721,18 @@ void(entity targ, entity attacker) ClientObituary =
 			}
 			else if (rnum == -5
 #ifdef code_xents
-						|| targ.deathtype == "lavadead" || targ.deathtype == "lavadead2" // Cataboligne - 10.19.12 - allow other things (like triggers) to set a lava deathtype
+						|| targ.deathtype == "lavadead" || targ.deathtype == "lavadead2"			 // Cataboligne - 10.19.12 - allow other things (like triggers) to set a lava deathtype
 #endifdef
 						)
 			{
+#ifdef code_xents
+				if (MAP_MODE == "Q3" || MAP_MODE == "Q2")
+				{
+					bprint (" does a back flip into the lava.\n");
+					return;
+				}
+#endifdef
+
 				if (targ.health < -15)
 				{
 					bprint (" burst into flames\n");
