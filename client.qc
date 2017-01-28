@@ -2192,7 +2192,7 @@ bprint ("  *** Cobit att c: ");
 bprint (attacker.classname);
 bprint (" n: ");
 bprint (attacker.netname);
-bprint ("targ c: ");
+bprint (" targ c: ");
 bprint (targ.classname);
 bprint (" n: ");
 bprint (targ.netname);
@@ -2209,7 +2209,7 @@ bprint ("\n");
 //		if (targ.watertype != CONTENT_LAVA && (targ.flags & FL_DEMONBOOM || targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
 		if (targ.watertype != CONTENT_LAVA && (targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
 		{
-			targ.deathtype = null_string;
+			targ.deathtype = string_null;
 			bprint (targ.netname);
 			bprint (" went to pieces in a fit of rage!\n");
 			return;
@@ -2323,7 +2323,7 @@ bprint ("\n");
 		{
 			local string sa;
 			bprint (targ.netname);
-			deathstring = rnd_string('90.0 60.0 60.0'," has his ass crushed by  "," finds out where the black hole goes for ",null_string,null_string," goes beyond the event horizion of ");
+			deathstring = rnd_string('90.0 60.0 60.0'," has his ass crushed by  "," finds out where the black hole goes for ",string_null,string_null," goes beyond the event horizion of ");
 			if (sphere_a.owner)
 			{
 				if (sphere_a.owner ==  targ) // whoopsie - got a wee bit too close
@@ -2332,7 +2332,7 @@ bprint ("\n");
 						targ.frags = (targ.frags - 1); //frag_minus());
 					if (rnum < 0.5)
 					{
-						deathstring = rnd_string('90.0 60.0 60.0'," got dumb and set a sphere of annihlation free...good going chump!\n"," checked his own event horizon\n",null_string,null_string," made a really bad mistake\n");
+						deathstring = rnd_string('90.0 60.0 60.0'," got dumb and set a sphere of annihlation free...good going chump!\n"," checked his own event horizon\n",string_null,string_null," made a really bad mistake\n");
 						bprint (deathstring);
 					}
 					else
@@ -2366,7 +2366,7 @@ bprint ("\n");
 						targ.frags = targ.frags - 1; // frag_minus();
 #ifdef enhanced
 //					if (ENHANCED)
-					bprint(rnd_string('90.0 60.0 60.0'," got shot in the arse by his own autosentry\n"," learns a valuable lesson about automated weapons\n",null_string,null_string," forgot to hide from his autosentry\n"));
+					bprint(rnd_string('90.0 60.0 60.0'," got shot in the arse by his own autosentry\n"," learns a valuable lesson about automated weapons\n",string_null,string_null," forgot to hide from his autosentry\n"));
 //					else
 #else
 					bprint(" forgot to hide from his own AutoSentry!\n");
