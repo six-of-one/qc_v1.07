@@ -2205,6 +2205,57 @@ bprint ("\n");
 
 	if (targ.classname == "player")
 	{
+//#ifdef code_xents
+// __c{deathtypestr} is a custom death message set
+		s0__ = strcat("__","c",damage_inflictor.deathtype);
+		if (!cvar(s0__)) s0__ = strcat("__","c",damage_inflictor.classname);		// x weps  - check classname of an inflictor
+		if (!cvar(s0__)) s0__ = strcat("__","c",attacker.eweapon.deathtype);	// x weps set this for CDM
+		if (!cvar(s0__)) s0__ = strcat("__","c",attacker.deathtype);							// x monster CDM
+		if (!cvar(s0__)) s0__ = strcat("__","c",targ.deathtype);									// targ killed by CDM
+
+		if (cvar(s0__)) 
+		{
+			bprint (targ.netname);
+			f0__ = 1;
+// __c{deathtypestr}c if a valid function, it will be called
+// code could be called to adjust f0__ track for alternate messages
+			s1__ = cvar_string(strcat(s0__,"c"));
+			if (isfunction(s1__))
+			{
+				e0__ = targ;
+				e1__ = attacker;
+				callfunction(s1__);
+			}
+
+			if (targ == attacker) f0__ = f0__+ 39;		// suicide starts at 40
+// TDO: spec fn call - re: waterlevel test for lg
+
+			while (f0__)
+			{
+				s1__ = strcat(s0__,ftos(f0__));
+				f0__ = f0__ + 1;
+				s2__ = strcat(s0__,ftos(f0__));
+				if (!(cvar_type(s2__) & CVAR_TYPEFLAG_EXISTS) || random() < 0.5) f0__ = 0;
+			}
+			bprint (cvar_string(s1__));
+			if (targ == attacker) 
+			{
+				targ.frags = (targ.frags - 1);	// - frag_minus());
+				bprint ("\n");
+				return;	// self kill is now done
+			}
+			bprint (attacker.netname);		// could be a mosnter or player
+			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
+//			attacker.xp = (attacker.xp + ARCHON_FRAG);
+
+			f0__ = f0__ + 20; // 2nd part starts at 20
+			s1__ = strcat(s0__,ftos(f0__));
+			bprint (cvar_string(s1__));
+			bprint ("\n");
+			return;
+		}
+//#endifdef
+
 #ifdef code_morph
 //		if (targ.watertype != CONTENT_LAVA && (targ.flags & FL_DEMONBOOM || targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
 		if (targ.watertype != CONTENT_LAVA && (targ.deathtype == "rage") ) // because a dying demon in a rage still explodes...
@@ -2216,18 +2267,9 @@ bprint ("\n");
 		}
 #endifdef
 
-		if (attacker.classname == "teledeath"
-#ifdef code_xents
-							|| attacker.classname == "portalteledeath"
-#endifdef
-							)
+		if (attacker.classname == "teledeath")
 		{
 			bprint (targ.netname);
-#ifdef code_xents
-			if (attacker.classname == "portalteledeath")
-				bprint (" was quantum fragged by ");
-			else
-#endifdef
 			bprint (" was telefragged by ");
 			bprint (attacker.owner.netname);
 			bprint ("\n");
@@ -2245,146 +2287,6 @@ bprint ("\n");
 			targ.frags = targ.frags - 1;
 			return;
 		}
-
-#ifdef code_pkplus_
-// Cataboligne 8.12.9 purify - pk artifacts
-		if (damage_inflictor.classname == "ego")
-		{
-//			rnum = random ();
-			bprint (targ.netname);
-			if (damage_inflictor.owner == targ)
-			{
-//				if (!NOPKCIDE)
-//					targ.frags = (targ.frags - frag_minus());
-					targ.frags = (targ.frags - 1);
-//				nocide(targ);
-				if (rnum < 0.250)
-					bprint (" had a mental breakdown!\n");
-				else if (rnum < 0.5)
-					bprint (" let his EGO get out of control!\n");
-				else if (rnum < 0.750)
-					bprint ("'s own EGO was self destructive!\n");
-				else
-					bprint ("'s EGO sometimes has a mind of its own!\n");
-				return;
-			}
-			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
-//			attacker.xp = (attacker.xp + ARCHON_FRAG);
-			if (rnum < 0.250)
-				bprint (" was impressed by the power of ");
-			else if (rnum < 0.5)
-				bprint (" was counseled by ");
-			else if (rnum < 0.750)
-				bprint (" was overpowered by ");
-			else
-				bprint (" was manipulated by ");
-			bprint (attacker.netname);
-			bprint ("'s EGO\n");
-			return;
-		}
-		if (damage_inflictor .classname == "corpse")
-		{
-//			rnum = random ();
-			bprint (targ.netname);
-			if (damage_inflictor.owner == targ)
-			{
-//				if (!NOPKCIDE)
-//					targ.frags = (targ.frags - frag_minus());
-					targ.frags = (targ.frags - 1);
-//				nocide(targ);
-				if (rnum < 0.250)
-					bprint (" was caught robbing the family grave!\n");
-				else if (rnum < 0.5)
-						bprint (" could not get away from a relative's corpse\n");
-				else if (rnum < 0.750)
-					bprint (" should not have gone for the family's jewelry\n");
-				else
-					bprint (" was brought down by an old friend\n");
-				return;
-			}
-			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
-//			attacker.xp = (attacker.xp + ARCHON_FRAG);
-			if (rnum < 0.250)
-				bprint (" was dragged down by an old friend in ");
-			else if (rnum < 0.5)
-				bprint (" was laid to rest by ");
-			else if (rnum < 0.750)
-				bprint (", poor kid, got tuckered out dragging someone in ");
-			else
-				bprint (" should not have defiled ");
-			bprint (attacker.netname);
-			bprint ("'s Tomb\n");
-			return;
-		}
-// end pk_art
-#endifdef
-#ifdef code_archon
-		if (damage_inflictor.classname == "sphere_annihilation")
-		{
-			local string sa;
-			bprint (targ.netname);
-			deathstring = rnd_string('90.0 60.0 60.0'," has his ass crushed by  "," finds out where the black hole goes for ",string_null,string_null," goes beyond the event horizion of ");
-			if (sphere_a.owner)
-			{
-				if (sphere_a.owner ==  targ) // whoopsie - got a wee bit too close
-				{
-//					if (!NOPKCIDE)
-						targ.frags = (targ.frags - 1); //frag_minus());
-					if (rnum < 0.5)
-					{
-						deathstring = rnd_string('90.0 60.0 60.0'," got dumb and set a sphere of annihlation free...good going chump!\n"," checked his own event horizon\n",string_null,string_null," made a really bad mistake\n");
-						bprint (deathstring);
-					}
-					else
-						bprint(" - oh my god...its full of stars.\n");
-					return;
-				}
-
-				sa = sphere_a.owner.netname;
-			}
-			else sa = " a wild ";
-			bprint (deathstring);
-			bprint (sa);
-			bprint(" sphere of annihilation\n");
-			attacker.frags = (attacker.frags + frag_plus(attacker)); // add it up
-			attacker.xp = (attacker.xp + ARCHON_FRAG);
-		return;
-		}
-#endifdef
-
-#ifdef code_painkeep_
-// TURRET_START
-// Cataboligne - moved 8.7.13 - catch before we "spike" out
-		if (damage_inflictor.classname == "turret" || attacker.classname == "turret" || attacker.classname == "turret_gib")
-		{
-			bprint(targ.netname);
-
-		// check if killed the droper of the turret.
-			if (attacker.owner == targ) {
-					// killed self
-//					if (!NOPKCIDE)
-						targ.frags = targ.frags - 1; // frag_minus();
-#ifdef enhanced
-//					if (ENHANCED)
-					bprint(rnd_string('90.0 60.0 60.0'," got shot in the arse by his own autosentry\n"," learns a valuable lesson about automated weapons\n",string_null,string_null," forgot to hide from his autosentry\n"));
-//					else
-#else
-					bprint(" forgot to hide from his own AutoSentry!\n");
-#endifdef
-			return;
-			}
-
-		// increase frags & print message.
-			attacker.owner.frags = attacker.owner.frags + 1; // frag_plus(attacker.owner);
-//			attacker.owner.xp = attacker.owner.xp + ARCHON_FRAG;
-
-			bprint(" was ventilated by ");
-			bprint(attacker.owner.netname);
-			bprint("'s AutoSentry\n");
-			return;
-		}
-// TURRET_END
-#endifdef
 
 		if (attacker.classname == "player")
 		{
@@ -2482,7 +2384,7 @@ bprint ("\n");
 				}
 #endifdef
 
-#ifdef code_archon
+#ifdef code_archon_REMOVE
             if (targ.deathtype == "banished")
 				{
 					bprint (targ.netname);
@@ -2493,6 +2395,7 @@ bprint ("\n");
 				}
 #endifdef
 
+#ifndef code_xents
 #ifdef hip_weapons
 //MED 11/18/96
 				if (targ.dmg_inflictor.classname == "proximity_grenade")
@@ -2518,6 +2421,7 @@ bprint ("\n");
 					bprint ("'s bomb\n");
 					return;
 				}
+#endifdef
 #endifdef
 
 				rnum = attacker.weapon;
@@ -2719,11 +2623,7 @@ bprint ("\n");
 					bprint (" can't exist on slime alone\n");
 				return;
 			}
-			else if (rnum == -5
-#ifdef code_xents
-						|| targ.deathtype == "lavadead" || targ.deathtype == "lavadead2"			 // Cataboligne - 10.19.12 - allow other things (like triggers) to set a lava deathtype
-#endifdef
-						)
+			else if (rnum == -5)
 			{
 #ifdef code_xents
 				if (MAP_MODE == "Q3" || MAP_MODE == "Q2")
