@@ -677,13 +677,13 @@ void() respawn =
 	{	// restart the entire server
 #ifdef code_morph
 // died in SP hack to restart
+// TDO: check vs qone / mh sp-coop tweak
 		cvar_set("scratch3",ftos(0 - self.morphy)); // Cataboligne - 9.28.3
 #endifdef
 
 		localcmd ("restart\n");
 	}
 };
-
 
 /*
 ============
@@ -883,13 +883,41 @@ void() PutClientInServer =
 	ClearSpawnPoint(spot);
 #endifdef
 
+#ifdef code_morph
+	f = cvar("scratch3");
+	if (f < 0 && !deathmatch && !coop) // morphic single player - because the server is reloaded every restart
+	{
+		parm15 = self.morphy = fabs(f);
+		cvar_set("scratch3","0");
+	}
+
+// TDO: move to cfg for new morph ops
+	self._stand = SUB_Null; // make sure these are safe & detectable
+	self._pain = SUB_Null;
+	self._run = SUB_Null;
+	self._impulse = SUB_Null;
+	self._attack = SUB_Null;
+	self._jump = SUB_Null;
+	self._jump2 = SUB_Null;
+	self._die = SUB_Null;
+	self._summon = SUB_Null;
+	self._alt_fire = SUB_Null;
+//	self._killmsg = SUB_Null; change to cdm
+//	self._killmsg2 = SUB_Null;
+#endifdef
+
 	self.classname = "player";
 	self.health = 100;
 	self.takedamage = DAMAGE_AIM;
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_WALK;
 	self.show_hostile = 0;
+#ifdef code_xents
+	if (self.max_health < 100) // Cataboligne - 11.1.12 - adrenaline in level add
+		self.max_health = 100;
+#else
 	self.max_health = 100;
+#endifdef
 	self.flags = FL_CLIENT;
 	self.air_finished = time + 12;
 	self.dmg = 2;   		// initial water damage
@@ -901,7 +929,7 @@ void() PutClientInServer =
 	self.invincible_time = 0;
 #ifdef code_runes
 // also morphs - update
-	self.health_modifier = 1;
+	self.health_modifier = 1; // TDO: morph code
 	self.rune_flag = 0;
 #endifdef
 
@@ -969,8 +997,12 @@ void() PutClientInServer =
 // PK - not a disconnected player entity
 //	self.disconnectPlayer = 0;
 
+#ifdef code_painkeep_fs
+	self.pkplus_actortype = 0;
+#endifdef
+
 #ifdef painkeep_splash
-	AddToSplash(self);
+	AddToSplashBig(self);
 #endifdef
 #endifdef
 
@@ -1028,6 +1060,9 @@ void() PutClientInServer =
 	setmodel (self, "progs/player.mdl");
 #endifdef
 	modelindex_player = self.modelindex;
+#ifdef code_morph
+	self.modelindex_morph = self.modelindex;
+#endifdef
 
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 	
@@ -1532,6 +1567,15 @@ void() PlayerPreThink =
 
 	if (intermission_running)
 	{
+#ifdef code_archon
+// if an archon (any player / bot) has a vessel, restore pts
+		if (self.arcvess)
+		{
+			self.pk_explode_ammo = 0;
+			remove_vessel();
+		}
+#endifdef
+
 #ifdef hip_mapent
       earthquake_prethink();
 #endifdef
@@ -1598,6 +1642,13 @@ void() PlayerPreThink =
 	makevectors (self.v_angle);		// is this still used
 
 	CheckRules ();
+/*
+Archon has:
+	if (self.movetype != MOVETYPE_NOCLIP)
+	if (self.health > 0)
+	if (self.classname == "player" || self.classname == "pk*bot")
+down to waterjump
+*/
 	WaterMove ();
 
 	if (self.waterlevel == 2)
@@ -1614,10 +1665,24 @@ void() PlayerPreThink =
 
 	if (self.button2)
 	{
+#ifdef code_morph
+		if (self._jump != SUB_Null) // Should be after these checks? (in client.qc under playerjump)
+			self._jump();
+		else
+#endifdef
 		PlayerJump ();
 	}
 	else
 		self.flags = self.flags | FL_JUMPRELEASED;
+
+#ifdef code_morph
+// note: covers morph flyers, jetpack
+
+	if ((framecount & 3) == 2)
+	if ((!self.flags & FL_ONGROUND) || (self.v_angle_x < -45))
+	if (self.movetype == MOVETYPE_FLY) // NOTE: horn, grap set this
+		flyer_move(); // Cataboligne - 7.26.10 - flyer mouse-fly right code from chaos mod flight
+#endifdef
 
 // teleporters can force a non-moving pause time	
 	if (time < self.pausetime)
@@ -1658,7 +1723,7 @@ Check for turning off powerups
 */
 void() CheckPowerups =
 {
-	if (self.health <= 0)
+	if (self.health <= 0)		// Archon has: obeserver check
 		return;
 
 // invisibility
@@ -1701,7 +1766,12 @@ void() CheckPowerups =
 // whats more this does nothing for eyes, since they only have one frame
 // this fix will work until eyes have more frames
 //		self.frame = 0; 
+
+// Archon has:
+// if (self.mask_x & CB_HUMAN)
 		self.modelindex = modelindex_eyes;
+//		else
+//			self.modelindex = 0;
 	}
 #ifdef hip_weapons
 #ifndef code_xents
@@ -1712,6 +1782,9 @@ void() CheckPowerups =
 #endifdef
 	else
 		self.modelindex = modelindex_player;	// don't use eyes
+
+//	if (!self.invisible_finished)
+//		self.modelindex = self.modelindex_morph;	// don't use eyes
 
 // invincibility
 	if (self.invincible_finished)
@@ -1811,6 +1884,12 @@ void() CheckPowerups =
 			{
 				sprint (self, "Air supply in Biosuit expiring\n");
 				stuffcmd (self, "bf\n");
+/*
+	Archon has:
+				if (self.noise3 != null_string)
+					sound (self, CHAN_AUTO, self.noise3, 1, ATTN_NORM);
+				else
+*/
 				sound (self, CHAN_AUTO, "items/suit2.wav", 1, ATTN_NORM);
 				self.rad_time = time + 1;
 			}
@@ -1827,6 +1906,15 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_SUIT);
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
+/*
+	Archon has:
+// turn off suit skins
+			if (self.mask_x & CB_HUMAN)
+			if (self.skin > 4)
+			{
+				self.skin = 0;
+			}
+*/
 		}
 	}
 
@@ -1951,13 +2039,41 @@ global float wfs;
 		return ;
 #endifdef
 
+#ifdef code_pkbots
+	if (find(world,classname,"pk*bot"))
+  {
+		if ((self.view_ofs != '0 0 0') && !self.deadflag)
+		if (CheckDropPath ()) // *bot
+		{
+			DropBotPath ();
+		}
+
+		if (!(DARKPLACES || chaos)) // handle other engines
+		if (cvar("botlevel")) // hack so alias can load new map & keep pk*bots - set by console command aliases for map & changelevel - bmap & blvl
+		{
+			bot_changelevel(); // map change MUST happen - this clears bots from map!
+			cvar_set("botlevel", "0");
+		}
+  }
+#endifdef
+
 #ifdef hip_mapent
 	earthquake_postthink();
 #endifdef
 
 #ifdef code_viswep
 	if (self.vw_frame != framecount)
+	{
 		viswep_post(); // Cataboligne - 9.26.9 - viswep code link - always have to run this for 1 player + pk*bots deal
+/*
+Archon has:
+		if ((framecount & 31) == 17)
+		if (find(world, classname, LOOPSOUND)) loop_play(); // play on looped sounds
+
+// sphere of annihilation controls
+		if (sphere_a) sphere_annihilation_phys_move();
+*/
+}
 #endifdef
 
 #ifdef code_runes
@@ -2028,6 +2144,10 @@ global float wfs;
 	{
 		if (self.watertype == CONTENT_WATER)
 			sound (self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
+#ifdef code_morph
+			else if (self.map == "demon_jump") // demon jumping - clear indicator
+				self.map = null_string;
+#endifdef
 		else if (self.jump_flag < -650)
 		{
 			T_Damage (self, world, world, 5); 
@@ -2037,6 +2157,9 @@ global float wfs;
 			rune_pull(self, FALL_PULL);
 #endifdef
 
+#ifdef code_morph
+				if (self.mask_x == CB_HUMAN)
+#endifdef
 			sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
 			self.deathtype = "falling";
 		}
@@ -2049,6 +2172,9 @@ global float wfs;
 		self.jump_flag = 0;
 	}
 #ifdef hooks
+// Archon has:
+//		if (!(self.flags & FL_ONGROUND))
+//			self.jump_flag = self.velocity_z;
 	}
 	else // Cataboligne 9.11.3 purify - this is damage from your own hook activities - i.e. skullcrack
 	{
