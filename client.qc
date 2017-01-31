@@ -2033,6 +2033,20 @@ global float wfs;
 													}
 #endifdef
 
+#ifdef code_pkbots
+	if (vw_bot_frame != framecount)  // run these things once this frame
+	{
+		viswep_pkbot();
+
+#ifdef code_archon
+		if ((framecount & 31) == 17)
+		if (find(world, classname, LOOPSOUND)) loop_play(); // play on looped sounds
+
+// sphere of annihilation controls
+		if (sphere_a) sphere_annihilation_phys_move();
+#endifdef
+	}
+#endifdef
 
 #ifdef code_frikbots
 	if (BotPostFrame ())

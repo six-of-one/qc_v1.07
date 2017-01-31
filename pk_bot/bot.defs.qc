@@ -2,13 +2,18 @@
 // bot consts & protos
 // **************************************
 
-entity bot_lvlreload; // Cataboligne - make sure bots continue after level ends
+// get bots common code
+#include <../../_bots.qc>
 
 #define MSG_UPDATENAME			13
 #define MSG_UPDATEFRAGS		14
 #define MSG_UPDATECOLORS		17
 
+entity bot_lvlreload; // Cataboligne - make sure bots continue after level ends
+
 float observer_time;			// time limit for observer mode
+
+float vw_bot_frame; // handle pk*bots viswep
 
 float ax_dmg; // record melee damage in T_Damage so bots can avoid endless axe wars
 void() Bot_Melee;

@@ -38,6 +38,8 @@
 .entity	_next, _last;
 .float	b_frags, b_clientno, b_shirt, b_pants; 
 .float	priority, ai_time, b_sound, missile_speed;
+float 	active_clients;
+float		max_clients;
 
 entity	b_temp1, b_temp2, b_temp3;
 entity 	player_head, phys_head, way_head;
@@ -164,6 +166,10 @@ void(entity	client, string s) centerprint =
 		b_temp1 = b_temp1._next;
 	}
 };
+
+#ifdef code_pkbots
+vector () botaim;		// pk fn
+#endifdef
 
 vector(entity e, float sped) aim =
 {
@@ -294,6 +300,90 @@ void(float to, entity s) WriteEntity	= #59;
 
 #endifdef
 
+// used by all bots
+/*
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+Rankings 'utilities'. Written by Alan Kivlin,
+this code just fools clients by sending precisely
+the same network messages as when a real player
+signs on to the server.
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+*/
+
+#define SVC_UPDATENAME	13
+#define SVC_UPDATEFRAGS	14
+#define SVC_UPDATECOLORS	17
+
+void(entity who) UpdateClient =
+{
+	WriteByte (MSG_ALL, SVC_UPDATENAME);
+	WriteByte (MSG_ALL, who.b_clientno);
+	WriteString (MSG_ALL, who.netname);
+	WriteByte (MSG_ALL, SVC_UPDATECOLORS);
+	WriteByte (MSG_ALL, who.b_clientno);
+	WriteByte (MSG_ALL, who.b_shirt * 16 + who.b_pants);
+	WriteByte (MSG_ALL, SVC_UPDATEFRAGS);
+	WriteByte (MSG_ALL, who.b_clientno);
+	WriteShort (MSG_ALL, who.frags);
+};
+
+
+float(float clientno) ClientBitFlag =
+{
+	// bigger, but faster
+	if (clientno == 0)
+		return 1;
+	else if (clientno == 1)
+		return 2;
+	else if (clientno == 2)
+		return 4;
+	else if (clientno == 3)
+		return 8;
+	else if (clientno == 4)
+		return 16;
+	else if (clientno == 5)
+		return 32;
+	else if (clientno == 6)
+		return 64;
+	else if (clientno == 7)
+		return 128;
+	else if (clientno == 8)
+		return 256;
+	else if (clientno == 9)
+		return 512;
+	else if (clientno == 10)
+		return 1024;
+	else if (clientno == 11)
+		return 2048;
+	else if (clientno == 12)
+		return 4096;
+	else if (clientno == 13)
+		return 8192;
+	else if (clientno == 14)
+		return 16384;
+	else if (clientno == 15)
+		return 32768;
+	return 0;
+};
+
+
+float() ClientNextAvailable =
+{
+	local float clientno;
+
+	clientno = max_clients;
+	while(clientno > 0)
+	{
+		clientno = clientno - 1;
+
+		if (!(active_clients & ClientBitFlag(clientno)))
+			return clientno;
+	}
+
+	return -1;
+};
 
  // use_bots main section
 #endifdef
