@@ -169,7 +169,7 @@ vector(entity e, float sped) aim =
 {
 	e.missile_speed = sped;
 #ifdef code_pkbots
-	if (e.map == "pk*bot") return(botaim());
+	if (e.group == "pk*bot") return(botaim());
 #endifdef
 	return _b_aim(e, sped);
 };
