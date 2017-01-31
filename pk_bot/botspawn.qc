@@ -728,7 +728,7 @@ void (float skl) AddAnotherBot =
 	newbot.b_shirt = rint(top);
 	newbot.b_pants = rint(bottom);
 	newbot.ishuman = FALSE; // frik stuff - make sure - always must be false for bots
-	UpdateClient(newbot);
+	UpdateClient(newbot);		//	NOTE: this puts bot on scoreboard
 /*
 	WriteByte (MSG_ALL,MSG_UPDATENAME);
 	WriteByte (MSG_ALL,newbot.id);

@@ -65,3 +65,5 @@ debug.qc
 // q-hack
 
 maphack.qc
+
+pk_bot/_code.qc

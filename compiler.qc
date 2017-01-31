@@ -620,7 +620,7 @@ spec track by cvar
 
 // use pk bots
 /// SWITCH
-//#define code_pkbots
+#define code_pkbots
 
 #ifdef code_pkbots
 	#ifdef module_list

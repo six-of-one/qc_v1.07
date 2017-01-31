@@ -793,6 +793,11 @@ float(entity targ, entity inflictor) CanDamage;
 #include <runes/_defs.qc>
 #endifdef
 
+#ifdef code_pkbots
+#messagecompiling pk_bot/bot.defs.qc
+#include <pk_bot/bot.defs.qc>
+#endifdef
+
 #include <monster_x/monster_defs.qc>
 
 // engine needs this
