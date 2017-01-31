@@ -290,11 +290,12 @@ float () CheckDropPath =
 	{
 		return (0);
 	}
+/* FIX
 	if (self.classname == OBSERVER)
 	{
 		return (0);
 	}
-
+*/
 // dont answer TRUE to path drop that will be out of bounds
 	if (noway_below)
 	if (self.origin_z < noway_below) return (0);
@@ -387,11 +388,12 @@ void () DropBotPath =
 //	local string tmp;
 	local entity oldpath;
 	local float drop;
+/* FIX
 	if (self.classname == OBSERVER)
 	{
 		return;
 	}
-
+*/
 	if (noway_below)
 	if (self.origin_z < noway_below) return;
 	if (noway_above)

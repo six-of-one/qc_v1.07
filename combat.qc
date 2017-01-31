@@ -536,7 +536,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		}
 	}
 	else
-	{		/// finis
 #endifdef
 
 	if ( (self.flags & FL_MONSTER) && attacker) // != world)

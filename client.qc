@@ -2048,12 +2048,14 @@ global float wfs;
 			DropBotPath ();
 		}
 
+/*
 		if (!(DARKPLACES || chaos)) // handle other engines
 		if (cvar("botlevel")) // hack so alias can load new map & keep pk*bots - set by console command aliases for map & changelevel - bmap & blvl
 		{
 			bot_changelevel(); // map change MUST happen - this clears bots from map!
 			cvar_set("botlevel", "0");
 		}
+*/
   }
 #endifdef
 

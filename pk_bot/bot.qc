@@ -236,9 +236,11 @@ void() bot_skinParms =
 };
 
 //encode bot details for level change - allow pk*bots to work on other game engines - TEST
+// FIX:
 
 void() bot_changeParms =
 {
+	/*
 	local float offset, toffset, team1;
 	local float nb, nt;
 	local entity e;
@@ -282,6 +284,7 @@ void() bot_changeParms =
 		}
 		e = find (e,classname,"pk*bot");
 	}
+	*/
 };
 
 void() bot_skinDecode =
@@ -304,7 +307,7 @@ void() set_initBotLevel =
 	local entity e;
 
 	pk12 = pk13 = 0;
-	if (DARKPLACES || chaos)
+//	if (DARKPLACES || chaos)
 	{
 		if (!cvar("sv_bot_pkset")) return;
 		pk12 = cvar("sv_bot_pk");
@@ -324,16 +327,18 @@ void() set_initBotLevel =
 		e.think = initBotLevel;
 		e.nextthink = time + 2; // give players time to start
 		e.classname = "initBotLevel";
-		if (DARKPLACES || chaos)
+//		if (DARKPLACES || chaos)
 		{
 			e.cnt = pk12;
 			e.count = pk13;
 		}
+/*		
 		else
 		{
 			e.cnt = parm12; // should be bot skill for up to 6 bots
 			e.count = parm13;
 		}
+*/
 	}
 	cvar_set("sv_bot_pkset", "0");
 
@@ -428,7 +433,7 @@ void(entity targ, entity attacker) bot_kill =
 		f.classname = "player";
 	}
 
-	PK_ClientObituary(targ, damage_inflictor, attacker); // *pk - pk death handler
+	ClientObituary(targ, attacker); // *pk - pk death handler
 
 	if (e) e.classname = "pk*bot";
 	if (f) f.classname = "pk*bot";
@@ -526,8 +531,8 @@ void() bot_touch =
 void(entity e) bot_BackpackSetup =
 {
 	if (!e) return;
-	e.pk_touch = e.touch; // *pk
-	e.touch = painkeep_touch; // *pk
+//	e.pk_touch = e.touch; // *pk
+	e.touch = BackpackTouch; // *pk
 
 // bot functions that op. w/o painkeep - masked off here because painkeep_touch does bot_touch and more
 //	e.bot_item_touch = e.touch;
@@ -548,6 +553,7 @@ void(entity e) bot_item_linx =
 // clear state for cacheRoute calls
 	e.state = 0;
 // set bot item master touch
+/* no longer transposing touch fn
 	if (e.touch != painkeep_touch) // *pk handles this function if it got set by PK mode
 	{
 		e.pk_touch = e.touch; // *pk
@@ -555,9 +561,10 @@ void(entity e) bot_item_linx =
 //		e.bot_item_touch = e.touch; // pk_touch does this
 //		e.touch = bot_touch;
 	}
+*/
 // armor items
 
-	if (e.touch == armor_touch || e.pk_touch == armor_touch) // do here instead of item setup - Cataboligne - 9.25.9
+	if (e.touch == armor_touch) // || e.pk_touch == armor_touch) // do here instead of item setup - Cataboligne - 9.25.9
 	{
 		if (!e.skin) e.armorvalue = 100;
 		else if (e.skin == 1) e.armorvalue = 150;
@@ -625,7 +632,7 @@ void(entity e) bot_item_linx =
 		e.th_update = updatelightning;
 		e.state = CACHE_ROUTE_TOUCH;
 	}
-	if (e.touch == weapon_touch || e.pk_touch == weapon_touch) return;
+	if (e.touch == weapon_touch /* || e.pk_touch == weapon_touch*/) return;
 
 // ammo
 	if (e.classname == "item_shells")
@@ -644,14 +651,14 @@ void(entity e) bot_item_linx =
 	{
 		e.th_weight = cellweight;
 	}
-	if (e.touch == ammo_touch || e.pk_touch == ammo_touch)
+	if (e.touch == ammo_touch) // || e.pk_touch == ammo_touch)
 	{
 		e.state = BOT_TOUCHED;
 		return;
 	}
 
 // artifacts
-	if (e.touch == powerup_touch || e.pk_touch == powerup_touch)
+	if (e.touch == powerup_touch) // || e.pk_touch == powerup_touch)
 	{
 		e.th_weight = artifactweight;
 		if (e.classname != "item_artifact_envirosuit")
@@ -698,7 +705,7 @@ void(entity e) bot_item_linx =
 */
 
 
-//	else if (e.classname == null_string)
+//	else if (e.classname == string_null)
 //	{
 //
 //	}
@@ -855,7 +862,7 @@ void() bot_fixer =
 			if (e.button16 == e.frags)
 //			if (e.button15 == e.health)
 			{
-				if (!(inHubMap && e.map != null_string)) // do nothing on hub maps
+				if (!(inHubMap && e.map != string_null)) // do nothing on hub maps
 				{
 					if (e.deadflag)
 					{

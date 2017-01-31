@@ -223,3 +223,58 @@ float (entity targ) Spotvisible;
 float (entity targ) Platvisible;
 float (vector spot) dropline;
 void () secret_touch;
+
+
+// all the weights from bot_tally.qc
+
+float (entity e) doorweight;
+float (entity e) buttonweight;
+float (entity e) platweight;
+float (entity e) trigpushweight;
+float (entity e) triggerweight;
+float (entity e) backpackweight;
+float (entity e) healthweight;
+float () nailweight;
+float () shellweight;
+float () cellweight;
+float () rocketweight;
+float () rlauncherweight;
+float () lightningweight;
+float () glauncherweight;
+float () nailgunweight;
+float () supernailweight;
+float () ssgweight;
+float (entity e) armorweight;
+float (entity e) artifactweight;
+float (entity node, float len, entity item) cacherocket;
+float (entity node, float len, entity item) cachelightning;
+float (entity node, float len, entity item) cachearmor;
+float (entity node, float len, entity item) cachenail;
+float (entity node, float len, entity item) cachegrenade;
+float (entity node, float len, entity item) cachepowerup;
+float (entity node, float len, entity item) cacheenemy;
+void () updaterocket;
+void () updatelightning;
+void () updatearmor;
+void () updatepowerup;
+void () updatenail;
+void () updategrenade;
+float () dont_weight;
+
+// not found cm3 compile
+
+void () respawnBot;
+void () BotPostThink;
+void () ai_botstand;
+void () ai_botturn;
+void (float dist) ai_botcharge;
+void (float dist) ai_botnailcharge;
+void (float dist) ai_botrun;
+void (float dist) ai_botgetGoody;
+void (float dist) ai_botseek;
+
+void(float shotcount, vector dir, vector spread) FireBullets;
+
+// REMOVE / FIX
+void(entity e) eprint				= #31;		// prints an entire edict
+entity bot_fix;

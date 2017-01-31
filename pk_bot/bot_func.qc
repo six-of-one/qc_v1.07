@@ -56,7 +56,7 @@ entity () find_bot =
 	while (head)
 	{
 		dist = vlen (self.origin - head.origin);
-		infront (head, 0, v0, v0);
+		infront (head);		// morph - , 0, '0 0 0', '0 0 0');
 		if ((visible (head) && visible (head)) && (dist < best_dist))
 		{
 			best_dist = dist;
@@ -79,7 +79,7 @@ entity () find_monster =
 	while (head)
 	{
 		dist = vlen (self.origin - head.origin);
-		infront (head, 0, v0, v0);
+		infront (head);		// morph - , 0, '0 0 0', '0 0 0');
 		if (((visible (head) && visible (head)) && (dist < best_dist)) && (head.flags & FL_MONSTER))
 		{
 			best_dist = dist;

@@ -94,7 +94,7 @@ void () bot_start = [ $stand1, bot_walk ]
 {
 //	local string tmp;
 	BotPostThink ();
-	droptofloor(0, 0);
+	droptofloor();
 	self.nextthink = ((time + 0.2) + (0.2 * random ()));
 	if (self.skil < 3)
 	{
@@ -385,7 +385,7 @@ void () bot_axed4 = [ $axattd4, bot_run ]
 void () pkbot_melee =
 {
 	self.weapon = W_BestBotWeapon ();
-	xw_parm(self); // Cataboligne - 9.2.11 - is needed ???
+// CHECK:	xw_parm(self); // Cataboligne - 9.2.11 - is needed ???
 	W_BotAttack ();
 };
 
@@ -718,7 +718,8 @@ void () BotDie =
 	{
 		return ;
 	}
-	dead_drop(self);
+// update - was: dead_drop(self);
+	if (self.rune_flag) dead_runes(self);
 
 	self.items = (self.items - (self.items & IT_INVISIBILITY));
 	self.invisible_finished = 0;
@@ -727,7 +728,7 @@ void () BotDie =
 	self.radsuit_finished = 0;
 	self.modelindex = self.modelindex_morph;
 	DropBackpack ();
-	self.weaponmodel = null_string;
+	self.weaponmodel = string_null;
 	self.view_ofs = '0 0 -8';
 	self.deadflag = DEAD_DYING;
 	self.solid = SOLID_NOT;

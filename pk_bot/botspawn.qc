@@ -741,7 +741,8 @@ void (float skl) AddAnotherBot =
 	WriteShort (MSG_ALL,newbot.frags);
 */
 	if (!NOSAVE)
-	if (DARKPLACES || chaos) th_bot_changeParms(12.5);
+//	if (DARKPLACES || chaos) 
+		th_bot_changeParms(12.5);
 };
 
 void (entity ply, float n) addTeamBots =
@@ -776,7 +777,8 @@ void (entity ply, float n) addTeamBots =
 		}
 		i = (i - 1);
 		if (!NOSAVE)
-		if (DARKPLACES || chaos) th_bot_changeParms(12.5);
+//		if (DARKPLACES || chaos) 
+			th_bot_changeParms(12.5);
 	}
 };
 
@@ -796,29 +798,32 @@ void(entity e) removeBot =
 // must remove it's entry in the rankings
 // Quake engine sets all fields to 0, can only do the most important here
 		f.b_frags = f.frags = 0;
-		f.netname = null_string;
-		f.classname = null_string;
+		f.netname = string_null;
+		f.classname = string_null;
 		f.health = 0;
 		f.items = 0;
 		f.armorvalue = 0;
-		f.weaponmodel = null_string;
+		f.weaponmodel = string_null;
 		f.b_pants = 0;
 		f.b_shirt = 0;
 		f.ammo_shells = f.ammo_nails = f.ammo_rockets = f.ammo_cells = 0;
-		f.pkprevweapon = f.pklastweapon = f.prevweapon = f.lastweapon = 0; // pk
-		f.weapon = f.currentammo = f.x_items = f.ammo_bullet = f.ammo_slug = f.ammo_gaspr = f.ammo_hgrenade = 0; // x stuff
+		f.pkprevweapon = /* f.pklastweapon = */ f.prevweapon = f.lastweapon = 0; // pk
+		f.weapon = f.currentammo = f.x_items = f.ammo_bullet = f.ammo_slug = f.ammo_gaspr = 0; //f.ammo_hgrenade = 0; // x stuff
 		f.eweapon = world;
 		UpdateClient(f);
 		active_clients = active_clients - (active_clients & ClientBitFlag(f.b_clientno));
 		f.id = f.b_clientno = -1;
 	}
 
-	dead_drop(f); // Cataboligne - 10.7.11 - drop runes+
+// update - was: dead_drop(f); // Cataboligne - 10.7.11 - drop runes+
+	if (f.rune_flag) dead_runes(f);
+
 	remove (f.movetarget);
 	remove (f.goalentity);
 	remove (f);
 	NUMBOTS = NUMBOTS - 1;
-	if (DARKPLACES || chaos) th_bot_changeParms(1);
+//	if (DARKPLACES || chaos) 
+		th_bot_changeParms(1);
 };
 
 void (entity ply, float n) removeTeamBots =

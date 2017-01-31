@@ -41,55 +41,61 @@
 
 // main bot modules
 
+	#ifdef nodprint
+
+	#define		dprint		//
+
+	#endifdef
+
 
 // call moved to defs.qc
-//	#messagecompiling pk_bot/bot.defs.qc
+//	#messagecompiling pk_bot/bot.defs.qc 
 //	#include </bot.defs.qc>
 
-	#messagecompiling pk_bot/bot_tally.qc
+	#messagecompiling pk_bot/bot_tally.qc 
 	#include </bot_tally.qc>
 
 
 	#messagecompiling pk_bot/bot.qc 
 	#include </bot.qc>
 
-	#messagecompiling pk_bot/bot_func.qc
+	#messagecompiling pk_bot/bot_func.qc 
 	#include </bot_func.qc>
 
-	#messagecompiling pk_bot/botfight.qc
+	#messagecompiling pk_bot/botfight.qc 
 	#include </botfight.qc>
 
-	#messagecompiling pk_bot/botthink.qc
+	#messagecompiling pk_bot/botthink.qc 
 	#include </botthink.qc>
 
-	#messagecompiling pk_bot/botspawn.qc
+	#messagecompiling pk_bot/botspawn.qc 
 	#include </botspawn.qc>
 
-	#messagecompiling pk_bot/botsignl.qc
+	#messagecompiling pk_bot/botsignl.qc 
 	#include </botsignl.qc>
 
-	#messagecompiling pk_bot/botmove.qc
+	#messagecompiling pk_bot/botmove.qc 
 	#include </botmove.qc>
 		
-	#messagecompiling pk_bot/botnoise.qc
+	#messagecompiling pk_bot/botnoise.qc 
 	#include </botnoise.qc>
 
-	#messagecompiling pk_bot/botvis.qc
+	#messagecompiling pk_bot/botvis.qc 
 	#include </botvis.qc>
 
-	#messagecompiling pk_bot/botgoal.qc
+	#messagecompiling pk_bot/botgoal.qc 
 	#include </botgoal.qc>
 
-	#messagecompiling pk_bot/bot_ai.qc
+	#messagecompiling pk_bot/bot_ai.qc 
 	#include </bot_ai.qc>
 
-	#messagecompiling pk_bot/pkbot.qc
+	#messagecompiling pk_bot/pkbot.qc 
 	#include </pkbot.qc>
 
-	#messagecompiling pk_bot/botroute.qc
+	#messagecompiling pk_bot/botroute.qc 
 	#include </botroute.qc>
 
-	#messagecompiling pk_bot/botimp.qc
+	#messagecompiling pk_bot/botimp.qc 
 	#include </botimp.qc>
 
 
@@ -104,7 +110,16 @@
 estimated cost of pk*bot package
 compiled on 016.1.11 with fteqcc 1.0
 
-
+134840 strofs (of 1000000)
+ 78103 numstatements (of 524288)
+  1778 numfunctions (of 16384)
+  7757 numglobaldefs (of 32768)
+   510 numfielddefs (467 unique) (of 2048)
+  8254 numpr_globals (of 65536)
+Writing progs.dat
+922956 TOTAL SIZE
+Writing progs.lno
+103 unique precache_models
 
 
 vs.

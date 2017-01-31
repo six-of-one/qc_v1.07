@@ -36,17 +36,18 @@ void() use_pkitem =
 
 	if (drp)
 	{
+// FIX: need to set eweap - really need to select
 		if (self.pk_canpabammo > 0 && drp > 0.9) // heal or escape when health low
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_CANPAB;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pkplus_phoneammo > 0 && drp > 0.9)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_PHONE;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pk_gravitywellammo != 0 && drp > 0.8)
 		{
@@ -62,31 +63,31 @@ void() use_pkitem =
 			}
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_GRAVITYWELL;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pk_turretammo > 0 && drp > 0.7)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_TURRET;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pk_beartrapammo > 0 && drp > 0.6)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_BEARTRAP;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pkplus_egoammo > 0 && drp > 0.4) // Cataboligne - 5.8.10 - bots use pkplus artefacts items now - YAY!  (no Gir, thats bad...)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_EGO;
-			PK_Attack();
+			W_Attack();
 		}
 		else if (self.pkplus_tombammo > 0)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_TOMB;
-			PK_Attack();
+			W_Attack();
 		}
 	}
 };
@@ -629,10 +630,12 @@ float () BotFindTarget =
 	{
 		return(BotfindBot ());
 	}
+/*
 	if (client.classname == OBSERVER)
 	{
 		return(BotfindBot ());
 	}
+*/
 	if (inHubMap && client.invincible_finished > time) // Cataboligne - 5.12.10 - on a hub and this enemy is invincible still
 	if (random() < 0.9) return(0);
 
