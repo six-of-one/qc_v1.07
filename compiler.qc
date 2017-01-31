@@ -637,7 +637,7 @@ spec track by cvar
 
 // use frik bots
 /// SWITCH
-//#define code_frikbots
+#define code_frikbots
 
 #ifdef code_frikbots
 	#ifdef module_list
@@ -1393,7 +1393,73 @@ optres_unreferenced 22
 numtemps 349
 101 warnings
 
+-----------------------------------------------------
 
+017.1.31: no bots compile
+
+                		- qc++
+                		- opgrade
+                		- codefix
+                		- noobjerr
+                		- nodprint
+                		- warning
+                		- local_test 	*
+                		- xvars
+                		- Archon (a)
+                		- hipnotic
+                		- zerstorer
+                		- code_painkeep
+                		- code_runes
+                		- code_viswep
+                		- quakemonsters
+                		- map_hack
+                		- code_xents
+
+107064 strofs (of 1000000)
+ 60864 numstatements (of 524288)
+  1357 numfunctions (of 16384)
+  5721 numglobaldefs (of 32768)
+   411 numfielddefs (375 unique) (of 2048)
+  6250 numpr_globals (of 65536)
+Writing progs.dat
+717016 TOTAL SIZE
+Writing progs.lno
+103 unique precache_models
+Compile Complete
+
+optres_shortenifnots 526
+optres_overlaptemps 34630
+optres_constantarithmatic 329
+optres_nonvec_parms 9672
+optres_assignments 1705
+optres_unreferenced 44
+optres_dupconstdefs 2
+numtemps 466
+104 warnings
+
+bots:
+
+134876 strofs (of 1000000)
+ 78145 numstatements (of 524288)
+  1779 numfunctions (of 16384)
+  7759 numglobaldefs (of 32768)
+   510 numfielddefs (467 unique) (of 2048)
+  8256 numpr_globals (of 65536)
+Writing progs.dat
+923388 TOTAL SIZE
+Writing progs.lno
+103 unique precache_models
+Compile Complete
+
+optres_shortenifnots 685
+optres_overlaptemps 43959
+optres_constantarithmatic 385
+optres_nonvec_parms 11396
+optres_assignments 2626
+optres_unreferenced 76
+optres_dupconstdefs 3
+numtemps 530
+104 warnings
 
 
 */
