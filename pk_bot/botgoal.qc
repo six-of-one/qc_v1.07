@@ -25,7 +25,11 @@ void () shoottarget =
 	sound (self,CHAN_WEAPON,"weapons/guncock.wav",TRUE,ATTN_NORM);
 	dir = ((botTarget.goalentity.absmin + botTarget.goalentity.absmax) * 0.5);
 	dir = normalize (dir - self.origin);
-	FireBullets (MOVETYPE_TOSS,dir,'0.040 0.040 0');
+#ifdef code_xents
+	X_FireBullets (6, 4, dir, '0.04 0.04 0');
+#else
+	FireBullets (6,dir,'0.040 0.040 0');
+#endifdef
 	self.attack_finished = (time + 0.5);
 	self.enemy = world;
 	if (botTarget.goalentity.classname == "door")

@@ -273,8 +273,6 @@ void (float dist) ai_botrun;
 void (float dist) ai_botgetGoody;
 void (float dist) ai_botseek;
 
-void(float shotcount, vector dir, vector spread) FireBullets;
-
 // REMOVE / FIX
 void(entity e) eprint				= #31;		// prints an entire edict
 entity bot_fix;
