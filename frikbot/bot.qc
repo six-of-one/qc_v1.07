@@ -120,6 +120,7 @@ for all variable in the bot...
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
 
+// get bots common code
 #include <../../_bots.qc>
 
 //#define FRIKBOT TRUE // set to true for frikbot access
