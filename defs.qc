@@ -807,6 +807,7 @@ float(entity targ, entity inflictor) CanDamage;
 
 // perm new code
 float spawn_particle; // for SpawnBlood particle takeover
+float		fraglimit; // save local globs
 
 //============================================================================
 

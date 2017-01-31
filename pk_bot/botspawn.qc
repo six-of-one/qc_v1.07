@@ -144,11 +144,10 @@ void () setBotGravity =
 	local float newmax;
 	local float vel;
 //	local float sk;
-	local string tmp;
+
 	GRAVITY = (cvar ("sv_gravity") * 0.1);
 	bprint ("Gravity accel is ");
-	tmp = ftos (GRAVITY);
-	bprint (tmp);
+	bprint (ftos (GRAVITY));
 	bprint ("\n");
 	newmax = 0;
 	vel = 270;
@@ -161,8 +160,7 @@ void () setBotGravity =
 	}
 	MAXJUMP = (MAXJUMP - 1);
 	bprint ("Max jump height is ");
-	tmp = ftos (MAXJUMP);
-	bprint (tmp);
+	bprint (ftos (MAXJUMP));
 	bprint ("\n");
 	LEVELJUMPTIME = 0;
 	vel = 270;
@@ -175,8 +173,7 @@ void () setBotGravity =
 	}
 	LEVELJUMPTIME = (LEVELJUMPTIME - (newmax / vel));
 	bprint ("Level jump time is ");
-	tmp = ftos (LEVELJUMPTIME);
-	bprint (tmp);
+	bprint (ftos (LEVELJUMPTIME));
 	bprint ("\n");
 	newmax = 0;
 	vel = 200;
@@ -188,14 +185,12 @@ void () setBotGravity =
 		newmax = (newmax + (vel * 0.1));
 	}
 	bprint ("Max grenade height is ");
-	tmp = ftos (GRENADEMAXHEIGHT);
-	bprint (tmp);
+	bprint (ftos (GRENADEMAXHEIGHT));
 	bprint ("\n");
 	INVGRENADELEVELDIST = (((0.1 * 2) * (200 - GRAVITY)) / GRAVITY);
 	INVGRENADELEVELDIST = (1/ (INVGRENADELEVELDIST * SEARCH_RADIUS));
 	bprint ("inverse grenade level distance is ");
-	tmp = ftos (INVGRENADELEVELDIST);
-	bprint (tmp);
+	bprint (ftos (INVGRENADELEVELDIST));
 	bprint ("\n");
 	BOTSPEED = (cvar ("sv_maxspeed") / 10);
 };
@@ -252,8 +247,7 @@ void () respawnBot =
 				bprint (self.teamname);
 				bprint (self.netname);
 				bprint (" left the game with ");
-				m = ftos (self.frags);
-				bprint (m);
+				bprint (ftos (self.frags));
 				bprint (" frags\n");
 				return ;
 			}
@@ -279,8 +273,7 @@ void () respawnBot =
 			bprint (self.teamname);
 			bprint (self.netname);
 			bprint (" left the game with ");
-			m = ftos (self.frags);
-			bprint (m);
+			bprint (ftos (self.frags));
 			bprint (" frags\n");
 			return ;
 /*
@@ -311,54 +304,21 @@ void () PutBotInServer =
 {
 //	local entity spwn;
 //	local vector spot;
-	local string tmp;
-	local float aimvar;
 
 	SetNewParms ();
 
+	self.group = "pk*bot";
 	self.class_select = "class_bot";
 	PutClientInServer(); /// Cataboligne - 6.20.10 - does all commented stuff below *** NOTE: means bots use parm*, which is wrong
 	// sets FL_CLIENT - might be ok
 
-	self.classname = "pk*bot"; // NOTE: decided to fix vw issue and not change this to player now as pk*bot work quite well
-//	self.class_select = "pk*bot";
+	self.classname = "player";		// at long last, taking the frikbot route
 	self.movetype = MOVETYPE_STEP;
 	self.air_finished = (time + 30);
 	self.dmg = 1;
 
-//	self.health = 100;
-//	self.takedamage = DAMAGE_AIM;
-//	self.solid = SOLID_SLIDEBOX;
-//	self.show_hostile = 0;
-//	self.max_health = 100;
-//	self.super_damage_finished = 0;
-//	self.radsuit_finished = 0;
-//	self.invisible_finished = 0;
-//	self.invincible_finished = 0;
-//	self.effects = 0;
-//	self.invincible_time = 0;
-
-//	DecodeLevelParms ();
-//	W_SetCurrentAmmo ();
-//	self.attack_finished = time;
-//	if (PK) spwn = PK_SelectSpawnPoint (); // *pk - get a spawn point, pk style
-//	else
-//	spwn = SelectSpawnPoint ();
-//	spot = (spwn.origin + '0 0 1');
-//	self.origin = spot;
-//	setorigin (self,spot);
-//	self.angles = spwn.angles;
-//	self.fixangle = 1;
-
 //models--------
 
-//	setsize (self,VEC_HULL_MIN,VEC_HULL_MAX);
-//	self.deadflag = DEAD_NO;
-//	self.pausetime = 0;
-//	self.view_ofs = '0 0 22';
-//	makevectors (self.angles);
-//	spawn_tfog (self.origin + (v_forward * 20));
-//	spawn_tdeath (self.origin,self);
 	self.yaw_speed = (45 + (25 * self.skil));
 	self.lefty = STRAFE_DIR;
 	if (self.goalentity == world)
@@ -400,18 +360,21 @@ void () PutBotInServer =
 		NUMPATHERS = (NUMPATHERS + 1);
 	}
 
+#ifndef nodprint
 	if (BOTSPEED < 32)
 	{
 		dprint ("Feeling kind of slow today (SV_MAXSPEED = ");
-		tmp = ftos (BOTSPEED * 10);
-		dprint (tmp);
+		dprint (ftos (BOTSPEED * 10));
 		dprint ("\n");
 	}
-	aimvar = cvar ("sv_aim");
-	if (aimvar != 0.930)
+#endifdef
+
+#ifndef nodprint
+	if (cvar ("sv_aim") != 0.930)
 	{
 		dprint ("Seems like sv_aim isn't 0.93\n");
 	}
+#endifdef
 };
 
 void () SpawnNewBot =
@@ -425,22 +388,17 @@ void () SpawnNewBot =
 	PutBotInServer ();
 	bprint (self.teamname);
 	bprint (self.netname);
-	tmp = ftos (self.skil);
 	bprint (" (skill = ");
-	bprint (tmp);
+	bprint (ftos (self.skil));
 	bprint (") entered the game.\n");
 };
 
 entity () AddBot =
 {
-	local entity newbot;
-	local entity oldself;
-//	local string mycolor;
-//	local float plycolor;
-	newbot = spawn ();
+	e1__ = spawn ();
 
-	oldself = self;
-	self = newbot;
+	e0__ = self;
+	self = e1__;
 	self.think = SpawnNewBot;
 	self.nextthink = (time + (12 * random ()));
 	self.skil = c_skill;
@@ -453,22 +411,20 @@ entity () AddBot =
 		self.skil = 3;
 	}
 //	initscore ();
-	self = oldself;
-	return(newbot);
+	self = e0__;
+	return(e1__);
 };
 
 float () numplayers =
 {
-	local entity e;
-	local float n;
-	n = 0;
-	e = find (world,classname,"player");
-	while (e)
+	f0__ = 0;
+	e0__ = find (world,classname,"player");
+	while (e0__)
 	{
-		n = (n + 1);
-		e = find (e,classname,"player");
+		f0__ = (f0__ + 1);
+		e0__ = find (e0__,classname,"player");
 	}
-	return(n);
+	return(f0__);
 };
 
 void (float skl) AddAnotherBot =
@@ -478,7 +434,7 @@ void (float skl) AddAnotherBot =
 	local string st;
 	local float top, bottom;
 
-	self.impulse = 0;
+//	self.impulse = 0;
 	if (!teamplay)
 	{
 		if (serverflags & TEAMBOTS)
@@ -522,7 +478,7 @@ void (float skl) AddAnotherBot =
 		if (SKINSMODE == 1)
 		{
 			skinChange (newbot,NUMBOTS);
-		}
+	 	}
 		else
 		{
 			if (SKINSMODE == 2)
@@ -831,7 +787,7 @@ void (entity ply, float n) removeTeamBots =
 	local float i;
 	local entity e;
 	i = n;
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 		if (!e)
 		{
 			bprint ("No team bots found.\n");
@@ -841,7 +797,7 @@ void (entity ply, float n) removeTeamBots =
 	{
 		while ((e != world) && (e.team != ply.team))
 		{
-			e = find (e,classname,"pk*bot");
+			e = find (e,group,"pk*bot");
 		}
 		removeBot(e);
 		i = (i - 1);
@@ -851,7 +807,7 @@ void (entity ply, float n) removeTeamBots =
 void () removeAllBots =
 {
 	local entity e;
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 	if (!e)
 	{
 		bprint ("No bots found.\n");
@@ -860,7 +816,7 @@ void () removeAllBots =
 	while (e)
 	{
 		removeBot(e);
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 	NUMBOTS = 0;
 	bprint ("All bots removed.\n");
@@ -869,7 +825,6 @@ void () removeAllBots =
 void (float n) SetMaxBots =
 {
 	local float t;
-	local string tmp;
 	self.impulse = 0;
 	if (serverflags & TEAMFLAG)
 	{
@@ -877,8 +832,7 @@ void (float n) SetMaxBots =
 		serverflags = ((serverflags - TEAMFLAG) - (serverflags & TEAMBOTS));
 	}
 	bprint ("Max bots + players set to ");
-	tmp = ftos (n);
-	bprint (tmp);
+	bprint (ftos (n));
 	bprint ("\n");
 	serverflags = ((serverflags - (serverflags & TEAMBOTS)) + (n * 256));
 	t = numplayers ();
@@ -892,7 +846,6 @@ void (float n) SetTeamBots =
 {
 	local float t;
 	local entity e;
-	local string tmp;
 	self.impulse = 0;
 	if (!(serverflags & TEAMFLAG))
 	{
@@ -900,31 +853,30 @@ void (float n) SetTeamBots =
 		serverflags = ((serverflags + TEAMFLAG) - (serverflags & TEAMBOTS));
 	}
 	bprint ("Bots per player team set to ");
-	tmp = ftos (n);
-	bprint (tmp);
+	bprint (ftos (n));
 	bprint ("\n");
 	t = ((serverflags & TEAMBOTS) / 256);
 	serverflags = ((serverflags - (serverflags & TEAMBOTS)) + (n * 256));
 	if (t < n)
 	{
-		e = find (world,classname,"player");
+		e = find (world,class_select,"class_player");
 		t = (n - t);
 		c_skill = skill;
 		while (e)
 		{
 			addTeamBots (e,t);
-			e = find (e,classname,"player");
+			e = find (e,class_select,"class_player");
 		}
 		return ;
 	}
 	if (t > n)
 	{
-		e = find (world,classname,"player");
+		e = find (world,class_select,"class_player");
 		while (e)
 		{
 			t = (t - n);
 			removeTeamBots (e,t);
-			e = find (e,classname,"player");
+			e = find (e,class_select,"class_player");
 		}
 		return ;
 	}
@@ -933,14 +885,14 @@ void (float n) SetTeamBots =
 void () UpdateTeamColors =
 {
 	local entity e;
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 	while (e)
 	{
 		if (e.colormap == self.colormap)
 		{
 			e.team = self.team;
 		}
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 };
 

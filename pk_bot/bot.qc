@@ -98,7 +98,7 @@ void() bot_saveData =
 	local float nb, nt, pk12, pk13;
 	local entity e;
 
-	e = find(world,classname,"pk*bot");
+	e = find(world,group,"pk*bot");
 	offset = toffset = 1;
 	pk12 = pk13 = 0;
 	team1 = 100;
@@ -131,7 +131,7 @@ void() bot_saveData =
 				}
 			}
 		}
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 
 	cvar_set("sv_bot_pk", ftos(pk12));
@@ -160,7 +160,7 @@ void() bot_changeParms =
 
 	if (DARKPLACES || chaos) return;
 
-	e = find(world,classname,"pk*bot");
+	e = find(world,group,"pk*bot");
 	offset = toffset = 1;
 	parm12 = parm13 = 0; // tuned for painkeep merge
 	team1 = 100;
@@ -195,7 +195,7 @@ void() bot_changeParms =
 				}
 			}
 		}
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 	*/
 };
@@ -318,12 +318,12 @@ void() bot_changelevel =
 {
 	local entity e;
 
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 	while (e)
 	{
 		e.nextthink = -1;
 		e.modelindex = 0;
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 	serverflags = (serverflags | INITLEVEL); // reload bots on next level
 };
@@ -332,6 +332,7 @@ void() bot_changelevel =
 
 void(entity targ, entity attacker) bot_kill =
 {
+/*
 	local entity e, f;
 
 	e = f = world;
@@ -345,21 +346,22 @@ void(entity targ, entity attacker) bot_kill =
 		f = attacker;
 		f.classname = "player";
 	}
+*/
 
 	ClientObituary(targ, attacker); // *pk - pk death handler
 
-	if (e) e.classname = "pk*bot";
-	if (f) f.classname = "pk*bot";
+//	if (e) e.classname = "pk*bot";
+//	if (f) f.classname = "pk*bot";
 
-	if (attacker.classname == "pk*bot")
+	if (attacker.group == "pk*bot")
 		Update_Frags(attacker);
-	if (targ.classname == "pk*bot")
+	if (targ.group == "pk*bot")
 		Update_Frags(targ);
 
-	if ((targ.classname == "player") || (targ.classname == "pk*bot"))
+	if ((targ.classname == "player") || (targ.group == "pk*bot"))
 	{
 		if (attacker.classname == "teledeath") // note: portal frag, one day maybe
-		if (attacker.owner.classname == "pk*bot")
+		if (attacker.owner.group == "pk*bot")
 		{
 			TELEFRAGFLAG = 1;
 			Update_Frags(attacker.owner);
@@ -367,78 +369,6 @@ void(entity targ, entity attacker) bot_kill =
 	}
 
 };
-
-/*
- * Cataboligne
- *
- * only print & stuffcmd to real players - frikbot code borrow - noted to protect against sz_ overflows because bots dont retrieve the messages
- *
- */
-
-// inactive while installed with frikbot code, which was adapted to work the same & noted *bot
-// IMP: class_select test instead of | plus classname
-/*
-void(entity client, string s)	bot_stuffcmd = #21;
-void(entity client, string s)	bot_sprint = #24;
-void(entity client, string s)	bot_centerprint = #73;
-
-void(entity	client, string s) stuffcmd =
-{
-	if (client.classname == "pk*bot") return;
-//	if (client.ishuman == 1)
-		bot_stuffcmd(client, s);
-};
-
-void(entity	client, string s) sprint =
-{
-	if (client.classname == "pk*bot") return;
-//	if (client.ishuman == 1)
-		bot_sprint(client, s);
-};
-void(entity	client, string s) centerprint =
-{
-	if (client.classname == "pk*bot") return;
-//	if (client.ishuman == 1)
-		bot_centerprint(client, s);
-};
-*/
-
-// bot touch - do bot stuff for some items - removed touch hooks
-/* using pk fn instead
-void() bot_touch =
-{
-	local entity e;
-
-	e = world;
-
-	if (self.state == CACHE_ROUTE_TOUCH || self.state == BOT_TOUCHED_CACHE_ROUTE_TOUCH)
-	{
-		if (other.movetarget.movetarget)
-			cacheRoute (other.movetarget,other.movetarget.movetarget,0,self);
-	}
-
-// NOTE: original code has bot call this after collecting item - this is slightly different as it calls it no matter what
-// also, the original code seems kind of borked in its intent - the announce goes out and >poof< the item is gone!
-	if (other.classname == "pk*bot")
-	{
-		if (self.state == BOT_TOUCHED || self.state == BOT_TOUCHED_CACHE_ROUTE_TOUCH)
-		{
-			bot_toucheditem ();
-		}
-		e = other;
-		e.classname = "player";
-	}
-//	self.bot_item_touch();
-	self.pk_touch();
-	if (e)
-	{
-		if (e.think == player_run) e.think = e.th_run;
-		if (e.think == player_stand1) e.think = e.th_stand;
-		e.classname = "pk*bot";
-
-	}
-};
-*/
 
 // backpack setup special 
 void(entity e) bot_BackpackSetup =
@@ -702,7 +632,7 @@ void() bot_wakey =
 	{
 		self.owner.button16 = self.owner.frags;
 		self.owner.button15 = self.owner.health;
-		if (self.owner.classname == "pk*bot")
+		if (self.owner.group == "pk*bot")
 		{
 			self.owner.nextthink = time + random();
 			self.owner.think = respawnBot;

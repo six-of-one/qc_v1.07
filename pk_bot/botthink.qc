@@ -47,13 +47,13 @@ void () BotWaterMove =
 	{
 		if (self.air_finished < time)
 		{
-			sound (self,CHAN_VOICE,"player/gasp2.wav",TRUE,ATTN_NORM);
+			sound (self,CHAN_VOICE,"player/gasp2.wav",1,ATTN_NORM);
 		}
 		else
 		{
 			if (self.air_finished < (time + 9))
 			{
-				sound (self,CHAN_VOICE,"player/gasp1.wav",TRUE,ATTN_NORM);
+				sound (self,CHAN_VOICE,"player/gasp1.wav",1,ATTN_NORM);
 			}
 		}
 		self.air_finished = (time + 20);
@@ -70,7 +70,14 @@ void () BotWaterMove =
 				{
 					self.dmg = 10;
 				}
-				T_Damage (self,world,world,self.dmg);
+// PK armor fix
+#ifdef code_xents
+				self.ignorearmor = IGN_ARM;
+				T_Damage (self, world, world, self.dmg);
+				self.ignorearmor = 0;
+#else
+				T_Damage (self, world, world, self.dmg);
+#endifdef
 				self.pain_finished = (time + 1);
 			}
 		}
@@ -91,7 +98,7 @@ void () BotWaterMove =
 	{
 		if (self.flags & FL_INWATER)
 		{
-			sound (self,CHAN_BODY,"misc/outwater.wav",TRUE,ATTN_NORM);
+			sound (self,CHAN_BODY,"misc/outwater.wav",1,ATTN_NORM);
 			self.flags = (self.flags - FL_INWATER);
 		}
 		if (self.flags & FL_SWIM)
@@ -137,15 +144,15 @@ void () BotWaterMove =
 	{
 		if (self.watertype == CONTENT_LAVA)
 		{
-			sound (self,CHAN_BODY,"player/inlava.wav",TRUE,ATTN_NORM);
+			sound (self,CHAN_BODY,"player/inlava.wav",1,ATTN_NORM);
 		}
 		if (self.watertype == CONTENT_WATER)
 		{
-			sound (self,CHAN_BODY,"player/inh2o.wav",TRUE,ATTN_NORM);
+			sound (self,CHAN_BODY,"player/inh2o.wav",1,ATTN_NORM);
 		}
 		if (self.watertype == CONTENT_SLIME)
 		{
-			sound (self,CHAN_BODY,"player/slimbrn2.wav",TRUE,ATTN_NORM);
+			sound (self,CHAN_BODY,"player/slimbrn2.wav",1,ATTN_NORM);
 		}
 		self.flags = (self.flags + FL_INWATER);
 		if (!(self.flags & FL_SWIM))
@@ -173,7 +180,7 @@ void () BotCheckPowerups =
 		{
 			if (self.invisible_time == 1)
 			{
-				sound (self,CHAN_AUTO,"items/inv2.wav",TRUE,ATTN_NORM);
+				sound (self,CHAN_AUTO,"items/inv2.wav",1,ATTN_NORM);
 				self.invisible_time = (time + 1);
 			}
 			if (self.invisible_time < time)
@@ -204,7 +211,7 @@ void () BotCheckPowerups =
 		{
 			if (self.invincible_time == 1)
 			{
-				sound (self,CHAN_AUTO,"items/protect2.wav",TRUE,ATTN_NORM);
+				sound (self,CHAN_AUTO,"items/protect2.wav",1,ATTN_NORM);
 				self.invincible_time = (time + 1);
 			}
 			if (self.invincible_time < time)
@@ -233,7 +240,7 @@ void () BotCheckPowerups =
 		{
 			if (self.super_time == 1)
 			{
-				sound (self,CHAN_AUTO,"items/damage2.wav",TRUE,ATTN_NORM);
+				sound (self,CHAN_AUTO,"items/damage2.wav",1,ATTN_NORM);
 				self.super_time = (time + 1);
 			}
 			if (self.super_time < time)
@@ -263,7 +270,7 @@ void () BotCheckPowerups =
 		{
 			if (self.rad_time == 1)
 			{
-				sound (self,CHAN_AUTO,"items/suit2.wav",TRUE,ATTN_NORM);
+				sound (self,CHAN_AUTO,"items/suit2.wav",1,ATTN_NORM);
 				self.rad_time = (time + 1);
 			}
 			if (self.rad_time < time)
@@ -283,7 +290,6 @@ void () BotCheckPowerups =
 void () BotDead;
 void () BotPostThink =
 {
-	local float fraglimit;
 	if (self.pather)
 	{
 		if (CheckDropPath ())
@@ -305,6 +311,7 @@ void () BotPostThink =
 	fraglimit = cvar ("fraglimit");
 	if (fraglimit && (self.frags >= fraglimit))
 	{
+// TDO: find out if we can use CheckRules()
 		NextLevel (); // Cat - 4.5.10 - NOTE: is it just me or does it seem like the bot doesnt even have to reach the exit...
 		self.button0 = 1;
 		self.think = IntermissionThink;
@@ -322,7 +329,7 @@ void () BotPostThink =
 	}
 
 // fix get item issue with rndize
-	if (self.classname != "pk*bot")	self.classname = "pk*bot";
+//	if (self.classname != "pk*bot")	self.classname = "pk*bot";
 
 // bot post think checks
 		if (self.copb_timeout)

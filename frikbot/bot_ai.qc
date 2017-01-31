@@ -180,7 +180,7 @@ void(entity targ, float success) bot_lost =
         }
 
 
-	if (targ.classname != "player" && targ.group != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	if (targ.classname != "player") // && targ.group != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 		targ.search_time = time + 5;
 };
 
@@ -234,13 +234,13 @@ void(entity targ) bot_check_lost =
 		if (vlen(targ.origin - self.origin) < 32)
 			bot_lost(targ, TRUE);
 	}
-	else if (targ.classname == "player" || targ.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	else if (targ.classname == "player") // || targ.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 	{
 		if (targ.health <= 0)
 			bot_lost(targ, TRUE);
 		else if ((coop) || (teamplay && targ.team == self.team))
 		{
-			if (targ.target1_.classname == "player" || targ.target1_.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+			if (targ.target1_.classname == "player") // || targ.target1_.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 			{
 				if (!targ.target1_.ishuman)
 					bot_lost(targ, TRUE);
@@ -523,7 +523,7 @@ void() bot_path =
 		if (self.target1_.current_way != self.last_way)
 		{
 			if (self.target1_.classname != "temp_waypoint")
-				if (self.target1_.classname != "player" && self.target1_.group != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+				if (self.target1_.classname != "player") // && self.target1_.group != "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 					bot_lost(self.target1_, FALSE);
 		}
 
@@ -701,7 +701,7 @@ float(entity thing) priority_for_thing =
 	}
 	else if (thing.flags & FL_MONSTER) // && thing.health > 0) // Cataboligne - pre tested now
 		thisp = 45;
-	else if (thing.classname == "player" || thing.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
+	else if (thing.classname == "player")// || thing.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, frik hunts pk
 	{
 //		if (thing.health > 0) // Cataboligne - pre tested now
 //		{
@@ -721,7 +721,7 @@ float(entity thing) priority_for_thing =
 				else if (teamplay && thing.team == self.team)
 				{
 					thisp = 100;
-					if (thing.target1_.classname == "player" || thing.target1_.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, exclude team bots
+					if (thing.target1_.classname == "player")// || thing.target1_.group == "pk*bot")			// Cataboligne - 4.27.10 - pk*bot mods, exclude team bots
 						return 0;
 				}
 				else thisp = 30;
@@ -777,7 +777,7 @@ void(float scope) bot_look_for_crap =
 		else if (foe.classname == "waypoint") f = TRUE;
 		else if (foe.health > 0)
 		{
-			if (foe.classname == "player" || foe.group == "pk*bot") f = TRUE;
+			if (foe.classname == "player") f = TRUE;
 			else if (foe.flags & FL_MONSTER) f = TRUE;
 		}
 

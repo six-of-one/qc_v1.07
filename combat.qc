@@ -106,7 +106,7 @@ void(entity targ, entity attacker) Killed =
 		WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
 	}
 #ifdef code_pkbots
-	if (self.group == "pk*bot" || attacker.group == "pk*bot") // note: handles "player" setting for pk*bot obit fn - we need this
+	if (self.group == "pk*bot" || attacker.group == "pk*bot") // note: handles "player" setting for pk*bot obit fn - we NO LONGER need this
 		bot_kill(self, attacker); // *bot - tie in to count bot kills / deaths
 	else
 #endifdef

@@ -13,7 +13,7 @@
 
 void () t_botpath =
 {
-	if (other.classname != "pk*bot")
+	if (other.group != "pk*bot")
 	{
 		return ;
 	}
@@ -444,46 +444,36 @@ void (entity node, entity targ, float len, entity item) cacheRoute =
 {
 	RECURSEDEPTH = 1;
 	cacheRouteTarget (node,targ,len,item);
-	if (other.classname == "pk*bot")
+	if (other.group == "pk*bot")
 	{
 		if (other.rocketcache == item)
 		{
 			clearCache (other);
 		}
 		else
+		if (other.lightningcache == item)
 		{
-			if (other.lightningcache == item)
-			{
-				clearCache (other);
-			}
-			else
-			{
-				if (other.armorcache == item)
-				{
-					clearCache (other);
-				}
-				else
-				{
-					if (other.powerupcache == item)
-					{
-						clearCache (other);
-					}
-					else
-					{
-						if (other.nailcache == item)
-						{
-							clearCache (other);
-						}
-						else
-						{
-							if (other.grenadecache == item)
-							{
-								clearCache (other);
-							}
-						}
-					}
-				}
-			}
+			clearCache (other);
+		}
+		else
+		if (other.armorcache == item)
+		{
+			clearCache (other);
+		}
+		else
+		if (other.powerupcache == item)
+		{
+			clearCache (other);
+		}
+		else
+		if (other.nailcache == item)
+		{
+			clearCache (other);
+		}
+		else
+		if (other.grenadecache == item)
+		{
+			clearCache (other);
 		}
 	}
 };

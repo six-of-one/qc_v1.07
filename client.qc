@@ -1232,6 +1232,7 @@ void() NextLevel =
 		// go back to start if no trigger_changelevel
 		if (!o)
 		{
+// TDO: def map svx_
 			mapname = "start";
 			o = spawn();
 			o.map = mapname;
@@ -1258,7 +1259,6 @@ Exit deathmatch games upon conditions
 void() CheckRules =
 {
 	local	float		timelimit;
-	local	float		fraglimit;
 	
 	if (gameover)	// someone else quit the game already
 		return;
@@ -1646,7 +1646,7 @@ void() PlayerPreThink =
 Archon has:
 	if (self.movetype != MOVETYPE_NOCLIP)
 	if (self.health > 0)
-	if (self.classname == "player" || self.classname == "pk*bot")
+	if (self.classname == "player") // || self.group == "pk*bot")
 down to waterjump
 */
 	WaterMove ();

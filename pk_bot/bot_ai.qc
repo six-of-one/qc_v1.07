@@ -126,7 +126,7 @@ void () CallForHelp =
 	local entity tmp;
 //	local float d;
 	HELPING = 1;
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 	while (e)
 	{
 		if (e != self)
@@ -169,7 +169,7 @@ void () CallForHelp =
 				}
 			}
 		}
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 	HELPING = 0;
 };
@@ -534,7 +534,8 @@ float () BotFoundTarget =
 		self.enemy = world;
 		return (0);
 	}
-	if ((self.enemy.classname != "player") && (self.enemy.classname != "pk*bot"))
+// CHECK: monster enemies?
+	if (self.enemy.classname != "player") //&& (self.enemy.group != "pk*bot"))
 	{
 		self.enemy = world;
 		return (0);
@@ -583,7 +584,7 @@ float () BotfindBot =
 	local entity bots;
 	if (!self.lastbot)
 	{
-		self.lastbot = find (world,classname,"pk*bot");
+		self.lastbot = find (world,group,"pk*bot");
 	}
 	n = 4;
 	while (n > 0)
@@ -607,10 +608,10 @@ float () BotfindBot =
 				}
 			}
 		}
-		self.lastbot = find (bots,classname,"pk*bot");
+		self.lastbot = find (bots,group,"pk*bot");
 		if (!self.lastbot)
 		{
-			self.lastbot = find (world,classname,"pk*bot");
+			self.lastbot = find (world,group,"pk*bot");
 		}
 	}
 	return (0);
