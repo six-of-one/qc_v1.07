@@ -43,7 +43,7 @@ void() W_FireAxe =
 	local	vector	source;
 	local	vector	org;
 
-#ifdef code_pkbots__fs
+#ifdef code_pkbots
 	ax_dmg = 0; // Cataboligne - 10.11.11 - bot endless axe war preventative deal
 #endifdef
 
@@ -96,7 +96,7 @@ void() W_FireAxe =
 		te_gunshot(org);
 #endifdef
 	}
-#ifdef code_pkbots__fs
+#ifdef code_pkbots
 // if no axe damage happen in attack, call up special bot melee routine
 	if (!ax_dmg)
 	if (self.class_select == "class_bot")

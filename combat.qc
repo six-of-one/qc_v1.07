@@ -488,6 +488,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 // do the damage
 	targ.health = ceil(targ.health - take);
 
+#ifdef code_pkbots
+	ax_dmg = take; // Cataboligne - 10.11.11 - bot endless axe war preventative deal
+#endifdef
+
 #ifdef code_xents
 // crate being busted open - hear it now
 	if (targ.classname == "func_crate")
