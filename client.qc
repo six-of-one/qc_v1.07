@@ -2330,20 +2330,24 @@ void(entity targ, entity attacker) ClientObituary =
 // TDO:	if (attacker.classname == "bot_fix") return;
 #endifdef
 
-bprint ("  *** Cobit att c: ");
-bprint (attacker.classname);
-bprint (" n: ");
-bprint (attacker.netname);
-bprint (" targ c: ");
-bprint (targ.classname);
-bprint (" n: ");
-bprint (targ.netname);
-bprint (" inf c: ");
-bprint (damage_inflictor.classname);
-bprint (" n: ");
-bprint (damage_inflictor.netname);
-bprint ("\n");
-
+#ifdef warning
+									if (warnings = "obit")
+									{
+										bprint ("  *** Cobit att c: ");
+										bprint (attacker.classname);
+										bprint (" n: ");
+										bprint (attacker.netname);
+										bprint (" targ c: ");
+										bprint (targ.classname);
+										bprint (" n: ");
+										bprint (targ.netname);
+										bprint (" inf c: ");
+										bprint (damage_inflictor.classname);
+										bprint (" n: ");
+										bprint (damage_inflictor.netname);
+										bprint ("\n");
+									}
+#endifdef
 
 	if (targ.classname == "player")
 	{
