@@ -2366,6 +2366,7 @@ void(entity targ, entity attacker) ClientObituary =
 // __c{deathtypestr}c if a valid function, it will be called
 // code could be called to adjust f0__ track for alternate messages
 			s1__ = cvar_string(strcat(s0__,"c"));
+			if (strlen(s1__) > 1)
 			if (isfunction(s1__))
 			{
 				e0__ = targ;
