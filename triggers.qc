@@ -386,6 +386,8 @@ void() play_teleport =
 	sT__ = string_null; 		// fwd sound
 
 #ifdef warning
+																			if (warnings == "tsnd")
+																			{
 																				bprint(" *** telesnd: ");
 																				bprint(ftos(self.rnd_));
 																				bprint(", wav: ");
@@ -393,6 +395,7 @@ void() play_teleport =
 																				bprint(" e: ");
 																				bprint(ftos(num_for_edict(self)));
 																				bprint("\n");
+																			}
 #endifdef
 #else
 	self.rnd_ = random() * 5;
