@@ -815,7 +815,7 @@ entity() SelectSpawnPoint =
 			}
 		}
 // pk 1 - 3 spawn picker
-		if (cvar("PK") == 1)
+		if (cvar("PK") < 4)	// dont task non dm starts until 4
 		{
 			f1__ = cnt_ent(self, classname,  "info_player_deathmatch");
 			spot = find_tselect(f1__, self.chain);
