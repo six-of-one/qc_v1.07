@@ -2331,7 +2331,7 @@ void(entity targ, entity attacker) ClientObituary =
 #endifdef
 
 #ifdef warning
-									if (warnings = "obit")
+									if (warnings == "obit")
 									{
 										bprint ("  *** Cobit att c: ");
 										bprint (attacker.classname);
