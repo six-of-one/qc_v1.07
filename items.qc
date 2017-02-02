@@ -1885,5 +1885,14 @@ void() DropBackpack =
 	item.nextthink = time + 120;	// remove after 2 minutes
 	item.think = SUB_Remove;
 
+#ifdef code_pkbots
+	item.th_weight = backpackweight;
+	item.state = BOT_TOUCHED;
+#endifdef
+
+#ifdef code_archon
+	item.mask_x = CB_HUMAN + CB_GREMLIN; // IMP: rest of morph bp touch -- NOTE: this is IGNORED!
+#endifdef
+
 #undef item
 };

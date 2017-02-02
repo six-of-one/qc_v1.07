@@ -64,6 +64,16 @@ void() door_hit_bottom =
 #endifdef
 	sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_BOTTOM;
+
+#ifdef code_pkbots
+	if (self.classname == "plat") // in qc++ plat_hit_bottom comes thru here
+	if (self.lastbot.goalentity.goalentity == self) // *bot
+	if (self.lasttime > (time - 10))
+	{
+		self.lastbot.search_time = (time + 0.5);
+		self.lastbot.goalentity.goalentity = self.lastbot.goalentity;
+	}
+#endifdef
 };
 
 void() door_go_down =
