@@ -629,15 +629,16 @@ float(entity thing) priority_for_thing =
 
 // painkeep hub support - Cataboligne - 9.29.9
 
-#ifdef code_painkeep
-		else if (thing.classname == "hub_teleport")
-			thisp = 75;
-		else if (thing.classname == "hub_custom")
-			thisp = 75;
+#ifdef code_painkeep_
+// note: doesnt seem to work & there is seperate bot vote code in play
+//		else if (thing.classname == "hub_teleport")
+//			thisp = 75;
+//		else if (thing.classname == "hub_custom")
+//			thisp = 75;
 
 // painkeep weapon support - Cataboligne - 9.29.9
-		else if (thing.classname == "weapon_chainlg")
-				thisp = 55;
+//		else if (thing.classname == "weapon_chainlg")
+//				thisp = 55;
 		else if (thing.classname == "item_painkeep_gwell")
 				thisp = 50;
 
@@ -931,7 +932,7 @@ void() BotAI =
 	// health < 1 is used because fractional healths show up as 0 on normal player
 	// status bars, and the mod probably already compensated for that
 
-#ifdef code_painkeep
+#ifdef code_painkeep_
 	if (self.solid == SOLID_NOT)
 	if (inHubMap && self.map)						// Cataboligne - 5.12.10 - bot voted for a level in pk hub, mostly stay voted
 	if (random() < 0.96) return;
@@ -939,7 +940,7 @@ void() BotAI =
 
 	if (self.health < 1)
 	{
-#ifdef code_painkeep
+#ifdef code_painkeep_
 		if (time > 15)
 		if (inHubMap)
 		if (bot_vote(0.7)) return;
@@ -1045,7 +1046,7 @@ void() BotAI =
 
 
 
-#ifdef code_painkeep
+#ifdef code_painkeep_fix
 // try some pk items randomly - Cataboligne - 9.29.9
 	else if (random() < 0.1)
 		use_pkitem();

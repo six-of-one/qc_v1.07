@@ -1001,10 +1001,6 @@ void() PutClientInServer =
 	}
 	self.bolt_lightningFire = world;
 
-// PK - not a disconnected player entity
-//	self.disconnectPlayer = 0;
-// now handled by classname null and deadflag set
-
 #ifdef code_painkeep_fs
 	self.pkplus_actortype = 0;
 #endifdef
@@ -2292,7 +2288,6 @@ void() ClientDisconnect =
 
 #ifdef code_painkeep_
 // PK - set flag so that we know that it's a disconnected entity.
-//	self.disconnectPlayer = 1;
 	self.classname = string_null;		// same difference
 	self.deadflag = 6; // really dead
 	

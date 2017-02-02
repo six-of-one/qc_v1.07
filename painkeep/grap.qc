@@ -26,7 +26,7 @@
 //.entity grap_owner; // Can't use owner cas the object can't see the owner!
 .entity grap_pull;
 .float grap_checkTimeout;
-.float grap_state;
+//.float grap_state; // moved to _defs - other code uses
 .float grap_length;
 .vector grep_offset;	// harpoon target offset for bringing back to owner
 
