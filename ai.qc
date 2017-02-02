@@ -969,8 +969,8 @@ void(float dist) ai_run =
 	if (enemy_vis)
 		self.search_time = time + 5;
 
-// look for other coop players
-	if (coop && self.search_time < time
+// look for other coop players		-- can have monsters in dm now
+	if ((coop || deathmatch) && self.search_time < time
 #ifdef hip_charmed
 		&& !self.charmed
 #endifdef
