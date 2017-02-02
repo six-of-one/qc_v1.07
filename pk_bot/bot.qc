@@ -251,7 +251,7 @@ void() set_initBL =
 		}
 */
 	}
-	cvar_set("sv_bot_pkset", "0");
+	cvar_set("sv_bot_pkset", "0");		// clear so this doesnt run every respawn / coop spawn
 
 // from prev fn() - set_CarriedPath
 	if (self.movetarget == world)
@@ -368,25 +368,6 @@ void(entity targ, entity attacker) bot_kill =
 
 };
 
-/*
-deprecated - only used code in backback setup now
-
-// backpack setup special 
-void(entity e) bot_BackpackSetup =
-{
-	if (!e) return;
-//	e.pk_touch = e.touch; // *pk
-	e.touch = BackpackTouch; // *pk
-
-// bot functions that op. w/o painkeep - masked off here because painkeep_touch does bot_touch and more
-//	e.bot_item_touch = e.touch;
-//	e.touch = bot_touch;
-
-	e.classname = "Backpack"; // *bot backpack code follows
-	e.th_weight = backpackweight;
-	e.state = BOT_TOUCHED;
-}
-*/
 
 // remove item hooks & put here - code diverts here from PlaceItem
 

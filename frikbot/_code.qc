@@ -36,9 +36,6 @@
 	#endifdef
 
 
-// allow botcam, compile code
-//#define botcam
-
 // main bot modules
 
 // call moved to defs.qc

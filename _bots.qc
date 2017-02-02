@@ -13,14 +13,14 @@
  // id
  
  #ifdef id_include_always
-#messageinclude   _bots.qc
+#messageinclude   _bots.qc 
 #endifdef
 
 #ifndef use_bots
 
 	#ifndef id_include_always
 	#ifdef id_include
-	#messageinclude   _bots.qc
+	#messageinclude   _bots.qc 
 	#endifdef
 	#endifdef
 
@@ -33,6 +33,11 @@
 #include <incl/use_nextent.qc>
 
 // moved from frikbot
+
+// this is included in the frikbot pkg but needs to be here for moved code
+//allow botcam, compile code
+/// SWITCH
+//#define botcam
 
 .float ishuman;
 .entity	_next, _last;
@@ -99,11 +104,13 @@ void(entity	client, string s) stuffcmd =
 
 	while(b_temp1)
 	{
+#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_stuffcmd(b_temp1, s);
 		}
+#endifdef
 		b_temp1 = b_temp1._next;
 	}
 };
@@ -136,11 +143,13 @@ void(entity	client, string s) sprint =
 
 	while(b_temp1)
 	{
+#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_sprint(b_temp1, s);
 		}
+#endifdef
 		b_temp1 = b_temp1._next;
 	}
 
@@ -158,11 +167,13 @@ void(entity	client, string s) centerprint =
 
 	while(b_temp1)
 	{
+#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_centerprint(b_temp1, s);
 		}
+#endifdef
 		b_temp1 = b_temp1._next;
 	}
 };

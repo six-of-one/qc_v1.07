@@ -794,7 +794,7 @@ float(entity targ, entity inflictor) CanDamage;
 #endifdef
 
 #ifdef code_pkbots
-#messagecompiling pk_bot/bot.defs.qc
+#messagecompiling pk_bot/bot.defs.qc 
 #include <pk_bot/bot.defs.qc>
 #endifdef
 

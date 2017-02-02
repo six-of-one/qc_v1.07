@@ -267,7 +267,7 @@ vector(entity ent)		realorigin;
 void(entity ent)			target_drop;
 void(entity ent)			target_add;
 void()				KickABot;
-#ifdef local_test
+#ifdef notused
 void()				BotImpulses;
 #endifdef
 void(entity targ, float success) bot_lost;
@@ -330,7 +330,6 @@ float() botcam =
 
 void() botcam_u = 
 {
-	if (!BOTCAM) return;
 
 	// sloppy cycling code
 	if (self.classname != "botcam")
@@ -475,13 +474,6 @@ float () BotPreFrame =
 #ifdef botcam
 		if (self.classname == "botcam")
 		{
-			if (!BOTCAM ) // cam toggle off for server - force exit
-			{
-				msg_entity = self;
-				WriteByte (MSG_ONE,5);
-				WriteEntity (MSG_ONE, self);
-				PutClientInServer();
-			}
 			return TRUE;
 		}
 #endifdef
@@ -514,14 +506,13 @@ float () BotPostFrame =
 //		if (waypoint_mode > WM_LOADED)
 //			bot_menu_display();
 
-#ifdef local_test
+#ifdef notused
 //		if (self.admin) // *pk - admin restriction on bot controls
 		if (self.impulse)
 			BotImpulses();
 #endifdef
 
 #ifdef botcam
-		if (BOTCAM)
 		if (botcam())
 			return TRUE;
 #endifdef
@@ -1031,7 +1022,7 @@ related functions.
 */
 
 // deprecated - use proper rcon admin calls
-#ifdef local_test
+#ifdef notused
 
 void() BotImpulses =
 {

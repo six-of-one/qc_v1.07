@@ -318,6 +318,7 @@ void() worldspawn =
 
 #ifdef code_pkbots
 	setBotGravity (); // *bot
+	cvar_set("sv_bot_pkset", "1");		// see if we need to load bots
 #endifdef
 
 #ifdef nondp

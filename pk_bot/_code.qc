@@ -36,9 +36,6 @@
 	#endifdef
 
 
-// allow botcam, compile code
-//#define botcam
-
 // main bot modules
 
 // much easier way to handle bot codes buku spattering of dprint - should work with compiler switch
