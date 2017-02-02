@@ -39,7 +39,7 @@ void(float tm) th_bot_changeParms =
 
 float NOSAVE; // init bots on level change - dont re-save old data, only admin & script control of bots should do that
 
-void () initBotLevel =
+void () initBL =
 {
 	local float num;
 	local float offset;
@@ -83,7 +83,7 @@ void () initBotLevel =
 		{
 			serverflags = (serverflags - TEAMFLAG);
 			serverflags = (serverflags - (serverflags & TEAMBOTS));
-			if (self.classname == "initBotLevel") remove(self);
+			if (self.classname == "initBL") remove(self);
 			NOSAVE = FALSE;
 			return ;
 		}
@@ -94,21 +94,21 @@ void () initBotLevel =
 		{
 			serverflags = (serverflags + TEAMFLAG);
 			serverflags = (serverflags - (serverflags & TEAMBOTS));
-			if (self.classname == "initBotLevel") remove(self);
+			if (self.classname == "initBL") remove(self);
 			NOSAVE = FALSE;
 			return ;
 		}
 	}
 	if (!teamplay)
 	{
-		if (self.classname == "initBotLevel") remove(self);
+		if (self.classname == "initBL") remove(self);
 		NOSAVE = FALSE;
 		return ;
 	}
 	num = ((serverflags & TEAMBOTS) / 256);
 	if (num == 0)
 	{
-		if (self.classname == "initBotLevel") remove(self);
+		if (self.classname == "initBL") remove(self);
 		NOSAVE = FALSE;
 		return ;
 	}
@@ -135,7 +135,7 @@ void () initBotLevel =
 	{
 		serverflags = (serverflags - DEDICATED);
 	}
-	if (self.classname == "initBotLevel") remove(self);
+	if (self.classname == "initBL") remove(self);
 	NOSAVE = FALSE;
 };
 

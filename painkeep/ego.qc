@@ -190,14 +190,14 @@ void () ego_think =
 {
 	local float f;
 
-#ifdef unsused
-	if ( self.disconnectPlayer )
+// idea: have egos "pop" into small rubble?
+	if ( self.owner.deadflag )
 	{
 		sound (self,CHAN_VOICE,"misc/null.wav",1,ATTN_NORM);
 		remove (self);
 		return ;
 	}
-#endifdef
+
 	if (time > self.delay)
 	{
 		sprint (self.owner,"Losing One's EGO\n");

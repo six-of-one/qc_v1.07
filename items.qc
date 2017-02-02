@@ -103,6 +103,10 @@ void() PlaceItem =
 	local float	oldz;
 #endifdef
 
+#ifdef code_pkbots
+	bot_item_linx(self); // *bot - item tie in
+#endifdef
+
 	self.mdl = self.model;		// so it can be restored on respawn
 	self.flags = FL_ITEM;		// make extra wide
 	self.solid = SOLID_TRIGGER;

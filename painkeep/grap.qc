@@ -726,11 +726,7 @@ void() grap_goToOwner =
 
 	  if (self.grap_pull.classname == "player")
 	  {
-	    if (!self.grap_pull.deadflag
-#ifdef unsused
-			 && !self.disconnectPlayer
-#endifdef
-					)
+	    if (!self.grap_pull.deadflag)
 	    {
 	      self.grap_pull.movetype = MOVETYPE_WALK;
 	    }
@@ -916,11 +912,7 @@ void(entity grapOwner) grap_remove =
 
 	    if (f.grap_pull.classname == "player")
 	    {
-	    	if (!f.grap_pull.deadflag
-#ifdef unsused
-				&& !self.disconnectPlayer
-#endifdef
-					)
+	    	if (!f.grap_pull.deadflag)
 	      {
 		      f.grap_pull.movetype = MOVETYPE_WALK;
 	      }
@@ -958,11 +950,7 @@ void(entity grapOwner) grap_removeRope =
 
 	    if (f.grap_pull.classname == "player")
 	    {
-	    	if (!f.grap_pull.deadflag
-#ifdef unsused
-				&& !self.disconnectPlayer
-#endifdef
-					)
+	    	if (!f.grap_pull.deadflag)
 	      {
 		      f.grap_pull.movetype = MOVETYPE_WALK;
 	      }

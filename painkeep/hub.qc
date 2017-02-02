@@ -100,7 +100,6 @@ void() hub_teleport_touch =
 	self.cnt = self.cnt + 1;
 
 	// check to see if everyone has finished
-	local string srch;
 	spot = find(world, classname, "player");
 
 /*
@@ -110,24 +109,15 @@ notes: might still need observer
 			srch = OBSERVER;
 			spot = find(world, classname, srch);
 		}
-		if (!spot)
-		{
-			srch = "pk*bot";
-			spot = find(world, group, srch);
-		}
 */
-	local float notDone;
-	srch = "player";
+//	local float notDone;
+#define	notDone		f0__
 	notDone = 0;
 	while (spot != world)
 	{
-		if (
-#ifdef unsused
-			(spot.disconnectPlayer == 0) && 
-#endifdef
-				spot.map == string_null)
+		if (spot.map == string_null)
 			notDone = 1;
-		spot = find(spot, classname, srch);
+		spot = find(spot, classname, "player");
 
 /*
 		if (!spot)
@@ -135,12 +125,6 @@ notes: might still need observer
 		{
 			srch = OBSERVER;
 			spot = find(world, classname, srch);
-		}
-		if (!spot)
-		if (srch == OBSERVER) // *bot - search out bots too
-		{
-			srch = "pk*bot";
-			spot = find(world, group, srch);
 		}
 */
 	}
@@ -750,24 +734,14 @@ void() hub_control_status =
 			srch = OBSERVER;
 			pl = find(world, classname, srch);
 		}
-		if (!pl) // this shouldnt ever be possible! - even on a dedicated server running only pk*s
-		{
-			srch = "pk*bot";
-			pl = find(world, group, srch);
-		}
 */
 		maxplayers = votecast = 0;
 		while (pl != world)
 		{
-#ifdef unsused
-			if (pl.disconnectPlayer == 0)
-#endifdef
-			{
-				if (pl.map != string_null)
-					votecast = votecast + 1;
+			if (pl.map != string_null)
+				votecast = votecast + 1;
 
-				maxplayers = maxplayers + 1;
-			}
+			maxplayers = maxplayers + 1;
 
 			pl = find(pl, classname, s0__);
 /*
@@ -776,12 +750,6 @@ void() hub_control_status =
 			{
 				srch = OBSERVER;
 				pl = find(world, classname, srch);
-			}
-			if (!pl)
-			if (srch == OBSERVER) // *bot - search out bots too
-			{
-				srch = "pk*bot";
-				pl = find(world, group, srch);
 			}
 */
 		}
@@ -1373,9 +1341,7 @@ void() WaitForVotesThink =
 			}
 
 			// count the numbeer of votes cast
-			local string srch;
 			local entity e;
-			srch = "player";
 			pl = find(world, classname, "player");
 /*
 			if (!pl)
@@ -1383,31 +1349,21 @@ void() WaitForVotesThink =
 				srch = OBSERVER;
 				pl = find(world, classname, srch);
 			}
-			if (!pl) // this shouldnt ever be possible! - even on a dedicated server running only pk*s
-			{
-				srch = "pk*bot";
-				pl = find(world, group, srch);
-			}
 */
 			maxplayers = votecast = 0;
 			while (pl != world)
 			{
-#ifdef unsused
-				if (pl.disconnectPlayer == 0)
-#endifdef
-				{
-					if (pl.map != string_null)
-						votecast = votecast + 1;
+				if (pl.map != string_null)
+					votecast = votecast + 1;
 //					else if (pl.classname == OBSERVER) novote = novote + 1; // non voting observer
-					else
-					{
-						e = pl; // save for the 1 bot scenario
-					}
-
-					maxplayers = maxplayers + 1;
+				else
+				{
+					e = pl; // save for the 1 bot scenario
 				}
 
-				pl = find(pl, classname, srch);
+				maxplayers = maxplayers + 1;
+
+				pl = find(pl, classname, "player");
 
 /*
 				if (!pl)
@@ -1415,12 +1371,6 @@ void() WaitForVotesThink =
 				{
 					srch = OBSERVER;
 					pl = find(world, classname, srch);
-				}
-				if (!pl)
-				if (srch == OBSERVER) // *bot - search out bots too
-				{
-					srch = "pk*bot";
-					pl = find(world, group, srch);
 				}
 */
 			}

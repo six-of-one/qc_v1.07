@@ -9,7 +9,7 @@
 #define MSG_UPDATEFRAGS		14
 #define MSG_UPDATECOLORS		17
 
-entity bot_lvlreload; // Cataboligne - make sure bots continue after level ends
+entity bot_lr; // Cataboligne - make sure bots continue after level ends
 
 float observer_time;			// time limit for observer mode
 
@@ -167,11 +167,11 @@ float noway_below;
 // client links
 float () getrandombotskin;
 void () NewCarriedPath;
-void () initBotLevel;
+void () initBL;
 void() bot_skinParms;
 void() bot_skinDecode;
 //void() set_CarriedPath;
-void() set_initBotLevel;
+void() set_initBL;
 void(float con) bot_con;
 void(entity targ, entity attacker) bot_kill;
 void() bot_changeParms;

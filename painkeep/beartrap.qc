@@ -81,11 +81,7 @@ $frame bear01 bear02 bear03
 void() beartrapFollow =
 {
 	// SWP: 14/05/97 - check if the player has "respawned" or dead.
-	if (!(self.beartrap_target.beartrap_time) || 
-#ifdef unsused
-		self.beartrap_target.disconnectPlayer || 
-#endifdef
-		self.beartrap_target.deadflag || self.beartrap_target.health < 0) // Cataboligne - 5.20.10 - beartrap single player code - targeting monsters
+	if (!(self.beartrap_target.beartrap_time) || self.beartrap_target.deadflag || self.beartrap_target.health < 0) // Cataboligne - 5.20.10 - beartrap single player code - targeting monsters
 	{ // player is dead or respawned...
 //		remove(self);
 		beartrapDie(); // die when done instead of dissapearing

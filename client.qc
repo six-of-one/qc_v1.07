@@ -496,18 +496,20 @@ When the player presses attack or jump, change to the next level
 void() IntermissionThink =
 {
 // there is one + bot(s) - make sure they do a level reload, may not be any humans
-/*
+// --- is this only a server test deal?
+
 #ifdef code_bots
-	if (!bot_lvlreload)
+	if (!bot_lr)
 	if (find(world, class_select, "class_bot"))
 	{
-		bot_lvlreload = spawn();
-		bot_lvlreload.classname = "bot_lvlreload";
-		bot_lvlreload.think = GotoNextMap;
-		bot_lvlreload.nextthink = time + 60 + (random() * 20);
+		bot_lr = spawn();
+#ifdef warning_no
+		bot_lr.classname = "bot_lr";
+#endifdef
+		bot_lr.think = GotoNextMap;
+		bot_lr.nextthink = time + 60 + (random() * 20);
 	}
 #endifdef
-*/
 
 	if (time < intermission_exittime)
 		return;
@@ -878,6 +880,11 @@ void() PutClientInServer =
 {
 	local	entity spot;
 
+#ifdef code_pkbots
+	set_initBL(); // *bot
+	self.button16 = 0; // bot fixer
+#endifdef
+
 	spot = SelectSpawnPoint ();
 #ifdef code_painkeep_
 	ClearSpawnPoint(spot);
@@ -996,6 +1003,7 @@ void() PutClientInServer =
 
 // PK - not a disconnected player entity
 //	self.disconnectPlayer = 0;
+// now handled by classname null and deadflag set
 
 #ifdef code_painkeep_fs
 	self.pkplus_actortype = 0;
@@ -2063,6 +2071,8 @@ global float wfs;
 		}
 
 /*
+NOTE: was used in alias to load hub level - see if we still need
+
 		if (!(DARKPLACES || chaos)) // handle other engines
 		if (cvar("botlevel")) // hack so alias can load new map & keep pk*bots - set by console command aliases for map & changelevel - bmap & blvl
 		{
@@ -2228,6 +2238,10 @@ void() ClientConnect =
 	ClientInRankings();
 #endifdef
 
+#ifdef code_pkbots
+	bot_con(TRUE); // *bot - doesnt depend on active bots, must always happen
+#endifdef
+
 	bprint("\n");
 	bprint (self.netname);
 #ifdef code_painkeep_
@@ -2259,6 +2273,10 @@ void() ClientDisconnect =
 	ClientDisconnected();
 #endifdef
 
+#ifdef code_pkbots
+	bot_con(FALSE); // *bot
+#endifdef
+
 	if (gameover)
 		return;
 	// if the level end trigger has been activated, just return
@@ -2275,7 +2293,9 @@ void() ClientDisconnect =
 #ifdef code_painkeep_
 // PK - set flag so that we know that it's a disconnected entity.
 //	self.disconnectPlayer = 1;
-
+	self.classname = string_null;		// same difference
+	self.deadflag = 6; // really dead
+	
 	grap_releaseHarpoon();
 	self.beartrap_time = 0;
 	self.voteIntermission = 0;
@@ -2327,7 +2347,7 @@ void(entity targ, entity attacker) ClientObituary =
 	rnum = random();
 
 #ifdef code_bots
-// TDO:	if (attacker.classname == "bot_fix") return;
+	if (attacker.classname == "bot_fix") return;
 #endifdef
 
 #ifdef warning

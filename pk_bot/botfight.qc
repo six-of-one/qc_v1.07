@@ -158,6 +158,7 @@ vector () botaim =
 		dir = (dir + (((3- sk) * crandom ()) * '0 0.060 0'));
 	}
 	dir = normalize (dir);
+	v_forward = dir;
 	return(dir);
 };
 

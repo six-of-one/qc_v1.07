@@ -100,11 +100,7 @@ void () corpsefollow =
 #define quiktemp self.f__
 #define backdir self.v__
 
-	if ( ((!self.tomb_target.tomb_time
-#ifdef unsused
-			|| self.disconnectPlayer
-#endifdef
-				) || self.tomb_target.deadflag) )
+	if (!self.tomb_target.tomb_time || self.tomb_target.deadflag)
 	{
 		remove (self);
 		return ;

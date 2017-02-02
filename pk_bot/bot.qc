@@ -213,19 +213,17 @@ void() bot_skinDecode =
 	}
 };
 
+// initialize bots on level
 
-void() set_initBotLevel =
+void() set_initBL =
 {
-	local float dedflags, pk12, pk13;
-	local entity e;
+#define	dedflags		f0__
+//	local float pk12, pk13;
+//	pk12 = pk13 = 0;
 
-	pk12 = pk13 = 0;
-//	if (DARKPLACES || chaos)
-	{
-		if (!cvar("sv_bot_pkset")) return;
-		pk12 = cvar("sv_bot_pk");
-		pk13 = cvar("sv_bot_pktm");
-	}
+	if (!cvar("sv_bot_pkset")) return;
+//	pk12 = cvar("sv_bot_pk");
+//	pk13 = cvar("sv_bot_pktm");
 
   	dedflags = cvar ("temp1");
 	if (dedflags & DEDICATED)
@@ -233,17 +231,17 @@ void() set_initBotLevel =
 		serverflags = (dedflags | INITLEVEL);
 		cvar_set ("temp1","0");
 	}
-	if (serverflags & INITLEVEL || pk12 || pk13)
-	if (!find(world,classname,"initBotLevel"))
+	if (serverflags & INITLEVEL || cvar("sv_bot_pk") || cvar("sv_bot_pktm"))
+	if (!find(world,classname,"initBL"))
 	{
-		e = spawn();
-		e.think = initBotLevel;
-		e.nextthink = time + 2; // give players time to start
-		e.classname = "initBotLevel";
+		e0__ = spawn();
+		e0__.think = initBL;
+		e0__.nextthink = time + 2; // give players time to start
+		e0__.classname = "initBL";
 //		if (DARKPLACES || chaos)
 		{
-			e.cnt = pk12;
-			e.count = pk13;
+			e0__.cnt = cvar("sv_bot_pk");
+			e0__.count = cvar("sv_bot_pktm");
 		}
 /*		
 		else
@@ -300,7 +298,7 @@ void(float con) bot_con =
 //		if (!self.id) self.id = FindGood ();
 // *frikbot code already sets this!
 		self.id = self.b_clientno;
-		self.impulse = 204; // printinit
+//		self.impulse = 204; // printinit - does nada, code commented out
 		randombotskin = getrandombotskin ();
 //		initscore ();
 	}
@@ -308,7 +306,7 @@ void(float con) bot_con =
 	{
 		active_clients = (active_clients - (active_clients & ClientBitFlag(self.id)));
 //		MakeGood (self.id);
-		self.classname = "nobody";
+		self.classname = string_null;
 	}
 };
 
