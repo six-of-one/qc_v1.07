@@ -180,7 +180,7 @@ void() ai_botstand;
 
 // item links
 void(entity e) bot_item_linx;
-void(entity e) bot_BackpackSetup;
+//void(entity e) bot_BackpackSetup;
 
 // admin
 void(float skl) AddAnotherBot;

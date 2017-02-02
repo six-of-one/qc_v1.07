@@ -368,6 +368,9 @@ void(entity targ, entity attacker) bot_kill =
 
 };
 
+/*
+deprecated - only used code in backback setup now
+
 // backpack setup special 
 void(entity e) bot_BackpackSetup =
 {
@@ -383,6 +386,7 @@ void(entity e) bot_BackpackSetup =
 	e.th_weight = backpackweight;
 	e.state = BOT_TOUCHED;
 }
+*/
 
 // remove item hooks & put here - code diverts here from PlaceItem
 
