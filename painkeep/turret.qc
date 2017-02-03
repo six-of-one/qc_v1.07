@@ -848,82 +848,77 @@ void(vector org, vector vec) turret_launchNail =
 //	local entity newmis;
 //															bits:		1 - orange kryptonite nails,	2 - lasers,	4 - pulse nails,	8 - lightning,	16 - rockets,	not done yet - 	32 - railgun,		64 - chaos
 
+	if (self.state & 126)
+	if (self.attack_finished > time) return;
+		
 	if (self.state == 2)
 	{
 		LaunchLaser(org, vec);
 		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
 		newmis.dmg = self.dmg;
 		newmis.weapon = PK_IT_TURRET;
-		return;
-	}
-	else if (self.state == 4)
-	{
-		if (self.attack_finished > time) return;
+		newmis.classname = "turret";
 	}
 	else if (self.state == 8)
 	{
-		if (self.attack_finished < time)
-		{
-			chaos_sentry_lt(org, vec);
-			self.attack_finished = time + 0.5;
-		}
-		return;
+		chaos_sentry_lt(org, vec);
+		self.attack_finished = time + 0.5;
 	}
-	else if (self.state == 16)
-	{
-		if (self.attack_finished < time)
-		{
-			local float ca;
-			ca = self.currentammo;
-//			self.v_angle = org + vec; // we hope
-			W_FireRocket();
-			setorigin(newmis, org);
-			newmis.velocity = normalize((self.enemy.origin + self.enemy.view_ofs) - org);
-			newmis.velocity = newmis.velocity * 800;
-			newmis.angles = vectoangles (newmis.velocity);
-			newmis.dmg = self.dmg;
-			setorigin (newmis, org + v_forward * 31);
-			self.attack_finished = time + 0.75;
-			self.currentammo = ca;
-			newmis.weapon = PK_IT_TURRET;
-		}
-		return;
-	}
+else
+ {
 
 	vec = normalize(vec);
 
-	newmis = spawn();
-	newmis.owner = self;
-	newmis.movetype = MOVETYPE_FLY;
+	if (self.state == 16)
+	{
+		f0__ = self.currentammo;
+//		self.v_angle = org + vec; // we hope
+		W_FireRocket();
+//		setorigin(newmis, org);
+//		newmis.velocity = normalize((self.enemy.origin + self.enemy.view_ofs) - org);
+		newmis.velocity = vec * 800;
+//		newmis.angles = vectoangles (newmis.velocity);
+//		newmis.dmg = self.dmg;
+		setorigin (newmis, org + v_forward * 31);
+		self.attack_finished = time + 0.75;
+		self.currentammo = f0__;
+	}
+	else
+	{
+		launch_spike(org, vec);
+		setmodel (newmis, "progs/spike.mdl");
+		newmis.movetype = MOVETYPE_FLY;
+		newmis.skin = 1; // orange kryptonite nails
+		newmis.velocity = vec * 600;
+		newmis.touch = spike_touch;
+		sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+		newmis.modelflags = MF_GRENADE;
+	}
+
+//	newmis = spawn();
+//	newmis.owner = self;
 	newmis.solid = SOLID_BBOX;
-	newmis.classname = "spike"; // Cataboligne - 6.11.10 - these were hard to id in other checks
-	newmis.weapon = PK_IT_TURRET;
+	newmis.classname = "turret"; // Cataboligne - 6.11.10 - these were hard to id in other checks
+//	newmis.weapon = PK_IT_TURRET;
 //	newmis.effects = EF_DIMLIGHT;
 
-	setmodel (newmis, "progs/spike.mdl");
+//	setmodel (newmis, "progs/nail.mdl"); // removed
 	setsize (newmis, '0 0 0', '0 0 0');
 
-	newmis.skin = 1; // orange kryptonite nails
-	newmis.modelflags = MF_GRENADE;
+//	setorigin (newmis, org);
 
-//	setmodel (newmis, "progs/nail.mdl"); // removed
-
-	setorigin (newmis, org);
-
-	newmis.velocity = vec * 600;
 	newmis.angles = vectoangles(newmis.velocity);
 
 	newmis.nextthink = time + 5;
 	newmis.think = SUB_Remove;
-	newmis.touch = spike_touch;
 
 // new damage setting
 	newmis.dmg = self.dmg; // 15
-	if (random() < 0.03) newmis.dmg = (self.dmg * 2) + random() * self.dmg; // some nails are "super", must be the orange kryptonite
+	if (random() < 0.03) newmis.dmg = (self.dmg * 2) + random() * self.dmg; // some shots are "super", must be the orange kryptonite
 
 	// For the correct death messages
-	newmis.pk_currentitem = PK_IT_TURRET;
-	newmis.weapon = IT_AXE;
+//	newmis.pk_currentitem = PK_IT_TURRET;
+//	newmis.weapon = IT_AXE;
 
 	// PAINKEEP SPLASH Make this entity splash
 #ifdef painkeep_splash
@@ -942,8 +937,8 @@ void(vector org, vector vec) turret_launchNail =
 //		setmodel (newmis, "progs/spike.mdl");
 		newmis.skin = 3;
 	}
-	else
-		sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
+
+  } // top else
 };
 
 /* removed for spike_touch
