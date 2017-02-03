@@ -1126,6 +1126,9 @@ PLAYER WEAPON USE
 void() W_SetCurrentAmmo =
 {
 // idea: check frame set & only do for fire frames
+#ifdef code_pkbots
+	if (self.group != "pk*bot")		// *bot - dont set run frames
+#endifdef
 	player_run ();		// get out of any weapon firing states
 
 	self.items = self.items - ( self.items & (IT_SHELLS | IT_NAILS | IT_ROCKETS | IT_CELLS) );
