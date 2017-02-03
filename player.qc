@@ -854,7 +854,7 @@ void(string gibname, float dm) ThrowHead =
 	#ifdef hip_monsters
 	self.gorging = TRUE;
 	#endifdef
-	self.think = HeadThink;
+	self.think = HeadThink;			// flys.wav plays - 30% chance
 #else
 	self.nextthink = -1;
 #endifdef
