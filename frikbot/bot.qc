@@ -291,7 +291,7 @@ Bot Cam, see what the bot sees (or any other player)
 
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 */
-#ifdef botcam
+#ifdef botcam_op
 float() botcam =
 {
 	if (self.classname != "botcam")
@@ -334,10 +334,14 @@ void() botcam_u =
 	// sloppy cycling code
 	if (self.classname != "botcam")
 	{
-		self.enemy = player_head;
+//		self.enemy = player_head;
+		self.enemy = find (world,class_select,"class_bot");
+		if (!self.enemy) return;		// no bots to track
 	}
 	else
 	{
+		self.enemy = find (self.enemy,class_select,"class_bot");
+/*
 		do
 			self.enemy = self.enemy._next;
 		while (self.enemy.classname == "botcam");
@@ -347,6 +351,7 @@ void() botcam_u =
 		do
 			self.enemy = self.enemy._next;
 		while (self.enemy.classname == "botcam");
+*/
 	}
 
 	self.classname = "botcam";
@@ -471,7 +476,7 @@ float () BotPreFrame =
 	{
 		if (self.switch_wallhug)
 			ClientFixRankings();
-#ifdef botcam
+#ifdef botcam_op
 		if (self.classname == "botcam")
 		{
 			return TRUE;
@@ -512,7 +517,10 @@ float () BotPostFrame =
 			BotImpulses();
 #endifdef
 
-#ifdef botcam
+#ifdef botcam_op
+		if (self.impulse == 103)
+				botcam_u();
+
 		if (botcam())
 			return TRUE;
 #endifdef
@@ -1012,41 +1020,5 @@ void() BotFrame =
 		bot_return();
 };
 
-/*
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-Bot Impulses. Allows the player to perform bot
-related functions.
-
--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-*/
-
-// deprecated - use proper rcon admin calls
-#ifdef notused
-
-void() BotImpulses =
-{
-	if (self.impulse == 100)
-	{
-		BotConnect(0, 0, cvar("skill"));
-	}
-	else if (self.impulse == 101)
-	{
-		BotConnect(1, 0, cvar("skill"));
-	}
-	else if (self.impulse == 102)
-		KickABot();
-	#ifdef botcam
-	else if (self.impulse == 103)
-		botcam_u();
-	#endifdef
-//	else if (self.impulse == 104)
-//		bot_way_edit();
-	else
-		return;
-
-	self.impulse = 0;
-};
-#endifdef
 
 

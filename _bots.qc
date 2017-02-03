@@ -37,7 +37,7 @@
 // this is included in the frikbot pkg but needs to be here for moved code
 //allow botcam, compile code
 /// SWITCH
-//#define botcam
+#define botcam_op
 
 .float ishuman;
 .entity	_next, _last;
@@ -302,6 +302,8 @@ void(float to, float f) WriteByte		= #52;
 void(float to, float f) WriteChar		= #53;																		// qc++ - seems not used in v1.06
 #include <incl/use_writelong.qc>
 //void(float to, float f) WriteLong		= #55;
+#endifdef
+#ifdef botcam_op
 void(float to, float f) WriteAngle		= #57;
 #endifdef
 void(float to, float f) WriteShort		= #54; // used by frikbot
