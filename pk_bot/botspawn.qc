@@ -47,6 +47,13 @@ void () initBL =
 	local entity e;
 //	local string tmp;
 
+// always remove this ent
+	if (self.classname == "initBL")
+	{
+		self.think = SUB_Remove;
+		self.nextthink = time + 1;
+	}
+
 	NOISEQUEUE = noisetarget ();
 	num = ((serverflags & BOTS) / 16);
 
@@ -83,7 +90,6 @@ void () initBL =
 		{
 			serverflags = (serverflags - TEAMFLAG);
 			serverflags = (serverflags - (serverflags & TEAMBOTS));
-			if (self.classname == "initBL") remove(self);
 			NOSAVE = FALSE;
 			return ;
 		}
@@ -94,21 +100,18 @@ void () initBL =
 		{
 			serverflags = (serverflags + TEAMFLAG);
 			serverflags = (serverflags - (serverflags & TEAMBOTS));
-			if (self.classname == "initBL") remove(self);
 			NOSAVE = FALSE;
 			return ;
 		}
 	}
 	if (!teamplay)
 	{
-		if (self.classname == "initBL") remove(self);
 		NOSAVE = FALSE;
 		return ;
 	}
 	num = ((serverflags & TEAMBOTS) / 256);
 	if (num == 0)
 	{
-		if (self.classname == "initBL") remove(self);
 		NOSAVE = FALSE;
 		return ;
 	}
@@ -135,7 +138,6 @@ void () initBL =
 	{
 		serverflags = (serverflags - DEDICATED);
 	}
-	if (self.classname == "initBL") remove(self);
 	NOSAVE = FALSE;
 };
 
@@ -146,7 +148,7 @@ void () setBotGravity =
 //	local float sk;
 
 	GRAVITY = (cvar ("sv_gravity") * 0.1);
-	bprint ("Gravity accel is ");
+	bprint ("Gravity accel: ");
 	bprint (ftos (GRAVITY));
 	bprint ("\n");
 	newmax = 0;
@@ -159,7 +161,7 @@ void () setBotGravity =
 		newmax = (newmax + (vel * 0.1));
 	}
 	MAXJUMP = (MAXJUMP - 1);
-	bprint ("Max jump height is ");
+	bprint ("Max jump height: ");
 	bprint (ftos (MAXJUMP));
 	bprint ("\n");
 	LEVELJUMPTIME = 0;
@@ -172,7 +174,7 @@ void () setBotGravity =
 		newmax = (newmax + (vel * 0.1));
 	}
 	LEVELJUMPTIME = (LEVELJUMPTIME - (newmax / vel));
-	bprint ("Level jump time is ");
+	bprint ("Level jump time: ");
 	bprint (ftos (LEVELJUMPTIME));
 	bprint ("\n");
 	newmax = 0;
@@ -184,12 +186,12 @@ void () setBotGravity =
 		GRENADEMAXHEIGHT = newmax;
 		newmax = (newmax + (vel * 0.1));
 	}
-	bprint ("Max grenade height is ");
+	bprint ("Max grenade height: ");
 	bprint (ftos (GRENADEMAXHEIGHT));
 	bprint ("\n");
 	INVGRENLD = (((0.1 * 2) * (200 - GRAVITY)) / GRAVITY);
 	INVGRENLD = (1/ (INVGRENLD * SEARCH_RADIUS));
-	bprint ("inverse grenade level distance is ");
+	bprint ("inverse grenade level distance: ");
 	bprint (ftos (INVGRENLD));
 	bprint ("\n");
 	BOTSPEED = (cvar ("sv_maxspeed") / 10);
