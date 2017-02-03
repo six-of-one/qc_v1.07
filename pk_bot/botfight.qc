@@ -49,7 +49,7 @@ vector (vector trg) adjustgrenade =
 	tgxy_z = 0;
 	selfxy = self.origin;
 	selfxy_z = 0;
-	xypct = (vlen (tgxy - selfxy) * INVGRENADELEVELDIST);
+	xypct = (vlen (tgxy - selfxy) * INVGRENLD);
 	if (xypct > 1)
 	{
 		if (xypct < 12)

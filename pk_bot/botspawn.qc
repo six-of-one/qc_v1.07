@@ -187,10 +187,10 @@ void () setBotGravity =
 	bprint ("Max grenade height is ");
 	bprint (ftos (GRENADEMAXHEIGHT));
 	bprint ("\n");
-	INVGRENADELEVELDIST = (((0.1 * 2) * (200 - GRAVITY)) / GRAVITY);
-	INVGRENADELEVELDIST = (1/ (INVGRENADELEVELDIST * SEARCH_RADIUS));
+	INVGRENLD = (((0.1 * 2) * (200 - GRAVITY)) / GRAVITY);
+	INVGRENLD = (1/ (INVGRENLD * SEARCH_RADIUS));
 	bprint ("inverse grenade level distance is ");
-	bprint (ftos (INVGRENADELEVELDIST));
+	bprint (ftos (INVGRENLD));
 	bprint ("\n");
 	BOTSPEED = (cvar ("sv_maxspeed") / 10);
 };
