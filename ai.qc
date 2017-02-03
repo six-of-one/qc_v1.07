@@ -984,8 +984,10 @@ void(float dist) ai_run =
 	enemy_range = range(self.enemy);
 	enemy_yaw = vectoyaw(self.enemy.origin - self.origin);
 
-#ifdef hip_monsters
+#ifdef hip_monsters_notused
 //MED
+// has bug with new x_ents / x_monsters where monsters / some bots get stuck running in place
+// believe this is from SUB_Null def. load on all .void fields
 	if (self.th_turn)
 	{
 //		local float angledelta;

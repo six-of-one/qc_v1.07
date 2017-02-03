@@ -185,7 +185,7 @@ void(float flg) monster_start =
 
 /// NOT for frame testing !!! - remove when resuming frd1
 #ifdef local_test
-	self.think = remove_monster;
+//	self.think = remove_monster;
 #endifdef
 
 // IMP: monster DM override goes here - use overload on norm monsters

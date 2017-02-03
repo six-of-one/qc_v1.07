@@ -32,7 +32,13 @@ float numbulletholes;
 //added total monster message
 #define	STAT_TOTALMONSTERS			12
 #define	STAT_TOTALSECRETS				11
+
+#ifdef hip_monsters_notused
+// used in ai (if set) & scourge sets - but is commented out in original source
+// has bug in ai code under x_ents
 .void()	  th_turn;
+#endifdef
+
 #define	AS_DODGING    					5
 
 #ifdef hip_charmed

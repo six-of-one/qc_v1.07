@@ -32,7 +32,7 @@ to control what gets excluded on a case basis see cfg script controls
 
 hip_mapseq - controls end of level text
 hip_monsters - monster code
-hip_weapons - wep code
+hip_weapons - wep code																		* some weps & items code is exclude wrapped in code_xents
 hip_items - rest of item code
 hip_mapent - brush based ents - rotating, trigger, trap, etc
 hip_traps - shooters, triggers, etc (part of hip_mapent)
@@ -50,7 +50,7 @@ hip_footsteps - the hipnotic player footstep sound
 
 // hipnotic code options
 
-	#define hip_monsters
+ 	#define hip_monsters
 	#define hip_weapons
 	#define hip_items
 
