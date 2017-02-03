@@ -988,7 +988,8 @@ void(float dist) ai_run =
 //MED
 	if (self.th_turn)
 	{
-		local float angledelta;
+//		local float angledelta;
+	#define	angledelta		f0__
 
 		angledelta = fabs(self.angles_y - enemy_yaw);
 		if (angledelta > MIN_ANGLE_DELTA)
