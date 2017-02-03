@@ -267,9 +267,6 @@ vector(entity ent)		realorigin;
 void(entity ent)			target_drop;
 void(entity ent)			target_add;
 void()				KickABot;
-#ifdef notused
-void()				BotImpulses;
-#endifdef
 void(entity targ, float success) bot_lost;
 string(float r)			BotName;
 float(float v)			frik_anglemod;
@@ -508,17 +505,8 @@ float () BotPostFrame =
 	if (self.class_select == "class_player")
 	{
 
-//		if (waypoint_mode > WM_LOADED)
-//			bot_menu_display();
-
-#ifdef notused
-//		if (self.admin) // *pk - admin restriction on bot controls
-		if (self.impulse)
-			BotImpulses();
-#endifdef
-
 #ifdef botcam_op
-		if (self.impulse == 103)
+		if (self.impulse == 103)		// ops for botcam - fails with sv_cmd
 				botcam_u();
 
 		if (botcam())
