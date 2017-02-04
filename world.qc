@@ -519,6 +519,12 @@ else
 	MAX_CHAIN_LEN = HOOK_RANGE;
 #endifdef
 
+#ifdef code_highscore
+	high_score = autocvar_master_high_score;
+	high_score_nn = autocvar_master_high_nick;
+#endifdef
+
+
 // x_ents
 #endifdef
 
