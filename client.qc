@@ -2380,6 +2380,7 @@ void(entity targ, entity attacker) ClientObituary =
 			f0__ = 1;
 // __c{deathtypestr}c if a valid function, it will be called
 // code could be called to adjust f0__ track for alternate messages
+// TDO: gibbed messages - maybe @ 81
 			s1__ = cvar_string(strcat(s0__,"c"));
 			if (strlen(s1__) > 1)
 			if (isfunction(s1__))
@@ -2406,13 +2407,16 @@ void(entity targ, entity attacker) ClientObituary =
 				bprint ("\n");
 				return;	// self kill is now done
 			}
-			bprint (attacker.netname);		// could be a mosnter or player
 			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
 //			attacker.xp = (attacker.xp + ARCHON_FRAG);
 
 			f0__ = f0__ + 20; // 2nd part starts at 20
 			s1__ = strcat(s0__,ftos(f0__));
-			bprint (cvar_string(s1__));
+			if (cvar_string(s1__) != "noexit") // noexit message - no print option on 2nd text for monsters, env hazards
+			{
+				bprint (attacker.netname);		// could be a mosnter or player
+				bprint (cvar_string(s1__));
+			}
 			bprint ("\n");
 			return;
 		}
@@ -2494,6 +2498,7 @@ void(entity targ, entity attacker) ClientObituary =
 				attacker.frags = attacker.frags + 1;
 
 #ifdef code_xents
+// TDO: move this to some other player location
 // Cataboligne - 017.1.20 - scores deal
 #ifdef code_highscore
 // TDO: high score
@@ -2546,16 +2551,6 @@ void(entity targ, entity attacker) ClientObituary =
 				}
 #endifdef
 
-#ifdef code_archon_REMOVE
-            if (targ.deathtype == "banished")
-				{
-					bprint (targ.netname);
-					bprint (" was banished by \bArchon ");
-					bprint (attacker.netname);
-					bprint ("\n");
-					return;
-				}
-#endifdef
 
 #ifndef code_xents
 #ifdef hip_weapons
