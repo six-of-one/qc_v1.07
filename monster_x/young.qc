@@ -498,7 +498,7 @@ void() young_lg =
 	young_walk1();
 };
 
-
+/*
 //string(entity targ, entity attacker) young_killmsg =
 string() young_killmsg =
 {
@@ -510,7 +510,7 @@ string() young_killmsg2 =
 	return ".\n";
 };
 
-
+*/
 
 //float YOUNG_EVOL = 1; // set to 0 to stop evolutions
 
@@ -562,7 +562,7 @@ if (ign != A_MONSTER)
 	self.th_die = young_die;
 	self.th_missile = young_runatt1;			// jump attack
 	self.th_pain = young_pain1;
-	self._killmsg = young_killmsg;
+//	self._killmsg = young_killmsg;
 
 	self.class_select = "class_monster";
 

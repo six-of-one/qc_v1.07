@@ -453,8 +453,7 @@ if (ign != A_MONSTER)
 	if (deathmatch)
 //		if (deathmatch != 4)
 	{
-		if (R_MONSTER)
-			remove(self);
+		remove(self);
 		return;
 	}	
 

@@ -548,8 +548,7 @@ if (ign != A_MONSTER)
 //	if (!M_MONSTER_II & CB_M_HEXIMP)
 	if (deathmatch)
 	{
-		if (R_MONSTER)
-			remove(self);
+		remove(self);
 		return;
 	}	
 

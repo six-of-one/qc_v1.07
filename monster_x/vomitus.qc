@@ -744,8 +744,7 @@ if (ign != A_MONSTER)
 //	if (!M_MONSTER & CB_M_VOMIT)
 	if (deathmatch)
 	{
-		if (R_MONSTER)
-			remove(self);
+		remove(self);
 		return;
 	}	
 
