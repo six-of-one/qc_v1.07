@@ -65,6 +65,7 @@ void(float ox) W_FirePulseSpikes =
 	newmis.theowner = self;
 	newmis.skin = 3;
 	newmis.weapon = IT_NAILGUN; // Cataboligne - 2.19.11 - correct obit in pk_clientobit
+	newmis.wad="spike";		// change class to this after hit a bleeder
 
 };
 

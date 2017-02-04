@@ -856,7 +856,7 @@ void(vector org, vector vec) turret_launchNail =
 		LaunchLaser(org, vec);
 		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
 		newmis.dmg = self.dmg;
-		newmis.weapon = PK_IT_TURRET;
+//		newmis.weapon = PK_IT_TURRET;
 		newmis.classname = "turret";
 	}
 	else if (self.state == 8)
@@ -903,7 +903,7 @@ else
 //	newmis.effects = EF_DIMLIGHT;
 
 //	setmodel (newmis, "progs/nail.mdl"); // removed
-	setsize (newmis, '0 0 0', '0 0 0');
+//	setsize (newmis, '0 0 0', '0 0 0');
 
 //	setorigin (newmis, org);
 
@@ -932,8 +932,8 @@ else
 		self.attack_finished = time + 0.35;
 		newmis.touch = spike_touch;
 		newmis.theowner = self.owner;
+		newmis.wad = newmis.classname; // Cataboligne - 11.5.13 - still having obit issues
 		newmis.classname = "pulse_spike";
-		newmis.wad = "turret"; // Cataboligne - 11.5.13 - still having obit issues
 //		setmodel (newmis, "progs/spike.mdl");
 		newmis.skin = 3;
 	}
