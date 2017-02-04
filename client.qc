@@ -2637,6 +2637,7 @@ void(entity targ, entity attacker) ClientObituary =
 				}
 #ifdef hip_weapons
 //MED
+#ifndef code_xents
             if (rnum == IT_LASER_CANNON)
 				{
                if (random()<0.5)
@@ -2649,6 +2650,7 @@ void(entity targ, entity attacker) ClientObituary =
                   }
                deathstring2 = "'s laser\n";
 				}
+#endifdef
 //MED
 // x_ents FIX:
             if (rnum == IT_MJOLNIR)
@@ -2714,6 +2716,8 @@ void(entity targ, entity attacker) ClientObituary =
 				if (attacker.classname == "monster_zombie")
 					bprint (" joins the Zombies\n");
 #endifdef
+// TDO: test monster obit
+#ifndef code_xents
 #ifdef xmonsters
 // are extra monsters
 				if (attacker.classname == "monster_dragon")
@@ -2731,6 +2735,7 @@ void(entity targ, entity attacker) ClientObituary =
 //MED
             if (attacker.classname == "monster_armagon")
                bprint (" was outgunned by Armagon\n");
+#endifdef
 #endifdef
 				return;
 			}
