@@ -886,7 +886,7 @@ else
 	else
 	{
 		launch_spike(org, vec);
-		setmodel (newmis, "progs/spike.mdl");
+//		setmodel (newmis, "progs/spike.mdl");
 		newmis.movetype = MOVETYPE_FLY;
 		newmis.skin = 1; // orange kryptonite nails
 		newmis.velocity = vec * 600;
@@ -896,7 +896,7 @@ else
 	}
 
 //	newmis = spawn();
-//	newmis.owner = self;
+	newmis.owner = self.owner;		// credit to turrets activator
 	newmis.solid = SOLID_BBOX;
 	newmis.classname = "turret"; // Cataboligne - 6.11.10 - these were hard to id in other checks
 //	newmis.weapon = PK_IT_TURRET;
@@ -931,7 +931,7 @@ else
 		sound (self, CHAN_WEAPON, "weapons/pulse/pulse_1.wav", 1, ATTN_NORM);
 		self.attack_finished = time + 0.35;
 		newmis.touch = spike_touch;
-		newmis.theowner = self.owner;
+		newmis.theowner = self.owner;			// restore owner after bounce
 		newmis.wad = newmis.classname; // Cataboligne - 11.5.13 - still having obit issues
 		newmis.classname = "pulse_spike";
 //		setmodel (newmis, "progs/spike.mdl");
