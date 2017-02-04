@@ -1165,7 +1165,7 @@ void() hurt_switch =
 // this selects amongst the possible messages when first loading on map
 //	self.deadflag = self.deadflag | 1;
 /*
-	TDO:
+	TDO: hurt_switch 	generic obit msg from trigger strings - redo as cdt
 
 	if (self.stack2 != string_null && self.stack3 != string_null)
 	{
