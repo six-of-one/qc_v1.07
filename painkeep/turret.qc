@@ -896,7 +896,9 @@ else
 	}
 
 //	newmis = spawn();
-	newmis.owner = self.owner;		// credit to turrets activator
+//	newmis.owner = self.owner;		// dont hit owner - not needed, this is handled by tracking - button7
+	newmis.theowner = self.owner;			// restore owner after hit for obit
+
 	newmis.solid = SOLID_BBOX;
 	newmis.classname = "turret"; // Cataboligne - 6.11.10 - these were hard to id in other checks
 //	newmis.weapon = PK_IT_TURRET;
@@ -931,7 +933,7 @@ else
 		sound (self, CHAN_WEAPON, "weapons/pulse/pulse_1.wav", 1, ATTN_NORM);
 		self.attack_finished = time + 0.35;
 		newmis.touch = spike_touch;
-		newmis.theowner = self.owner;			// restore owner after bounce
+//		newmis.owner = world;
 		newmis.wad = newmis.classname; // Cataboligne - 11.5.13 - still having obit issues
 		newmis.classname = "pulse_spike";
 //		setmodel (newmis, "progs/spike.mdl");
