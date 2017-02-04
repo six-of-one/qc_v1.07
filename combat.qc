@@ -172,8 +172,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		return;
 
 #ifdef code_painkeep_
-// restore owner - was set on launch so owner can be target by reflect spikes, etc
-	if (attacker.theowner) attacker = attacker.theowner;
+// restore owner - was set on launch so owner can be targeted by reflect spikes, etc
+// note: if .grap_owner (or .goalentity if no pk) is ever set it will poss. fsck the obit and all owned dmg stuff here
+	if (inflictor.theowner) attacker = inflictor.theowner;
 #else
 #ifndef HIPNOTIC
 // used by buttons and triggers to set activator for target firing
@@ -202,7 +203,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			take = damage * save;
 			if ((targ.archon - take) < 0) // cant add negative pts
 			{
-				take = (targ.archon - take) + take;
+				take = (targ.archon);// - take) + take;
 			}
 			if (targ.armorvalue <= 0) attacker.archon = attacker.archon + take; // add points to attackers
 		}
@@ -222,7 +223,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 			targ.archon = targ.archon - (damage * save);
 		}
-		if (attacker.archon < 0) de_archon(attacker);
+		if (targ.archon < 0) de_archon(targ);
 		return;
 	}
 

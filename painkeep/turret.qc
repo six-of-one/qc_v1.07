@@ -772,7 +772,7 @@ void(string gibname, float dm) turret_throwGib =
 	new.frame = 0;
 	new.flags = 0;
 	new.classname = "turret_gib";
-	new.owner = self.owner;
+	new.theowner = self.owner;
 	new.touch = turret_gibTouch;
 
 	// PAINKEEP SPLASH Make this entity splash
@@ -840,7 +840,7 @@ void(vector org, vector vec) chaos_sentry_lt =
 	  WriteCoord (MSG_BROADCAST, trace_endpos_y);
 	  WriteCoord (MSG_BROADCAST, trace_endpos_z);
 
-	LightningDamage(org, trace_endpos + vec * 4, self, self.dmg);
+	LightningDamage(org, trace_endpos + vec * 4, self.owner, self.dmg);
 };
 
 void(vector org, vector vec) turret_launchNail =
