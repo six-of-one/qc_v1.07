@@ -171,9 +171,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	if (!targ.takedamage)
 		return;
 
-// used by buttons and triggers to set activator for target firing
-#ifndef code_painkeep_
+#ifdef code_painkeep_
+// restore owner - was set on launch so owner can be target by reflect spikes, etc
+	if (attacker.theowner) attacker = attacker.theowner;
+#else
 #ifndef HIPNOTIC
+// used by buttons and triggers to set activator for target firing
 	damage_attacker = attacker;
 #endifdef
 #endifdef

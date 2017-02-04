@@ -32,7 +32,6 @@ void() Laser_Touch =
 
 	if (other.health)
 	{
-		if (self.theowner) self.owner = self.theowner; // restore owner - was set on launch so owner can be target by reflect spikes, etc
 		SpawnBlood (other, self.v__, self.velocity*0.2, 15);
 		T_Damage (other, self, self.owner, 15);
 	}

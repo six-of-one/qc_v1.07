@@ -851,15 +851,7 @@ void(vector org, vector vec) turret_launchNail =
 	if (self.state & 126)
 	if (self.attack_finished > time) return;
 		
-	if (self.state == 2)
-	{
-		LaunchLaser(org, vec);
-		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
-		newmis.dmg = self.dmg;
-//		newmis.weapon = PK_IT_TURRET;
-		newmis.classname = "turret";
-	}
-	else if (self.state == 8)
+	if (self.state == 8)
 	{
 		chaos_sentry_lt(org, vec);
 		self.attack_finished = time + 0.5;
@@ -869,7 +861,15 @@ else
 
 	vec = normalize(vec);
 
-	if (self.state == 16)
+	if (self.state == 2)
+	{
+		LaunchLaser(org, vec);
+		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
+//		newmis.dmg = self.dmg;
+//		newmis.weapon = PK_IT_TURRET;
+//		newmis.classname = "turret";
+	}
+	else if (self.state == 16)
 	{
 		f0__ = self.currentammo;
 //		self.v_angle = org + vec; // we hope
