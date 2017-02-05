@@ -62,7 +62,7 @@ void(float ox) W_FirePulseSpikes =
 #endifdef
 
 	newmis.dmg = 27;
-	newmis.theowner = self;
+//	newmis.theowner = self;  done in launch spike
 	newmis.skin = 3;
 	newmis.weapon = IT_NAILGUN; // Cataboligne - 2.19.11 - correct obit in pk_clientobit
 	newmis.wad = "spike";		// change class to this after hit a bleeder

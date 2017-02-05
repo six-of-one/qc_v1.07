@@ -792,6 +792,9 @@ void() W_FireGrenade =
 	newmis.movetype = MOVETYPE_BOUNCE;
 	newmis.solid = SOLID_BBOX;
 	newmis.classname = "grenade";
+#ifdef code_xents
+	newmis.theowner = self;		// obit track
+#endifdef
 
 	if (self.classname == "player")
 	{
@@ -884,6 +887,9 @@ void(vector org, vector dir) launch_spike =
 {
 	newmis = spawn ();
 	newmis.owner = self;
+#ifdef code_xents
+	newmis.theowner = self;		// obit track
+#endifdef
 	newmis.movetype = MOVETYPE_FLYMISSILE;
 	newmis.solid = SOLID_BBOX;
 

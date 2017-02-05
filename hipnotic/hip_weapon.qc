@@ -177,7 +177,6 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 		newmis.cnt = EWEAP.cnt + random() * LASER_BOUNCE;  // max bounce count
 		newmis.target = EWEAP.target; // bouncy sound
 		newmis.dmg = EWEAP.dmg;
-		newmis.deathtype = EWEAP.deathtype;
 		newmis.attack_finished = time + EWEAP.lefty;  // time to live
 	}
 
