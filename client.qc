@@ -2396,6 +2396,7 @@ void(entity targ, entity attacker) ClientObituary =
 			while (f0__)
 			{
 				s1__ = strcat(s0__,ftos(f0__));
+				f1__ = f0__;
 				f0__ = f0__ + 1;
 				s2__ = strcat(s0__,ftos(f0__));
 				if (!(cvar_type(s2__) & CVAR_TYPEFLAG_EXISTS) || random() < 0.5) f0__ = 0;
@@ -2410,7 +2411,7 @@ void(entity targ, entity attacker) ClientObituary =
 			attacker.frags = (attacker.frags + 1); //  + frag_plus(attacker));
 //			attacker.xp = (attacker.xp + ARCHON_FRAG);
 
-			f0__ = f0__ + 20; // 2nd part starts at 20
+			f0__ = f1__ + 20; // 2nd part starts at 20
 			s1__ = strcat(s0__,ftos(f0__));
 			if (cvar_string(s1__) != "noexit") // noexit message - no print option on 2nd text for monsters, env hazards
 			{
