@@ -168,8 +168,10 @@ float noway_below;
 float () getrandombotskin;
 void () NewCarriedPath;
 void () initBL;
+#ifdef code_pkbots_notused
 void() bot_skinParms;
 void() bot_skinDecode;
+#endifdef
 //void() set_CarriedPath;
 void() set_initBL;
 void(float con) bot_con;

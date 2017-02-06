@@ -139,7 +139,7 @@ void() bot_saveData =
 };
 
 //	*bot skin code - not sure to include - requiers parm mod
-
+#ifdef code_pkbots_notused
 void() bot_skinParms =
 {
 	if (SKINSMODE)
@@ -160,18 +160,15 @@ void() bot_skinDecode =
 		skinChange (self,skinno);
 	}
 };
+#endifdef
 
 // initialize bots on level
 
 void() set_initBL =
 {
 #define	dedflags		f0__
-//	local float pk12, pk13;
-//	pk12 = pk13 = 0;
 
 	if (!cvar("sv_bot_pkset")) return;
-//	pk12 = cvar("sv_bot_pk");
-//	pk13 = cvar("sv_bot_pktm");
 
   	dedflags = cvar ("temp1");
 	if (dedflags & DEDICATED)
@@ -186,18 +183,8 @@ void() set_initBL =
 		e0__.think = initBL;
 		e0__.nextthink = time + 2; // give players time to start
 		e0__.classname = "initBL";
-//		if (DARKPLACES || chaos)
-		{
-			e0__.cnt = cvar("sv_bot_pk");
-			e0__.count = cvar("sv_bot_pktm");
-		}
-/*		
-		else
-		{
-			e.cnt = parm12; // should be bot skill for up to 6 bots
-			e.count = parm13;
-		}
-*/
+		e0__.cnt = cvar("sv_bot_pk");
+		e0__.count = cvar("sv_bot_pktm");
 	}
 	cvar_set("sv_bot_pkset", "0");		// clear so this doesnt run every respawn / coop spawn
 
