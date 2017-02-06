@@ -15,23 +15,19 @@
 
 void(float tm) th_bot_changeParms =
 {
-	local entity e;
-
-	e = world;
-	if (self.classname != "th_bot_changeParms")
+	e0__ = world;
+	if (self.classname != "bot_chPrm")
 	{
-		if (!find(world, classname, "th_bot_changeParms"))
-			e = spawn();
-		if (e)
+		if (!find(world, classname, "bot_chPrm"))
 		{
-			e.classname = "th_bot_changeParms";
-			e.think = th_bot_changeParms;
-			e.nextthink = time + tm;
+			e0__ = spawn();
+			e0__.classname = "bot_chPrm";
+			e0__.think = th_bot_changeParms;
+			e0__.nextthink = time + tm;
 		}
 	}
 	else
 	{
-//		bot_changeParms();
 		bot_saveData();
 		remove(self);
 	}

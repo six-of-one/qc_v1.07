@@ -148,58 +148,6 @@ void() bot_skinParms =
 	}
 };
 
-//encode bot details for level change - allow pk*bots to work on other game engines - TEST
-// FIX:
-
-void() bot_changeParms =
-{
-	/*
-	local float offset, toffset, team1;
-	local float nb, nt;
-	local entity e;
-
-	if (DARKPLACES || chaos) return;
-
-	e = find(world,group,"pk*bot");
-	offset = toffset = 1;
-	parm12 = parm13 = 0; // tuned for painkeep merge
-	team1 = 100;
-	nb = nt = 0;
-	while (e)
-	{
-		if (e.team == 99)
-		{
-			nb = (nb + 1);
-			if (nb < BOT_SAVE_SKILL)
-			{
-//				parm12 = (parm12 + (((offset * e.skil) * 10) & (offset * 31)));
-				parm12 = (parm12 + ((offset * e.skil) & (offset * 3)));
-
-				offset = (offset * 4);
-			}
-		}
-		else
-		{
-			if (team1 == 100)
-			{
-				team1 = e.team;
-			}
-			if (e.team == team1)
-			{
-				nt = (nt + 1);
-				if (nt < BOT_SAVE_SKILL)
-				{
-//				parm13 = (parm13 + (((toffset * e.skil) * 10) & (toffset * 31)));
-				parm13 = (parm13 + ((toffset * e.skil) & (toffset * 3)));
-				toffset = (toffset * 4);
-				}
-			}
-		}
-		e = find (e,group,"pk*bot");
-	}
-	*/
-};
-
 void() bot_skinDecode =
 {
 	local float skinno;
@@ -330,26 +278,7 @@ void() bot_changelevel =
 
 void(entity targ, entity attacker) bot_kill =
 {
-/*
-	local entity e, f;
-
-	e = f = world;
-	if (targ.classname == "pk*bot")
-	{
-		e = targ;
-		e.classname = "player"; // you can fool some of the code...
-	}
-	if (attacker.classname == "pk*bot")
-	{
-		f = attacker;
-		f.classname = "player";
-	}
-*/
-
 	ClientObituary(targ, attacker); // *pk - pk death handler
-
-//	if (e) e.classname = "pk*bot";
-//	if (f) f.classname = "pk*bot";
 
 	if (attacker.group == "pk*bot")
 		Update_Frags(attacker);
@@ -371,23 +300,14 @@ void(entity targ, entity attacker) bot_kill =
 
 // remove item hooks & put here - code diverts here from PlaceItem
 
-// IMP: easy ver, all x stuff - note: class_select possibilities
+// TDO: easy ver, all x stuff - note: class_select possibilities
 
 void(entity e) bot_item_linx =
 {
 
 // clear state for cacheRoute calls
 	e.state = 0;
-// set bot item master touch
-/* no longer transposing touch fn
-	if (e.touch != painkeep_touch) // *pk handles this function if it got set by PK mode
-	{
-		e.pk_touch = e.touch; // *pk
-		e.touch = painkeep_touch; // using this while installed with pk
-//		e.bot_item_touch = e.touch; // pk_touch does this
-//		e.touch = bot_touch;
-	}
-*/
+
 // armor items
 
 	if (e.touch == armor_touch) // || e.pk_touch == armor_touch) // do here instead of item setup - Cataboligne - 9.25.9
@@ -504,74 +424,8 @@ void(entity e) bot_item_linx =
 	return;
 	}
 
-/* deprecated for easy code above
-	if (e.classname == "item_artifact_super_damage")
-	{
-		e.th_weight = artifactweight;
-		e.th_cache = cachepowerup;
-		e.th_update = updatepowerup;
-	}
-	else if (e.classname == "item_artifact_invulnerability")
-	{
-		e.th_weight = artifactweight;
-		e.th_cache = cachepowerup;
-		e.th_update = updatepowerup;
-	}
-	else if (e.classname == "item_artifact_invisibility")
-	{
-		e.th_weight = artifactweight;
-		e.th_cache = cachepowerup;
-		e.th_update = updatepowerup;
-	}
-	else if (e.classname == "item_artifact_envirosuit")
-	{
-		e.th_weight = artifactweight;
-	}
-	if (e.touch == powerup_touch || e.pk_touch == powerup_touch) return;
-*/
-
-
-//	else if (e.classname == string_null)
-//	{
-//
-//	}
 };
 
-// intro when not in painkeep mode, which has its own intro
-// mod for frikbot merge
-
-/*
- doesnt even make sense with Archon
-
-void () printIntro =
-{
-	local float num;
-	local float skinno;
-	if (teamplay)
-	{
-		if (parm4 > 511)
-		{
-			SKINSMODE = ((parm4 & 49152) / 16384);
-			skinno = (parm4 & 7680);
-			parm4 = (parm4 & 511);
-			skinChange (self,skinno);
-		}
-		num = ((serverflags & TEAMBOTS) / 256);
-		if (num > 0)
-		{
-			c_skill = skill;
-			addTeamBots (self,num);
-		}
-//		centerprint (self,"Server running team pk*bots v1.1\nand PainKeep v1.1");
-		centerprint (self,"Server running team pk*bots v2.2, frikbot 0.10.1");
-	}
-	else
-	{
-//		centerprint (self,"Server running pk*bots v1.1\nand PainKeep v1.1");
-		centerprint (self,"Server running pk*bots v2.2, frikbot 0.10.1");
-	}
-};
-*/
 
  // Cataboligne - 6.9.10 - bots get really cold now - dev code
 
@@ -610,7 +464,7 @@ void (entity e) bot_freeze =
 void() bot_wakey =
 {
 	if (self.owner.deadflag)
-	if (self.owner.button16 == -666000) // make sure bot didnt respawn or change state
+	if (self.owner.button16 == 66600) // make sure bot didnt respawn or change state
 	if (self.owner.class_select == "class_bot")
 	{
 		self.owner.button16 = self.owner.frags;
@@ -649,113 +503,112 @@ void() bot_fixed =
 
 void() bot_fixer =
 {
-	local entity e, f;
+//	local entity e,f;
 
+	e0__ = find(world,class_select,"class_bot");
 
-	e = find(world,class_select,"class_bot");
-
-	if (!BOT_FIXED || (bot_fix && !e) || (intermission_running) )
+	if (bot_fix && (!e0__ || intermission_running) )
 	{
-		remove(self);
+		remove(bot_fix);
 		bot_fix = world;
 		return;
 	}
 
-	if (!bot_fix && e) //|| self.classname != "bot_fix")
+	if (!bot_fix && e0__)
 	{
 		bot_fix = spawn();
+#ifdef warning_no
 		bot_fix.classname = "bot_fix";
+#endifdef
 		bot_fix.think = bot_fixer;
 		bot_fix.nextthink = time + BOT_FIX_TIME;
-		bot_fix.cnt = 11; // only do a dead check every 10 * cnt - about 150 rels
 
-		while (e)
+		while (e0__)
 		{
-			e.button16 = e.frags;
-			e.button15 = e.health;
-			e = find(e,class_select,"class_bot");
+			e0__.button16 = e0__.frags;
+			e0__.button15 = e0__.health;
+			e0__ = find(e0__,class_select,"class_bot");
 		}
 
 		return;
 	}
 
-	if (self.classname == "bot_fix")
+	if (self.think == bot_fixer)
 	{
-//		if (!BOTFREEZE)
-		while (e)
+		while (e0__)
 		{
-			if (BOT_FIXED)
-			if (e.button16 == e.frags)
-//			if (e.button15 == e.health)
+			if (e0__.button16 == e0__.frags)
+//			if (e0__.button15 == e0__.health)
 			{
-				if (!(inHubMap && e.map != string_null)) // do nothing on hub maps
+				if (!(inHubMap && e0__.map != string_null)) // do nothing on hub maps / once voted
 				{
-					if (e.deadflag)
+					if (e0__.deadflag)
 					{
-						f = spawn();
-						f.classname = "bot_waker";
-						f.think = bot_wakey;
-						f.nextthink = time + 2 + random() * 5;
-						f.owner = e;
-						e.button16 = -666000;
+						e1__ = spawn();
+#ifdef warning_no
+						e1__.classname = "bot_waker";
+#endifdef
+						e1__.think = bot_wakey;
+						e1__.nextthink = time + 2 + random() * 5;
+						e1__.owner = e0__;
+						e0__.button16 = 66600;
 					}
 // had to put this back in - bot inactivity is still happening
-					else if (bot_fix.cnt < 1) // note: this only checks frags on 14 rel loop - need a longer range check for this
+					else if (bot_fix.cnt == 6) // note: this only checks frags on 14 rel loop - need a longer range check for this
 					{
-					f = spawn();
-					f.classname = "bot_fixer";
-					f.think = bot_fixed;
-					f.nextthink = time + 3 + random() * 10;
-					f.owner = e;
-					f.frags = e.frags;
+					e1__ = spawn();
+#ifdef warning_no
+					e1__.classname = "bot_fixer";
+#endifdef
+					e1__.think = bot_fixed;
+					e1__.nextthink = time + 3 + random() * 10;
+					e1__.owner = e0__;
+					e1__.frags = e0__.frags;
 					}
 				}
 			}
 			else
-			if (e.button16 != -666000)
+			if (e0__.button16 != 66600)
 			{
-				e.button16 = e.frags;
-				e.button15 = e.health;
+				e0__.button16 = e0__.frags;
+				e0__.button15 = e0__.health;
 			}
-			e = find(e,class_select,"class_bot");
+			e0__ = find(e0__,class_select,"class_bot");
 		}
 
 		self.nextthink = time + BOT_FIX_TIME;
 		bot_fix.cnt = bot_fix.cnt - 1;
-		 if (bot_fix.cnt < 0) bot_fix.cnt = 11;
+		 if (bot_fix.cnt < 0) bot_fix.cnt = 11; // only do a dead check every 10 * cnt - about 150 rels
 	}
 };
 
-// preventative for endless bot axe war - also remove bot fixer
+// preventative for endless bot axe war - also reduce bot fixer
 // or a little cheat goes along way
 
 void() Bot_Melee =
 {
-	local entity e;
-	local float f;
-
-//	if (cl)
-//	W_FireAxe (); // called from in fireaxe now
+//	local entity e;
+//	local float f;
 
 	if (!ax_dmg)
 	if (random() < 0.8) // unknown timing - this is a guess, might be really good or really bad or really medium  
 	{
-		f = TRUE;
-		e = findradius(self.origin, 80);
-		while (e && f)
+		f0__ = TRUE;
+		e0__ = findradius(self.origin, 80);
+		while (e0__ && f0__)
 		{
-			if (e != self)
-			if (e.class_select == "class_bot")
+			if (e0__ != self)
+			if (e0__.class_select == "class_bot")
 			{
-				if (CanDamage(e, self)) // hit this other bot - we dont really care about the particulars, what happens between bots, stays between bots
+				if (CanDamage(e0__, self)) // hit this other bot - we dont really care about the particulars, what happens between bots, stays between bots
 				{
-					e.axhitme = 1;
-					SpawnBlood (e, e.origin, '0 0 0', 20);
-					T_Damage (e,self,self,20 + random() * 10);
-					f = FALSE;
+					e0__.axhitme = 1;
+					SpawnBlood (e0__, e0__.origin, '0 0 0', 20);
+					T_Damage (e0__,self,self,20 + random() * 10);
+					f0__ = FALSE;
 				}
 			}
-			e = e.chain;
+			e0__ = e0__.chain;
 		}
 	}
 };

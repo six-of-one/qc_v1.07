@@ -155,9 +155,9 @@ float nearlight;
 //float () FindGood;
 
 // id bots
+void() bot_fixed;
 void() bot_fixer; // fix broke bots
 #define BOT_FIX_TIME 14
-#define BOT_FIXED 1 // if this is true and a bots frags dont change in the time out, kill & restart that bot
 
 // waypoint limit
 float noway_above;
@@ -174,7 +174,6 @@ void() bot_skinDecode;
 void() set_initBL;
 void(float con) bot_con;
 void(entity targ, entity attacker) bot_kill;
-void() bot_changeParms;
 void() bot_changelevel;
 void() ai_botstand;
 

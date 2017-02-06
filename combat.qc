@@ -171,6 +171,27 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	if (!targ.takedamage)
 		return;
 
+#ifdef warning
+									if (warnings == "tdmg")
+									{
+										bprint ("  *** T_Damage att c: ");
+										bprint (attacker.classname);
+										bprint (" n: ");
+										bprint (attacker.netname);
+										bprint (" targ c: ");
+										bprint (targ.classname);
+										bprint (" n: ");
+										bprint (targ.netname);
+										bprint (" inf c: ");
+										bprint (inflictor.classname);
+										bprint (" n: ");
+										bprint (inflictor.netname);
+										bprint (" theown: ");
+										bprint (inflictor.theowner.classname);
+										bprint ("\n");
+									}
+#endifdef
+
 #ifdef code_painkeep_
 // restore owner - was set on launch so owner can be targeted by reflect spikes, etc
 // note: if .grap_owner (or .goalentity if no pk) is ever set it will poss. fsck the obit and all owned dmg stuff here

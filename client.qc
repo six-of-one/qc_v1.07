@@ -882,7 +882,7 @@ void() PutClientInServer =
 
 #ifdef code_pkbots
 	set_initBL(); // *bot
-	self.button16 = 0; // bot fixer
+	self.button16 = 0; // bot fixer - my button16 brings all the bots to the yard
 #endifdef
 
 	spot = SelectSpawnPoint ();
@@ -2342,7 +2342,8 @@ void(entity targ, entity attacker) ClientObituary =
 	rnum = random();
 
 #ifdef code_bots
-	if (attacker.classname == "bot_fix") return;
+// bot fixer is taking out a stuck bot - doesnt count in obit
+	if (attacker.think == bot_fixed) return;
 #endifdef
 
 #ifdef warning
