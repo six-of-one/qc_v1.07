@@ -67,7 +67,7 @@ void() W_FireAxe =
 	{
 #ifdef code_xents
 		self.tomb_time = 20; // axe dmg - mod vector
-		if (self.eweapon.grap_state == 666000)
+		if (self.eweapon.grap_state == 66600)
 			self.tomb_time = ceil(10 * random()) + ceil(10 * random()); // fist damage
 #endifdef
 		trace_ent.axhitme = 1;
