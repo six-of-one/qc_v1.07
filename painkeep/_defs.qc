@@ -42,12 +42,14 @@ float DEF_PK_ITEMS; // pk bit flags
 .float pk_explode_ammo;
 .float pk_currentInventory;
 .float pk_currentitem;
-.float pk_items;
+//.float pk_items;
 
 .float pkprevweapon;
 
 // protos
 
+void() pk_encparm;
+void() pk_decparm;
 void()	pk_DmgSkin;
 
 // pk  reference section

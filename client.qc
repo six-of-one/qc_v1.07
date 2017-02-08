@@ -69,6 +69,9 @@ void() SetChangeParms =
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
 	parm9 = self.armortype * 100;
+#ifdef code_painkeep_
+	pk_encparm();
+#endifdef
 };
 
 void() SetNewParms =
@@ -82,6 +85,9 @@ void() SetNewParms =
 	parm7 = 0;
 	parm8 = 1;
 	parm9 = 0;
+#ifdef code_painkeep_
+	parm11 = 0;
+#endifdef
 };
 
 void() DecodeLevelParms =
@@ -98,12 +104,10 @@ void() DecodeLevelParms =
 	
 #ifdef HIPNOTIC
 // take away all stuff on starting new episode
-	if (world.model == "maps/hip1m1.bsp")
-		SetNewParms ();
-	if (world.model == "maps/hip2m1.bsp")
-		SetNewParms ();
-	if (world.model == "maps/hip3m1.bsp")
-		SetNewParms ();
+	if ((world.model == "maps/hip1m1.bsp") ||
+		(world.model == "maps/hip2m1.bsp") ||
+		(world.model == "maps/hip3m1.bsp"))
+			SetNewParms ();
 #endifdef
 	
 	
@@ -117,6 +121,9 @@ void() DecodeLevelParms =
 	self.ammo_cells = parm7;
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
+#ifdef code_painkeep_
+	pk_decparm();
+#endifdef
 };
 
 /*

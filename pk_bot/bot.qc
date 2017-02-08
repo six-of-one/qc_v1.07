@@ -405,7 +405,7 @@ void(entity e) bot_item_linx =
 	}
 
 // any painkeep item - seems coder didnt program bot for these
-	if (e.pk_items || e.pk_currentitem || e.netname == "Exploding Shells") // yuk :(~
+	if (e.pk_currentitem || e.netname == "Exploding Shells") // yuk :(~
 	{
 	e.th_weight = dont_weight;
 	return;
