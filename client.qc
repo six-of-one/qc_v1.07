@@ -87,6 +87,7 @@ void() SetNewParms =
 	parm9 = 0;
 #ifdef code_painkeep_
 	parm11 = 0;
+	parm12 = 0;
 #endifdef
 };
 
