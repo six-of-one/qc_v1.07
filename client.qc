@@ -70,7 +70,9 @@ void() SetChangeParms =
 	parm8 = self.weapon;
 	parm9 = self.armortype * 100;
 #ifdef code_painkeep_
-	pk_encparm();
+	x_encparm();
+	parm11 = prC;
+	parm12 = pX;
 #endifdef
 };
 
@@ -123,7 +125,9 @@ void() DecodeLevelParms =
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
 #ifdef code_painkeep_
-	pk_decparm();
+	prC = parm11;
+	pX = parm12;
+	x_decparm();
 #endifdef
 };
 

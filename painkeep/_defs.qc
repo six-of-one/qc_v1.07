@@ -48,8 +48,6 @@ float DEF_PK_ITEMS; // pk bit flags
 
 // protos
 
-void() pk_encparm;
-void() pk_decparm;
 void()	pk_DmgSkin;
 
 // pk  reference section
