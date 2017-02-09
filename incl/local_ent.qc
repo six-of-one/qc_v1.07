@@ -49,7 +49,7 @@ entity locus;
 #define		f7__		locus.dmg_take
 #define		f8__		locus.dmg_save
 #define		f9__		locus.skin
-//#define		f10__	locus.pausetime
+#define		f10__	locus.fly_sound
 //#define		f11__	locus.idealpitch
 
 // pre selected vector

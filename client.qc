@@ -38,6 +38,17 @@ void() SetChangeParms =
 		return;
 	}
 
+#ifdef code_xents
+// parm11 is pk items
+// parm12 is drawn x_wep (eweapon) mcode
+	pX = -1; // tell it to adjust items
+	x_encparm();
+#ifdef code_painkeep_
+	parm11 = prC;
+#endifdef
+	parm12 = pX;
+#endifdef
+
 // remove items
 	self.items = self.items - (self.items & 
 	(IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD) );
@@ -69,11 +80,6 @@ void() SetChangeParms =
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
 	parm9 = self.armortype * 100;
-#ifdef code_painkeep_
-	x_encparm();
-	parm11 = prC;
-	parm12 = pX;
-#endifdef
 };
 
 void() SetNewParms =
@@ -87,8 +93,10 @@ void() SetNewParms =
 	parm7 = 0;
 	parm8 = 1;
 	parm9 = 0;
+#ifdef code_xents
 #ifdef code_painkeep_
 	parm11 = 0;
+#endifdef
 	parm12 = 0;
 #endifdef
 };
@@ -124,8 +132,10 @@ void() DecodeLevelParms =
 	self.ammo_cells = parm7;
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
+#ifdef code_xents
 #ifdef code_painkeep_
 	prC = parm11;
+#endifdef
 	pX = parm12;
 	x_decparm();
 #endifdef
