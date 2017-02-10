@@ -1048,6 +1048,7 @@ void() PutClientInServer =
 #ifdef code_xents
 // vw
 	self.lastweapon = self.weapon;
+	self.eweapon = world;
 
 	ominous_hum(string_null, 1); // clear any stray hum
 #endifdef
