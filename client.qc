@@ -990,8 +990,7 @@ void() PutClientInServer =
 #endifdef
 
 #ifdef code_painkeep_
-	self.pk_currentInventory = 
-	self.pk_currentitem = 
+	self.pk_currentitem = PK_IT_AXE;
 	self.pkprevweapon = PK_IT_AXE;
 
 //TDO:	self.pkplus_actortype = 0;

@@ -40,7 +40,7 @@ float DEF_PK_ITEMS; // pk bit flags
 
 .float pk_gravitywellammo, pk_turretammo, pk_canpabammo, pk_beartrapammo;
 .float pk_explode_ammo;
-.float pk_currentInventory;
+.float pk_Inv;		// mostly non ammo items
 .float pk_currentitem;
 //.float pk_items;
 
