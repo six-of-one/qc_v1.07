@@ -41,7 +41,6 @@ void() SetChangeParms =
 #ifdef code_xents
 // parm11 is pk items
 // parm12 is drawn x_wep (eweapon) mcode
-	pX = -1; // tell it to adjust items
 	x_encparm();
 #ifdef code_painkeep_
 	parm11 = prC;
