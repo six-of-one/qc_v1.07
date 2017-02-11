@@ -1827,7 +1827,41 @@ void() BackpackTouch =
 		sprint (other, ftos(self.ammo_cells));
 		sprint (other, " cells");
 	}
-	
+#ifdef code_xents
+// st x weap ammo annc
+	if (self.ammo_bullet)
+	{
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint (other, ftos(self.ammo_bullet));
+		sprint (other, " bullets");
+	}
+	if (self.ammo_slug)
+	{
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint (other, ftos(self.ammo_slug));
+		sprint (other, " slugs");
+	}
+	if (self.ammo_gaspr)
+	{
+		if (acount)
+			sprint(other, ", ");
+		acount = 1;
+		sprint (other, ftos(self.ammo_gaspr));
+		sprint (other, " lbs gas pressure");
+	}
+#endifdef
+#ifdef code_painkeep_
+	if (stemp.pk_currentitem)
+	{
+		if (acount)
+			sprint(other, ", PainKeep items");
+	}
+#endifdef
+
 	sprint (other, "\n");
 // backpack touch sound
 	sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
@@ -2013,7 +2047,10 @@ void() DropBackpack =
 	item.state = BOT_TOUCHED;
 #endifdef
 
-#ifdef code_archon
+#ifdef code_morph
+
+
+
 	item.mask_x = CB_HUMAN + CB_GREMLIN; // IMP: rest of morph bp touch -- NOTE: this is IGNORED!
 #endifdef
 
