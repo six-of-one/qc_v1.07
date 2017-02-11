@@ -692,11 +692,13 @@ void () BotDead =
 {
 	self.deadflag = DEAD_DEAD;
 
+#ifdef code_painkeep_
 	if (inHubMap)
 	if (bot_vote(0.7))
 	{
 		return;
 	}
+#endifdef
 
 	self.nextthink = ((time + 0.3) + ((random () * (NUMBOTS + 3)) * 0.1));
 	if (teamplay)

@@ -398,6 +398,96 @@ float() ClientNextAvailable =
 	return -1;
 };
 
+// pki if painkeep compiled in
+
+// * bots can collect & use painkeep stuff - YAY (no gir, thats bad...aww. I wanted to explode.)
+
+#ifdef code_painkeep_
+void() use_pkitem =
+{
+	local float drp;
+
+	drp = 0;
+
+	if (self.health < 30) drp = 1;		// hurt - always use item - try most beneficial first
+
+	else if (self.health < 66)
+	{
+		if (self.health < 40) drp = 1;
+		else drp = random();
+		if (drp < 0.1) drp = 0.9;
+		else if (drp < 0.2) drp = 0.8;
+	}
+	else if (random() < 0.3)
+	{
+		drp = random();
+		if (drp < 0.1) drp = 0.9;
+		else if (drp < 0.2) drp = 0.8;
+	}
+
+	if (drp)
+	{
+// FIX: need to set eweap - really need to select
+		if (self.pk_canpabammo > 0 && drp > 0.9) // heal or escape when health low
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PK_IT_CANPAB;
+			W_Attack();
+		}
+#ifdef code_pkplus_
+		else if (self.pkplus_phoneammo > 0 && drp > 0.9)
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PKPLUS_IT_PHONE;
+			W_Attack();
+		}
+#endifdef
+		else if (self.pk_gravitywellammo != 0 && drp > 0.8)
+		{
+			if (coop)
+			{
+				local entity pl;
+				pl = find(world, classname, "player");
+				while (pl != world)
+				{
+					if (pl.class_select == "class_player" && (vlen(self.origin - pl.origin) < 2000)) return; // dont fire one of these when real player is close by
+					pl = find(pl, classname, "player");
+				}
+			}
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PK_IT_GRAVITYWELL;
+			W_Attack();
+		}
+		else if (self.pk_turretammo > 0 && drp > 0.7)
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PK_IT_TURRET;
+			W_Attack();
+		}
+		else if (self.pk_beartrapammo > 0 && drp > 0.6)
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PK_IT_BEARTRAP;
+			W_Attack();
+		}
+#ifdef code_pkplus_
+		else if (self.pkplus_egoammo > 0 && drp > 0.4) // Cataboligne - 5.8.10 - bots use pkplus artefacts items now - YAY!  (no Gir, thats bad...)
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PKPLUS_IT_EGO;
+			W_Attack();
+		}
+		else if (self.pkplus_tombammo > 0)
+		{
+			self.weapon = IT_AXE;
+			self.pk_currentitem = PKPLUS_IT_TOMB;
+			W_Attack();
+		}
+#endifdef
+	}
+};
+#endifdef
+
  // use_bots main section
 #endifdef
 

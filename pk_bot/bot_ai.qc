@@ -10,91 +10,6 @@
  *
  */
 
-// * bots can collect & use painkeep stuff - YAY (no gir, thats bad...aww. I wanted to explode.)
-
-void() use_pkitem =
-{
-	local float drp;
-
-	drp = 0;
-
-	if (self.health < 30) drp = 1;		// hurt - always use item - try most beneficial first
-
-	else if (self.health < 66)
-	{
-		if (self.health < 40) drp = 1;
-		else drp = random();
-		if (drp < 0.1) drp = 0.9;
-		else if (drp < 0.2) drp = 0.8;
-	}
-	else if (random() < 0.3)
-	{
-		drp = random();
-		if (drp < 0.1) drp = 0.9;
-		else if (drp < 0.2) drp = 0.8;
-	}
-
-	if (drp)
-	{
-// FIX: need to set eweap - really need to select
-		if (self.pk_canpabammo > 0 && drp > 0.9) // heal or escape when health low
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PK_IT_CANPAB;
-			W_Attack();
-		}
-#ifdef code_pkplus_
-		else if (self.pkplus_phoneammo > 0 && drp > 0.9)
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PKPLUS_IT_PHONE;
-			W_Attack();
-		}
-#endifdef
-		else if (self.pk_gravitywellammo != 0 && drp > 0.8)
-		{
-			if (coop)
-			{
-				local entity pl;
-				pl = find(world, classname, "player");
-				while (pl != world)
-				{
-					if (pl.class_select == "class_player" && (vlen(self.origin - pl.origin) < 2000)) return; // dont fire one of these when real player is close by
-					pl = find(pl, classname, "player");
-				}
-			}
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PK_IT_GRAVITYWELL;
-			W_Attack();
-		}
-		else if (self.pk_turretammo > 0 && drp > 0.7)
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PK_IT_TURRET;
-			W_Attack();
-		}
-		else if (self.pk_beartrapammo > 0 && drp > 0.6)
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PK_IT_BEARTRAP;
-			W_Attack();
-		}
-#ifdef code_pkplus_
-		else if (self.pkplus_egoammo > 0 && drp > 0.4) // Cataboligne - 5.8.10 - bots use pkplus artefacts items now - YAY!  (no Gir, thats bad...)
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PKPLUS_IT_EGO;
-			W_Attack();
-		}
-		else if (self.pkplus_tombammo > 0)
-		{
-			self.weapon = IT_AXE;
-			self.pk_currentitem = PKPLUS_IT_TOMB;
-			W_Attack();
-		}
-#endifdef
-	}
-};
 
 void () endEnemy =
 {
@@ -238,12 +153,16 @@ float () RunAway =
 			bprint (self.netname);
 			bprint (": Run Away!\n");
 		}
+#ifdef code_painkeep_
 		use_pkitem();
+#endifdef
 		return (1);
 	}
 	if (self.health < 45)
 	{
+#ifdef code_painkeep_
 		use_pkitem();
+#endifdef
 		return (1);
 	}
 	if (weap & ((IT_SHOTGUN + IT_AXE) + IT_NAILGUN))
@@ -259,12 +178,16 @@ float () RunAway =
 				bprint (self.enemy.netname);
 				bprint (" has Quad Damage!\n");
 			}
+#ifdef code_painkeep_
 			use_pkitem();
+#endifdef
 			return (1);
 		}
 		if (self.enemy.weapon & ((IT_ROCKET_LAUNCHER + IT_LIGHTNING) + IT_SUPER_NAILGUN))
 		{
+#ifdef code_painkeep_
 			use_pkitem();
+#endifdef
 			return (1);
 		}
 	}
@@ -278,7 +201,9 @@ float () RunAway =
 				bprint (self.netname);
 				bprint (": help, tossed salads!");
 			}
+#ifdef code_painkeep_
 			use_pkitem();
+#endifdef
 			return (1);
 		}
 	}
@@ -624,8 +549,10 @@ float () BotfindBot =
 float () BotFindTarget =
 {
 /// put hub start inv check here?
+#ifdef code_painkeep_
 	if (inHubMap && self.invincible_finished > time)
 	if (random() < 0.7) return(0);
+#endifdef
 
 	local entity client;
 	local float len;
@@ -641,8 +568,10 @@ float () BotFindTarget =
 		return(BotfindBot ());
 	}
 */
+#ifdef code_painkeep_
 	if (inHubMap && client.invincible_finished > time) // Cataboligne - 5.12.10 - on a hub and this enemy is invincible still
 	if (random() < 0.9) return(0);
+#endifdef
 
 	if (client == self.enemy)
 	{

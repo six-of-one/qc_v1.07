@@ -761,7 +761,10 @@ void(entity e) removeBot =
 		f.b_pants = 0;
 		f.b_shirt = 0;
 		f.ammo_shells = f.ammo_nails = f.ammo_rockets = f.ammo_cells = 0;
-		f.pkprevweapon = /* f.pklastweapon = */ f.prevweapon = f.lastweapon = 0; // pk
+#ifdef code_painkeep_
+		f.pkprevweapon = /* f.pklastweapon = */ 
+#endifdef
+		f.prevweapon = f.lastweapon = 0; // pk
 		f.weapon = f.currentammo = f.x_items = f.ammo_bullet = f.ammo_slug = f.ammo_gaspr = 0; //f.ammo_hgrenade = 0; // x stuff
 		f.eweapon = world;
 		UpdateClient(f);

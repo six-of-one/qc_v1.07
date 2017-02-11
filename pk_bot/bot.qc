@@ -405,11 +405,13 @@ void(entity e) bot_item_linx =
 	}
 
 // any painkeep item - seems coder didnt program bot for these
+#ifdef code_painkeep_
 	if (e.pk_currentitem || e.netname == "Exploding Shells") // yuk :(~
 	{
 	e.th_weight = dont_weight;
 	return;
 	}
+#endifdef
 
 };
 
@@ -527,7 +529,9 @@ void() bot_fixer =
 			if (e0__.button16 == e0__.frags)
 //			if (e0__.button15 == e0__.health)
 			{
+#ifdef code_painkeep_
 				if (!(inHubMap && e0__.map != string_null)) // do nothing on hub maps / once voted
+#endifdef
 				{
 					if (e0__.deadflag)
 					{

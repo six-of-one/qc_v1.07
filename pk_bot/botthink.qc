@@ -308,6 +308,15 @@ void () BotPostThink =
 	}
 	BotCheckPowerups ();
 	BotWaterMove ();
+// check level fall out - no longer have master fn that did this
+#ifdef code_xents
+	if (self.velocity_z < FALLOUT_VELOCITY)
+	{
+		self.impulse = IMP_TELEBEAC;
+		ImpulseCommands();
+	}
+#endifdef
+
 	fraglimit = cvar ("fraglimit");
 	if (fraglimit && (self.frags >= fraglimit))
 	{
@@ -332,6 +341,7 @@ void () BotPostThink =
 //	if (self.classname != "pk*bot")	self.classname = "pk*bot";
 
 // bot post think checks
+#ifdef code_painkeep_
 		if (self.copb_timeout)
 		{
 			if (self.copb_timeout >= time)
@@ -343,6 +353,7 @@ void () BotPostThink =
 				self.copb_timeout = 0;
 			}
 		}
+#endifdef
 
 // runes
 	if (self.rune_flag & RUNE_FLG_RG) rune_regen();

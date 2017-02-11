@@ -1729,11 +1729,13 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_SUPER_SHOTGUN && self.ammo_shells < 2) am = 1;
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
 // hack, but need to reject clg with no ammo
+#ifdef code_painkeep_
 		if (self.weapon == IT_AXE && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
 		{
 			am = 1;
 			self.pk_currentitem = PK_IT_AXE; // note: clg could be set inf ammo by cmd - this fails that if cells are zeroed by another wep
 		}
+#endifdef
 
 #ifdef code_morph
 		if (self.weapon & self.builtin) am = 0; // can always select morph builtins

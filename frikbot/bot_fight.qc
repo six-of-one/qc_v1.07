@@ -431,11 +431,10 @@ void() bot_fight_style =
 				}
 			}
 
-#ifdef code_painkeep_fix
+#ifdef code_painkeep_
 // try some pk items while retreating - Cataboligne - 9.29.9
 	if (random() < 0.8)
 		use_pkitem();
-// end pk item,s
 #endifdef
 
 			return;

@@ -1046,11 +1046,10 @@ void() BotAI =
 
 
 
-#ifdef code_painkeep_fix
+#ifdef code_painkeep_
 // try some pk items randomly - Cataboligne - 9.29.9
 	else if (random() < 0.1)
 		use_pkitem();
-// end pk items
 #endifdef
 
 

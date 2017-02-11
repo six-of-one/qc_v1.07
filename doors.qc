@@ -277,7 +277,7 @@ void() door_touch =
 			s0__ = self.netname; // pre coded on map ent
 			if (!s0__) s0__ = x_key_print(self.x_items);
 			if (!s0__) s0__ = "special key";
-			pk_centerprint(other, "You need the ", s0__, ".");
+			centerprint(other, "You need the ", s0__, ".");
 			sound (self, CHAN_VOICE, self.noise3, 1, ATTN_NORM);
 			return;
 		}
