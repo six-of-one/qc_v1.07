@@ -2142,6 +2142,7 @@ Archon has:
 		return;
 #endifdef
 
+// FIX: pk*bots need this
 // TDO: coop with quantum tunnel device
 // faell out of level - use beacon impulse to recover player / frikbot
 #ifdef code_xents

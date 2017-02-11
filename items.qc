@@ -1739,6 +1739,39 @@ void() BackpackTouch =
 // moving because logic change changed bound_other_ammo()
 //	self = stemp;
 
+#ifdef code_xents
+#ifdef code_painkeep_
+	prC = stemp.pk_currentitem;
+#endifdef
+	pX = stemp.weapon;
+	x_decparm();
+
+#ifdef code_painkeep_
+// needed if ammo max are upped by admin
+	self.pk_gravitywellammo = stemp.pk_gravitywellammo;
+	self.pk_turretammo = stemp.pk_turretammo;
+	self.pk_canpabammo = stemp.pk_canpabammo;
+	self.pk_beartrapammo = stemp.pk_beartrapammo;
+	self.pk_explode_ammo = stemp.pk_explode_ammo;
+
+// Cataboligne 8.12.9 purify - pk artifacts
+#ifdef code_pkplus_
+	self.pkplus_egoammo = stemp.pkplus_egoammo;
+	self.pkplus_tombammo = stemp.pkplus_tombammo;
+	self.pkplus_actorammo = stemp.pkplus_actorammo;
+	self.pkplus_phoneammo = stemp.pkplus_phoneammo;
+#endifdef
+// end pk_art
+#endifdef
+
+// new ammo
+	self.ammo_bullet = stemp.ammo_bullet;
+	self.ammo_slug = stemp.ammo_slug;
+	self.ammo_gaspr = stemp.ammo_gaspr;
+//	self.ammo_hgrenade = stemp.ammo_hgrenade;
+#endifdef
+
+
 // change weapons
 	self.ammo_shells = self.ammo_shells + stemp.ammo_shells;
 	self.ammo_nails = self.ammo_nails + stemp.ammo_nails;
@@ -1830,12 +1863,64 @@ void() DropBackpack =
 //	local entity	item;
 #define item 	newmis
 
+#ifdef code_morph
+// toss limits Q, PK, q / pk guy code
+// CHECK: what d, q2, q3 guy drop in dm when dead
+
+	if ((MAP_MODE != "Q") && (MAP_MODE != "PK"))
+	if (self.class_select != "class_monster")
+	if (self.morphy != CHAR_Q)
+	if (self.morphy != CHAR_PK)
+	{
+		if (self.morphy == CHAR_W) return;
+		if (self.morphy == CHAR_D) return;
+		if (self.morphy == CHAR_Q2) return;
+		if (self.morphy == CHAR_Q3) return;
+	}
+#endifdef
+
+#ifdef code_xents
+	if (DEAD_THROW_NOWAY)
+	{
+		if (noway_below)
+		if (self.origin_z < noway_below) return;
+		if (noway_above)
+		if (self.origin_z > noway_above) return;
+	}
+
+#ifdef opgrade
+// none tossed in lava
+	if (pointcontents(self.origin) == CONTENT_LAVA) return;
+#endifdef
+
+/*
+	if (!self.flags & FL_MONSTER) // monsters always get to throw down
+	if (DEAD_XPACK == 3) return; // code for no packs at all
+*/
+
+#ifdef code_painkeep_
+	if (!(self.pk_turretammo + self.pk_canpabammo + self.pk_beartrapammo + self.pk_explode_ammo + fabs(self.pk_gravitywellammo)))
+#ifdef code_pkplus_
+	if (!(self.pkplus_egoammo + self.pkplus_tombammo + self.pkplus_phoneammo + self.pkplus_actorammo))
+#endifdef
+#endifdef
+	if (!(self.ammo_bullet + self.ammo_slug + self.ammo_gaspr))
+#endifdef
 	if (!(self.ammo_shells + self.ammo_nails + self.ammo_rockets + self.ammo_cells))
 		return;	// nothing in it
 
 	item = spawn();
 	item.origin = self.origin - '0 0 24';
-	
+
+/*
+	if (DEAD_XPACK == 2) // no weps in pack
+	{
+		newmis.items = 0;
+		newmis.pk_items = 0;
+		newmis.netname = "Pack of ammo";
+	}
+	else
+*/
 	item.items = self.weapon;
 	if (item.items == IT_AXE)
 		item.netname = "Axe";
@@ -1854,6 +1939,43 @@ void() DropBackpack =
 	else if (item.items == IT_LIGHTNING)
 		item.netname = "Thunderbolt";
 
+#ifdef code_xents
+	else
+		item.netname = string_null;
+
+	x_encparm();
+#ifdef code_painkeep_
+	if (DEAD_THROW_PKI != 2)
+	{
+		item.pk_currentitem = prC;
+// needed if ammo max are upped by admin
+		item.pk_gravitywellammo = self.pk_gravitywellammo;
+		item.pk_turretammo = self.pk_turretammo;
+		item.pk_canpabammo = self.pk_canpabammo;
+		item.pk_beartrapammo = self.pk_beartrapammo;
+		item.pk_explode_ammo = self.pk_explode_ammo;
+
+// Cataboligne 8.12.9 purify - pk artifacts
+#ifdef code_pkplus_
+		item.pkplus_egoammo = self.pkplus_egoammo;
+		item.pkplus_tombammo = self.pkplus_tombammo;
+		item.pkplus_actorammo = self.pkplus_actorammo;
+		item.pkplus_phoneammo = self.pkplus_phoneammo;
+#endifdef
+// end pk_art
+	}
+#endifdef
+//	if (DEAD_XPACK == 1)	// cm2 - x_wep in pack
+	item.weapon = pX;
+	if (pX) item.netname = self.eweapon.netname;
+
+// new ammo
+	item.ammo_bullet = self.ammo_bullet;
+	item.ammo_slug = self.ammo_slug;
+	item.ammo_gaspr = self.ammo_gaspr;
+//	newmis.ammo_hgrenade = self.ammo_hgrenade;
+
+#else
 #ifdef hip_weapons
 	else if (item.items == IT_LASER_CANNON)
 		item.netname = "Laser Cannon";
@@ -1862,9 +1984,10 @@ void() DropBackpack =
 	else if (item.items == IT_MJOLNIR)
 		item.netname = "Mjolnir";
 #endifdef
-
 	else
 		item.netname = string_null;
+#endifdef
+
 
 	item.ammo_shells = self.ammo_shells;
 	item.ammo_nails = self.ammo_nails;
@@ -1892,6 +2015,10 @@ void() DropBackpack =
 
 #ifdef code_archon
 	item.mask_x = CB_HUMAN + CB_GREMLIN; // IMP: rest of morph bp touch -- NOTE: this is IGNORED!
+#endifdef
+
+#ifdef painkeep_splash
+	AddToSplash(item); // *pk - splash tossed items
 #endifdef
 
 #undef item
