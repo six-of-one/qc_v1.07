@@ -69,7 +69,7 @@ framerloop($frame1, $frame10, spid_walk1, 0.1,
 
 	frame_arb($frame1, if (random() < 0.2) sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_NORM));
 
-	if (! self.frame & 1) sound(self,CHAN_VOICE, "mon_II/spider/tap.wav", 1, ATTN_IDLE);
+	if (! (self.frame & 1)) sound(self,CHAN_VOICE, "mon_II/spider/tap.wav", 1, ATTN_IDLE);
 	ai_walk(4);
 
 );
