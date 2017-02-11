@@ -750,6 +750,9 @@ float (entity e, float healamount, float ignore) T_Heal; // health function
 float(entity targ, entity inflictor) CanDamage;
 void() W_Attack;
 
+// moved for bots
+float	intermission_running;
+
 /// multi-defs area - load all module defs files
 
 #ifdef HIPNOTIC

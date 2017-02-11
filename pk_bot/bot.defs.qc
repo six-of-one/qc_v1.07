@@ -9,14 +9,9 @@
 #define MSG_UPDATEFRAGS		14
 #define MSG_UPDATECOLORS		17
 
-entity bot_lr; // Cataboligne - make sure bots continue after level ends
-
 float observer_time;			// time limit for observer mode
 
 float vw_bot_frame; // handle pk*bots viswep
-
-float ax_dmg; // record melee damage in T_Damage so bots can avoid endless axe wars
-void() Bot_Melee;
 
 // if .state ==, call cacheRoute when touching this item
 #define CACHE_ROUTE_TOUCH		-1559742
@@ -154,10 +149,6 @@ float nearlight;
 //void (float scoretype) PrintScores;
 //float () FindGood;
 
-// id bots
-void() bot_fixed;
-void() bot_fixer; // fix broke bots
-#define BOT_FIX_TIME 14
 
 // waypoint limit
 float noway_above;
@@ -269,7 +260,6 @@ float () dont_weight;
 
 // not found cm3 compile
 
-void () respawnBot;
 void () BotPostThink;
 void () ai_botstand;
 void () ai_botturn;
@@ -281,4 +271,3 @@ void (float dist) ai_botseek;
 
 // REMOVE / FIX
 void(entity e) eprint				= #31;		// prints an entire edict
-entity bot_fix;
