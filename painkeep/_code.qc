@@ -115,7 +115,7 @@
 //#messagecompiling painkeep/fallaway.qc 
 //#include </fallaway.qc>
 
-
+#ifdef code_pkplus_
 #messagecompiling painkeep/tomb.qc 
 #include </tomb.qc>
 
@@ -128,6 +128,7 @@
 // not coded in
 //#messagecompiling painkeep/actor.qc 
 //#include </actor.qc>
+#endifdef
 
 #endifdef
 

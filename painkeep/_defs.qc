@@ -219,6 +219,7 @@ void() player_conduitJerk;
 
 // pk plus
 
+#ifdef code_pkplus_
 .float pkplus_actorammo;
 //.float pkplus_actorskin;
 //.float pkplus_actortype;
@@ -267,6 +268,10 @@ float PKPLUS_PHONEAMMO_MAX;
 .float orbitPosition;
 .float egosoundtime;
 #endifdef
+#endifdef
+
+// used in x_ents!
+.float tomb_time;
 
 // phone
 
