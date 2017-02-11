@@ -43,12 +43,14 @@ void() use_pkitem =
 			self.pk_currentitem = PK_IT_CANPAB;
 			W_Attack();
 		}
+#ifdef code_pkplus_
 		else if (self.pkplus_phoneammo > 0 && drp > 0.9)
 		{
 			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_PHONE;
 			W_Attack();
 		}
+#endifdef
 		else if (self.pk_gravitywellammo != 0 && drp > 0.8)
 		{
 			if (coop)
@@ -77,6 +79,7 @@ void() use_pkitem =
 			self.pk_currentitem = PK_IT_BEARTRAP;
 			W_Attack();
 		}
+#ifdef code_pkplus_
 		else if (self.pkplus_egoammo > 0 && drp > 0.4) // Cataboligne - 5.8.10 - bots use pkplus artefacts items now - YAY!  (no Gir, thats bad...)
 		{
 			self.weapon = IT_AXE;
@@ -89,6 +92,7 @@ void() use_pkitem =
 			self.pk_currentitem = PKPLUS_IT_TOMB;
 			W_Attack();
 		}
+#endifdef
 	}
 };
 
