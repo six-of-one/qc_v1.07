@@ -187,7 +187,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 										bprint (" n: ");
 										bprint (inflictor.netname);
 										bprint (" theown: ");
-										bprint (inflictor.theowner.classname);
+	#ifdef code_xents
+									bprint (inflictor.theowner.classname);
+	#endifdef
 										bprint ("\n");
 									}
 #endifdef

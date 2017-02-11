@@ -28,10 +28,6 @@
 
 #define use_bots
 
-// most bot pkg use
-
-#include <incl/use_nextent.qc>
-
 // moved from frikbot
 
 // this is included in the frikbot pkg but needs to be here for moved code

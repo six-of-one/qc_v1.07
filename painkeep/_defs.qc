@@ -201,7 +201,6 @@ void() pk_harpoon_frames;
 
 #ifndef HIPNOTIC
 float discharged;
-entity damage_inflictor;
 #endifdef
 
 .entity bolt_lightningFire;

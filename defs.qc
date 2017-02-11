@@ -582,7 +582,7 @@ void(entity e, string m) setmodel	= #3;		// set movetype and solid first
 void(entity e, vector min, vector max) setsize = #4;
 // #5 was removed
 #ifdef unused
-void() break						= #6;																							// qc++ - seems not used in v1.06
+void() break						= #6;																							// qc++ - seems not used in v1.06			-- uncomment any of these to use
 #endifdef
 float() random						= #7;		// returns 0 - 1
 vector(vector v) normalize			= #9;
@@ -641,10 +641,7 @@ vector(entity e, float speed) aim = #44;		// returns the shooting vector
 
 float(string s) cvar = #45;						// return cvar.value
 void(string s) localcmd = #46;					// put string into local que
-#ifdef unused
-#include <incl/use_nextent.qc>
-//entity(entity e) nextent = #47;					// for looping through all ents			// qc++ - seems not used in v1.06
-#endifdef
+entity(entity e) nextent = #47;					// for looping through all ents			// qc++ - seems not used in v1.06
 void(vector o, vector d, float color, float count) particle = #48;// start a particle effect
 void() ChangeYaw = #49;						// turn towards self.ideal_yaw
 											// at self.yaw_speed
@@ -763,6 +760,8 @@ float	intermission_running;
 #else
 // in hip code - used to load default map cfg in client.qc
 .string group;
+// used by Ariochs Castle for special teleports
+.string path;
 #endifdef
 
 #ifdef map_hack
@@ -781,6 +780,8 @@ float	intermission_running;
 
 // NOTE: every instance of this needs checked - with all changes it is involved in
 #define gsf	f0__
+#else
+#define	dm_over		0
 #endifdef
 
 #ifdef code_painkeep_
@@ -808,6 +809,7 @@ float	intermission_running;
 // perm new code
 float spawn_particle; // for SpawnBlood particle takeover
 float		fraglimit; // save local globs
+entity damage_inflictor;	// former hip / pk needs to be here
 
 //============================================================================
 

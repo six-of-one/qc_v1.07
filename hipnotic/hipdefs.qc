@@ -62,7 +62,6 @@ void() FleeCharmer;
 #endifdef
 
 float visible_distance;
-entity damage_inflictor;
 
 #ifdef hip_footsteps
 float footsteps;
@@ -212,7 +211,6 @@ void() LinkRotateTargets;
 #include </../incl/use_volume.qc>
 
 #include </../incl/use_writelong.qc>
-#include </../incl/use_nextent.qc>
 
 // from other areas of hipnotic code
 

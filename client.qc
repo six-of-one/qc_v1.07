@@ -811,7 +811,9 @@ entity() SelectSpawnPoint =
 	spot = find(world, classname, "info_player_deathmatch");
 	if (spot)		// make sure we have one before endless loop is run
 	{
+#ifdef code_painkeep_
 		if (cvar("PK") < 1)
+#endifdef
 		{
 			spot = lastspawn;
 			while (1)
@@ -838,6 +840,7 @@ entity() SelectSpawnPoint =
 			}
 		}
 // pk 1 - 3 spawn picker
+#ifdef code_painkeep_
 		if (cvar("PK") < 4)	// dont task non dm starts until 4
 		{
 			f1__ = cnt_ent(self, classname,  "info_player_deathmatch");
@@ -845,6 +848,7 @@ entity() SelectSpawnPoint =
 		}
 		else
 		spot = find_tdest(0);
+#endifdef
 
 		lastspawn = spot;
 		while (spot)
@@ -862,10 +866,12 @@ entity() SelectSpawnPoint =
 		}
 		spot = lastspawn; // just use this
 	}
+#ifdef code_xents
 	else		// no dm spawns
 	{
 		spot = find_tdest(0);
 	}
+#endifdef
 
 
 /*
@@ -2393,7 +2399,9 @@ void(entity targ, entity attacker) ClientObituary =
 // __c{deathtypestr} is a custom death message set
 		s0__ = strcat("__","c",damage_inflictor.deathtype);
 		if (!cvar(s0__)) s0__ = strcat("__","c",damage_inflictor.classname);		// x weps  - check classname of an inflictor
+#ifdef code_xents
 		if (!cvar(s0__)) s0__ = strcat("__","c",attacker.eweapon.deathtype);	// x weps set this for CDM
+#endifdef
 		if (!cvar(s0__)) s0__ = strcat("__","c",attacker.deathtype);							// x monster CDM
 		if (!cvar(s0__)) s0__ = strcat("__","c",targ.deathtype);									// targ killed by CDM
 
