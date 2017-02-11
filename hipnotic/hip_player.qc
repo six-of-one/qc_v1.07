@@ -99,7 +99,9 @@ void() player_laser1   =[$nailatt1, player_laser1  ]
 	if (self.weaponframe >= 6)
 		self.weaponframe = 1;
 
+#ifdef code_runes
 	if (rune_haste(self.eweapon.attack_finished / 2))
+#endifdef
 		self.attack_finished = time + self.eweapon.attack_finished;
 	self.nextthink = self.attack_finished;
 
