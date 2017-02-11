@@ -1746,13 +1746,14 @@ void() BackpackTouch =
 	pX = stemp.weapon;
 	x_decparm();
 
+// numbuts - TDO: inventory limit (now stored in cfg)
 #ifdef code_painkeep_
 // needed if ammo max are upped by admin
 	self.pk_gravitywellammo = stemp.pk_gravitywellammo;
-	self.pk_turretammo = stemp.pk_turretammo;
+	self.pk_turretammo = self.pk_turretammo + stemp.pk_turretammo;
 	self.pk_canpabammo = stemp.pk_canpabammo;
-	self.pk_beartrapammo = stemp.pk_beartrapammo;
-	self.pk_explode_ammo = stemp.pk_explode_ammo;
+	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo;
+	self.pk_explode_ammo = self.pk_explode_ammo + stemp.pk_explode_ammo;
 
 // Cataboligne 8.12.9 purify - pk artifacts
 #ifdef code_pkplus_
@@ -1765,9 +1766,9 @@ void() BackpackTouch =
 #endifdef
 
 // new ammo
-	self.ammo_bullet = stemp.ammo_bullet;
-	self.ammo_slug = stemp.ammo_slug;
-	self.ammo_gaspr = stemp.ammo_gaspr;
+	self.ammo_bullet = self.ammo_bullet + stemp.ammo_bullet;
+	self.ammo_slug = self.ammo_slug + stemp.ammo_slug;
+	self.ammo_gaspr = self.ammo_gaspr + stemp.ammo_gaspr;
 //	self.ammo_hgrenade = stemp.ammo_hgrenade;
 #endifdef
 
