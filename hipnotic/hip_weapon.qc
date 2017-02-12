@@ -417,7 +417,7 @@ void() HIP_LightningThink =
 			self.enemy = selected;
 			self.enemy.struck_by_mjolnir = 1;
 #ifdef warning
-//if ((WARNING & 1056) == 1056)
+if ((WARNING & 1056) == 1056)
 {
 	bprint(" *** --- Hammer LTN hit - ");
 	bprint(item_ident(self.enemy));
