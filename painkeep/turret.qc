@@ -1,4 +1,4 @@
-/* ::-::
+GF/* ::-::
  *
  * Cataboligne
  *
@@ -151,7 +151,11 @@ void() turret_dropTurret =
 	}
 
 	if (self.flags & FL_CLIENT) // some qualification
+#ifdef code_xents
+		e_use_ammo();
+#else
 		self.currentammo = self.pk_turretammo = self.pk_turretammo - 1; // Cataboligne - 8.20.9 - moved here so wall fail doesnt eat ammo
+#endifdef
 									// NOTE: self must always then be firing entity
 
 	turret = spawn ();

@@ -453,7 +453,7 @@ void() gravity_explode =
 	//self.nextthink = time + 1.0;
 };
 
-// idea: sgw - move sphere up 200 units, or 1/2 dist bot to top if  < 400 units
+// idea: sgw - move sphere up 200 units, or not if bot to top < 400 units
 
 void() drop_gravity =
 {
