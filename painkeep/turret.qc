@@ -145,7 +145,7 @@ void() turret_dropTurret =
 	makevectors (self.angles);
 	if (trace_fraction != 1.0 && !trace_ent.takedamage)
 	{
-		// To near a wall, can't throw turret
+		// To near a wall, can't throw turret																-- evolve did not explain: test needed because turrets start out non solid, unlike beartraps
 	  sprint(self, "Can't throw AutoSentry, too close to a wall!!\n");
 	  return;
 	}
@@ -249,7 +249,7 @@ void() turret_dropTurret =
 	turret.turret_base.owner = turret;
 	turret.turret_base.movetype = MOVETYPE_TOSS;
 //	turret.turret_base.solid = SOLID_BBOX;
-	turret.turret_base.solid = SOLID_NOT;
+//	turret.turret_base.solid = SOLID_NOT;
 	turret.turret_base.classname = "turret_base";
 	turret.turret_base.netname = "Auto sentry";
 
