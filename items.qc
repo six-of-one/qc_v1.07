@@ -128,8 +128,8 @@ void() PlaceItem =
 
 // let items bounce if ejected
 	if (!self.punchangle)
-	{
 #endifdef
+  {
 	self.velocity = '0 0 0'; // moved because this waps the eject fn
 	if (!droptofloor())
 	{
@@ -140,10 +140,8 @@ void() PlaceItem =
 #endifdef
 		remove(self);
 //		return;
-	}
-#ifdef code_xents
-	}
-#endifdef
+	 }
+  }
 };
 
 /*
