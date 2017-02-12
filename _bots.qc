@@ -600,6 +600,10 @@ void() Bot_Melee =
 
 // pki if painkeep compiled in
 
+void() CycleWeaponCommand;
+float () W_BestBotWeapon;
+void(float brange) bot_weapon_switch;
+
 // * bots can collect & use painkeep stuff - YAY (no gir, thats bad...aww. I wanted to explode.)
 
 #ifdef code_painkeep_
@@ -628,18 +632,15 @@ void() use_pkitem =
 	if (drp)
 	{
 // FIX: need to set eweap - really need to select
+		self.pk_currentitem = PK_IT_AXE;
 		if (self.pk_canpabammo > 0 && drp > 0.9) // heal or escape when health low
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_CANPAB;
-			W_Attack();
 		}
 #ifdef code_pkplus_
 		else if (self.pkplus_phoneammo > 0 && drp > 0.9)
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_PHONE;
-			W_Attack();
 		}
 #endifdef
 		else if (self.pk_gravitywellammo != 0 && drp > 0.8)
@@ -654,36 +655,36 @@ void() use_pkitem =
 					pl = find(pl, classname, "player");
 				}
 			}
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_GRAVITYWELL;
-			W_Attack();
 		}
 		else if (self.pk_turretammo > 0 && drp > 0.7)
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_TURRET;
-			W_Attack();
 		}
 		else if (self.pk_beartrapammo > 0 && drp > 0.6)
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PK_IT_BEARTRAP;
-			W_Attack();
 		}
 #ifdef code_pkplus_
 		else if (self.pkplus_egoammo > 0 && drp > 0.4) // Cataboligne - 5.8.10 - bots use pkplus artefacts items now - YAY!  (no Gir, thats bad...)
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_EGO;
-			W_Attack();
 		}
 		else if (self.pkplus_tombammo > 0)
 		{
-			self.weapon = IT_AXE;
 			self.pk_currentitem = PKPLUS_IT_TOMB;
-			W_Attack();
 		}
 #endifdef
+		if (self.pk_currentitem != PK_IT_AXE)
+		{
+			self.weapon = IT_AXE;
+			self.eweapon = world;
+			self.f__ = 1; // dont shift weapons
+			CycleWeaponCommand();		// should set eweapon
+			if (self.eweapon) W_Attack();
+			if (self.group == "pk*bot") self.weapon = W_BestBotWeapon();
+			else bot_weapon_switch(-1);
+		}
 	}
 };
 #endifdef

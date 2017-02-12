@@ -210,6 +210,8 @@ float () CheckBotAttack =
 	return (1);
 };
 
+// TDO: add eweapon selector pkbot
+
 float () W_BestBotWeapon =
 {
 	local float it;

@@ -107,9 +107,10 @@
 // 1.0.7.9			- map_hack - rv2 - multi biome system
 // 1.0.7.10		- code - cubes & crates
 // 1.0.7.11		- code_painkeep 3.0
+// 1.0.7.12		- code_pkbots
 
 
-#define VERSION 	"1.0.7.11 qc++"
+#define VERSION 	"1.0.7.12 qc++"
 
 /// **************************************
 /// code weaver section
@@ -166,7 +167,7 @@
 //		localcmd(vers);
 // to be run once somewhere in worldspawn()
 
-string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
+string vers						= "alias version \"echo quake-c: 1.0.7.12 qc++\"\n";
 
 // this is better off being placed in a config file - for instance default.cfg like so:
 // alias version "echo quake-c: 1.0.7.4 qc++"
@@ -189,7 +190,7 @@ string vers						= "alias version \"echo quake-c: 1.0.7.4 qc++\"\n";
 // quake one operation upgrade
 
 /// SWITCH
-//#define opgrade
+#define opgrade
 /// opgrade turned ON
 
 
@@ -415,7 +416,7 @@ spec track by cvar
 /// all code wrapped with #ifdef local_test SHOULD be deleted from live server / release code !
 
 /// SWITCH
-//#define local_test
+#define local_test
 
 // we always tell if local test or debug are compiled in
 
@@ -469,7 +470,7 @@ spec track by cvar
 //				 level 0 is the only level really necessary if server ops are agreeable with developer selected defaults
 
 /// SWITCH
-//#define xvars
+#define xvars
 
 #ifdef xvars
 
@@ -523,7 +524,7 @@ spec track by cvar
 //#define code_archon
 
 // this is for an alpha code set that MUST be moved into the main code set before a beta is released
-//#define code_archon_a
+#define code_archon_a
 
 #ifdef code_archon_a
 	#ifdef module_list
@@ -563,7 +564,7 @@ spec track by cvar
 //					default behavior with HIPNOTIC turned OFF will replace ents with missing models, deactivate some freatures - etc
 
 /// SWITCH
-//#define HIPNOTIC
+#define HIPNOTIC
 
 #ifdef HIPNOTIC
 	#ifdef module_list
@@ -589,7 +590,7 @@ spec track by cvar
 // zerstorer
 // a small amount of zerstorer code has been ported - at this time, the plats module
 /// SWITCH
-//#define code_zer
+#define code_zer
 
 #ifdef code_zer
 	#ifdef module_list
@@ -601,11 +602,12 @@ spec track by cvar
 // ******************************************************************************************************************
 
 // painkeep
+
+/// FIX - some code needs removed on the original switch
+
 /// SWITCH
 //#define code_painkeep
-
-/// REMOVE - reset all affected
-//#define code_painkeep_
+#define code_painkeep_
 
 #ifdef code_painkeep_
 	#ifdef module_list
@@ -613,6 +615,7 @@ spec track by cvar
 	#endifdef
 	#define modulein
 // plus modules
+/// SWITCH
 	#define code_pkplus_
 // uncomment to use pk splash module
 //#define painkeep_splash
@@ -620,7 +623,7 @@ spec track by cvar
 
 // use pk bots
 /// SWITCH
-//#define code_pkbots
+#define code_pkbots
 
 #ifdef code_pkbots
 	#ifdef module_list
@@ -637,7 +640,7 @@ spec track by cvar
 
 // use frik bots
 /// SWITCH
-//#define code_frikbots
+#define code_frikbots
 
 #ifdef code_frikbots
 	#ifdef module_list
@@ -654,7 +657,7 @@ spec track by cvar
 
 // rune server
 /// SWITCH
-//#define code_runes
+#define code_runes
 
 #ifdef code_runes
 	#ifdef module_list
@@ -668,7 +671,7 @@ spec track by cvar
 // visible weapons - show player model with actual selected weapon
 #ifndef nondp
 /// SWITCH
-//#define code_viswep
+#define code_viswep
 #endifdef
 
 #ifdef code_viswep
@@ -702,7 +705,7 @@ spec track by cvar
 // extra monsters
 
 /// SWITCH
-#define xmonsters
+//#define xmonsters
 
 #ifdef xmonsters
 	#ifdef module_list
@@ -717,7 +720,7 @@ spec track by cvar
 
 #ifndef nondp
 /// SWITCH
-//#define map_hack
+#define map_hack
 #endifdef
 
 #ifdef map_hack
@@ -733,7 +736,7 @@ spec track by cvar
 
 #ifndef nondp
 /// SWITCH
-//#define code_xents
+#define code_xents
 
 // requirements block
 #ifdef map_hack
