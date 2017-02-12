@@ -114,6 +114,11 @@ entity locus;
 #define		e7__		locus.movetarget
 #define		e8__		locus.dmg_inflictor
 
+// pre selected void
+
+#define		z0__		locus.think1
+#define		z1__		locus.blocked
+
 // TESTING
 
 	#ifdef local_test
