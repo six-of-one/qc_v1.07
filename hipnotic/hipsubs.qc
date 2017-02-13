@@ -19,7 +19,9 @@
 
 #ifndef nondp
 
-#include </../incl/use_copyentity.qc>
+#ifndef code_xents
+void(entity from, entity to) copyentity = #400;
+#endifdef
 
 #define SUB_CopyEntity copyentity
 

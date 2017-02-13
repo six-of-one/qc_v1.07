@@ -46,6 +46,17 @@ float DEF_PK_ITEMS; // pk bit flags
 
 .float pkprevweapon;
 
+// upper bound for pki ammo
+
+// v - value to test
+// b - upper bounds
+
+float(float v, float b) ubnd =
+{
+	if (v > b) v = b;
+	return(v);
+};
+
 // protos
 
 void()	pk_DmgSkin;
@@ -292,6 +303,8 @@ entity telesnd; // teleport sound effect (dest) global - so holdable can change 
 
 // setup in xents if compiled, otherwise put these here
 #ifndef code_xents
+
+void(entity from, entity to) copyentity = #400;
 
 #define gsf	f0__
 #define	theowner	grap_owner

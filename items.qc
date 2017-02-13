@@ -1739,35 +1739,36 @@ void() BackpackTouch =
 
 #ifdef code_xents
 #ifdef code_painkeep_
+	e0__ = spawn();
+	copyentity(self, e0__);		// save so x_decparm that sets up ewep for pki doesnt add inventory
 	prC = stemp.pk_currentitem;
 #endifdef
 	pX = stemp.weapon;
 	x_decparm();
 
-// numbuts - TDO: inventory limit (now stored in cfg)
 #ifdef code_painkeep_
-// needed if ammo max are upped by admin
-// there is a strange thing where traps, turrets, ego, tomb and expl shells get an inventory increment from the load
-	self.pk_gravitywellammo = stemp.pk_gravitywellammo;
-	self.pk_turretammo = self.pk_turretammo + stemp.pk_turretammo - 1;
-	self.pk_canpabammo = stemp.pk_canpabammo;
-	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo - 1;		// if def ammo change in cfg, this will be wrong
-	self.pk_explode_ammo = self.pk_explode_ammo + stemp.pk_explode_ammo - 10;
+	self.pk_gravitywellammo = ubnd(e0__.pk_gravitywellammo + stemp.pk_gravitywellammo, 1);		// if def ammo change in cfg, this will be wrong
+	self.pk_turretammo = ubnd(e0__.pk_turretammo + stemp.pk_turretammo,4);
+	self.pk_canpabammo = ubnd(e0__.pk_canpabammo + stemp.pk_canpabammo,1);
+	self.pk_beartrapammo = ubnd(e0__.pk_beartrapammo + stemp.pk_beartrapammo,4);
+	self.pk_explode_ammo = ubnd(e0__.pk_explode_ammo + stemp.pk_explode_ammo,10);
 
 // Cataboligne 8.12.9 purify - pk artifacts
-#ifdef code_pkplus_
-	self.pkplus_egoammo = self.pkplus_egoammo + stemp.pkplus_egoammo - 1;
-	self.pkplus_tombammo = self.pkplus_tombammo + stemp.pkplus_tombammo - 1;
-	self.pkplus_actorammo = stemp.pkplus_actorammo;
-	self.pkplus_phoneammo = stemp.pkplus_phoneammo;
-#endifdef
+ #ifdef code_pkplus_
+	self.pkplus_egoammo = ubnd(e0__.pkplus_egoammo + stemp.pkplus_egoammo,3);
+	self.pkplus_tombammo = ubnd(e0__.pkplus_tombammo + stemp.pkplus_tombammo,3);
+	self.pkplus_actorammo = ubnd(e0__.pkplus_actorammo + stemp.pkplus_actorammo,1);
+	self.pkplus_phoneammo = ubnd(e0__.pkplus_phoneammo + stemp.pkplus_phoneammo,2);
+ #endifdef
 // end pk_art
+
+	remove(e0__);
 #endifdef
 
-// new ammo
-	self.ammo_bullet = self.ammo_bullet + stemp.ammo_bullet;
-	self.ammo_slug = self.ammo_slug + stemp.ammo_slug;
-	self.ammo_gaspr = self.ammo_gaspr + stemp.ammo_gaspr;
+// x ammo
+	self.ammo_bullet = ubnd(self.ammo_bullet + stemp.ammo_bullet,400);
+	self.ammo_slug = ubnd(self.ammo_slug + stemp.ammo_slug,100);
+	self.ammo_gaspr = ubnd(self.ammo_gaspr + stemp.ammo_gaspr,240);
 //	self.ammo_hgrenade = stemp.ammo_hgrenade;
 #endifdef
 
