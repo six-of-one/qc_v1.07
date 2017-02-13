@@ -1747,16 +1747,17 @@ void() BackpackTouch =
 // numbuts - TDO: inventory limit (now stored in cfg)
 #ifdef code_painkeep_
 // needed if ammo max are upped by admin
+// there is a strange thing where traps, turrets, ego, tomb and expl shells get an inventory increment from the load
 	self.pk_gravitywellammo = stemp.pk_gravitywellammo;
-	self.pk_turretammo = self.pk_turretammo + stemp.pk_turretammo;
+	self.pk_turretammo = self.pk_turretammo + stemp.pk_turretammo - 1;
 	self.pk_canpabammo = stemp.pk_canpabammo;
-	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo;
-	self.pk_explode_ammo = self.pk_explode_ammo + stemp.pk_explode_ammo;
+	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo - 1;		// if these change by rcon, this will be wrong
+	self.pk_explode_ammo = self.pk_explode_ammo + stemp.pk_explode_ammo - 10;
 
 // Cataboligne 8.12.9 purify - pk artifacts
 #ifdef code_pkplus_
-	self.pkplus_egoammo = stemp.pkplus_egoammo;
-	self.pkplus_tombammo = stemp.pkplus_tombammo;
+	self.pkplus_egoammo = self.pkplus_egoammo + stemp.pkplus_egoammo - 1;
+	self.pkplus_tombammo = self.pkplus_tombammo + stemp.pkplus_tombammo - 1;
 	self.pkplus_actorammo = stemp.pkplus_actorammo;
 	self.pkplus_phoneammo = stemp.pkplus_phoneammo;
 #endifdef
