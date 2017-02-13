@@ -1552,32 +1552,8 @@ void() W_ChangeWeapon =
 // select a new wep
 	if (self.impulse == 1) 
 	{
-#ifdef code_painkeep_
-// select pki
-		if (self.weapon == IT_AXE)
-		{	
-// NOTE: this needs to "cycle" till a new wep is selected or it goes full circle to 1
-			e0__ = self.vwepent;
-			self.eweapon = world;
-			self.pk_currentitem = self.pk_currentitem * 2;
-			while (e0__)
-			{
-				if (e0__.pk_currentitem == self.pk_currentitem
-						&& e0__.weapon == IT_AXE) e0__ = world;
-				else
-				{					
-					e0__ = e0__.vwepent;
-					if (!e0__)
-					{
-						self.pk_currentitem = self.pk_currentitem * 2;
-						if (!(self.pk_currentitem & PK_ITEM_MASK)) self.pk_currentitem = 1;
-						else e0__ = self.vwepent;
-					}
-				}
-			}
-		}
-#endifdef
-		self.weapon = IT_AXE;
+		vwepsel(IT_AXE);
+//		self.weapon = IT_AXE;
 	}
 	if (self.impulse == 2) self.weapon = IT_SHOTGUN;
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;

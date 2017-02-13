@@ -1751,7 +1751,7 @@ void() BackpackTouch =
 	self.pk_gravitywellammo = stemp.pk_gravitywellammo;
 	self.pk_turretammo = self.pk_turretammo + stemp.pk_turretammo - 1;
 	self.pk_canpabammo = stemp.pk_canpabammo;
-	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo - 1;		// if these change by rcon, this will be wrong
+	self.pk_beartrapammo = self.pk_beartrapammo + stemp.pk_beartrapammo - 1;		// if def ammo change in cfg, this will be wrong
 	self.pk_explode_ammo = self.pk_explode_ammo + stemp.pk_explode_ammo - 10;
 
 // Cataboligne 8.12.9 purify - pk artifacts
