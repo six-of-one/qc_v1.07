@@ -1555,7 +1555,7 @@ void() W_ChangeWeapon =
 		vwepsel(IT_AXE);
 //		self.weapon = IT_AXE;
 	}
-	if (self.impulse == 2) self.weapon = IT_SHOTGUN;
+	if (self.impulse == 2) vwepsel(IT_SHOTGUN);		//self.weapon = IT_SHOTGUN;
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
 	if (self.impulse == 4) self.weapon = IT_NAILGUN;
 	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
@@ -1569,13 +1569,15 @@ void() W_ChangeWeapon =
 		else
 #endifdef
 #endifdef
-			self.weapon = IT_GRENADE_LAUNCHER;
+			vwepsel(IT_GRENADE_LAUNCHER);		//self.weapon = IT_GRENADE_LAUNCHER;
 	}
 	if (self.impulse == 7) self.weapon = IT_ROCKET_LAUNCHER;
-	if (self.impulse == 8) self.weapon = IT_LIGHTNING;
+	if (self.impulse == 8) vwepsel(IT_LIGHTNING);		//self.weapon = IT_LIGHTNING;
 
+#ifdef code_xents
+	if (self.impulse == 9) vwepsel(IT_XWEP);
+#else
 #ifdef hip_weapons
-#ifndef code_xents
 //MED
 	if (self.impulse == 225) self.weapon = IT_LASER_CANNON;
 	if (self.impulse == 226) self.weapon = IT_MJOLNIR;
@@ -1706,7 +1708,7 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
 // hack, but need to reject clg with no ammo
 #ifdef code_painkeep_
-		if (self.weapon == IT_AXE && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
+		if (self.weapon == IT_LIGHTNING && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
 		{
 			am = 1;
 			self.pk_currentitem = PK_IT_AXE; // note: clg could be set inf ammo by cmd - this fails that if cells are zeroed by another wep
@@ -1725,13 +1727,33 @@ void() CycleWeaponCommand =
 			if (e0__.weapon == self.weapon)
 // needs an alternate set for weps (like tallball that use pk settings)
 #ifdef code_painkeep_
-			if (self.weapon != IT_AXE || e0__.pk_currentitem == self.pk_currentitem)
+//			if (self.weapon != IT_AXE || e0__.pk_currentitem == self.pk_currentitem)
+			if (!e0__.pk_currentitem || e0__.pk_currentitem == self.pk_currentitem)
 #endifdef
 			if (e0__.currentammo || e0__.aflag)
 			{
 				self.eweapon = e0__.eweapon;
 				self.forcewchange = 1;
 				am = 0;
+
+#ifdef warning
+//									if (warnings == "cvparm")
+									{
+										bprint ("  *** cycwep: ");
+										bprint (e0__.netname);
+										bprint (" #: ");
+										bprint (ftos(e0__.weapon));
+										bprint (" pk: ");
+										bprint (ftos(e0__.pk_currentitem));
+										bprint (" ent: ");
+										bprint (ftos(num_for_edict(e0__.eweapon)));
+										bprint (" self: ");
+										bprint (ftos(num_for_edict(self.eweapon)));
+										bprint ("\n");
+									}
+#endifdef
+
+
 			}
 			else			// fix x_weps not having ammo, but slot they are in having ammo & allowing select
 				am = 1;
