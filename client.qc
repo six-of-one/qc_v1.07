@@ -46,6 +46,7 @@ void() SetChangeParms =
 	parm11 = prC;
 #endifdef
 	parm12 = pX;
+	parm13 = ubnd(self.ammo_bullet / 2, 250) + (ubnd(self.ammo_slug, 250) * 256) + (ubnd(self.ammo_gaspr / 2, 250) * 65536);
 #endifdef
 
 // remove items
@@ -94,9 +95,10 @@ void() SetNewParms =
 	parm9 = 0;
 #ifdef code_xents
 #ifdef code_painkeep_
-	parm11 = 0;
+	parm11 = 0;		// pki
 #endifdef
-	parm12 = 0;
+	parm12 = 0;		// x wep held
+	parm13 = 0;		// x ammo
 #endifdef
 };
 
@@ -137,6 +139,10 @@ void() DecodeLevelParms =
 #endifdef
 	pX = parm12;
 	x_decparm();
+
+	self.ammo_bullet = 2 * parm13 & 255;
+	self.ammo_slug = floor(parm13 / 256) & 255;
+	self.ammo_gaspr = 2 * floor(parm13 / 65536) & 255;
 #endifdef
 };
 
