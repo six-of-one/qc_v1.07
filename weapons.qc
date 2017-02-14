@@ -1152,6 +1152,7 @@ void() W_SetCurrentAmmo =
 		self.prevweapon = self.weapon;
 	#ifdef code_painkeep_
 		self.pkprevweapon = self.pk_currentitem;
+		if (self.weapon == IT_AXE) self.pk_crs1 = self.pk_currentitem;
 	#endifdef
 		self.forcewchange = FALSE;
 
@@ -1557,7 +1558,7 @@ void() W_ChangeWeapon =
 	}
 	if (self.impulse == 2) vwepsel(IT_SHOTGUN);		//self.weapon = IT_SHOTGUN;
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
-	if (self.impulse == 4) self.weapon = IT_NAILGUN;
+	if (self.impulse == 4) vwepsel(IT_NAILGUN);		//self.weapon = IT_NAILGUN;
 	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
 	if (self.impulse == 6)
 	{
@@ -1736,7 +1737,7 @@ void() CycleWeaponCommand =
 				self.forcewchange = 1;
 				am = 0;
 
-#ifdef warning
+#ifdef warning__remove
 //									if (warnings == "cvparm")
 									{
 										bprint ("  *** cycwep: ");
@@ -1956,9 +1957,13 @@ try with alias?
 		rune_drop(self);
 #endifdef
 
-	if (self.impulse >= 1 && self.impulse <= 8
+// x_weps add impulse 9 for hammer or whatever IT_* = 128 is
+	if (self.impulse >= 1 && self.impulse <=
+#ifdef code_xents
+																								9
+#else
+																								8
 #ifdef hip_weapons
-#ifndef code_xents
 		|| (self.impulse >= 225 && self.impulse <= 226)
 #endifdef
 #endifdef

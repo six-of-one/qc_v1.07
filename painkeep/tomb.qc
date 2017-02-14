@@ -189,7 +189,7 @@ void () tombtouch =
 	if ( ((other == self.owner.owner) && (self.tomb_time > time)) )
 		return ;
 
-	if ( (other.tomb_immune_time > time) )
+	if ( (other.tomb_immune_time > time) )						// TDO:ODT - find where this gets set !		got back to org src
 		return ;
 
 	
