@@ -22,11 +22,11 @@ float DEF_PK_ITEMS; // pk bit flags
 #define PK_IT_AXE					1
 #define PK_IT_GRAVITYWELL		2
 #define PK_IT_TURRET				4
-#define PK_IT_CANPAB				8
+#define PK_IT_CANPAB				128
 #define PK_IT_GRAPGUN			16
 #define PK_IT_AIRGUN				32
 #define PK_IT_CLIGHT				64
-#define PK_IT_BEARTRAP			128
+#define PK_IT_BEARTRAP			8
 
 #define PKPLUS_IT_EGO					256
 #define PKPLUS_IT_TOMB					512
