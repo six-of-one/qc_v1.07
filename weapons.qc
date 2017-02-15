@@ -1557,9 +1557,9 @@ void() W_ChangeWeapon =
 //		self.weapon = IT_AXE;
 	}
 	if (self.impulse == 2) vwepsel(IT_SHOTGUN);		//self.weapon = IT_SHOTGUN;
-	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
+	if (self.impulse == 3) vwepsel(IT_SUPER_SHOTGUN);		//self.weapon = IT_SUPER_SHOTGUN;
 	if (self.impulse == 4) vwepsel(IT_NAILGUN);		//self.weapon = IT_NAILGUN;
-	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
+	if (self.impulse == 5) vwepsel(IT_SUPER_NAILGUN);		//self.weapon = IT_SUPER_NAILGUN;
 	if (self.impulse == 6)
 	{
 #ifdef hip_weapons
@@ -1572,7 +1572,7 @@ void() W_ChangeWeapon =
 #endifdef
 			vwepsel(IT_GRENADE_LAUNCHER);		//self.weapon = IT_GRENADE_LAUNCHER;
 	}
-	if (self.impulse == 7) self.weapon = IT_ROCKET_LAUNCHER;
+	if (self.impulse == 7) vwepsel(IT_ROCKET_LAUNCHER);		//self.weapon = IT_ROCKET_LAUNCHER;
 	if (self.impulse == 8) vwepsel(IT_LIGHTNING);		//self.weapon = IT_LIGHTNING;
 
 #ifdef code_xents
