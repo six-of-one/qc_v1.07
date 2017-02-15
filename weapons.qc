@@ -1675,11 +1675,13 @@ void() CycleWeaponCommand =
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
 
+#ifdef code_xents
+		if (self.weapon == 16384 ) self.weapon = IT_SHOTGUN;		// x_ents - hooks are 8192
+		if (self.weapon == 2048 ) self.weapon = 128;
+		if (self.weapon < 1 ) self.weapon = 8192;
+#else
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
-#ifdef code_xents
-		if (self.weapon == 2048 ) self.weapon = 128;
-#else
 #ifdef hip_weapons
 // these are worse than the axe
 		if (self.weapon == 2048 ) self.weapon = IT_MJOLNIR;
@@ -1688,10 +1690,11 @@ void() CycleWeaponCommand =
 #else
 		if (self.weapon == 2048 ) self.weapon = IT_LIGHTNING;
 #endifdef
-#endifdef
 
 // going to the axe
 		if (!(self.weapon & 255)) self.weapon = IT_AXE;
+#endifdef
+
 
 // weapon select logic
 #ifdef hip_weapons
@@ -1970,16 +1973,28 @@ try with alias?
 		)
 		W_ChangeWeapon ();
 
-	if (self.impulse == 10)
+	if (self.impulse == 10 || self.impulse == 12)
 	{
 		self.f__ = 2;
+		if (self.impulse == 12) self.f__ = 0.5;
+// NOTE: block to else for option on not cycling all sub weps
+		vwepsel(self.weapon);
+		if (self.pk_currentitem != 1)
+		if (self.pkprevweapon != self.pk_currentitem) self.f__ = 1;
+		else self.pk_currentitem = 1;
 		CycleWeaponCommand();
 	}
+/*
 	if (self.impulse == 12)
 	{
 		self.f__ = 0.5;
+		vwepsel(self.weapon);
+		if (self.pk_currentitem != 1)
+		if (self.pkprevweapon != self.pk_currentitem) self.f__ = 1;
+		else self.pk_currentitem = 1;
 		CycleWeaponCommand();
 	}
+*/
 //		CycleWeaponReverseCommand();
 
 #ifdef hooks
