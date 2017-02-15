@@ -1677,8 +1677,7 @@ void() CycleWeaponCommand =
 
 #ifdef code_xents
 		if (self.weapon == 16384 ) self.weapon = IT_SHOTGUN;		// x_ents - hooks are 8192
-		if (self.weapon == 2048 ) self.weapon = 128;
-		if (self.weapon < 1 ) self.weapon = 8192;
+		if (self.weapon < 1 ) self.weapon = IT_HOOK;
 #else
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
@@ -2015,7 +2014,6 @@ try with alias?
 	}
 #endifdef
 
-																																														/// ARG: bad nested __ifdef below
 
 // GRAPPLING_START
 #ifdef code_painkeep_
