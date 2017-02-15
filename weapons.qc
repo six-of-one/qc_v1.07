@@ -1583,9 +1583,12 @@ void() W_ChangeWeapon =
 	if (self.impulse == 225) self.weapon = IT_LASER_CANNON;
 	if (self.impulse == 226) self.weapon = IT_MJOLNIR;
 #endifdef
-#endifdef
 
 	self.f__ = 1; // so logic doesnt change weapon
+#endifdef
+
+	f2__ = self.impulse;
+
 // use logic test here
 	CycleWeaponCommand();
 
@@ -1603,6 +1606,38 @@ void() W_ChangeWeapon =
 
 // we were here
 		self.weapon = was;
+	}
+	else if (self.f__ != 10)
+	{
+		self.limp = 0;
+		f0__ = 0;
+		while (f2__ > 0)
+		{
+			s0__ = substring(autocvar_imps, f0__,1);
+			if (stof(s0__) == f2__)		// found impulse, save ptr
+			{
+				self.limp = f0__;
+				f2__ = 0;
+			}
+			f0__++;
+			if (s0__ == "0") f2__ = 0;
+		}
+#ifdef warning
+//									if (warnings == "cvparm")
+									{
+										bprint ("  *** imp 1-9: ");
+										bprint (ftos(f2__));
+										bprint (" c: ");
+										bprint (substring(autocvar_imps, self.limp,1));
+										bprint (" limp: ");
+										bprint (ftos(self.limp));
+										bprint (" wp: ");
+										bprint (ftos(self.weapon));
+										bprint (" ewp: ");
+										bprint (ftos(num_for_edict(self.eweapon)));
+										bprint ("\n");
+									}
+#endifdef
 	}
 
 };
@@ -1672,13 +1707,12 @@ void() CycleWeaponCommand =
 	{
 		am = 0;
 
+//		if (self.weapon == 16384 ) self.weapon = IT_SHOTGUN;		// x_ents - hooks are 8192
+//		if (self.weapon < 1 ) self.weapon = IT_HOOK;
+#ifndef code_xents
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
 
-#ifdef code_xents
-		if (self.weapon == 16384 ) self.weapon = IT_SHOTGUN;		// x_ents - hooks are 8192
-		if (self.weapon < 1 ) self.weapon = IT_HOOK;
-#else
 // coming from axe on this system - arg!  why couldnt the axe have been 1?
 		if (self.weapon == 8192 ) self.weapon = IT_SHOTGUN;
 #ifdef hip_weapons
@@ -1768,11 +1802,16 @@ void() CycleWeaponCommand =
 		{
 			W_SetCurrentAmmo ();
 			self.impulse = 0;
+#ifdef code_xents
+		}
+		return;
+#else
 			return;
 		}
-
 // dont cycle single select
 		if (self.f__ == 1) return;
+#endifdef
+
 	}
 
 };
@@ -1949,6 +1988,8 @@ try with alias?
 			e0__.effects = (e0__.effects + 1) & 1;
 		}
 	}
+
+	self.f__ = 0;	// clear for 1-9 vs. cyc
 #endifdef
 
 // runes
@@ -1974,14 +2015,63 @@ try with alias?
 
 	if (self.impulse == 10 || self.impulse == 12)
 	{
+#ifdef code_xents
+		lgsf = 100;		// loop safety and exit
+
+		self.f__ = 10;	// tell changewep not to store new .limp, or this gets stuck
+		f6__ = 1;
+		if (self.impulse == 12) f6__ = -1;
+		if (self.limp < 0) self.limp = 0;
+		f7__ = self.limp;
+		f8__ = self.weapon;
+		e4__ = self.eweapon;
+		while ((f8__ == self.weapon) && (e4__ == self.eweapon) && lgsf > 0)
+		{
+			lgsf--;
+			self.limp = self.limp + f6__;
+			self.impulse = stof(substring(autocvar_imps, self.limp,1));
+
+#ifdef warning
+//									if (warnings == "cvparm")
+									{
+										bprint ("  *** imp10/12: ");
+										bprint (ftos(self.impulse));
+										bprint (" c: ");
+										bprint (substring(autocvar_imps, self.limp,1));
+										bprint (" limp+: ");
+										bprint (ftos(self.limp));
+										bprint (" cmp: ");
+										bprint (ftos(f7__));
+										bprint (" add: ");
+										bprint (ftos(f6__));
+										bprint (" wp: ");
+										bprint (ftos(self.weapon));
+										bprint (" ewp: ");
+										bprint (ftos(num_for_edict(self.eweapon)));
+										bprint ("\n");
+									}
+#endifdef
+
+			if (self.impulse < 1) self.limp = -1;
+			else if (self.limp < 0) self.limp = strlen(autocvar_imps) - 1;
+			else
+			W_ChangeWeapon();
+			if (f7__ == self.limp) lgsf = 0;			// loop complete - exit
+		}
+
+
+#else
 		self.f__ = 2;
 		if (self.impulse == 12) self.f__ = 0.5;
 // NOTE: block to else for option on not cycling all sub weps
+/*
 		vwepsel(self.weapon);
 		if (self.pk_currentitem != 1)
 		if (self.pkprevweapon != self.pk_currentitem) self.f__ = 1;
-		else self.pk_currentitem = 1;
+		else */
+		self.pk_currentitem = 1;
 		CycleWeaponCommand();
+#endifdef
 	}
 /*
 	if (self.impulse == 12)
