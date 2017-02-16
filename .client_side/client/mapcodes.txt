@@ -1,0 +1,545 @@
+// Map code stuff
+
+ 100  -  (bit: 000000000001000000000000)  weapon_axe  -  (bv: 4096)
+ 101  -  (bit: 000000000000000000000001)  weapon_shotgun  -  (bv: 1)
+ 102  -  (bit: 000000000000000000000010)  weapon_supershotgun  -  (bv: 2)
+ 103  -  (bit: 000000000000000000000100)  weapon_nailgun  -  (bv: 4)
+ 104  -  (bit: 000000000000000000001000)  weapon_supernailgun  -  (bv: 8)
+ 105  -  (bit: 000000000000000000010000)  weapon_grenadelauncher  -  (bv: 16)
+ 106  -  (bit: 000000000000000000100000)  weapon_rocketlauncher  -  (bv: 32)
+ 107  -  (bit: 000000000000000001000000)  weapon_lightning  -  (bv: 64)
+ 108  -  (bit: 010000000000000000000000)  item_artifact_super_damage  -  (bv: 4194304)
+ 109  -  (bit: 000100000000000000000000)  item_artifact_invulnerability  -  (bv: 1048576)
+ 110  -  (bit: 000010000000000000000000)  item_artifact_invisibility  -  (bv: 524288)
+ 111  -  (bit: 001000000000000000000000)  item_artifact_envirosuit  -  (bv: 2097152)
+ 112  -  (bit: 000000000010000000000000)  item_armor1  -  (bv: 8192)
+ 113  -  (bit: 000000000100000000000000)  item_armor2  -  (bv: 16384)
+ 114  -  (bit: 000000001000000000000000)  item_armorInv  -  (bv: 32768)
+ 115  -  (bit: 000000000000000000000000)  item_health_15  -  (bv: 0)
+ 116  -  (bit: 000000000000000000000000)  item_health  -  (bv: 0)
+ 117  -  (bit: 000000010000000000000000)  item_health_mega  -  (bv: 65536)
+ 118  -  (bit: 000000100000000000000000)  item_key1  -  (bv: 131072)
+ 119  -  (bit: 000001000000000000000000)  item_key2  -  (bv: 262144)
+ 120  -  (bit: 000000000000000100000000)  item_shells  -  (bv: 256)
+ 121  -  (bit: 000000000000000100000000)  item_shells_lg  -  (bv: 256)
+ 122  -  (bit: 000000000000001000000000)  item_spikes  -  (bv: 512)
+ 123  -  (bit: 000000000000001000000000)  item_spikes_lg  -  (bv: 512)
+ 124  -  (bit: 000000000000010000000000)  item_rockets  -  (bv: 1024)
+ 125  -  (bit: 000000000000010000000000)  item_rockets_lg  -  (bv: 1024)
+ 126  -  (bit: 000000000000100000000000)  item_cells  -  (bv: 2048)
+ 127  -  (bit: 000000000000100000000000)  item_cells_lg  -  (bv: 2048)
+ 128  -  (bit: 000000000000000000000000)  misc_explobox  -  (bv: 0)
+ 129  -  (bit: 000000000000000000000000)  misc_explobox2  -  (bv: 0)
+ 130  -  (bit: 000000000000000000000001)  item_sigil1  -  (bv: 1)
+ 131  -  (bit: 000000000000000000000010)  item_sigil2  -  (bv: 2)
+ 132  -  (bit: 000000000000000000000100)  item_sigil4  -  (bv: 4)
+ 133  -  (bit: 000000000000000000001000)  item_sigil8  -  (bv: 8)
+ 134  -  (bit: 000000000000000000000000)  fn_backpack  -  (bv: 0)
+ 135  -  (bit: 000000000000000000000100)  weapon_pulsenail  -  (bv: 4)
+ 136  -  (bit: 000000000000000001000000)  weapon_chainlg  -  (bv: 64)
+ 137  -  (bit: 000000000000000000010000)  weapon_grapgun  -  (bv: 16)
+ 138  -  (bit: 000000000000000000100000)  weapon_airfist  -  (bv: 32)
+ 139  -  (bit: 000000000000000010000000)  item_painkeep_beartrap  -  (bv: 128)
+ 140  -  (bit: 000000000000000000000010)  item_painkeep_gwell  -  (bv: 2)
+ 141  -  (bit: 000000000000000000000100)  item_painkeep_turret  -  (bv: 4)
+ 142  -  (bit: 000000000000000000001000)  item_painkeep_can  -  (bv: 8)
+ 143  -  (bit: 000000000000000000000000)  item_painkeep_expshells  -  (bv: 0)
+ 144  -  (bit: 000000000000001000000000)  item_pkplus_tomb  -  (bv: 512)
+ 145  -  (bit: 000000000000000100000000)  item_pkplus_ego  -  (bv: 256)
+ 146  -  (bit: 000000000000100000000000)  item_pkplus_phone  -  (bv: 2048)
+ 147  -  (bit: 000000000000010000000000)  item_pkplus_actor  -  (bv: 1024)
+ 148  -  (bit: 000000000000000000010000)  weapon_hook  -  (bv: 16)
+ 149  -  (bit: 000000000000000010000000)  weapon_mjolnir  -  (bv: 128)
+ 150  -  (bit: 000000000000000000001000)  weapon_laser_gun  -  (bv: 8)
+ 151  -  (bit: 000000000000000000010000)  weapon_proximity_gun  -  (bv: 16)
+ 152  -  (bit: 000000000000000000000000)  item_artifact_wetsuit  -  (bv: 0)
+ 153  -  (bit: 000000000000000000000000)  item_artifact_empathy_shields  -  (bv: 0)
+ 154  -  (bit: 000000000000000000000000)  item_hornofconjuring  -  (bv: 0)
+ 155  -  (bit: 000000000000000000000100)  d_weapon_saw  -  (bv: 4)
+ 156  -  (bit: 000000000001000000000000)  d_weapon_pistol  -  (bv: 4096)
+ 157  -  (bit: 000000000000000000000001)  d_weapon_shotgun  -  (bv: 1)
+ 158  -  (bit: 000000000000000000000010)  d_weapon_supershotgun  -  (bv: 2)
+ 159  -  (bit: 000000000000000000001000)  d_weapon_chaingun  -  (bv: 8)
+ 160  -  (bit: 000000000000000000100000)  d_weapon_rocketlauncher  -  (bv: 32)
+ 161  -  (bit: 000000000000000001000000)  d_weapon_plasma  -  (bv: 64)
+ 162  -  (bit: 000000000000000010000000)  d_weapon_bfg  -  (bv: 128)
+ 163  -  (bit: 010000000000000000000000)  d_art_berserker  -  (bv: 4194304)
+ 164  -  (bit: 000100000000000000000000)  d_art_invulnerable  -  (bv: 1048576)
+ 165  -  (bit: 000010000000000000000000)  d_art_invisible  -  (bv: 524288)
+ 166  -  (bit: 001000000000000000000000)  d_art_radsuit  -  (bv: 2097152)
+ 167  -  (bit: 000000010000000000000000)  d_art_soulsphere  -  (bv: 65536)
+ 168  -  (bit: 000000000000000000000000)  d_art_megasphere  -  (bv: 0)
+ 169  -  (bit: 000000000000000000000000)  d_item_spiritarmor  -  (bv: 0)
+ 170  -  (bit: 000000000100000000000000)  d_item_armorgreen  -  (bv: 16384)
+ 171  -  (bit: 000000001000000000000000)  d_item_armorblue  -  (bv: 32768)
+ 172  -  (bit: 000000000000000000000000)  d_item_healthbottle  -  (bv: 0)
+ 173  -  (bit: 000000000000000000000000)  d_item_healthstimpak  -  (bv: 0)
+ 174  -  (bit: 000000000000000000000000)  d_item_healthmedkit  -  (bv: 0)
+ 175  -  (bit: 000000000000000010000000)  d_key_redskull  -  (bv: 128)
+ 176  -  (bit: 000000000000000100000000)  d_key_blueskull  -  (bv: 256)
+ 177  -  (bit: 000000000000001000000000)  d_key_yellowskull  -  (bv: 512)
+ 178  -  (bit: 000000000000000000010000)  d_key_redcard  -  (bv: 16)
+ 179  -  (bit: 000000000000000000100000)  d_key_bluecard  -  (bv: 32)
+ 180  -  (bit: 000000000000000001000000)  d_key_yellowcard  -  (bv: 64)
+ 181  -  (bit: 000000000000000100000000)  d_ammo_4shell  -  (bv: 256)
+ 182  -  (bit: 000000000000000100000000)  d_ammo_shellbox  -  (bv: 256)
+ 183  -  (bit: 000000000000000000000000)  d_ammo_clip  -  (bv: 0)
+ 184  -  (bit: 000000000000000000000000)  d_ammo_ammobox  -  (bv: 0)
+ 185  -  (bit: 000000000000010000000000)  d_ammo_1rocket  -  (bv: 1024)
+ 186  -  (bit: 000000000000010000000000)  d_ammo_rockbox  -  (bv: 1024)
+ 187  -  (bit: 000000000000100000000000)  d_ammo_cellpack  -  (bv: 2048)
+ 188  -  (bit: 000000000000100000000000)  d_ammo_cellbox  -  (bv: 2048)
+ 189  -  (bit: 000000000000000000000000)  d_item_pack  -  (bv: 0)
+ 190  -  (bit: 000000000000000000000000)  d_barrel  -  (bv: 0)
+ 191  -  (bit: 000000000001000000000000)  w_weapon_knife  -  (bv: 4096)
+ 192  -  (bit: 000000000000000000000001)  w_weapon_pistol  -  (bv: 1)
+ 193  -  (bit: 000000000000000000000100)  w_weapon_machinegun  -  (bv: 4)
+ 194  -  (bit: 000000000000000000001000)  w_weapon_chaingun  -  (bv: 8)
+ 195  -  (bit: 000000000000000000100000)  w_weapon_mortar  -  (bv: 32)
+ 196  -  (bit: 000000000000000000010000)  w_weapon_flamer  -  (bv: 16)
+ 197  -  (bit: 000000000000000000000000)  w_ammo_clip  -  (bv: 0)
+ 198  -  (bit: 000000000000000000000000)  w_ammo_gas  -  (bv: 0)
+ 199  -  (bit: 000000000000010000000000)  w_ammo_rock  -  (bv: 1024)
+ 200  -  (bit: 000000000000000000000000)  w_item_pack  -  (bv: 0)
+ 201  -  (bit: 000000010000000000000000)  w_art_facesphere  -  (bv: 65536)
+ 202  -  (bit: 000000000000000000000000)  w_heal_medkit  -  (bv: 0)
+ 203  -  (bit: 000000000000000000000000)  w_heal_food  -  (bv: 0)
+ 204  -  (bit: 000000000000000000000000)  w_heal_dogfood  -  (bv: 0)
+ 205  -  (bit: 000000000000000000000000)  w_heal_blood  -  (bv: 0)
+ 206  -  (bit: 000000000000000000000000)  w_heal_bldbns  -  (bv: 0)
+ 207  -  (bit: 000000100000000000000000)  w_key_g  -  (bv: 131072)
+ 208  -  (bit: 000001000000000000000000)  w_key_b  -  (bv: 262144)
+ 209  -  (bit: 000000000000000000000000)  w_barrel  -  (bv: 0)
+ 210  -  (bit: 000000000001000000000000)  q2_weapon_blaster  -  (bv: 4096)
+ 211  -  (bit: 000000000000000000000001)  q2_weapon_shotgun  -  (bv: 1)
+ 212  -  (bit: 000000000000000000000010)  q2_weapon_supershotgun  -  (bv: 2)
+ 213  -  (bit: 000000000000000000000100)  q2_weapon_machinegun  -  (bv: 4)
+ 214  -  (bit: 000000000000000000001000)  weapon_chaingun  -  (bv: 8)
+ 215  -  (bit: 000000000000000000010000)  q2_weapon_grenadelauncher  -  (bv: 16)
+ 216  -  (bit: 000000000000000000100000)  q2_weapon_rocketlauncher  -  (bv: 32)
+ 217  -  (bit: 000000000000000001000000)  weapon_hyperblaster  -  (bv: 64)
+ 218  -  (bit: 000000000000000000010000)  q2_weapon_railgun  -  (bv: 16)
+ 219  -  (bit: 000000000000000010000000)  q2_weapon_bfg  -  (bv: 128)
+ 220  -  (bit: 000000000000000000010000)  q2_weapon_grapple  -  (bv: 16)
+ 221  -  (bit: 010000000000000000000000)  q2_item_quad  -  (bv: 4194304)
+ 222  -  (bit: 000100000000000000000000)  item_invulnerability  -  (bv: 1048576)
+ 223  -  (bit: 001000000000000000000000)  q2_item_enviro  -  (bv: 2097152)
+ 224  -  (bit: 000000000000000000000000)  item_silencer  -  (bv: 0)
+ 225  -  (bit: 000000000000000000000000)  q2_item_armor_shard  -  (bv: 0)
+ 226  -  (bit: 000000000010000000000000)  item_armor_jacket  -  (bv: 8192)
+ 227  -  (bit: 000000000100000000000000)  q2_item_armor_combat  -  (bv: 16384)
+ 228  -  (bit: 000000001000000000000000)  q2_item_armor_body  -  (bv: 32768)
+ 229  -  (bit: 000000000000000000000000)  item_power_shield  -  (bv: 0)
+ 230  -  (bit: 000000000000000000000000)  item_power_screen  -  (bv: 0)
+ 231  -  (bit: 000000000000000000000000)  q2_item_health_small  -  (bv: 0)
+ 232  -  (bit: 000000000000000000000000)  q2_item_health  -  (bv: 0)
+ 233  -  (bit: 000000000000000000000000)  q2_item_health_large  -  (bv: 0)
+ 234  -  (bit: 000000010000000000000000)  q2_item_health_mega  -  (bv: 65536)
+ 235  -  (bit: 000000000000000000010000)  key_red_key  -  (bv: 16)
+ 236  -  (bit: 000000000000000000100000)  key_blue_key  -  (bv: 32)
+ 237  -  (bit: 000000000001000000000000)  key_blue_key  -  (bv: 4096)
+ 238  -  (bit: 000000000000001000000000)  key_airstrike_target  -  (bv: 512)
+ 239  -  (bit: 000000000000010000000000)  key_data_cd  -  (bv: 1024)
+ 240  -  (bit: 000000000000100000000000)  key_data_spinner  -  (bv: 2048)
+ 241  -  (bit: 000000000000000100000000)  key_pass  -  (bv: 256)
+ 242  -  (bit: 000000000000000010000000)  key_power_cube  -  (bv: 128)
+ 243  -  (bit: 000000000000000001000000)  key_pyramid  -  (bv: 64)
+ 244  -  (bit: 000000000000000100000000)  q2_ammo_shells  -  (bv: 256)
+ 245  -  (bit: 000000000000000000000000)  q2_ammo_bullets  -  (bv: 0)
+ 246  -  (bit: 000000000000010000000000)  q2_ammo_rockets  -  (bv: 1024)
+ 247  -  (bit: 000000000000010000000000)  q2_ammo_grenades  -  (bv: 1024)
+ 248  -  (bit: 000000000000100000000000)  q2_ammo_cells  -  (bv: 2048)
+ 249  -  (bit: 000000000000000000000000)  q2_ammo_slugs  -  (bv: 0)
+ 250  -  (bit: 000000000000000000000000)  item_pack  -  (bv: 0)
+ 251  -  (bit: 000000000000000000000000)  item_adrenaline  -  (bv: 0)
+ 252  -  (bit: 000000000000000000000000)  item_bandolier  -  (bv: 0)
+ 253  -  (bit: 000000000000000000000000)  item_breather  -  (bv: 0)
+ 254  -  (bit: 000000000000000000000000)  q2_misc_explobox  -  (bv: 0)
+ 255  -  (bit: 000000000001000000000000)  weapon_gauntlet  -  (bv: 4096)
+ 256  -  (bit: 000000000000000000010000)  weapon_grapplinghook  -  (bv: 16)
+ 257  -  (bit: 000000000000000000000100)  q3_weapon_machinegun  -  (bv: 4)
+ 258  -  (bit: 000000000000000000000010)  q3_weapon_shotgun  -  (bv: 2)
+ 259  -  (bit: 000000000000000000010000)  q3_weapon_grenadelauncher  -  (bv: 16)
+ 260  -  (bit: 000000000000000000100000)  q3_weapon_rocketlauncher  -  (bv: 32)
+ 261  -  (bit: 000000000000000000001000)  weapon_plasmagun  -  (bv: 8)
+ 262  -  (bit: 000000000000000001000000)  q3_weapon_lightning  -  (bv: 64)
+ 263  -  (bit: 000000000000000000000001)  q3_weapon_railgun  -  (bv: 1)
+ 264  -  (bit: 000000000000000010000000)  q3_weapon_bfg  -  (bv: 128)
+ 265  -  (bit: 010000000000000000000000)  q3_item_quad  -  (bv: 4194304)
+ 266  -  (bit: 000000000000000000000000)  item_regen  -  (bv: 0)
+ 267  -  (bit: 001000000000000000000000)  q3_item_enviro  -  (bv: 2097152)
+ 268  -  (bit: 000010000000000000000000)  item_invis  -  (bv: 524288)
+ 269  -  (bit: 000000000000000000000000)  item_haste  -  (bv: 0)
+ 270  -  (bit: 000000000000000000000000)  item_flight  -  (bv: 0)
+ 271  -  (bit: 000000000000000000000000)  q3_item_armor_shard  -  (bv: 0)
+ 272  -  (bit: 000000000100000000000000)  q3_item_armor_combat  -  (bv: 16384)
+ 273  -  (bit: 000000001000000000000000)  q3_item_armor_body  -  (bv: 32768)
+ 274  -  (bit: 000000000000000000000000)  q3_item_health_small  -  (bv: 0)
+ 275  -  (bit: 000000000000000000000000)  q3_item_health  -  (bv: 0)
+ 276  -  (bit: 000000000000000000000000)  q3_item_health_large  -  (bv: 0)
+ 277  -  (bit: 000000010000000000000000)  q3_item_health_mega  -  (bv: 65536)
+ 278  -  (bit: 000000000000000100000000)  q3_ammo_shells  -  (bv: 256)
+ 279  -  (bit: 000000000000000000000000)  q3_ammo_bullets  -  (bv: 0)
+ 280  -  (bit: 000000000000010000000000)  q3_ammo_rockets  -  (bv: 1024)
+ 281  -  (bit: 000000000000010000000000)  q3_ammo_grenades  -  (bv: 1024)
+ 282  -  (bit: 000000000000100000000000)  q3_ammo_cells  -  (bv: 2048)
+ 283  -  (bit: 000000000000000000000000)  q3_ammo_slugs  -  (bv: 0)
+ 284  -  (bit: 000000000000100000000000)  ammo_lightning  -  (bv: 2048)
+ 285  -  (bit: 000000000000100000000000)  ammo_bfg  -  (bv: 2048)
+ 286  -  (bit: 000000000000000000001000)  holdable_medkit  -  (bv: 8)
+ 287  -  (bit: 000000000000100000000000)  holdable_teleporter  -  (bv: 2048)
+ 288  -  (bit: 000000000000000000000000)  q3_misc_explobox  -  (bv: 0)
+ 289  -  (bit: 000000000000000000000010)  c_weapon_reggun  -  (bv: 2)
+ 290  -  (bit: 000000000001000000000000)  c_weapon_tallball  -  (bv: 4096)
+ 291  -  (bit: 000000000001000000000000)  c_weapon_deepsleep  -  (bv: 4096)
+ 292  -  (bit: 000000000000000001000000)  weapon_quantum  -  (bv: 64)
+ 293  -  (bit: 000000000000000000010000)  weapon_flamer  -  (bv: 16)
+ 294  -  (bit: 000000000000000000000000)  ammo_gas  -  (bv: 0)
+ 295  -  (bit: 000000000000000000010000)  ammo_gas_lg  -  (bv: 16)
+ 297  -  (bit: 000000000000000001000000)  item_sigil64  -  (bv: 64)
+ 298  -  (bit: 000000000000000000000000)  item_key1_0  -  (bv: 0)
+ 299  -  (bit: 000000000000000000000000)  item_key1_1  -  (bv: 0)
+ 300  -  (bit: 000000000000000000000000)  item_key1_2  -  (bv: 0)
+ 301  -  (bit: 000000000000000000000000)  item_key2_0  -  (bv: 0)
+ 302  -  (bit: 000000000000000000000000)  item_key2_1  -  (bv: 0)
+ 303  -  (bit: 000000000000000000000000)  item_key2_2  -  (bv: 0)
+ 304  -  (bit: 000000001000000000000000)  d_item_nightvis  -  (bv: 32768)
+ 305  -  (bit: 000000000100000000000000)  d_item_automap  -  (bv: 16384)
+ 306  -  (bit: 000000000000000000000000)  w_item_cross  -  (bv: 0)
+ 307  -  (bit: 000000000000000000000000)  w_item_chalice  -  (bv: 0)
+ 308  -  (bit: 000000000000000000000000)  w_item_chest  -  (bv: 0)
+ 309  -  (bit: 000000000000000000000000)  w_item_crown  -  (bv: 0)
+ 310  -  (bit: 000000000000000000000000)  q2_ctf_resist  -  (bv: 0)
+ 311  -  (bit: 000000000000000000000000)  q2_ctf_regen  -  (bv: 0)
+ 312  -  (bit: 000000000000000000000000)  q2_ctf_stren  -  (bv: 0)
+ 313  -  (bit: 000000000000000000000000)  q2_ctf_haste  -  (bv: 0)
+
+/// quake 1
+// q1 wep ids
+float MC_AXE;
+float MC_SHOTGUN;
+//float MC_SUPER_SHOTGUN; // - 101 to get item override menu #
+float MC_NAILGUN;
+float MC_SUPER_NAILGUN;
+float MC_GRENADEL;
+float MC_ROCKETL;
+float MC_THUNDER;
+
+// 108 is special - xlates to pkitems on admin item override menu
+
+// special ids
+float MC_QUAD;
+float MC_PENT;
+float MC_RING;
+float MC_SUIT;
+
+// armor ids
+float MC_ARMOR1;
+float MC_ARMOR2;
+float MC_ARMOR3;
+
+// health ids - translate
+float MC_HEALTHROT;
+float MC_HEALTH;
+float MC_HEALTHMEGA;
+
+// key ids
+float MC_KEY1;
+float MC_KEY2;
+
+// ammo ids
+float MC_ASHELLS;
+//float MC_ASHELLS_LG;
+float MC_ANAILS;
+//float MC_ANAILS_LG;
+float MC_AROCKETS;
+//float MC_AROCKETS_LG;
+float MC_ACELLS;
+//float MC_ACELLS_LG;
+
+// boom!
+float MC_EXPLOD1;
+float MC_EXPLOD2;
+
+// sigil id - flags
+float MC_SIGIL1;
+float MC_SIGIL2;
+float MC_SIGIL4;
+float MC_SIGIL8;
+
+float MC_SIGIL16; // ammo rune
+float MC_SIGIL32; // fly rune
+
+float MC_SIGIL64; // vampire rune
+
+float MC_Q1;
+float MC_RNDITM; // # of q1 items - have to change as items changes
+float MC_NR_RNDITM; // no runes
+
+float MC_SIGIL;
+
+// key ids special (keyX)
+float MC_KEY1_0;
+float MC_KEY1_1;
+float MC_KEY1_2;
+float MC_KEY2_0;
+float MC_KEY2_1;
+float MC_KEY2_2;
+
+float MC_BACKPACK;
+
+/// painkeep
+// pk wep ids
+float MC_EXPSHOTGUN;
+float MC_PULSE_NAILGUN;
+float MC_CHTHUNDR;
+float MC_GRAP;
+float MC_AIRGUN;
+
+// device ids - carryable stuff? (doesnt use ammo like a range wep)
+//float MC_CARRYABLE;
+// pk weps;
+float MC_BEARTRAP;
+float MC_GRAVITY;
+float MC_SENTRY;
+float MC_CANOBEANS;
+//float MC_AEXPLSH;
+// pk plus
+float MC_TOMB;
+float MC_EGO;
+float MC_PHONE;
+float MC_MASK;
+
+float MC_PK;
+float MC_PK_RNDITM; // # of base pk items
+float MC_PKP_RNDITM; // + plus items
+
+
+float MC_T_RNDITM; // # of total items
+
+//float MC_HOOK; // CTF hook map item - moved to defs
+
+/// hipnotic
+// wep ids
+float MC_HIP_MJOLNIR;
+float MC_HIP_LASERCAN;
+float MC_HIP_PROXGUN;
+
+float MC_HIP_WETSUIT;
+float MC_HIP_EMPSH;
+float MC_HIP_CORNUCOPIA;
+
+float MC_HIP;
+
+float MC_HIP_RNDITM; // # of total items
+
+/// doom
+
+float MC_D_FIST;
+float MC_D_SAW;
+float MC_D_PISTOL;
+float MC_D_SHOTGUN;
+float MC_D_BOOMSTICK;
+float MC_D_CHAINGUN;
+float MC_D_ROCKETL;
+float MC_D_PLASMA;
+float MC_D_BFG;
+
+float MC_D_BERS;
+float MC_D_INVUL;
+float MC_D_INVIS;
+float MC_D_RADSUIT;
+float MC_D_SOULSPH;
+float MC_D_MEGASPH;
+
+float MC_D_ARM_SPR;
+float MC_D_ARM_GRN;
+float MC_D_ARM_BLU;
+
+float MC_D_HBOTTLE;
+float MC_D_STIMPAK;
+float MC_D_MEDKIT;
+
+float MC_D_KEY_RED_SK;
+float MC_D_KEY_BLU_SK;
+float MC_D_KEY_YEL_SK;
+float MC_D_KEY_RED_CR;
+float MC_D_KEY_BLU_CR;
+float MC_D_KEY_YEL_CR;
+
+float MC_D_ASHELLS;
+float MC_D_ASHELLS_LG;
+float MC_D_ABULLETS;
+float MC_D_ABULLETS_LG;
+float MC_D_AROCKET;
+float MC_D_AROCKETS_LG;
+float MC_D_ACELLS;
+float MC_D_ACELLS_LG;
+
+float MC_D_PACK;
+
+float MC_D_NIGHTVS;
+float MC_D_AUTOMAP;
+
+float MC_D_BARREL;
+
+float MC_DOOM;
+
+float MC_D_RNDITM; // # of total items
+
+/// wolf 3d
+
+float MC_W_KNIFE;
+float MC_W_PISTOL;
+float MC_W_MACHGUN;
+float MC_W_CHAINGUN;
+float MC_W_MORTAR;
+float MC_W_FLAMER;
+
+float MC_W_CLIP;
+float MC_W_GAS;
+float MC_W_MORTARS;
+float MC_W_PACK;
+
+float MC_W_FACESPHERE;
+float MC_W_HEALTH;
+float MC_W_FOOD;
+float MC_W_DOGFOOD;
+float MC_W_BLOOD;
+float MC_W_BLDBNS;
+
+float MC_W_KEY_G;
+float MC_W_KEY_B;
+
+float MC_W_G_CROSS;
+float MC_W_G_CHALICE;
+float MC_W_G_CHEST;
+float MC_W_G_CROWN;
+
+float MC_W_BARREL;
+
+float MC_WOLF;
+
+float MC_W_RNDITM; // # of total items
+
+/// q2
+
+float MC_Q2_BLASTER;
+float MC_Q2_SHOTGUN;
+float MC_Q2_DBLSHOTGUN;
+float MC_Q2_MACHINEGUN;
+float MC_Q2_CHAINGUN;
+float MC_Q2_GRENADEL;
+float MC_Q2_ROCKETL;
+float MC_Q2_HYPBLASTER;
+float MC_Q2_RAILGUN;
+float MC_Q2_BFG;
+//float MC_Q2_GRAPPLE;
+
+float MC_Q2_QUAD;
+float MC_Q2_INVUL;
+float MC_Q2_ENVIRO;
+float MC_Q2_SILENCE;
+
+float MC_Q2_ARM_SHARD;
+float MC_Q2_ARM_JAK;
+float MC_Q2_ARM_COMBAT;
+float MC_Q2_ARM_BODY;
+float MC_Q2_ARM_PSHIELD;
+float MC_Q2_ARM_PSCREEN;
+
+float MC_Q2_STIMPAK;
+float MC_Q2_FIRSTAID;
+float MC_Q2_MEDKIT;
+float MC_Q2_MEGA;
+
+float MC_Q2_KEY_RED;
+float MC_Q2_KEY_BLU;
+float MC_Q2_KEY_CHEAD;
+float MC_Q2_KEY_ATARGET;
+float MC_Q2_KEY_CD;
+float MC_Q2_KEY_SPINNER;
+float MC_Q2_KEY_PASS;
+float MC_Q2_KEY_POWER;
+float MC_Q2_KEY_PYRAMID;
+
+float MC_Q2_ASHELLS;
+float MC_Q2_ABULLETS;
+float MC_Q2_AROCKETS;
+float MC_Q2_AGRENADES;
+float MC_Q2_ACELLS;
+float MC_Q2_ASLUGS;
+
+float MC_Q2_PACK;
+float MC_Q2_ADRENALINE;
+float MC_Q2_BANDOLIER;
+float MC_Q2_BREATHER;
+
+float MC_Q2_BARREL;
+
+float MC_Q2;
+
+float MC_Q2_RNDITM; // # of total items
+
+float MC_Q2_TECH_RES; // tech
+float MC_Q2_TECH_DOC;
+float MC_Q2_TECH_AMP;
+float MC_Q2_TECH_TM;
+
+/// q3
+
+float MC_Q3_GAUNTLET;
+//float MC_Q3_GRAPPLE;
+float MC_Q3_MACHINEGUN;
+float MC_Q3_SHOTGUN;
+float MC_Q3_GRENADEL;
+float MC_Q3_ROCKETL;
+float MC_Q3_PLASMA;
+//float MC_Q3_LIGHTNING;
+float MC_Q3_RAILGUN;
+float MC_Q3_BFG;
+
+float MC_Q3_QUAD;
+float MC_Q3_REGEN;
+float MC_Q3_ENVIRO;
+float MC_Q3_INVIS;
+float MC_Q3_HASTE;
+float MC_Q3_FLIGHT;
+
+float MC_Q3_ARM_SHARD;
+float MC_Q3_ARM_COMBAT;
+float MC_Q3_ARM_BODY;
+
+float MC_Q3_HSMALL;
+float MC_Q3_HEALTH;
+float MC_Q3_HLARGE;
+float MC_Q3_MEGA;
+
+float MC_Q3_ASHELLS;
+float MC_Q3_ABULLETS;
+float MC_Q3_AROCKETS;
+float MC_Q3_AGRENADES;
+float MC_Q3_ACELLS;
+float MC_Q3_ASLUGS;
+float MC_Q3_ALIGNTNING;
+float MC_Q3_ABFG;
+
+//float MC_Q3_HOLDMEDKIT; // moved to defs for other code
+//float MC_Q3_HOLDTELE;
+
+float MC_Q3_BARREL;
+
+float MC_Q3;
+
+float MC_Q3_RNDITM; // # of total items
+
+/// chaos
+
+float MC_REGGUN;
+float MC_TALLBALL;
+float MC_DEEPSLEEP;
+float MC_QUANTUM;
+
+float MC_C_FLAMER;
+float MC_C_AGAS;
+float MC_C_AGAS_LG;

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Cataboligne - 10.23.11 archon compile
+#		7.29.13 - indicate when compile fails, have to move progs.dat first
+#		9.9.13 - client side progs compile
+
+
+
+# NOTE: no-mundane removes some compiler warnings
+#	- these mostly relate to items you can not remove or change - precache, and variables required but still generate warnings
+
+QCC="fteqcc -Wno-mundane -srcfile client.src"
+
+
+if [[  "$1" != "-?" && "$1" != "-h" && "$1" != "-help" && -f "./csprogs.dat" ]]; then 'mv' -f "./csprogs.dat" "/tmp"; echo; echo "           *** moved existing csprogs.dat to /tmp!";echo; fi
+
+# fteqcc compiler, rename to your flavor
+
+($QCC "$@")
+
+# see if we got a new file
+
+
+if [[ "$1" != "-?" && "$1" != "-h" && "$1" != "-help" && ! -f "./csprogs.dat" ]]; then echo;echo "           *** WARNING ***";echo;echo "           csprogs.dat not created, possible compile failure!";echo;echo;fi
+
+# move to prog dir
+
+# put 'er in all the arc locations
+#cp csprogs.dat /home/Quake/quake_0/archon
+#cp csprogs.dat /home/Quake/qlnx/Resource/mods/_archon_a1_rel
+cp csprogs.dat /home/Quake/quake_0/id1
