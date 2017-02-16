@@ -488,7 +488,6 @@ if (ign != A_MONSTER)
 	self.th_melee = spid_melee1;
 //	self._killmsg = spider_killmsg;
 
-//	if (ign == A_MONSTER) 
 	walkmonster_start;
 };
 

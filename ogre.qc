@@ -860,7 +860,7 @@ void() monster_ogre =
 
 // rogue - multi ogre
 // none specified - choose random. 25% boss on normal, hard, bloodbath
-	if (rogue_map(world.model) || (ign == A_MONSTER))
+	if (rogue_map(world.model) || (self.map == "dyn_sp"))
 	if (self.spawnflags <= 1)
 	{
 		if (cvar("skill") > 0)

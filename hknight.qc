@@ -975,7 +975,7 @@ self.spawnflags = self.spawnflags | DK;
 	{
 		self.rnd_ = dk_imp;
 		if (skill == 3) self.rnd_ = 0.4; // dk_imp + dk_imp;
-		if (ign == A_MONSTER) self.rnd_ = dk_rnd;
+		if (self.map == "dyn_sp") self.rnd_ = dk_rnd;
 
 		if (!self.spawnflags & DK) // not map specced - enhance him
 		if (random() < self.rnd_)

@@ -623,7 +623,7 @@ if ((self.cnt > 0) || (self.map	== "dyn_sp"))
 	{
 		setmodel(self,"progs/lavabomb.mdl"); // this model has rocket trail flag set
 		setsize (self, '-16 -16 -24', '16 16 40');
-		if (ign == A_MONSTER)
+		if (self.map == "dyn_sp")
 		if (random() < 0.2) self.skin = 2; // pk lava skin
 //		self.health = 160;
 		self.health = self.health + 80; // add to what we already have, could be a super

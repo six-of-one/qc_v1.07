@@ -825,7 +825,7 @@ void() monster_wizard =
 	{
 		self.rnd_ = wl_imp;
 		if (skill == 3) self.rnd_ = wl_imp + wl_imp;
-		if (ign == A_MONSTER) self.rnd_ = wl_rnd;
+		if (self.map == "dyn_sp") self.rnd_ = wl_rnd;
 
 		if (!self.spawnflags & W_UPG) // not map specced - enhance him
 		if (random() < self.rnd_)

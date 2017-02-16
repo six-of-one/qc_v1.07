@@ -572,7 +572,7 @@ void() monster_dog =
 	{
 		self.rnd_ = 0.2;
 		if (skill == 3) self.rnd_ = 0.4;
-		if (ign == A_MONSTER) self.rnd_ = 0.8;
+		if (self.map == "dyn_sp") self.rnd_ = 0.8;
 
 		if (!self.spawnflags & 6) // not map specced - enhance him
 		if (random() < self.rnd_)
