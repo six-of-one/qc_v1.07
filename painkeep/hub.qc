@@ -1306,7 +1306,7 @@ void() WaitForVotesThink =
 	if (self.messagetimeout < time)
 	{
 		sound (self, CHAN_BODY, "misc/null.wav", 1, ATTN_NORM); // turn off walk sounds
-		stuffcmd(self, "cl_bob 0\n"); // stop bob so voted view isnt borked
+//		stuffcmd(self, "cl_bob 0\n"); // stop bob so voted view isnt borked
 
 		if (self.attack_state)
 		{
