@@ -1622,7 +1622,7 @@ void() W_ChangeWeapon =
 			f0__++;
 			if (s0__ == "0") f2__ = 0;
 		}
-#ifdef warning
+#ifdef warning__remove
 //									if (warnings == "cvparm")
 									{
 										bprint ("  *** imp 1-9: ");
@@ -2016,7 +2016,7 @@ try with alias?
 	if (self.impulse == 10 || self.impulse == 12)
 	{
 #ifdef code_xents
-		lgsf = 100;		// loop safety and exit
+		lgsf = 100;		// loop safety and exit			- technically should be 9 slots * (potential) 24 bits per slot
 
 		self.f__ = 10;	// tell changewep not to store new .limp, or this gets stuck
 		f6__ = 1;
@@ -2031,7 +2031,7 @@ try with alias?
 			self.limp = self.limp + f6__;
 			self.impulse = stof(substring(autocvar_imps, self.limp,1));
 
-#ifdef warning
+#ifdef warning__remove
 //									if (warnings == "cvparm")
 									{
 										bprint ("  *** imp10/12: ");
