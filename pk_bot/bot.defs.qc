@@ -14,11 +14,11 @@ float observer_time;			// time limit for observer mode
 float vw_bot_frame; // handle pk*bots viswep
 
 // if .state ==, call cacheRoute when touching this item
-#define CACHE_ROUTE_TOUCH		-1559742
+#define CACHE_ROUTE_TOUCH		-32
 // if .state ==, call  bot_toucheditem when touching this item
-#define BOT_TOUCHED				-2479551
+#define BOT_TOUCHED				-64
 // do both
-#define BOT_TOUCHED_CACHE_ROUTE_TOUCH	-4039293
+#define BOT_TOUCHED_CACHE_ROUTE_TOUCH	-128
 
 #define BOT_SAVE_SKILL			12 // number of bots that can save skill between levels for 1 players parms
 
