@@ -502,7 +502,7 @@ if (ign != A_MONSTER)
 // jumptouch multi
 //	self._jump = blarg_leap1;
 //	self._jump2 = blarg_run8;
-	self.jump_flag = 300;
+	self.jump_vel = 300;
 //	self.dodmg = 5;
 
 	walkmonster_start;

@@ -572,7 +572,7 @@ if (ign != A_MONSTER)
 // jumptouch multi
 	self._jump = young_runatt1;
 	self._jump2 = young_runatt4;
-	self.jump_flag = 200;
+	self.jump_vel = 200;
 	self.dodmg = 5 + random() * 5;
 
 	self.a__ = 0;

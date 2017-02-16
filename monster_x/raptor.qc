@@ -847,7 +847,7 @@ if (ign != A_MONSTER)
 //	self._jump = raptor1_jump1;
 //	self._jump2 = raptor1_jump11;
 
-	self.jump_flag = 400;
+	self.jump_vel = 400;
 //	self.dodmg = 40;
 
 	walkmonster_start;

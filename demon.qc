@@ -507,7 +507,7 @@ void()	Monster_JumpTouch =
 
 	if (other.takedamage)
 	{
-		if (vlen(self.velocity) > self.jump_flag) // 400 - demon, 300 - dog
+		if (vlen(self.velocity) > self.jump_vel) // 400 - demon, 300 - dog
 		{
 			if ((self.classname == "monster_demon1") &&
 				self.spawnflags & DEMON_SUPER_MAD) self.dmg = 100 + 100*random();
@@ -649,7 +649,7 @@ void() monster_demon1 =
 /*
 jt stuff
 // jumptouch multi /b
-	self.jump_flag = 400;
+	self.jump_vel = 400;
 	self._jump = demon1_jump1;
 	self._jump2 = demon1_jump11;
 */
