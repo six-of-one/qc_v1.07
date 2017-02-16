@@ -87,17 +87,29 @@ float footsteps;
 .float wetsuit_time;
 
 #ifdef hip_items
+
+#ifdef code_xents
+// put these in x_items
+#define	HIP_IT_WETSUIT									524288
+#define	HIP_IT_EMPATHY_SHIELDS				1048576
+// seems not used ?
+#define	HIP_IT_HORN_OF_CONJURING		2097152
+
+#define	items2		x_items
+#else
 #define	HIP_IT_WETSUIT									2
 #define	HIP_IT_EMPATHY_SHIELDS				4
 #define	HIP_IT_HORN_OF_CONJURING		8
+
+// have to use a new items flag because we ran out of bits in the original
+.float		items2;
+#endifdef
 
 .float wetsuit_finished;
 .float empathy_finished;
 .float empathy_time;
 .float empathy_sound;
 
-// have to use a new items flag because we ran out of bits in the original
-.float		items2;
 
 // in combat.qc
 
