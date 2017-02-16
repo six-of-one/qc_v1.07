@@ -1597,6 +1597,9 @@ void() W_ChangeWeapon =
 	{
 		self.impulse = 0;
 
+#ifdef code_xents
+		if (self.f__ != 10)
+#endifdef
 		if (!(self.items & self.weapon))
 // don't have the weapon
 			sprint (self, "no weapon.\n");
@@ -1607,6 +1610,7 @@ void() W_ChangeWeapon =
 // we were here
 		self.weapon = was;
 	}
+#ifdef code_xents
 	else if (self.f__ != 10)
 	{
 		self.limp = 0;
@@ -1639,7 +1643,7 @@ void() W_ChangeWeapon =
 									}
 #endifdef
 	}
-
+#endifdef
 };
 
 /*
