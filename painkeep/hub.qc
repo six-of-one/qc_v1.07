@@ -1445,6 +1445,7 @@ void(entity e) WaitForVotes =
 
 
 // Cataboligne - 017.1.26 - moved from client
+// ? - what if map designer gave players a wep a/la spawn point load up?
 
 void(entity spot) ClearSpawnPoint =
 {
@@ -1457,7 +1458,7 @@ void(entity spot) ClearSpawnPoint =
   while(e0__)
   {
     if(e0__.solid == SOLID_TRIGGER && e0__.takedamage == DAMAGE_NO &&
-    			e0__.classname != "trigger_teleport")
+    			e0__.classname != "trigger_teleport" && self.think != SUB_Remove)
     {
     	// crash point!!!
       // make it respawn...
