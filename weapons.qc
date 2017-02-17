@@ -1427,6 +1427,7 @@ void() W_Attack =
 		return;
 	}
 #else
+
 #ifdef code_xents
 	if (self.eweapon)
 	{

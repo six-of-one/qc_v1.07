@@ -679,7 +679,6 @@ void() use_pkitem =
 		{
 			self.weapon = IT_AXE;
 			self.eweapon = world;
-			self.f__ = 1; // dont shift weapons
 			CycleWeaponCommand();		// should set eweapon
 			if (self.eweapon) W_Attack();
 			if (self.group == "pk*bot") self.weapon = W_BestBotWeapon();
