@@ -1627,7 +1627,7 @@ void() W_ChangeWeapon =
 			if (s0__ == "0") f2__ = 0;
 		}
 #ifdef warning__remove
-//									if (warnings == "cvparm")
+//									if (warnings == "c")
 									{
 										bprint ("  *** imp 1-9: ");
 										bprint (ftos(f2__));
@@ -1778,7 +1778,7 @@ void() CycleWeaponCommand =
 				am = 0;
 
 #ifdef warning__remove
-//									if (warnings == "cvparm")
+//									if (warnings == "c")
 									{
 										bprint ("  *** cycwep: ");
 										bprint (e0__.netname);
@@ -2036,7 +2036,7 @@ try with alias?
 			self.impulse = stof(substring(autocvar_imps, self.limp,1));
 
 #ifdef warning__remove
-//									if (warnings == "cvparm")
+//									if (warnings == "c")
 									{
 										bprint ("  *** imp10/12: ");
 										bprint (ftos(self.impulse));
