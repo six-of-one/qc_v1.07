@@ -259,14 +259,15 @@ float PKPLUS_PHONEAMMO_MAX;
 #define tomb_target	goalentity
 #define tomb_time	pk_tout
 #define tombsoundtime	pk_sndtimer
-#define tomb_immune_time	pk_timer
+#define tomb_immune_time	bt_immune_time
 #define tomb_death_time	air_finished
 #define tombdmg_time		waitmin
 #else
 .entity tomb_target;
 .entity tomb_touchable;
 .float tomb_time;
-.float tomb_immune_time;
+#define tomb_immune_time	bt_immune_time
+//.float tomb_immune_time;
 .float tomb_death_time;
 .float tombsoundtime;
 #endifdef
