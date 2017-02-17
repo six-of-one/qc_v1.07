@@ -921,6 +921,8 @@ void() PutClientInServer =
 	spot = SelectSpawnPoint ();
 #ifdef code_painkeep_
 	ClearSpawnPoint(spot);
+
+	stuffcmd(self, "cl_bobset\n"); // put bob back via alias - so it can be left off
 #endifdef
 
 #ifdef code_morph
