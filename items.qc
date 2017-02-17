@@ -31,7 +31,6 @@ void() SUB_regen =
 
 
 // stand in for much repetitve touch code - all touch do this
-// in mark 3 all touch fn will route through a master fn that will do this
 
 // self - touched item
 // other - touching ent
@@ -55,6 +54,18 @@ void(float tim) touched =
 		activator = other;
 		SUB_UseTargets();				// fire all targets / killtargets	
 //	}
+
+#ifdef code_pkbots
+	bot_toucheditem ();
+
+	if (other.classname == "player") // *bot
+	if (self.state == CACHE_ROUTE_TOUCH || self.state == BOT_TOUCHED_CACHE_ROUTE_TOUCH) // *bot code - patch in cacheRoute for bot code - routes here because this is PK master touch fn()
+	{
+		if (other.movetarget.movetarget)
+			cacheRoute (other.movetarget,other.movetarget.movetarget,0,self);
+	}
+#endifdef
+
 // note used -2 for no respawn dyn items
 	if (tim == -1) return;
 
@@ -1715,6 +1726,10 @@ void() BackpackTouch =
 		return;
 	if (other.health <= 0)
 		return;
+#endifdef
+
+#ifdef code_pkbots
+	bot_toucheditem ();
 #endifdef
 
 	acount = 0;
