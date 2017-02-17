@@ -131,18 +131,30 @@ void () t_botmovetarget =
 
 void () bot_toucheditem =
 {
-	if (other.goalentity.goalentity == self)
+// all item touch ops moved here
+// other = bot
+// self = item
+//	if (other.health > 0)		// all touch check health
+	if (other.group == "pk*bot") // *bot
 	{
-		if (VERBOSEBOT)
+		if (self.state == BOT_TOUCHED || self.state == BOT_TOUCHED_CACHE_ROUTE_TOUCH) // *bot code - patch in bot_toucheditem for bots - routes here because this is PK master touch fn()
 		{
-			dprint (other.teamname);
-			dprint (other.netname);
-			dprint (" got to ");
-			dprint (self.classname);
-			dprint ("\n");
+// org code
+			if (other.goalentity.goalentity == self)
+			{
+				if (VERBOSEBOT)
+				{
+					dprint (other.teamname);
+					dprint (other.netname);
+					dprint (" got to ");
+					dprint (self.classname);
+					dprint ("\n");
+				}
+				other.lefty = (other.lefty - (other.lefty & LOCAL_TIME));
+				other.search_time = (time - 1);
+			}
+// org code
 		}
-		other.lefty = (other.lefty - (other.lefty & LOCAL_TIME));
-		other.search_time = (time - 1);
 	}
 };
 
