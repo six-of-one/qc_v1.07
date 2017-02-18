@@ -2093,7 +2093,7 @@ global float wfs;
 #endifdef
 
 #ifdef code_pkbots
-	if (find(world,classname,"pk*bot"))
+	if (find(world,group,"pk*bot"))
   {
 		if ((self.view_ofs != '0 0 0') && !self.deadflag)
 		if (CheckDropPath ()) // *bot

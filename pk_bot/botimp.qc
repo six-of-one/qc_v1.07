@@ -31,14 +31,14 @@ void (entity e, float newskin) skinChange =
 	if (teamplay)
 	if (e.classname == "player")
 	{
-		b = find (world,classname,"pk*bot");
+		b = find (world,group,"pk*bot");
 		while (b)
 		{
 			if (b.team == e.team)
 			{
 				b.skin = e.skin;
 			}
-			b = find (b,classname,"pk*bot");
+			b = find (b,group,"pk*bot");
 		}
 	}
 };
@@ -53,11 +53,11 @@ void () removeSkins =
 		e.skin = 0;
 		e = find (e,classname,"player");
 	}
-	e = find (world,classname,"pk*bot");
+	e = find (world,group,"pk*bot");
 	while (e)
 	{
 		e.skin = 0;
-		e = find (e,classname,"pk*bot");
+		e = find (e,group,"pk*bot");
 	}
 };
 

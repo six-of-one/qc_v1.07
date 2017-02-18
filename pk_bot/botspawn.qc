@@ -741,7 +741,7 @@ void(entity e) removeBot =
 	local entity f;
 
 	f = e;
-	if (!f) f = find (world,classname,"pk*bot");
+	if (!f) f = find (world,group,"pk*bot");
 	if (!f) return ;
 
 	if (f.pather) NUMPATHERS = (NUMPATHERS - 1);

@@ -338,7 +338,7 @@ void () BotPostThink =
 	}
 
 // fix get item issue with rndize
-//	if (self.classname != "pk*bot")	self.classname = "pk*bot";
+//	if (self.group != "pk*bot")	self.group = "pk*bot";
 
 // bot post think checks
 #ifdef code_painkeep_
