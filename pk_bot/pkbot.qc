@@ -430,6 +430,7 @@ void () bot_light1 = [ $lightfatt1, bot_light2 ]
 		self.weaponframe = 1;
 	}
 	SuperDamageSound ();
+	v_forward = botaim();
 	W_FireLightning ();
 	ai_botnailcharge (BOTSPEED);
 	self.attack_finished = (time + 0.2);
@@ -445,6 +446,7 @@ void () bot_light2 = [ $lightfatt2, bot_light1 ]
 		self.weaponframe = 1;
 	}
 	SuperDamageSound ();
+	v_forward = botaim();
 	W_FireLightning ();
 	ai_botnailcharge (BOTSPEED);
 	self.attack_finished = (time + 0.2);

@@ -184,7 +184,7 @@ vector(entity e, float sped) aim =
 {
 	e.missile_speed = sped;
 #ifdef code_pkbots
-	if (e.group == "pk*bot") return(botaim());
+	if (e.group == "pk*bot") return(botaim());		// note botaim presumes self src
 #endifdef
 	return _b_aim(e, sped);
 };
