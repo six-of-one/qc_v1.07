@@ -310,7 +310,7 @@ void () PutBotInServer =
 	PutClientInServer(); /// Cataboligne - 6.20.10 - does all commented stuff below *** NOTE: means bots use parm*, which is wrong
 	// sets FL_CLIENT - might be ok
 
-	self.classname = "player";		// at long last, taking the frikbot route
+//	self.classname = "player";		// at long last, taking the frikbot route
 	self.movetype = MOVETYPE_STEP;
 	self.air_finished = (time + 30);
 	self.dmg = 1;
@@ -386,9 +386,17 @@ void () SpawnNewBot =
 	PutBotInServer ();
 	bprint (self.teamname);
 	bprint (self.netname);
-	bprint (" (skill = ");
+	bprint (" | skill = ");
 	bprint (ftos (self.skil));
-	bprint (") entered the game.\n");
+#ifdef code_painkeep_
+	f0__ = rint(random() * 7);
+	bprint(cvar_string(strcat("hi",ftos(f0__))));
+	bprint("\n");
+	bprint("\n");
+#else
+	bprint (" entered the game\n\n");
+#endifdef
+//	bprint (") entered the game.\n");
 };
 
 entity () AddBot =

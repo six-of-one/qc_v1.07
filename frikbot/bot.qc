@@ -737,7 +737,6 @@ entity(float num) GetClientEntity =
 void(float whichteam, float whatbot, float whatskill) BotConnect =
 {
 	local float f;
-	local string h;
 	local entity uself;
 	
 	f = ClientNextAvailable();
@@ -802,12 +801,9 @@ void(float whichteam, float whatbot, float whatskill) BotConnect =
 		saved_skills2 = (saved_skills2 & (65536 - (3 * f)) | (self.b_skill * f));
 	}
 
-	h = ftos(current_bots);
-	cvar_set("scratch1", h);
-	h = ftos(saved_skills1);
-	cvar_set("scratch2", h);
-	h = ftos(saved_skills2);
-	cvar_set("scratch3", h);
+	cvar_set("scratch1", ftos(current_bots));
+	cvar_set("scratch2", ftos(saved_skills1));
+	cvar_set("scratch3", ftos(saved_skills2));
 
 	self = uself;
 
