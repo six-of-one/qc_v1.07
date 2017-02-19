@@ -469,7 +469,7 @@ else
 // pk 
 #ifdef code_painkeep_
 		addstat(35, 2, pk_explode_ammo);
-//		addstat(36, 2, pk_items); // only detects 3 inv weps
+		addstat(36, 2, pk_Inv); // only detects 3 inv weps
 		addstat(37, 2, pk_currentitem); // current wep
 		addstat(38, 2, pk_gravitywellammo); // pk ammos
 		addstat(39, 2, pk_turretammo); // pk ammos
