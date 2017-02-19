@@ -461,16 +461,19 @@ void(vector valor, string pic1, string pic2, float itemnum, float scale, float s
 	has = items & itemnum;
 	draw = (currentweap == itemnum);
 
+	if (spcl)
+	if (pk_wep != spcl) draw = FALSE;
+
 // testing pk weps
 	if (spcl == STAT_PKWEP)
 	{
 		has = pk_inv & itemnum;
-		draw = (pk_wep == itemnum);
+		draw = has;
 
 // these are silly, but pk code does not clear inventory on switching to a non pk wep
-		if ((pk_wep == PK_IT_AIRGUN) && (mcode != MC_AIRGUN)) draw = FALSE;
-		if ((pk_wep == PK_IT_CLIGHT) && (mcode != MC_CHTHUNDR)) draw = FALSE;
-		if ((pk_wep == PK_IT_GRAPGUN) && (mcode != MC_GRAP) && (mcode != MC_HOOK)) draw = FALSE;
+		if ((itemnum == PK_IT_AIRGUN) && (mcode != MC_AIRGUN)) draw = FALSE;
+		if ((itemnum == PK_IT_CLIGHT) && (mcode != MC_CHTHUNDR)) draw = FALSE;
+		if ((itemnum == PK_IT_GRAPGUN) && (mcode != MC_GRAP) && (mcode != MC_HOOK)) draw = FALSE;
 	}
 
 	if (has)
@@ -3364,24 +3367,32 @@ sb_align = SB_BOTTOM_RIGHT;
 	}
 
 // for mjolnir ammo display (if hammer has enough ammo to fire ltn) clear pk items col
+// hooks are now here
 	if (currentweap == IT_MJOLNIR)
-	if ((cammo > 14) || (mcode != MC_HIP_MJOLNIR))
-	if (wep_step_y < pk_wep_step_y) wep_step_y = pk_wep_step_y;
+	{
+		if (pk_wep != 16)
+		{
+			if ((cammo > 14) || (mcode != MC_HIP_MJOLNIR))
+			if (wep_step_y < pk_wep_step_y) wep_step_y = pk_wep_step_y;
 
 //	if  // exclude non mjolnir items that use IT_MJOLNIR bit == 128
-	DrawInventoryWeapon(wep_step, "gfx/inv_mjolnir",  wep_mj,  IT_MJOLNIR, 0.125, 0);
-	if (cl_items & IT_MJOLNIR) wep_step = wep_step + '0 20 0';
-
-	if (has_hook)
-		DrawInventoryWeapon(wep_step, "gfx/inv_hook", "gfx/inv2_hook",  PK_IT_GRAPGUN, 0.125, STAT_PKWEP);
-	else
-		DrawInventoryWeapon(wep_step, "gfx/inv_harp", wep_harp,  PK_IT_GRAPGUN, 0.125, STAT_PKWEP);
-	if (pk_inv & PK_IT_GRAPGUN) wep_step = wep_step + '0 20 0';
+			DrawInventoryWeapon(wep_step, "gfx/inv_mjolnir",  wep_mj,  IT_MJOLNIR, 0.125, 0);
+			if (cl_items & IT_MJOLNIR) wep_step = wep_step + '0 20 0';
+		}
+		else
+		{
+			if (has_hook)
+				DrawInventoryWeapon(wep_step, "gfx/inv_hook", "gfx/inv2_hook",  PK_IT_GRAPGUN, 0.125, STAT_PKWEP);
+			else
+				DrawInventoryWeapon(wep_step, "gfx/inv_harp", wep_harp,  PK_IT_GRAPGUN, 0.125, STAT_PKWEP);
+			if (pk_inv & PK_IT_GRAPGUN) wep_step = wep_step + '0 20 0';
+		}
+	}
 
 // for shotgun ammo display - clear pk items col
 	if (wep_step_y < pk_wep_step_y) wep_step_y = pk_wep_step_y;
 
-	DrawInventoryWeapon(wep_step, "gfx/inv_shotgun",  wep_sg,  IT_SHOTGUN, 1, 0);
+	DrawInventoryWeapon(wep_step, "gfx/inv_shotgun",  wep_sg,  IT_SHOTGUN, 1, 1);
 	wep_axlv = wep_step + '-30 0 0'; // sycn with shotgun
 
 //	if (wep_axlv_y < pk_wep_step_y) wep_axlv_y = pk_wep_step_y; // unless pk deposes it - note: shotgun is now *always* above pk col...
@@ -3390,36 +3401,36 @@ sb_align = SB_BOTTOM_RIGHT;
 	if (has_deepsleep)
 		DrawInventoryWeapon(wep_axlv, "gfx/inv_deep_sleep",  "gfx/inv2_deep_sleep",  IT_AXE, 0.125, 0);
 	else
-		DrawInventoryWeapon(wep_axlv, "gfx/inv_axe",  wep_axe,  IT_AXE, 0.125, 0);
+		DrawInventoryWeapon(wep_axlv, "gfx/inv_axe",  wep_axe,  IT_AXE, 0.125, 1);
 
 
 	DrawInventoryWeapon(wep_step + '0 20 0', "gfx/inv_aircan", wep_airgun,  PK_IT_AIRGUN, 0.125, STAT_PKWEP);
 	if (pk_inv & PK_IT_AIRGUN) wep_step = wep_step + '0 20 0';
 
-	DrawInventoryWeapon(wep_step + '0 20 0', "gfx/inv_sshotgun", wep_ssg, IT_SUPER_SHOTGUN, 1, 0);
+	DrawInventoryWeapon(wep_step + '0 20 0', "gfx/inv_sshotgun", wep_ssg, IT_SUPER_SHOTGUN, 1, 1);
 
 	if (has_pnail)
 		DrawInventoryWeapon(wep_step + '0 40 0', "gfx/inv_pnail",  wep_pnail,  IT_NAILGUN, 0.125, 0);
 	else
-		DrawInventoryWeapon(wep_step + '0 40 0', "gfx/inv_nailgun",  wep_nail,  IT_NAILGUN, 1, 0);
+		DrawInventoryWeapon(wep_step + '0 40 0', "gfx/inv_nailgun",  wep_nail,  IT_NAILGUN, 1, 1);
 
 // Cataboligne - 9.9.13 - had to change, these had issues because Archon code is different on extra weps
 
 	if (has_laser)
 		DrawInventoryWeapon(wep_step + '0 60 0', "gfx/inv_laser", wep_laser, IT_SUPER_NAILGUN, 0.125, 0);
 	else
-		DrawInventoryWeapon(wep_step + '0 60 0', "gfx/inv_snailgun", wep_snail, IT_SUPER_NAILGUN, 1, 0);
+		DrawInventoryWeapon(wep_step + '0 60 0', "gfx/inv_snailgun", wep_snail, IT_SUPER_NAILGUN, 1, 1);
 
 	if (has_flamer1)
 		DrawInventoryWeapon(wep_step + '0 80 0', "gfx/inv_flamer1",  "gfx/inv2_flamer1",  IT_GRENADE_LAUNCHER, 0.125, 0);
 	else if (has_prox)
 		DrawInventoryWeapon(wep_step + '0 80 0', "gfx/inv_prox_gren",  wep_prox,  IT_GRENADE_LAUNCHER, 0.125, 0);
 	else
-		DrawInventoryWeapon(wep_step + '0 80 0', "gfx/inv_rlaunch",  wep_gren,  IT_GRENADE_LAUNCHER, 1, 0);
+		DrawInventoryWeapon(wep_step + '0 80 0', "gfx/inv_rlaunch",  wep_gren,  IT_GRENADE_LAUNCHER, 1, 1);
 
-	DrawInventoryWeapon(wep_step + '0 100 0', "gfx/inv_srlaunch", wep_rock, IT_ROCKET_LAUNCHER, 1, 0);
+	DrawInventoryWeapon(wep_step + '0 100 0', "gfx/inv_srlaunch", wep_rock, IT_ROCKET_LAUNCHER, 1, 1);
 
-	DrawInventoryWeapon(wep_step + '-24 120 0', "gfx/inv_lightng",  wep_light,  IT_LIGHTNING, 1, 0);
+	DrawInventoryWeapon(wep_step + '-24 120 0', "gfx/inv_lightng",  wep_light,  IT_LIGHTNING, 1, 1);
 	if (cl_items & IT_LIGHTNING) wep_step = wep_step + '0 20 0';
 
 	DrawInventoryWeapon(wep_step + '0 120 0', "gfx/inv_clg",  wep_clg,  PK_IT_CLIGHT, 0.125, STAT_PKWEP);
