@@ -329,6 +329,8 @@ void () BotPostThink =
 	}
 
 // fix pk*bot viswep item sync - we hope
+/*
+	deprecated - will be called by players or frikbot
 
 	if (!(self.items & IT_INVISIBILITY))
 	if (self.vwepent)
@@ -336,6 +338,7 @@ void () BotPostThink =
 		if ((self.vwepent.origin) != self.origin || self.vwepent.angles != self.angles || self.vwepent.weaponframe != self.frame) // WATCH: monitor vofs in viswep for use
 		viswep_post();
 	}
+*/
 
 // fix get item issue with rndize
 //	if (self.group != "pk*bot")	self.group = "pk*bot";
