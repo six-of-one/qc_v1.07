@@ -132,6 +132,7 @@ float MC_PULSE_NAILGUN 			= 135;
 float MC_GRAP 						= 137;
 float MC_CHTHUNDR 				= 136;
 float MC_AIRGUN 					= 138;
+float MC_EXPSHOTGUN		= 143;
 float MC_HOOK 						= 148;
 float MC_HIP_MJOLNIR 			= 149;
 float MC_HIP_LASERCAN 			= 150;

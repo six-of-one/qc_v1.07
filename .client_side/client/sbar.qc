@@ -3392,7 +3392,10 @@ sb_align = SB_BOTTOM_RIGHT;
 // for shotgun ammo display - clear pk items col
 	if (wep_step_y < pk_wep_step_y) wep_step_y = pk_wep_step_y;
 
-	DrawInventoryWeapon(wep_step, "gfx/inv_shotgun",  wep_sg,  IT_SHOTGUN, 1, 1);
+	if (mcode == MC_EXPSHOTGUN)		// TDO: new explode shells icon
+		DrawInventoryWeapon(wep_step, "gfx/inv_shotgun",  wep_sg,  IT_SHOTGUN, 1, 2);
+	else
+		DrawInventoryWeapon(wep_step, "gfx/inv_shotgun",  wep_sg,  IT_SHOTGUN, 1, 1);
 	wep_axlv = wep_step + '-30 0 0'; // sycn with shotgun
 
 //	if (wep_axlv_y < pk_wep_step_y) wep_axlv_y = pk_wep_step_y; // unless pk deposes it - note: shotgun is now *always* above pk col...
