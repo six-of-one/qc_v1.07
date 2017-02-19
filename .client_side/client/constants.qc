@@ -157,9 +157,14 @@ float MC_MCAS 						= 1004;
 
 // pk inv - collectables
 float PK_IT_AXE					= 1;
-float PK_IT_GRAPGUN				= 16;
-float PK_IT_AIRGUN				= 32;
-float PK_IT_CLIGHT				= 64;
+// now specials via x_ents
+//float PK_IT_GRAPGUN				= 16;
+//float PK_IT_AIRGUN				= 32;
+//float PK_IT_CLIGHT				= 64;
+float PK_IT_GRAPGUN				= 4194304;
+float PK_IT_AIRGUN				= 8388608;
+float PK_IT_CLIGHT				= 2097152;
+
 float PK_IT_GRAVITYWELL			= 2;
 float PK_IT_TURRET				= 4;
 float PK_IT_BEARTRAP				= 8;

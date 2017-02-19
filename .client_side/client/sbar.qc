@@ -516,7 +516,7 @@ void(vector valor, string pic1, string pic2, float itemnum, float scale, float s
 
 // live ammo count for drawn weapon
 			if ((mcode == MC_HIP_MJOLNIR) && (cammo > 14) || ! inf_ammo_wep(mcode))
-			if (!itemnum & no_ammo) // morph built in no ammo coding
+			if (!(itemnum & no_ammo))// morph built in no ammo coding
 			if (cammo > 0) DrawAmmo('0.3 0.3 1', v + y + '-24 4 0', ceil(cammo), ALPHA_FULL * awepflash);
 			awicof = awicofset;
 
@@ -802,13 +802,13 @@ void() Sbar_DrawInventory =
 
 // things detected by mapcode and stored in global - need global turned off when wep goes away, like with death
 
-	if (! cl_items & IT_NAILGUN) has_pnail = FALSE;
+	if (! (cl_items & IT_NAILGUN)) has_pnail = FALSE;
 	if (mcode == MC_PULSE_NAILGUN) has_pnail = TRUE;
 
-	if (! cl_items & IT_SUPER_NAILGUN) has_laser = FALSE;
+	if (! (cl_items & IT_SUPER_NAILGUN)) has_laser = FALSE;
 	if (mcode == MC_HIP_LASERCAN) has_laser = TRUE;
 
-	if (! cl_items & IT_GRENADE_LAUNCHER)
+	if (! (cl_items & IT_GRENADE_LAUNCHER))
 	{
 		has_prox = FALSE;
 		has_flamer1 = FALSE;
@@ -819,15 +819,15 @@ void() Sbar_DrawInventory =
 	has_deepsleep = FALSE;
 	if (mcode == MC_DEEPSLEEP) has_deepsleep = TRUE;
 
-	if (! pk_inv & PK_IT_GRAPGUN) has_hook = FALSE;
+	if (! (pk_inv & PK_IT_GRAPGUN)) has_hook = FALSE;
 	if (mcode == MC_HOOK) has_hook = TRUE;
 
 // timers for these - this times them out
 
-	if (!cl_items & IT_INVISIBILITY) ring = 0;
-	if (!cl_items & IT_SUIT) suit = 0;
-	if (!cl_items & IT_QUAD) quad = 0;
-	if (!cl_items & IT_INVULNERABILITY) inv = 0;
+	if (!(cl_items & IT_INVISIBILITY)) ring = 0;
+	if (!(cl_items & IT_SUIT)) suit = 0;
+	if (!(cl_items & IT_QUAD)) quad = 0;
+	if (!(cl_items & IT_INVULNERABILITY)) inv = 0;
 	if (!silence) silencio = 0;
 
 if (ibar_flag)
@@ -1509,7 +1509,7 @@ sb_align = SB_BOTTOM; ///NOTE: should this be alignt left ?
 					}
 				}
 // master score
-				if (!autocvar_hud_frags_style & 64)
+				if (!(autocvar_hud_frags_style & 64))
 				if (autocvar_master_high_score > 0)
 				{
 					flashermhc = 1;
@@ -2328,7 +2328,7 @@ sb_align = SB_BOTTOM; ///NOTE: should this be alignt left ?
 
 // power armors
 		if (x_items & X_PWR_ARMOR)
-		if (! x_items & X_PWR_SCREEN_ON)
+		if (! (x_items & X_PWR_SCREEN_ON))
 		{
 			armorflash = 1;
 			armicof = 1;
@@ -2347,7 +2347,7 @@ sb_align = SB_BOTTOM; ///NOTE: should this be alignt left ?
 		}
 
 		if (x_items & X_PWR_SCREEN)
-		if (! x_items & X_PWR_ARMOR_ON)
+		if (! (x_items & X_PWR_ARMOR_ON))
 		{
 			armorflash = 1;
 			armicof = 1;
@@ -2361,7 +2361,7 @@ sb_align = SB_BOTTOM; ///NOTE: should this be alignt left ?
 				pwr_step_y = pwr_step_y + 27;
 			}
 			else
-			if (! x_items & X_PWR_ARMOR)
+			if (! (x_items & X_PWR_ARMOR))
 			{
 				DrawInventoryAmmo(pwr_step + '2 0 0', "gfx/sb_pscreen0", ALPHA_FULL * armicof, 0.19);
 				cnt_left = pwr_step_y;
