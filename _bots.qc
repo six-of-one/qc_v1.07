@@ -449,7 +449,7 @@ void() bot_wakey =
 	if (self.owner.class_select == "class_bot")
 	{
 		self.owner.button16 = self.owner.frags;
-		self.owner.button15 = self.owner.health;
+//		self.owner.button15 = self.owner.health;
 #ifdef code_pkbots
 		if (self.owner.group == "pk*bot")
 		{
@@ -475,6 +475,7 @@ void() bot_fixed =
 		bot_fix.frags = bot_fix.frags + 1;
 		self.owner.armorvalue = 0;
 		self.owner.invincible_finished = 0;
+		self.owner.takedamage = DAMAGE_AIM;		// fryguy fix frik
 		T_Damage (self.owner,world,bot_fix,self.owner.health + 10);
 	}
 	remove(self);
@@ -509,7 +510,7 @@ void() bot_fixer =
 		while (e0__)
 		{
 			e0__.button16 = e0__.frags;
-			e0__.button15 = e0__.health;
+//			e0__.button15 = e0__.health;
 			e0__ = find(e0__,class_select,"class_bot");
 		}
 
@@ -556,7 +557,7 @@ void() bot_fixer =
 			if (e0__.button16 != 66600)
 			{
 				e0__.button16 = e0__.frags;
-				e0__.button15 = e0__.health;
+//				e0__.button15 = e0__.health;
 			}
 			e0__ = find(e0__,class_select,"class_bot");
 		}
