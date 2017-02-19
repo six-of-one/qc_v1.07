@@ -614,16 +614,16 @@ void() BotInit =
 	precache_model("progs/s_light.spr");
 	precache_model("progs/s_bubble.spr");
 	// the bots return!
-	b_options = cvar("saved1");
+	b_options = cvar("sv_bot_fk0");
 // TEST
-//bprint("\b***** BotInit - read saved1\n");
+//bprint("\b***** BotInit - read sv_bot_fk0\n");
 //	if (coop || (b_options & OPT_SAVEBOTS))
 //	{
 // TEST
-//bprint("\b***** BotInit - read scratch1-3\n");
-		saved_bots = cvar("scratch1");
-		saved_skills1 = cvar("scratch2");
-		saved_skills2 = cvar("scratch3");
+//bprint("\b***** BotInit - read sv_bot_fk1-3\n");
+		saved_bots = cvar("sv_bot_fk1");
+		saved_skills1 = cvar("sv_bot_fk2");
+		saved_skills2 = cvar("sv_bot_fk3");
 //	}
 // TEST
 //bprint("\b***** BotInit - set saved4\n");
@@ -801,9 +801,9 @@ void(float whichteam, float whatbot, float whatskill) BotConnect =
 		saved_skills2 = (saved_skills2 & (65536 - (3 * f)) | (self.b_skill * f));
 	}
 
-	cvar_set("scratch1", ftos(current_bots));
-	cvar_set("scratch2", ftos(saved_skills1));
-	cvar_set("scratch3", ftos(saved_skills2));
+	cvar_set("sv_bot_fk1", ftos(current_bots));
+	cvar_set("sv_bot_fk2", ftos(saved_skills1));
+	cvar_set("sv_bot_fk3", ftos(saved_skills2));
 
 	self = uself;
 
@@ -819,7 +819,7 @@ void(entity bot) BotDisconnect =
 	bot_count = bot_count - 1;
 	current_bots = current_bots - (current_bots & ClientBitFlag(self.b_num - 1));
 	h = ftos(current_bots);
-	cvar_set("scratch1", h);
+	cvar_set("sv_bot_fk1", h);
 
 
 	ClientDisconnect();
@@ -946,6 +946,9 @@ void() WaypointWatch =
 		bigboobs = cvar("saved4");
 		if (bigboobs != 0)
 		{
+// TEST
+//bprint("\b***** WaypointWatch - set saved4\n");
+			cvar_set("saved4", "0");
 			if ((bigboobs & 3) == 1)
 				ClearAllWays();
 			else if ((bigboobs & 3) == 3)
@@ -953,18 +956,14 @@ void() WaypointWatch =
 				FixWaypoints();
 				h = ftos(b_options);
 // TEST
-//bprint("\b***** WaypointWatch - set saved1,4 scratch1\n");
-				cvar_set("saved1", h);
-				cvar_set("saved4", "0");
-				cvar_set("scratch1", "0");
+//bprint("\b***** WaypointWatch - set saved1 scratch1\n");
+				cvar_set("sv_bot_fk0", h);
+				cvar_set("scratch1", "0");				// wtf? 		should this be sv_bot_fk1 	(converted from scratch1)
 				waypoint_mode = WM_LOADED;
 				return;
 			}
 			LoadWaypoint();
 			waypoint_mode = WM_LOADING;
-// TEST
-//bprint("\b***** WaypointWatch - set saved4\n");
-			cvar_set("saved4", "0");
 		}
 	}
 };
@@ -985,7 +984,7 @@ void() BotFrame =
 	num = 0;
 	while (num < max_clients)
 	{
-		if (self.class_select == "class_bot")
+		if ((self.class_select == "class_bot") && self.group != "pk*bot")		// dont do these with pkbots
 		{
 			if (active_clients & ClientBitFlag(num))
 			{
