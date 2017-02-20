@@ -988,7 +988,7 @@ void(float dist) ai_run =
 //MED
 // has bug with new x_ents / x_monsters where monsters / some bots get stuck running in place
 // believe this is from SUB_Null def. load on all .void fields
-	if (self.th_turn)
+	if (self.th_turn && self.th_turn != SUB_Null)
 	{
 //		local float angledelta;
 	#define	angledelta		f0__
