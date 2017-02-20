@@ -125,9 +125,12 @@
 #messagecompiling painkeep/phone.qc 
 #include </phone.qc>
 
-// not coded in
-//#messagecompiling painkeep/actor.qc 
-//#include </actor.qc>
+	#ifdef code_painkeep_actor
+	#messagecompiling painkeep/actor.qc 
+	#include </actor.qc>
+	#endifdef
+
+// pkplus
 #endifdef
 
 #endifdef

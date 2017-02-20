@@ -670,7 +670,7 @@ void() turret_attackEnemy =
 			{
 
 			if (head.invincible_finished > time)
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 			if (head.pkplus_actortype != PKPLUS_ACTORPENT)
 #endifdef
 			{
@@ -681,7 +681,7 @@ void() turret_attackEnemy =
 			if (PK_TUR_QUADCON)
 			if (self.owner != head)
 			if (head.super_damage_finished > time)
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 			if (head.pkplus_actortype != PKPLUS_ACTORQUAD)
 #endifdef
 			if (vlen(self.origin - head.origin) < PK_TUR_DEATHRAD)

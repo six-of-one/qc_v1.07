@@ -234,8 +234,14 @@ void() player_conduitJerk;
 
 #ifdef code_pkplus_
 .float pkplus_actorammo;
-//.float pkplus_actorskin;
-//.float pkplus_actortype;
+
+#ifdef code_painkeep_actor
+#define PKPLUS_ACTORPENT				1
+#define PKPLUS_ACTORQUAD			2
+#define PKPLUS_ACTOR_IGN_DMSKN		1 // if true damange skin code treats actor just like real pen
+.float pkplus_actortype;
+#endifdef
+
 .float pkplus_egoammo;
 .float pkplus_phoneammo;
 .float pkplus_tombammo;

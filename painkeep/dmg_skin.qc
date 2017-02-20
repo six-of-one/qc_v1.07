@@ -34,12 +34,11 @@ void()	pk_DmgSkin =
 //		if (self.health > 75) - this is a default now
 	  	self.skin = 0;
 
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 		if  (self.pkplus_actortype == PKPLUS_ACTORPENT) // acting as pent
 		{
 			if (PKPLUS_ACTOR_IGN_DMSKN) // fake it real good
 			{
-//				self.skin = 0;
 				return;
 			}
 		}

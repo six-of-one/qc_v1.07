@@ -177,7 +177,7 @@ void() launch_horn =
 	horn_airblast(TRUE);
 
 	if (self.super_damage_finished > time)
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 	if (self.pkplus_actortype != PKPLUS_ACTORQUAD) // Cataboligne 8.12.9 purify - pk artifacts
 #endifdef
 	{ // if supercharged, increase the recoil strength...
@@ -286,7 +286,7 @@ void(float firstBlast) horn_airblast =
 	#define numBubbles 3 // number of bubbles generated in the water
 
 	if (self.super_damage_finished > time)
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 	if (self.pkplus_actortype != PKPLUS_ACTORQUAD) // Cataboligne 8.12.9 purify - pk artifacts
 #endifdef
 	{ // if supercharged, double the range
@@ -318,7 +318,7 @@ void(float firstBlast) horn_airblast =
 	  // only affect monsters and projectiles
 	  if (hornVisible(e)) // must be visible AND
 	  if (self.waterlevel > 2 || (self.super_damage_finished > time
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 				&& (self.pkplus_actortype != PKPLUS_ACTORQUAD)
 #endifdef
 				) // Cataboligne 8.12.9 purify - pk artifacts

@@ -258,7 +258,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 #endifdef
 
 	if (attacker.super_damage_finished > time)
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 	if (attacker.pkplus_actortype != PKPLUS_ACTORQUAD) // pk art code here
 #endifdef
 #ifdef code_archon
@@ -438,7 +438,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			sound (targ, CHAN_ITEM, "items/protect3.wav", 1, ATTN_NORM);
 			targ.invincible_sound = time + 2;
 		}
-#ifdef code_pkplus
+#ifdef code_painkeep_actor
 		if (targ.pkplus_actortype != PKPLUS_ACTORPENT) // pk art code here
 #endifdef
 		return;
@@ -596,8 +596,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		}
 	}
 
-#ifdef code_pkplus
-	if (self.pkplus_actortype != PKPLUS_ACTORPENT || random() < 0.1) // pk art code here - fake it for pent acting most of the time	if (targ.pkplus_actortype != PKPLUS_ACTORPENT) // pk art code here
+#ifdef code_painkeep_actor
+	if (self.pkplus_actortype != PKPLUS_ACTORPENT || random() < 0.1) // pk art code here - fake it for pent acting most of the time
 #endifdef
 	if (self.th_pain)
 	{

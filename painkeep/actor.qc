@@ -38,4 +38,5 @@ void() actor_quad_activate =
 
 	sound(self,CHAN_VOICE,"items/damage.wav",1,ATTN_NORM);
 	stuffcmd(self,"bf\n");
+	e_use_ammo();		// fire this with alt-fire now
 };

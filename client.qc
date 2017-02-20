@@ -1007,7 +1007,9 @@ void() PutClientInServer =
 	self.pk_currentitem = PK_IT_AXE;
 	self.pkprevweapon = PK_IT_AXE;
 
-//TDO:	self.pkplus_actortype = 0;
+#ifdef code_painkeep_actor
+	self.pkplus_actortype = 0;
+#endifdef
 	self.beartrap_time = 0;
 	self.bt_immune_time = time + BT_BUFFER;
 	self.voteIntermission = 0;
@@ -1034,10 +1036,6 @@ void() PutClientInServer =
 		remove(self.bolt_lightningFire);
 	}
 	self.bolt_lightningFire = world;
-
-#ifdef code_painkeep_fs
-	self.pkplus_actortype = 0;
-#endifdef
 
 #ifdef painkeep_splash
 	AddToSplashBig(self);
@@ -1833,7 +1831,7 @@ void() CheckPowerups =
 		{
 			if (self.invincible_time == 1)
 			{
-#ifdef code_painkeep_fs
+#ifdef code_painkeep_actor
 				if (self.pkplus_actortype == PKPLUS_ACTORPENT)
 					sprint (self,"Get ready to leave the RED stage - Good Performance!\n");
 				else
@@ -1856,7 +1854,7 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_INVULNERABILITY);
 			self.invincible_time = 0;
 			self.invincible_finished = 0;
-#ifdef code_painkeep_fs
+#ifdef code_painkeep_actor
 			if (self.pkplus_actortype == PKPLUS_ACTORPENT)
 				self.pkplus_actortype = 0;
 #endifdef
@@ -1877,7 +1875,7 @@ void() CheckPowerups =
 		{
 			if (self.super_time == 1)
 			{
-#ifdef code_painkeep_fs
+#ifdef code_painkeep_actor
 				if (self.pkplus_actortype == PKPLUS_ACTORQUAD)
 					sprint (self,"The BLUE Curtain is dropping - You really frightened them!\n");
 				else
@@ -1900,7 +1898,7 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_QUAD);
 			self.super_damage_finished = 0;
 			self.super_time = 0;
-#ifdef code_painkeep_fs
+#ifdef code_painkeep_actor
 			if (self.pkplus_actortype == PKPLUS_ACTORQUAD)
 				self.pkplus_actortype = 0;
 #endifdef
@@ -2072,6 +2070,7 @@ global float wfs;
 													}
 #endifdef
 
+// FIX: this ifdef
 #ifdef code_pkbots
 	if (vw_bot_frame != framecount)  // run these things once this frame
 	{

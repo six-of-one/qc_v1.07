@@ -617,6 +617,9 @@ spec track by cvar
 // plus modules
 /// SWITCH
 	#define code_pkplus_
+// uncomment to enable "actor" mask
+/// SWITCH
+	#define code_painkeep_actor
 // uncomment to use pk splash module
 //#define painkeep_splash
 #endifdef
