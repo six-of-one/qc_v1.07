@@ -1778,6 +1778,8 @@ void() CycleWeaponCommand =
 				self.forcewchange = 1;
 				am = 0;
 
+// if eweap has message - display on switch
+				if (self.eweapon.message) centerprint(self, self.eweapon.message);		// TDO: move to hud_message
 #ifdef warning__remove
 //									if (warnings == "c")
 									{
