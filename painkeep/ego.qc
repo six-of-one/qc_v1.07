@@ -230,7 +230,7 @@ void () ego_think =
 			{
 				if ( !((self.owner.dmg_inflictor.items & IT_INVULNERABILITY) 
 #ifdef code_painkeep_actor
-							&& (self.owner.dmg_inflictor.pkplus_actortype == PKPLUS_ACTORPENT)
+							&& (self.owner.dmg_inflictor.pkplus_actortype != PKPLUS_ACTORPENT)
 #endifdef
 									) )
 				{
@@ -257,7 +257,7 @@ void () ego_think =
 				{
 					if ( !((self.owner.dmg_inflictor.owner.items & IT_INVULNERABILITY)
 #ifdef code_painkeep_actor
-								&& (self.owner.dmg_inflictor.owner.pkplus_actortype == PKPLUS_ACTORPENT)
+								&& (self.owner.dmg_inflictor.owner.pkplus_actortype != PKPLUS_ACTORPENT)
 #endifdef
 										) )
 					{
