@@ -377,6 +377,7 @@ string(float mb) rune_power =
 
 
 // test mapcode mc and return TRUE if an infinite ammo weapon
+// ???: admin set inf ammo
 
 float(float mc) inf_ammo_wep =
 {
