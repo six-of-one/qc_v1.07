@@ -937,7 +937,7 @@ void() WaypointWatch =
 {
 	// Waypoint Baywatch
 	local float bigboobs;
-	local string h;
+//	local string h;
 
 	if (max_clients < 2)
 		return;
@@ -954,10 +954,11 @@ void() WaypointWatch =
 			else if ((bigboobs & 3) == 3)
 			{
 				FixWaypoints();
-				h = ftos(b_options);
+//				h = ftos(b_options);
 // TEST
 //bprint("\b***** WaypointWatch - set saved1 scratch1\n");
-				cvar_set("sv_bot_fk0", h);
+//				cvar_set("sv_bot_fk0", h); // saved1 is saved in config.cfg
+				localcmd(strcat("seta sv_bot_fk0", ftos(b_options)));
 				cvar_set("scratch1", "0");				// wtf? 		should this be sv_bot_fk1 	(converted from scratch1)
 				waypoint_mode = WM_LOADED;
 				return;
