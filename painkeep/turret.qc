@@ -150,14 +150,6 @@ void() turret_dropTurret =
 	  return;
 	}
 
-	if (self.flags & FL_CLIENT) // some qualification
-#ifdef code_xents
-		e_use_ammo();
-#else
-		self.currentammo = self.pk_turretammo = self.pk_turretammo - 1; // Cataboligne - 8.20.9 - moved here so wall fail doesnt eat ammo
-#endifdef
-									// NOTE: self must always then be firing entity
-
 	turret = spawn ();
 
 // defs - pk 3.0 implement
@@ -167,6 +159,8 @@ void() turret_dropTurret =
 	turret.max_health = 300;	// PK_TUR_HEAL
 	turret.button7 = 3;			// PK_TUR_TARGOWN
 	turret.button8 = 0.15;	// PK_TUR_RELOAD
+
+									// NOTE: self must always then be firing entity
 
 	if (self.eweapon)
 	{
@@ -182,6 +176,13 @@ void() turret_dropTurret =
 		turret.button11 = self.eweapon.button11;
 		turret.button13 = self.eweapon.button13;
 	}
+
+	if (self.flags & FL_CLIENT) // some qualification
+#ifdef code_xents
+		e_use_ammo();
+#else
+		self.currentammo = self.pk_turretammo = self.pk_turretammo - 1; // Cataboligne - 8.20.9 - moved here so wall fail doesnt eat ammo
+#endifdef
 
 	turret.owner = self;
 	turret.movetype = MOVETYPE_STEP;
