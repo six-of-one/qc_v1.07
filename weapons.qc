@@ -1287,6 +1287,7 @@ float() W_BestWeapon =
 	f0__ = 9;
 	f1__ = IT_AXE;
 	e0__ = self.vwepent;
+	e1__ = world;
 	while (e0__)
 	{
 		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
@@ -1302,7 +1303,7 @@ float() W_BestWeapon =
 /// TDO: find out if we need the next line
 	self.eweapon = e1__.eweapon; // set this for all self.weapon = W_BestWeapon() - simplifies other select code
 #ifdef code_painkeep_
-	if (e1__.weapon == IT_AXE) self.pk_currentitem = e1__.pk_currentitem;
+	self.pk_currentitem = PK_IT_AXE;
 #endifdef
 	return(f1__);
 };

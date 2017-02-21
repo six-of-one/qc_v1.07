@@ -632,7 +632,6 @@ void() use_pkitem =
 
 	if (drp)
 	{
-// FIX: need to set eweap - really need to select
 		self.pk_currentitem = PK_IT_AXE;
 		if (self.pk_canpabammo > 0 && drp > 0.9) // heal or escape when health low
 		{

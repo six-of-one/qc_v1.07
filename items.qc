@@ -915,7 +915,7 @@ local float		best;
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
-	best = W_BestWeapon();
+	best = W_BestWeapon();		// ISSUE: boondoggle - this changes eweapon ptr !
 
 // logic change eliminates - run the code till self back to stemp with stemp as self and self as other
 //	self = stemp;
