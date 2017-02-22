@@ -1998,6 +1998,30 @@ try with alias?
 	}
 
 	self.f__ = 0;	// clear for 1-9 vs. cyc
+
+// allow weps to be switched on touch
+	if (self.impulse == 29) self.aflag = IGN_INV;
+// power armor toggle
+	if (self.impulse == IMP_PARM)
+		power_armor_impulse();
+
+// generic impulses - wep select
+	s0__ = strcat("_","i",ftos(self.impulse));
+	if (cvar(s0__))
+	{
+		s1__ = strcat("_","p",ftos(self.impulse));
+		self.weapon = cvar(s0__);
+		self.pk_currentitem = cvar(s1__);
+		CycleWeaponCommand();
+	}
+// generic impulses - exec fn - may want a mask or qualifier
+// this bypasses rcon
+	s0__ = strcat("_","c",ftos(self.impulse));
+	s1__ = cvar_string(s0__);
+	if (strlen(s1__) > 1)
+	{
+		if (isfunction(s1__)) callfunction(s1__);
+	}
 #endifdef
 
 // runes
@@ -2157,14 +2181,6 @@ try with alias?
 	if (dump_coord == 1)
 		DumpCoordinates();
 	#endifdef
-#endifdef
-
-#ifdef code_xents
-// allow weps to be switched on touch
-	if (self.impulse == 29) self.aflag = IGN_INV;
-// power armor toggle
-	if (self.impulse == IMP_PARM)
-		power_armor_impulse();
 #endifdef
 
 /*
