@@ -661,6 +661,11 @@ framer(0, 6, bolt_s_explode1, SUB_Remove, 0.1,
 		self.lefty = self.lefty + 1;
 	}
 	self.frame = self.lefty;
+
+// fix busted frikbot
+	if (!self.owner.ishuman)
+	if (self.owner.bolt_conduitTimeout > time)
+		self.owner.think = player_conduitJerk;
 );
 
 // cool prongs after timeout
