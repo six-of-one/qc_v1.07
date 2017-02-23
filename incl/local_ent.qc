@@ -50,7 +50,7 @@ entity locus;
 #define		f8__		locus.dmg_save
 #define		f9__		locus.skin
 #define		f10__	locus.fly_sound
-//#define		f11__	locus.idealpitch
+#define		f11__	locus.prevweapon
 
 // pre selected vector
 
