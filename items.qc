@@ -1911,7 +1911,7 @@ DropBackpack
 void() DropBackpack =
 {
 //	local entity	item;
-#define item 	newmis
+#define item 	msg_entity
 
 #ifdef code_morph
 // toss limits Q, PK, q / pk guy code
