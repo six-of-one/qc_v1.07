@@ -943,6 +943,8 @@ else
 		newmis.classname = "pulse_spike";
 //		setmodel (newmis, "progs/spike.mdl");
 		newmis.skin = 3;
+//		newmis.nextthink = time + cvar(newmis.classname);
+		newmis.dmgtime = newmis.nextthink;		// master live time - touch changes nt
 	}
 
   } // top else

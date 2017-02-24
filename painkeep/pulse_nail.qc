@@ -19,7 +19,7 @@ void() pulse_rebound =
 	self.movetype = MOVETYPE_FLYMISSILE;
 	self.angles = vectoangles(self.velocity);
 	self.think = SUB_Remove;
-	self.nextthink = self.ltime;
+	self.nextthink = self.dmgtime;
 
 	// we want to hurt the owner now...
 	self.owner = world;
@@ -47,7 +47,7 @@ void(float ox) W_FirePulseSpikes =
 										 | FL_RUNEHST 
 #endifdef
 //																					RM_SKY | PF_LAVA
-													, 0	, v1__, '0 0 0', "pulse_spike", "progs/spike.mdl", "weapons/pulse/pulse_1.wav", spike_touch, 2.0,  SUB_Remove, SUB_Null);
+													, 0	, v1__, '0 0 0', "pulse_spike", "progs/spike.mdl", "weapons/pulse/pulse_1.wav", spike_touch, cvar("pulse_spike"),  SUB_Remove, SUB_Null);
 
 #else
 	makevectors(self.v_angle);
@@ -56,11 +56,12 @@ void(float ox) W_FirePulseSpikes =
 	newmis.classname="pulse_spike";
 	newmis.touch = spike_touch;
 	newmis.think = SUB_Remove;
-	newmis.nextthink = time + 2;
+	newmis.nextthink = time + cvar(newmis.classname);
 	sound (newmis, CHAN_WEAPON, "weapons/pulse/pulse_1.wav", 1, ATTN_NORM);
 
 #endifdef
 
+	newmis.dmgtime = newmis.nextthink;		// master live time - touch changes nt
 	newmis.dmg = 27;
 //	newmis.theowner = self;  done in launch spike
 	newmis.skin = 3;
