@@ -955,6 +955,7 @@ void() PutClientInServer =
 	self.movetype = MOVETYPE_WALK;
 	self.show_hostile = 0;
 #ifdef code_xents
+	self.deathtype = string_null;
 	if (self.max_health < 100) // Cataboligne - 11.1.12 - adrenaline in level add
 		self.max_health = 100;
 #else
