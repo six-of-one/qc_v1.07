@@ -1152,7 +1152,7 @@ void() W_SetCurrentAmmo =
 		self.prevweapon = self.weapon;
 	#ifdef code_painkeep_
 		self.pkprevweapon = self.pk_currentitem;
-		if (self.weapon == IT_AXE) self.pk_crs1 = self.pk_currentitem;
+		stuffcmd(self, "set _p301 ",ftos(self.pk_currentitem),"\n"); // set impulse 1 select
 	#endifdef
 		self.forcewchange = FALSE;
 

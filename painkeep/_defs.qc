@@ -69,9 +69,6 @@ void()	pk_DmgSkin;
 .float pk_timer;
 .float pk_tout;
 .float pk_sndtimer;
-#define		pk_crs1		waitmin
-#else
-.float pk_crs1;
 #endifdef
 
 // hub
