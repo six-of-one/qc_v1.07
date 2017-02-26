@@ -2090,7 +2090,6 @@ try with alias?
 		if (self.impulse == 12) self.f__ = 0.5;
 // NOTE: block to else for option on not cycling all sub weps
 /*
-		vwepsel(self.weapon);
 		if (self.pk_currentitem != 1)
 		if (self.pkprevweapon != self.pk_currentitem) self.f__ = 1;
 		else */
@@ -2098,18 +2097,7 @@ try with alias?
 		CycleWeaponCommand();
 #endifdef
 	}
-/*
-	if (self.impulse == 12)
-	{
-		self.f__ = 0.5;
-		vwepsel(self.weapon);
-		if (self.pk_currentitem != 1)
-		if (self.pkprevweapon != self.pk_currentitem) self.f__ = 1;
-		else self.pk_currentitem = 1;
-		CycleWeaponCommand();
-	}
-*/
-//		CycleWeaponReverseCommand();
+
 
 #ifdef hooks
 	else if (self.impulse >= 94 && self.impulse <= 98) // Cataboligne 8.29.11 purify - hook - this is only the vector for give-away hook, item hooks vector via fire code
