@@ -1553,33 +1553,60 @@ void() W_ChangeWeapon =
 	was = self.weapon;
 
 // select a new wep
-	if (self.impulse == 1) 
+#ifdef code_xents
+	if (self.impulse < 10)
 	{
-		vwepsel(IT_AXE);
-//		self.weapon = IT_AXE;
+		s0__ = strcat("_","m",ftos(self.impulse),ftos(self.limp));
+		if (cvar(s0__)) self.impulse = cvar(s0__);
+		else
+		{
+			self.limp = 300;
+			s0__ = strcat("_","m",ftos(self.impulse),ftos(self.limp));
+			if (cvar(s0__)) self.impulse = cvar(s0__);
+			else self.impulse = self.limp;
+		}
+		self.limp = self.impulse;
 	}
-	if (self.impulse == 2) vwepsel(IT_SHOTGUN);		//self.weapon = IT_SHOTGUN;
-	if (self.impulse == 3) vwepsel(IT_SUPER_SHOTGUN);		//self.weapon = IT_SUPER_SHOTGUN;
-	if (self.impulse == 4) vwepsel(IT_NAILGUN);		//self.weapon = IT_NAILGUN;
-	if (self.impulse == 5) vwepsel(IT_SUPER_NAILGUN);		//self.weapon = IT_SUPER_NAILGUN;
+
+	s0__ = strcat("_","i",ftos(self.impulse));
+	if (cvar(s0__))
+	{
+		s1__ = strcat("_","p",ftos(self.impulse));
+		self.weapon = cvar(s0__);
+		self.pk_currentitem = cvar(s1__);
+	}
+	else
+		return;			// go back with impulse set
+
+#ifdef warning__no
+										bprint ("  *** WCW: ");
+										bprint (ftos(self.impulse));
+										bprint (" w: ");
+										bprint (ftos(self.weapon));
+										bprint (" p: ");
+										bprint (ftos(self.pk_currentitem));
+#endifdef
+
+
+#else
+	if (self.impulse == 1) self.weapon = IT_AXE;
+	if (self.impulse == 2) self.weapon = IT_SHOTGUN;
+	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
+	if (self.impulse == 4) self.weapon = IT_NAILGUN;
+	if (self.impulse == 5) self.weapon = IT_SUPER_NAILGUN;
 	if (self.impulse == 6)
 	{
 #ifdef hip_weapons
-#ifndef code_xents
 //MED
 		if (self.weapon == IT_GRENADE_LAUNCHER)
 			self.weapon = IT_PROXIMITY_GUN;
 		else
 #endifdef
-#endifdef
-			vwepsel(IT_GRENADE_LAUNCHER);		//self.weapon = IT_GRENADE_LAUNCHER;
+			self.weapon = IT_GRENADE_LAUNCHER;
 	}
-	if (self.impulse == 7) vwepsel(IT_ROCKET_LAUNCHER);		//self.weapon = IT_ROCKET_LAUNCHER;
-	if (self.impulse == 8) vwepsel(IT_LIGHTNING);		//self.weapon = IT_LIGHTNING;
+	if (self.impulse == 7) self.weapon = IT_ROCKET_LAUNCHER;
+	if (self.impulse == 8) self.weapon = IT_LIGHTNING;
 
-#ifdef code_xents
-	if (self.impulse == 9) vwepsel(IT_XWEP);
-#else
 #ifdef hip_weapons
 //MED
 	if (self.impulse == 225) self.weapon = IT_LASER_CANNON;
@@ -1588,8 +1615,6 @@ void() W_ChangeWeapon =
 
 	self.f__ = 1; // so logic doesnt change weapon
 #endifdef
-
-	f2__ = self.impulse;
 
 // use logic test here
 	CycleWeaponCommand();
@@ -1600,6 +1625,7 @@ void() W_ChangeWeapon =
 		self.impulse = 0;
 
 #ifdef code_xents
+// dont no msg when cycle impulse
 		if (self.f__ != 10)
 #endifdef
 		if (!(self.items & self.weapon))
@@ -1612,40 +1638,7 @@ void() W_ChangeWeapon =
 // we were here
 		self.weapon = was;
 	}
-#ifdef code_xents
-	else if (self.f__ != 10)
-	{
-		self.limp = 0;
-		f0__ = 0;
-		while (f2__ > 0)
-		{
-			s0__ = substring(autocvar_imps, f0__,1);
-			if (stof(s0__) == f2__)		// found impulse, save ptr
-			{
-				self.limp = f0__;
-				f2__ = 0;
-			}
-			f0__++;
-			if (s0__ == "0") f2__ = 0;
-		}
-#ifdef warning__remove
-//									if (warnings == "c")
-									{
-										bprint ("  *** imp 1-9: ");
-										bprint (ftos(f2__));
-										bprint (" c: ");
-										bprint (substring(autocvar_imps, self.limp,1));
-										bprint (" limp: ");
-										bprint (ftos(self.limp));
-										bprint (" wp: ");
-										bprint (ftos(self.weapon));
-										bprint (" ewp: ");
-										bprint (ftos(num_for_edict(self.eweapon)));
-										bprint ("\n");
-									}
-#endifdef
-	}
-#endifdef
+
 };
 
 /*
@@ -1704,6 +1697,9 @@ CycleWeaponCommand
 Go to the next weapon with ammo
 ============
 */
+
+// under x_ents this is only a selector
+
 void() CycleWeaponCommand =
 {
 	local	float	am;
@@ -1711,11 +1707,9 @@ void() CycleWeaponCommand =
 // note: no loop protection! - this code assumes the player _always_ has an axe
 	while (1)
 	{
+#ifndef code_xents
 		am = 0;
 
-//		if (self.weapon == 16384 ) self.weapon = IT_SHOTGUN;		// x_ents - hooks are 8192
-//		if (self.weapon < 1 ) self.weapon = IT_HOOK;
-#ifndef code_xents
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
 		self.weapon = self.weapon * self.f__;
 
@@ -1732,15 +1726,12 @@ void() CycleWeaponCommand =
 
 // going to the axe
 		if (!(self.weapon & 255)) self.weapon = IT_AXE;
-#endifdef
 
 
 // weapon select logic
 #ifdef hip_weapons
-#ifndef code_xents
 		if (self.weapon == IT_LASER_CANNON && self.ammo_cells < 1) am = 1;
 		if (self.weapon == IT_PROXIMITY_GUN && self.ammo_rockets < 1) am = 1;
-#endifdef
 #endifdef
 		if (self.weapon == IT_LIGHTNING && self.ammo_cells < 1) am = 1;
 		if (self.weapon == IT_ROCKET_LAUNCHER && self.ammo_rockets < 1) am = 1;
@@ -1749,7 +1740,7 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_NAILGUN && self.ammo_nails < 1) am = 1;
 		if (self.weapon == IT_SUPER_SHOTGUN && self.ammo_shells < 2) am = 1;
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
-// hack, but need to reject clg with no ammo
+// reject clg with no ammo
 #ifdef code_painkeep_
 		if (self.weapon == IT_LIGHTNING && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
 		{
@@ -1757,23 +1748,26 @@ void() CycleWeaponCommand =
 			self.pk_currentitem = PK_IT_AXE; // note: clg could be set inf ammo by cmd - this fails that if cells are zeroed by another wep
 		}
 #endifdef
+#endifdef
 
 #ifdef code_morph
+// TDO: fix with new select system (builtins dont have vwepent)
 		if (self.weapon & self.builtin) am = 0; // can always select morph builtins
 #endifdef
 
-// check to see if an eweapon is being selected
+// check to see if any vwepent is being selected
 #ifdef code_xents
+		am = 1;
+
 		e0__ = self.vwepent;
 		while (e0__)
 		{
-			if (e0__.weapon == self.weapon)
-// needs an alternate set for weps (like tallball that use pk settings)
+			if ((e0__.weapon == self.weapon)
 #ifdef code_painkeep_
-//			if (self.weapon != IT_AXE || e0__.pk_currentitem == self.pk_currentitem)
-			if (!e0__.pk_currentitem || e0__.pk_currentitem == self.pk_currentitem)
+			&& (e0__.pk_currentitem == self.pk_currentitem)
 #endifdef
-			if (e0__.currentammo || e0__.aflag)
+// TDO: flag for held items
+			&& (e0__.currentammo || e0__.aflag))
 			{
 				self.eweapon = e0__.eweapon;
 				self.forcewchange = 1;
@@ -1781,7 +1775,7 @@ void() CycleWeaponCommand =
 
 // if eweap has message - display on switch
 				if (self.eweapon.message) centerprint(self, self.eweapon.message);		// TDO: move to hud_message
-#ifdef warning__remove
+#ifdef warning__no
 //									if (warnings == "c")
 									{
 										bprint ("  *** cycwep: ");
@@ -1800,8 +1794,7 @@ void() CycleWeaponCommand =
 
 
 			}
-			else			// fix x_weps not having ammo, but slot they are in having ammo & allowing select
-				am = 1;
+//			else			// fix x_weps not having ammo, but slot they are in having ammo & allowing select
 			e0__ = e0__.vwepent;
 		}
 #endifdef
@@ -2010,9 +2003,12 @@ try with alias?
 	if (cvar(s0__))
 	{
 		s1__ = strcat("_","p",ftos(self.impulse));
+		s2__ = strcat("_","m",ftos(self.impulse));
 		self.weapon = cvar(s0__);
 		self.pk_currentitem = cvar(s1__);
 		CycleWeaponCommand();
+		if (self.forcewchange && cvar(s2__))
+			self.limp = cvar(s2__);		
 	}
 // generic impulses - exec fn - may want a mask or qualifier
 // this bypasses rcon
@@ -2053,26 +2049,25 @@ try with alias?
 		self.f__ = 10;	// tell changewep not to store new .limp, or this gets stuck
 		f6__ = 1;
 		if (self.impulse == 12) f6__ = -1;
-		if (self.limp < 0) self.limp = 0;
+		if (self.limp < 300) self.limp = 300;
 		f7__ = self.limp;
 		f8__ = self.weapon;
 		e4__ = self.eweapon;
 		while ((f8__ == self.weapon) && (e4__ == self.eweapon) && lgsf > 0)
 		{
 			lgsf--;
-			self.limp = self.limp + f6__;
-			self.impulse = stof(substring(autocvar_imps, self.limp,1));
+			f7__ = f7__ + f6__;
+			if (f7__ > 360) f7__ = 300;
+			if (f7__ < 300) f7__ = 360;
+			self.impulse = f7__;
+			W_ChangeWeapon();
+			if (f7__ == self.limp) lgsf = 0;			// loop complete - exit
 
 #ifdef warning__remove
-//									if (warnings == "c")
+									if (!self.impulse)
 									{
 										bprint ("  *** imp10/12: ");
-										bprint (ftos(self.impulse));
-										bprint (" c: ");
-										bprint (substring(autocvar_imps, self.limp,1));
 										bprint (" limp+: ");
-										bprint (ftos(self.limp));
-										bprint (" cmp: ");
 										bprint (ftos(f7__));
 										bprint (" add: ");
 										bprint (ftos(f6__));
@@ -2084,12 +2079,10 @@ try with alias?
 									}
 #endifdef
 
-			if (self.impulse < 1) self.limp = -1;
-			else if (self.limp < 0) self.limp = strlen(autocvar_imps) - 1;
-			else
-			W_ChangeWeapon();
-			if (f7__ == self.limp) lgsf = 0;			// loop complete - exit
 		}
+		self.limp = f7__;
+/// REMOVE
+//										bprint ("\n");
 
 
 #else
