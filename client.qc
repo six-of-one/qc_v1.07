@@ -922,7 +922,7 @@ void() PutClientInServer =
 #ifdef code_painkeep_
 	ClearSpawnPoint(spot);
 
-	stuffcmd(self, "cl_bobset;cfg/defaxe.cfg\n"); // put bob back via alias - so it can also be turned off, set impulse 1 def
+	stuffcmd(self, "cl_bobset\nexec cfg/defaxe.cfg\n"); // put bob back via alias - so it can also be turned off, set impulse 1 def
 #endifdef
 
 #ifdef code_morph

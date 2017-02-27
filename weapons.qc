@@ -1152,7 +1152,6 @@ void() W_SetCurrentAmmo =
 		self.prevweapon = self.weapon;
 	#ifdef code_painkeep_
 		self.pkprevweapon = self.pk_currentitem;
-		stuffcmd(self, "set _p301 ",ftos(self.pk_currentitem),"\n"); // set impulse 1 select
 	#endifdef
 		self.forcewchange = FALSE;
 
@@ -1336,6 +1335,7 @@ float() W_CheckNoAmmo =
 	if (self.currentammo > 0)
 		return TRUE;
 
+// NOTE; if x_ents ever adds a std. ammo wep to axe slot - this is fail
 	if (self.weapon == IT_AXE)
 		return TRUE;
 
@@ -1554,6 +1554,7 @@ void() W_ChangeWeapon =
 
 // select a new wep
 #ifdef code_xents
+
 	if (self.impulse < 10)
 	{
 		s0__ = strcat("_","m",ftos(self.impulse),ftos(self.limp));
@@ -1564,8 +1565,8 @@ void() W_ChangeWeapon =
 			s0__ = strcat("_","m",ftos(self.impulse),ftos(self.limp));
 			if (cvar(s0__)) self.impulse = cvar(s0__);
 			else self.impulse = self.limp;
+			if (self.f__ == 1) self.impulse++;			// because hitting '1' is a burger king
 		}
-		self.limp = self.impulse;
 	}
 
 	s0__ = strcat("_","i",ftos(self.impulse));
@@ -1578,13 +1579,14 @@ void() W_ChangeWeapon =
 	else
 		return;			// go back with impulse set
 
-#ifdef warning__no
+#ifdef warning__remove
 										bprint ("  *** WCW: ");
 										bprint (ftos(self.impulse));
 										bprint (" w: ");
 										bprint (ftos(self.weapon));
 										bprint (" p: ");
 										bprint (ftos(self.pk_currentitem));
+										bprint ("\n");
 #endifdef
 
 
@@ -1619,26 +1621,40 @@ void() W_ChangeWeapon =
 // use logic test here
 	CycleWeaponCommand();
 
-// failed
+// not a cycle try impulse [1-9] loop
+#ifdef code_xents
+	if (self.f__ < 10)
 	if (self.impulse)
 	{
+		self.impulse++;
+		if (self.weapon < 0 && !self.aflag)		// only loop once
+		{
+			self.aflag = TRUE;
+			self.impulse = 0 - self.weapon;
+		}
+		W_ChangeWeapon();				// Recursive !
+	}
+#endifdef
+
+// failed
+
+	if (self.impulse)
+	{
+#ifndef code_xents
+// dont msg when cycle impulse
 		self.impulse = 0;
 
-#ifdef code_xents
-// dont no msg when cycle impulse
-		if (self.f__ != 10)
-#endifdef
 		if (!(self.items & self.weapon))
 // don't have the weapon
 			sprint (self, "no weapon.\n");
 		else
 //  or the ammo				- this is an either or fail, so if its not no wep, it must be this
 			sprint (self, "not enough ammo.\n");
+#endifdef
 
 // we were here
 		self.weapon = was;
 	}
-
 };
 
 /*
@@ -1702,12 +1718,72 @@ Go to the next weapon with ammo
 
 void() CycleWeaponCommand =
 {
-	local	float	am;
+
+#ifdef code_morph
+// TDO: fix with new select system (builtins dont have vwepent)
+// this trick may work
+	if (self.weapon & self.builtin)
+	{
+		self.eweapon = world; // can always select morph builtins
+		self.forcewchange = 1;
+		W_SetCurrentAmmo ();
+		self.impulse = 0;
+	}
+	else
+#endifdef
+
+// check to see if any vwepent is being selected
+#ifdef code_xents
+
+		e0__ = self.vwepent;
+		while (e0__)
+		{
+			if ((e0__.weapon == self.weapon)
+#ifdef code_painkeep_
+			&& (e0__.pk_currentitem == self.pk_currentitem)
+#endifdef
+// TDO: flag for held items
+			&& (e0__.currentammo || e0__.aflag))
+			{
+				self.eweapon = e0__.eweapon;
+				if (self.impulse >= 300) self.limp = self.impulse;
+				if (self.impulse >= 400)							// save slot 1 pointers for impulse 1 & cycle wheel select
+					stuffcmd(self, strcat("sda ",ftos(self.pk_currentitem)," ",ftos(self.impulse),"\n")); // set impulse 1 select
+
+				self.forcewchange = 1;
+				W_SetCurrentAmmo ();
+				self.impulse = 0;
+
+// if eweap has message - display on switch
+				if (self.eweapon.message) centerprint(self, self.eweapon.message);		// TDO: move to hud_message
+#ifdef warning__no
+//									if (warnings == "c")
+									{
+										bprint ("  *** cycwep: ");
+										bprint (e0__.netname);
+										bprint (" #: ");
+										bprint (ftos(e0__.weapon));
+										bprint (" pk: ");
+										bprint (ftos(e0__.pk_currentitem));
+										bprint (" ent: ");
+										bprint (ftos(num_for_edict(e0__.eweapon)));
+										bprint (" self: ");
+										bprint (ftos(num_for_edict(self.eweapon)));
+										bprint ("\n");
+									}
+#endifdef
+
+
+			}
+			e0__ = e0__.vwepent;
+		}
 
 // note: no loop protection! - this code assumes the player _always_ has an axe
+#else
+local	float	am;
+
 	while (1)
 	{
-#ifndef code_xents
 		am = 0;
 
 // since these are bit flags, * 2 selects next and * 0.5 selects previous - for single select set this to 1
@@ -1740,80 +1816,25 @@ void() CycleWeaponCommand =
 		if (self.weapon == IT_NAILGUN && self.ammo_nails < 1) am = 1;
 		if (self.weapon == IT_SUPER_SHOTGUN && self.ammo_shells < 2) am = 1;
 		if (self.weapon == IT_SHOTGUN && self.ammo_shells < 1) am = 1;
+// pk doesnt work without x_ents
+#ifdef code_painkeep_no
 // reject clg with no ammo
-#ifdef code_painkeep_
 		if (self.weapon == IT_LIGHTNING && (self.pk_currentitem == PK_IT_CLIGHT) && self.ammo_cells < 1)
 		{
 			am = 1;
 			self.pk_currentitem = PK_IT_AXE; // note: clg could be set inf ammo by cmd - this fails that if cells are zeroed by another wep
 		}
 #endifdef
-#endifdef
-
-#ifdef code_morph
-// TDO: fix with new select system (builtins dont have vwepent)
-		if (self.weapon & self.builtin) am = 0; // can always select morph builtins
-#endifdef
-
-// check to see if any vwepent is being selected
-#ifdef code_xents
-		am = 1;
-
-		e0__ = self.vwepent;
-		while (e0__)
-		{
-			if ((e0__.weapon == self.weapon)
-#ifdef code_painkeep_
-			&& (e0__.pk_currentitem == self.pk_currentitem)
-#endifdef
-// TDO: flag for held items
-			&& (e0__.currentammo || e0__.aflag))
-			{
-				self.eweapon = e0__.eweapon;
-				self.forcewchange = 1;
-				am = 0;
-
-// if eweap has message - display on switch
-				if (self.eweapon.message) centerprint(self, self.eweapon.message);		// TDO: move to hud_message
-#ifdef warning__no
-//									if (warnings == "c")
-									{
-										bprint ("  *** cycwep: ");
-										bprint (e0__.netname);
-										bprint (" #: ");
-										bprint (ftos(e0__.weapon));
-										bprint (" pk: ");
-										bprint (ftos(e0__.pk_currentitem));
-										bprint (" ent: ");
-										bprint (ftos(num_for_edict(e0__.eweapon)));
-										bprint (" self: ");
-										bprint (ftos(num_for_edict(self.eweapon)));
-										bprint ("\n");
-									}
-#endifdef
-
-
-			}
-//			else			// fix x_weps not having ammo, but slot they are in having ammo & allowing select
-			e0__ = e0__.vwepent;
-		}
-#endifdef
-
 		if ( (self.items & self.weapon) && ! am)
 		{
 			W_SetCurrentAmmo ();
 			self.impulse = 0;
-#ifdef code_xents
-		}
-		return;
-#else
 			return;
 		}
 // dont cycle single select
 		if (self.f__ == 1) return;
-#endifdef
-
 	}
+#endifdef
 
 };
 
@@ -1990,7 +2011,7 @@ try with alias?
 		}
 	}
 
-	self.f__ = 0;	// clear for 1-9 vs. cyc
+	self.f__ = self.impulse;	// set for 1-9 vs. cyc
 
 // allow weps to be switched on touch
 	if (self.impulse == 29) self.aflag = IGN_INV;
@@ -2008,7 +2029,7 @@ try with alias?
 		self.pk_currentitem = cvar(s1__);
 		CycleWeaponCommand();
 		if (self.forcewchange && cvar(s2__))
-			self.limp = cvar(s2__);		
+			self.limp = cvar(s2__);
 	}
 // generic impulses - exec fn - may want a mask or qualifier
 // this bypasses rcon
@@ -2046,7 +2067,6 @@ try with alias?
 #ifdef code_xents
 		lgsf = 100;		// loop safety and exit			- technically should be 9 slots * (potential) 24 bits per slot
 
-		self.f__ = 10;	// tell changewep not to store new .limp, or this gets stuck
 		f6__ = 1;
 		if (self.impulse == 12) f6__ = -1;
 		if (self.limp < 300) self.limp = 300;
@@ -2080,10 +2100,6 @@ try with alias?
 #endifdef
 
 		}
-		self.limp = f7__;
-/// REMOVE
-//										bprint ("\n");
-
 
 #else
 		self.f__ = 2;
