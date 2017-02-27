@@ -351,7 +351,6 @@ TELEPORT TRIGGERS
 */
 
 #define	PLAYER_ONLY	1
-#define	SILENT 2
 
 // enhances
 #define T_SILENT   	2
@@ -374,6 +373,7 @@ void() play_teleport =
 // TDO: q2 snd
 	if (self.rnd_ < 1)
 	self.rnd_ = ceil(random() * 5);
+	if (self.map == "Q2") self.rnd_ = 9;
 /*
 	if (self.rnd_ < 2)				self.noise = cvar_string("tel1");
 	else if (self.rnd_ < 3)	self.noise = cvar_string("tel2");
@@ -428,6 +428,7 @@ void(vector org) spawn_tfog =
 	s.origin = org;
 	s.nextthink = time + 0.2;
 	s.think = play_teleport;
+	s.map = self.map;			// adv. telesound
 #ifdef code_painkeep_
 	s.rnd_ = self.rnd_;			// allow pk tele sound to link fwd & rev sounds
 #endifdef
@@ -833,10 +834,14 @@ void() trigger_teleport =
 
 	if (!self.noise) self.noise = "ambience/hum1.wav";		// allow sound override
 
-	if (!(self.spawnflags & SILENT))
+	if (!(self.spawnflags & T_SILENT))
 	{
 		precache_sound("ambience/hum1.wav");
 		o = (self.mins + self.maxs)*0.5;
+#ifdef code_xents
+// q2 mode is a point ent - no location on maxs
+	if (self.map == "Q2") o = self.origin;
+#endifdef
 
 		ambientsound(
 
