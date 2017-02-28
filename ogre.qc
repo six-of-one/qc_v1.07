@@ -899,9 +899,11 @@ void() monster_ogre =
 	walkmonster_start;
 };
 
+/*
+moved to cfg
+
 void() monster_ogre_marksman =
 {
 	monster_ogre();
 };
-
-
+*/
