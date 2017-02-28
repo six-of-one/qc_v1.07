@@ -1151,6 +1151,7 @@ void() W_SetCurrentAmmo =
 		self.lastweapon = self.prevweapon;
 		self.prevweapon = self.weapon;
 	#ifdef code_painkeep_
+		self.pklastweapon = self.pkprevweapon;
 		self.pkprevweapon = self.pk_currentitem;
 	#endifdef
 		self.forcewchange = FALSE;
@@ -2141,6 +2142,13 @@ try with alias?
 // force best wep seleciton in client p-think code
 		self.weapon = 0;
 		self.currentammo = 0;
+	}
+	else if (self.impulse == 69)
+	{
+// load prev wep
+		self.weapon = self.lastweapon;
+		self.pk_currentitem = self.pklastweapon;
+		CycleWeaponCommand();
 	}
 	else if (self.impulse == 50)
 	{

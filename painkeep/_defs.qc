@@ -45,6 +45,7 @@ float DEF_PK_ITEMS; // pk bit flags
 //.float pk_items;
 
 .float pkprevweapon;
+.float pklastweapon;
 
 // upper bound for pki ammo
 

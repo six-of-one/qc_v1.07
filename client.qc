@@ -1007,6 +1007,7 @@ void() PutClientInServer =
 #ifdef code_painkeep_
 	self.pk_currentitem = PK_IT_AXE;
 	self.pkprevweapon = PK_IT_AXE;
+	self.pklastweapon = PK_IT_AXE;
 
 #ifdef code_painkeep_actor
 	self.pkplus_actortype = 0;
