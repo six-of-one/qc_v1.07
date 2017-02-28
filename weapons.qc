@@ -2136,6 +2136,12 @@ try with alias?
 
 // GRAPPLING_START
 #ifdef code_painkeep_
+	else if (self.impulse == 46)
+	{
+// force best wep seleciton in client p-think code
+		self.weapon = 0;
+		self.currentammo = 0;
+	}
 	else if (self.impulse == 50)
 	{
 		grap_releaseHarpoon();
