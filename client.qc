@@ -250,11 +250,24 @@ void() GotoNextMap =
 		changelevel (cvar_string("pklevel"));
 	else
 #endifdef
-
+  {
 	if (cvar("samelevel"))	// if samelevel is set, stay on same level
-		changelevel (mapname);
-	else
-		changelevel (nextmap);
+		nextmap = mapname;
+
+	if (!nextmap)
+	{
+	#ifdef xvars1
+		#ifndef nondp
+// future: add cvar("svx_rndmap") - random map selected from list
+		nextmap = cvar_string("svx_defmap");
+		if (!nextmap)
+		#endifdef
+	#endifdef
+		nextmap = "start";
+	}
+
+	changelevel (nextmap);
+  }
 };
 
 void() ExitIntermission =
@@ -640,19 +653,9 @@ When the player touches this, he gets sent to the map listed in the "map" variab
 */
 void() trigger_changelevel =
 {
+#ifndef noobjerr
+// now handled in GotoNextMap
 	if (!self.map)
-#ifdef noobjerr
-	{
-		self.map = "start"; // DM or SP - we default here if a mapper forgot a map link
-
-	#ifdef xvars1
-		#ifndef nondp
-// future add cvar_string("svx_rndmap") - random map selected from list
-		if (cvar_string("svx_defmap")) self.map = cvar_string("svx_defmap");
-		#endifdef
-	#endifdef
-	}
-#else
 		objerror ("changelevel trigger doesn't have map");					//opgrade protected
 #endifdef
 	
@@ -1268,14 +1271,9 @@ void() NextLevel =
 		// find a trigger changelevel
 		o = find(world, classname, "trigger_changelevel");
 
-		// go back to start if no trigger_changelevel
+		// go back to start or svx_defmap if no trigger_changelevel
 		if (!o)
-		{
-// TDO: def map svx_
-			mapname = "start";
 			o = spawn();
-			o.map = mapname;
-		}
 	}
 
 	nextmap = o.map;
@@ -1306,6 +1304,11 @@ void() CheckRules =
 	fraglimit = cvar("fraglimit");
 	
 #ifdef opgrade
+// check for exit trigger & limits
+	if (deathmatch)
+	if (!timelimit && !fraglimit && !find(world, classname, "trigger_changelevel"))
+		localcmd("nox\n");
+
 	if (deathmatch)	// 1998-07-27 Timelimit/Fraglimit fix by Maddes
 #endifdef
 	if (timelimit && time >= timelimit)
