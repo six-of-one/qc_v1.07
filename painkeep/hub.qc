@@ -320,6 +320,7 @@ entity(float num) getMap =
 		if (deathmatch)
 		if (e.count > 0)
 		{
+			ply_count = cnt_ent(world, classname,  "player");
 			if (ply_count < e.count)
 			if (e.target1 == "player_count")
 				f = FALSE;
@@ -336,11 +337,13 @@ if (WARNING & 2049)
 	bprint(e.map);
 	bprint(" - t1: ");
 	bprint(e.target1);
+/*
 	if ((e.target1 == "player_count") || (e.target1 == "!player_count"))
 	{
 		bprint(" - cn: ");
 		bprint(ftos(e.count));
 	}
+*/
 	bprint(" - chose: ");
 	bprint(ftos(f));
 	bprint(" - sel: ");
@@ -435,6 +438,7 @@ entity() getHighestWithoutRandom =
 				if (deathmatch)
 				if (e.count > 0)
 				{
+					ply_count = cnt_ent(world, classname,  "player");
 					if (ply_count < e.count)
 					if (e.target1 == "player_count")
 						r = FALSE;
@@ -451,11 +455,13 @@ if (WARNING & 2049)
 	bprint(e.map);
 	bprint(" - t1: ");
 	bprint(e.target1);
+/*
 	if ((e.target1 == "player_count") || (e.target1 == "!player_count"))
 	{
 		bprint(" - cn: ");
 		bprint(ftos(e.count));
 	}
+*/
 	bprint(" - not refused: ");
 	bprint(ftos(r));
 	bprint(" - sel: ");
