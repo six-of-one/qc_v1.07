@@ -1305,6 +1305,7 @@ void() CheckRules =
 	
 #ifdef opgrade
 // check for exit trigger & limits
+// FIX: need to turn off nox & not run this
 	if (deathmatch)
 	if (!timelimit && !fraglimit && !find(world, classname, "trigger_changelevel"))
 		localcmd("nox\n");
