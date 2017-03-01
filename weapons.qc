@@ -1748,6 +1748,7 @@ void() CycleWeaponCommand =
 			{
 				self.eweapon = e0__.eweapon;
 				if (self.impulse >= 300) self.limp = self.impulse;
+// TDO: limit this save when inventory has loop val > 500
 				if (self.impulse >= 400)							// save slot 1 pointers for impulse 1 & cycle wheel select
 					stuffcmd(self, strcat("sda ",ftos(self.pk_currentitem)," ",ftos(self.impulse),"\n")); // set impulse 1 select
 
