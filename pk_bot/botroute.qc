@@ -13,6 +13,10 @@
 
 void () t_botpath =
 {
+// Six: debounce - something is slugging server with bots on long haul test
+	if (self.waitmin > time) return;
+	self.waitmin = time + 0.5;
+
 	if (other.group != "pk*bot")
 	{
 		return ;

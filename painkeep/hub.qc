@@ -901,6 +901,8 @@ void() GoBack =
 //	self.hubstartupmessage = time + 10;
 };
 
+/*
+deprecated - entire thing replaced with strcat+
 
 void(string mapName) findAndPrintMapName =
 {
@@ -1073,9 +1075,33 @@ void(string mapName) findAndPrintMapName =
 		WriteB3(MSG_ONE, 101);
 	}
 };
+*/
 
 void(float maxplayers, float votecast, float timemins, float timerel) playerIntermissionVotesTimeLeft =
 {
+
+	votecast = maxplayers - votecast;
+	s0__ = string_null;
+	s1__ = string_null;
+	s2__ = string_null;
+	if (first.cnt > 0)
+   {
+      s0__ = strcat("\nLeading level: ",first.map,", ",ftos(first.cnt),"                               ");
+   }
+
+   if (timerel < 10) s2__ = "0";
+   s2__ = strcat("\nTime Remaining: ",ftos(timemins),":",s2__,ftos(rint(timerel)),"'                               \n\nTo cancel your current vote \nand vote again, hit фире to re-enter.");
+//   s2__ = strcat("\nTime Remaining: ",ftos(timemins),":",s2__,ftos(timerel),"\n\nTo cancel your current vote \nand vote again, hit ^1FIRE^7 to re-enter.");
+
+   if (first != second)
+   if (second.cnt > 0)
+   {
+      s1__ = strcat("\nSecond place: ",second.map,", ",ftos(second.cnt),"                               ",s2__);
+   }
+
+   pk_centerprint(self, "\n\nCurrent voting statistics: \n\nTotal players: ", ftos(maxplayers), "                               \nRemaining to vote: ", ftos(votecast), 
+                                    "                               ",s0__, s1__);
+/*
 	msg_entity = self;
 	WriteByte(MSG_ONE, SVC_CENTERPRINT);
 
@@ -1272,6 +1298,7 @@ void(float maxplayers, float votecast, float timemins, float timerel) playerInte
 	WriteB3(MSG_ONE, 11890);
 
 	WriteByte(MSG_ONE, 0);
+*/
 };
 
 

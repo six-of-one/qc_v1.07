@@ -71,6 +71,8 @@ void() updateStatusDisplay =
 
 
 
+/*
+deprecated
 
 // functions to create centreprint network packets
 void(float to, float f) WriteB3	=
@@ -95,7 +97,7 @@ void(float to, float f) WriteB3	=
 
 	WriteByte(to, o);
 };
-
+*
 
 void(float to, float f) WriteBDigit =
 {
@@ -182,4 +184,4 @@ void(float to, float f) WriteBFloat =
 	WriteBDigit(to, d);
 };
 
-
+*/
