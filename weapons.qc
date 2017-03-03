@@ -1288,7 +1288,7 @@ float() W_BestWeapon =
 	f1__ = IT_AXE;
 	e0__ = self.vwepent;
 	e1__ = world;
-	while (e0__)
+	while (e0__ && !wasfreed(e0__))				// fix for getting a free ptr in loop - data check of vwepent chain when happened shows no way to get a free ent in the loop!
 	{
 		if (self.waterlevel <= 1 || e0__.distance != 75) // lg test
 		if (e0__.distance > f0__)
@@ -1757,7 +1757,9 @@ void() CycleWeaponCommand =
 				self.impulse = 0;
 
 // if eweap has message - display on switch
+				if (self.eweapon)
 				if (self.eweapon.message) centerprint(self, self.eweapon.message);		// TDO: move to hud_message
+
 #ifdef warning__no
 //									if (warnings == "c")
 									{
