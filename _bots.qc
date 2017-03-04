@@ -34,6 +34,8 @@
 //allow botcam, compile code
 /// SWITCH
 #define botcam_op
+// follow ops in wrapers below - telegraphs bot info to player cam screen
+//#define botcam
 
 .float ishuman;
 .entity	_next, _last;
@@ -95,22 +97,21 @@ direct messages to the bots, it crashes quake :-(
 */
 void(entity	client, string s) stuffcmd =
 {
-	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_stuffcmd(client, s);
+#ifdef botcam
 	b_temp1 = player_head;
 
 	while(b_temp1)
 	{
-#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_stuffcmd(b_temp1, s);
 		}
-#endifdef
 		b_temp1 = b_temp1._next;
 	}
+#endifdef
 };
 
 void(entity	e) setspawnparms =
@@ -134,22 +135,21 @@ void(entity	e) setspawnparms =
 };
 void(entity	client, string s) sprint =
 {
-	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_sprint(client, s);
+#ifdef botcam
 	b_temp1 = player_head;
 
 	while(b_temp1)
 	{
-#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_sprint(b_temp1, s);
 		}
-#endifdef
 		b_temp1 = b_temp1._next;
 	}
+#endifdef
 
 };
 
@@ -158,22 +158,21 @@ void(entity	client, string s) sprint =
 
 void(entity	client, string s) centerprint =
 {
-	if (client.group == "pk*bot") return; // *bot
 	if (client.ishuman == 1)
 		_b_centerprint(client, s);
+#ifdef botcam
 	b_temp1 = player_head;
 
 	while(b_temp1)
 	{
-#ifdef botcam
 		if (b_temp1.classname == "botcam")
 		{
 			if ((b_temp1.enemy == client) && b_temp1.ishuman)
 				_b_centerprint(b_temp1, s);
 		}
-#endifdef
 		b_temp1 = b_temp1._next;
 	}
+#endifdef
 };
 
 #ifdef code_pkbots
