@@ -314,18 +314,7 @@ void() health_touch =
 	}
 	else
 	{
-//		if (deathmatch != 2)		// deathmatch 2 is the silly old rules
-//		{
 		touched(self.wait);
-
-/*
-			if (deathmatch & 1)
-			{
-				self.nextthink = time + 20;
-				self.think = SUB_regen;
-			}
-*/
-//		}
 	}
 	
 //	activator = other;
@@ -416,21 +405,9 @@ void() armor_touch =
 	if (!self.wait) self.wait = 20;		// lets script control std item respawn
 	touched(self.wait);
 
-/*
-	self.solid = SOLID_NOT;
-	self.model = string_null;
-	if (deathmatch == 1)
-		self.nextthink = time + 20;
-	self.think = SUB_regen;
-*/
-
 	sprint(other, "You got armor\n");
 // armor touch sound
 	sound(other, CHAN_ITEM, "items/armor1.wav", 1, ATTN_NORM);
-//	stuffcmd (other, "bf\n");
-	
-//	activator = other;
-//	SUB_UseTargets();				// fire all targets / killtargets
 };
 
 
@@ -505,6 +482,27 @@ void() bound_other_ammo =
 		self.ammo_cells = 100;		
 };
 
+#ifdef code_xents
+float(float w) RankForWeapon =
+{
+	if (w < 0) return(self.eweapon.distance);
+
+	if (w == IT_LIGHTNING)
+		return 75;
+	if (w == IT_ROCKET_LAUNCHER)
+		return 65;
+	if (w == IT_SUPER_NAILGUN)
+		return 55;
+	if (w == IT_GRENADE_LAUNCHER)
+		return 45;
+	if (w == IT_SUPER_SHOTGUN)
+		return 35;
+	if (w == IT_NAILGUN)
+		return 25;
+	return 20;
+};
+
+#else
 #ifndef hip_weapons
 
 float(float w) RankForWeapon =
@@ -524,6 +522,7 @@ float(float w) RankForWeapon =
 	return 7;
 };
 #endifdef
+#endifdef
 
 /*
 =============
@@ -534,24 +533,23 @@ Deathmatch weapon change rules for picking up a weapon
 .float		ammo_shells, ammo_nails, ammo_rockets, ammo_cells;
 =============
 */
-#ifdef unused
-// really - what was old going to do here ?
-// it is the pass parm of .items before adding the new weapon bit
-void(float old, float new) Deathmatch_Weapon =
-{
-	local float or, nr;
 
-// change self.weapon if desired
-	or = RankForWeapon (self.weapon);
-	nr = RankForWeapon (new);
-	if ( nr < or )
-#else
 void(float new) Deathmatch_Weapon =
 {
 // change self.weapon if desired
-	if ( RankForWeapon(new) < RankForWeapon(self.weapon) )
-#endifdef
+#ifdef code_xents
+	if (self.eweapon.eweapon) f2__ = -1;
+	else f2__ = self.weapon;
+
+	if ( RankForWeapon(new) > RankForWeapon(f2__) )
+	{
+		self.eweapon = world;
 		self.weapon = new;
+	}
+#else
+	if ( RankForWeapon(new) < RankForWeapon(self.weapon) )
+		self.weapon = new;
+#endifdef
 };
 
 /*
@@ -563,13 +561,7 @@ float() W_BestWeapon;
 
 void() weapon_touch =
 {
-#ifdef unused
-// what was hadammo's intended purpose?
-	local	float	hadammo;
-	local	float best, old;
-#endifdef
 	local	float	new;
-//	local	entity	stemp;
 #define stemp 	newmis
 	local	float	leave;
 
@@ -589,9 +581,6 @@ void() weapon_touch =
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
-#ifdef unused
-	best = W_BestWeapon();
-#endifdef
 
 // logic change to eliminate extra statements - use "stemp" as weapon ent, "self" is player
 //	self = stemp;
@@ -612,9 +601,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_NAILGUN) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_nails;			
-#endifdef
 		new = IT_NAILGUN;
 		self.ammo_nails = self.ammo_nails + 30;
 	}
@@ -622,9 +608,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_SUPER_NAILGUN) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;			
-#endifdef
 		new = IT_SUPER_NAILGUN;
 		self.ammo_nails = self.ammo_nails + 30;
 	}
@@ -632,9 +615,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_SUPER_SHOTGUN) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;			
-#endifdef
 		new = IT_SUPER_SHOTGUN;
 		self.ammo_shells = self.ammo_shells + 5;
 	}
@@ -642,9 +622,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_ROCKET_LAUNCHER) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;			
-#endifdef
 		new = IT_ROCKET_LAUNCHER;
 		self.ammo_rockets = self.ammo_rockets + 5;
 	}
@@ -652,9 +629,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_GRENADE_LAUNCHER) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;			
-#endifdef
 		new = IT_GRENADE_LAUNCHER;
 		self.ammo_rockets = self.ammo_rockets + 5;
 	}
@@ -662,9 +636,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_LIGHTNING) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;			
-#endifdef
 		new = IT_LIGHTNING;
 		self.ammo_cells = self.ammo_cells + 15;
 	}
@@ -677,9 +648,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_LASER_CANNON) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;
-#endifdef
 		new = IT_LASER_CANNON;
 		self.ammo_cells = self.ammo_cells + 30;
 	}
@@ -688,9 +656,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_MJOLNIR) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;
-#endifdef
 		new = IT_MJOLNIR;
 		self.ammo_cells = self.ammo_cells + 30;
 	}
@@ -699,9 +664,6 @@ void() weapon_touch =
 	{
 		if (leave && (self.items & IT_PROXIMITY_GUN) )
 			return;
-#ifdef unused
-		hadammo = self.ammo_rockets;
-#endifdef
 		new = IT_PROXIMITY_GUN;
 		self.ammo_rockets = self.ammo_rockets + 6;
 	}
@@ -725,14 +687,12 @@ void() weapon_touch =
 	sprint (self, "\n");
 // weapon touch sound
 	sound (self, CHAN_ITEM, "weapons/pkup.wav", 1, ATTN_NORM);
-	stuffcmd (self, "bf\n");
+	if (leave) stuffcmd (self, "bf\n");
 
+/// FIX: this will kerbob other ammo limits in x_ents
 	bound_other_ammo ();
 
 // change to the weapon
-#ifdef unused
-	old = self.items;
-#endifdef
 	self.items = self.items | new;
 
 // logic change eliminates
@@ -740,14 +700,14 @@ void() weapon_touch =
 //	self = other;
 
 	if (!deathmatch)
-		self.weapon = new;
-	else
-		Deathmatch_Weapon(
-#ifdef unused
-														old, 
+	{
+#ifdef code_xents
+		self.eweapon = world;
 #endifdef
-																new);
-//
+		self.weapon = new;
+	}
+	else
+		Deathmatch_Weapon(new);
 
 
 	W_SetCurrentAmmo();
@@ -757,21 +717,8 @@ void() weapon_touch =
 	if (leave)
 		return;
 
-// note: causes a double bf\n
 	if (!self.wait) self.wait = 30;
 	touched(self.wait);
-
-/*
-// remove it in single player, or setup for respawning in deathmatch
-	self.model = string_null;
-	self.solid = SOLID_NOT;
-	if (deathmatch == 1)
-		self.nextthink = time + 30;
-	self.think = SUB_regen;
-	
-	activator = other;
-	SUB_UseTargets();				// fire all targets / killtargets
-*/
 
 #undef stemp
 };
@@ -915,10 +862,9 @@ local float		best;
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
-	best = W_BestWeapon();		// ISSUE: boondoggle - this changes eweapon ptr !
-
-// logic change eliminates - run the code till self back to stemp with stemp as self and self as other
-//	self = stemp;
+	e2__ = self.eweapon;			// dont let inital best check change ptr yet
+	best = W_BestWeapon();
+	self.eweapon = e2__;
 
 
 // shotgun
@@ -961,41 +907,21 @@ local float		best;
 	sprint (self, "\n");
 // ammo touch sound
 	sound (self, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
-//	stuffcmd (self, "bf\n");
 
 // change to a better weapon if appropriate
 
 	if ( self.weapon == best )
 	{
-// logic change eliminates
-//		stemp = self;
-//		self = other;
 		self.weapon = W_BestWeapon();
-//		W_SetCurrentAmmo ();
-//		self = stemp;
 	}
 
 // if changed current ammo, update it
-// logic change eliminates
-//	stemp = self;
-//	self = other;
 	W_SetCurrentAmmo();
 	self = stemp;
 
 	if (!self.wait) self.wait = 30;
 	touched(self.wait);
 
-/*
-// remove it in single player, or setup for respawning in deathmatch
-	self.model = string_null;
-	self.solid = SOLID_NOT;
-	if (deathmatch == 1)
-		self.nextthink = time + 30;
-	self.think = SUB_regen;
-
-	activator = other;
-	SUB_UseTargets();				// fire all targets / killtargets
-*/
 #undef stemp
 };
 
@@ -1440,14 +1366,9 @@ void() sigil_touch =
 
 	touched(0);
 
-//	stuffcmd (other, "bf\n");
-//	self.solid = SOLID_NOT;
-//	self.model = string_null;
 	serverflags = serverflags | (self.spawnflags & 15);
 	self.classname = string_null;		// so rune doors won't find it
 
-//	activator = other;
-//	SUB_UseTargets();				// fire all targets / killtargets
 };
 
 
@@ -1560,10 +1481,7 @@ void() powerup_touch =
 
 	touched(0);
 
-//	stuffcmd (other, "bf\n");
-//	self.solid = SOLID_NOT;
 	other.items = other.items | self.items;
-//	self.model = string_null;
 
 // cfg override
 	if (!self.delay) self.delay = 30;
@@ -1746,9 +1664,6 @@ void() BackpackTouch =
 // if the player was using his best weapon, change up to the new one if better		
 	stemp = self;
 	self = other;
-#ifdef unused
-	best = W_BestWeapon();
-#endifdef
 // moving because logic change changed bound_other_ammo()
 //	self = stemp;
 
@@ -1797,9 +1712,7 @@ void() BackpackTouch =
 	new = stemp.items;
 	if (!new)
 		new = self.weapon;
-#ifdef unused
-	old = self.items;
-#endifdef
+
 	self.items = self.items | new;
 	
 	bound_other_ammo ();
@@ -1889,13 +1802,14 @@ void() BackpackTouch =
 
 // change to the weapon
 	if (!deathmatch)
-		self.weapon = new;
-	else
-		Deathmatch_Weapon(
-#ifdef unused
-														old, 
+	{
+#ifdef code_xents
+		self.eweapon = world;
 #endifdef
-																new);
+		self.weapon = new;
+	}
+	else
+		Deathmatch_Weapon(new);
 //
 	W_SetCurrentAmmo ();
 

@@ -916,7 +916,8 @@ void() trap_gravity_well =
 
 #endifdef
 
-// Six - extruded from items.qc - must exclude v106 code!
+// Six - extruded from items.qc
+#ifndef code_xents
 #ifdef hip_weapons
 
 //MED 01/06/97 added hipnotic weapons into rankings
@@ -942,4 +943,5 @@ float(float w) RankForWeapon =
 		return 9;
 	return 10;
 };
+#endifdef
 #endifdef

@@ -1278,6 +1278,8 @@ void() W_SetCurrentAmmo =
 
 #ifdef code_xents
 
+// using e0__, e1__, f0__, f1__
+
 float() W_BestWeapon =
 {
 
