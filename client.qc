@@ -1358,7 +1358,7 @@ void() PlayerDeathThink =
 		CopyToBodyQue (self);
 		setmodel(self,"progs/null.mdl");			// replaces old observer mode
 		setsize(self, '-4 -4 -4', '4 4 4');
-		stuffcmd(self,strcat("dob ",ftos(num_for_edict(self)),"\n"));				// try dead observer
+		localcmd(strcat("dob ",ftos(num_for_edict(self)),"\n"));				// try dead observer
 		return;
 	}
 
