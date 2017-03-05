@@ -714,7 +714,7 @@ void () wizard_firestrike2  = [ $hover2,  wizard_firestrike3  ]
 				if (!head.flags & FL_ONFIRE) // set em on fire
 				{
 					head.flags = head.flags | FL_ONFIRE;
-					f = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, ' 0 0 -30000', v0, v0, v0, v0, "", "", SUB_Null, 0.1, BurnThem, SUB_Null, self, world);
+					f = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, ' 0 0 -30000', v0, v0, v0, v0, string_null, string_null, SUB_Null, 0.1, BurnThem, SUB_Null, self, world);
 					f.enemy = head;
 				}
 				T_FireDamage (head, self, self, 5 + (random() * 5) - head.waterlevel * 3); // IDEA build up pyro?

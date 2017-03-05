@@ -102,7 +102,7 @@ void() func_pushable =
 //	local entity new;
 //	local vector newsize;
 
-	if (self.target != "")
+	if (self.target != string_null)
 	{
 		if (time < 3)		// cant find target before it spawns
 		{
