@@ -656,8 +656,8 @@ local vector	org;
 #endifdef
 
 // once we start using random dest, some ents have angles set
-// CHECK: does this cause the test_c map teleport train facing issue??
 #ifdef opgrade
+	if (t.classname != "misc_teleporttrain")			// dont inherit angles from this
 	if (!t.mangle_y)
 	if (t.angles_y)
 		t.mangle = t.angles;
