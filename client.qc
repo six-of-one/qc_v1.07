@@ -681,7 +681,7 @@ void() respawn =
 	{
 		// make a copy of the dead body for appearances sake
 //TDO:		if (self.model != null_model) // Cataboligne - 8.14.9 - dead cam etc
-		CopyToBodyQue (self);
+//		CopyToBodyQue (self);		// moved to 
 
 #ifdef code_morph
 		morph_clearparms(self, TRUE);
@@ -695,8 +695,7 @@ void() respawn =
 	else if (deathmatch)
 	{
 		// make a copy of the dead body for appearances sake
-//TDO:		if (self.model != null_model) // Cataboligne - 8.14.9 - dead cam etc
-		CopyToBodyQue (self);
+//		CopyToBodyQue (self);
 #ifdef code_morph
 		morph_clearparms(self, TRUE);
 #endifdef
@@ -1355,6 +1354,11 @@ void() PlayerDeathThink =
 		if (self.button2 || self.button1 || self.button0)
 			return;
 		self.deadflag = DEAD_RESPAWNABLE;
+// copy corpse now
+		CopyToBodyQue (self);
+		setmodel(self,"progs/null.mdl");			// replaces old observer mode
+		setsize(self, '-4 -4 -4', '4 4 4');
+		stuffcmd(self,strcat("dob ",ftos(num_for_edict(self)),"\n"));				// try dead observer
 		return;
 	}
 

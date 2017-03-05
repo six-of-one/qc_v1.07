@@ -1551,9 +1551,6 @@ void() CycleWeaponCommand;
 
 void() W_ChangeWeapon =
 {
-	local	float	was;
-
-	was = self.weapon;
 
 // select a new wep
 #ifdef code_xents
@@ -1594,6 +1591,10 @@ void() W_ChangeWeapon =
 
 
 #else
+	local	float	was;
+
+	was = self.weapon;
+
 	if (self.impulse == 1) self.weapon = IT_AXE;
 	if (self.impulse == 2) self.weapon = IT_SHOTGUN;
 	if (self.impulse == 3) self.weapon = IT_SUPER_SHOTGUN;
@@ -1643,7 +1644,11 @@ void() W_ChangeWeapon =
 
 	if (self.impulse)
 	{
-#ifndef code_xents
+#ifdef code_xents
+// we were here
+		self.weapon = self.prevweapon;
+		self.pk_currentitem = self.pkprevweapon;
+#else
 // dont msg when cycle impulse
 		self.impulse = 0;
 
@@ -1653,10 +1658,10 @@ void() W_ChangeWeapon =
 		else
 //  or the ammo				- this is an either or fail, so if its not no wep, it must be this
 			sprint (self, "not enough ammo.\n");
-#endifdef
-
 // we were here
 		self.weapon = was;
+#endifdef
+
 	}
 };
 
@@ -1784,8 +1789,8 @@ void() CycleWeaponCommand =
 			e0__ = e0__.vwepent;
 		}
 
-// note: no loop protection! - this code assumes the player _always_ has an axe
 #else
+// note: no loop protection! - this code assumes the player _always_ has an axe
 local	float	am;
 
 	while (1)
