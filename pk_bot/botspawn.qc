@@ -280,7 +280,7 @@ void () respawnBot =
 		{
 			if (SKINSMODE == 2)
 			{
-// CHECK: painkeep damage skins
+// adjust for painkeep damage skins
 //				skinChange (self,randombotskin);
 			}
 */
@@ -473,7 +473,7 @@ void (float skl) AddAnotherBot =
 	newbot.id = n;
 	newbot.colormap = (newbot.id + 1);
 	newbot.team = 99;
-// CHECK: painkeep damageskins
+// adjust for painkeep damageskins
 /*
 	if (teamplay)
 	{

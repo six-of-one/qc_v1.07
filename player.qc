@@ -1090,7 +1090,11 @@ void() PlayerDie =
 void() set_suicide_frame =
 {	// used by klill command and diconnect command
 #ifdef code_viswep
+	#ifdef xvars2
+	if (self.model != cvar_string("svx_player.mdl"))
+	#else
 	if (self.model != "progs/vw_player.mdl")
+	#endifdef
 		return;
 	viswep_ld(self, -2);
 

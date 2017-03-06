@@ -33,6 +33,10 @@ void () fix_thud =
 	}
 };
 
+#ifdef unused
+
+deprecated - apparently all 3 unused -- even in the xrp source it came from ?
+
 void () fix_watertype_bug =
 {
 	local entity bot;
@@ -90,9 +94,15 @@ entity () find_monster =
 	return(selected);
 };
 
+
 void (entity me) set_bot_suicide_frame =
 {
-	if (me.model != "progs/player.mdl") // CHECK:
+	#ifdef xvars2
+	if (me.model != cvar_string("svx_player.mdl"))
+	#else
+	if (me.model != "progs/vw_player.mdl")
+	#endifdef
+//	if (me.model != "progs/player.mdl")
 	{
 		return ;
 	}
@@ -103,3 +113,4 @@ void (entity me) set_bot_suicide_frame =
 	me.nextthink = -1;
 };
 
+#endifdef

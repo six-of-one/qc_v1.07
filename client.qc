@@ -1196,7 +1196,6 @@ void() info_player_start2 =
 saved out by quaked in region mode
 */
 #ifdef debug
-// CHECK: search map source - find out if regioned mode is ever used REMOVE this check
 void() testplayerstart =
 {
 };

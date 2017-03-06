@@ -827,7 +827,6 @@ float() CheckAnyAttack =
 #endifdef 
 
 #ifdef hip_monsters
-// CHECK: attempt fold into multi*
 	if (self.classname == "monster_gremlin")
 		return GremlinCheckAttack ();
 	if (self.classname == "monster_scourge")

@@ -846,7 +846,7 @@ set		__hub_control_wait		"180"
 // requires a small segment in client.qc
 
 	if (!self.map)
-		self.map = substring(world.model,5,strlen(world.model) - 5);		// CHECK: dp has a map base name
+		self.map = substring(world.model,5,strlen(world.model) - 5);
 
 #ifdef code_xents
 	if (filer(self.map) < 0) self.map = "arc_hub";

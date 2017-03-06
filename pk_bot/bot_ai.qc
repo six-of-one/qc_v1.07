@@ -464,7 +464,6 @@ float () BotFoundTarget =
 		self.enemy = world;
 		return (0);
 	}
-// CHECK: monster enemies?
 	if (self.enemy.classname != "player") //&& (self.enemy.group != "pk*bot"))
 	{
 		self.enemy = world;

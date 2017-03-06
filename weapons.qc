@@ -2209,7 +2209,7 @@ try with alias?
 // inventory
 		if (self.impulse == IMP_INV)
 			inventory();
-		else if (self.impulse == IMP_DROPI) // CHECK: *_100
+		else if (self.impulse == IMP_DROPI)
 		{
 				self.admin = -1; // USER-MENU
 			self.aflag = self.impulse; // this affects Archon Chaos

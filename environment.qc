@@ -191,3 +191,98 @@ void() fade_relocate =
 		self.nextthink = self.lefty;
 	}
 };
+
+
+#ifdef map_hack
+
+// makestatic wrapped - so if we have deletable hacks we can delete ents
+// note makestatic is NOT working for flames after worldspawn
+// also dont makestatic on destroyh hacks
+
+void(entity e) makestatic =
+{
+	if (mh)
+	if (mh.spawnflags & 36 || time > 2) 
+ 	{
+		e.movetype = MOVETYPE_NONE;		// same conds as makestatic - for the func_illusionary - func_wall trick
+		e.solid = SOLID_NOT;
+		return;
+	}
+	_makestatic(e);
+};
+
+// ambient sound wrapped - so if we have deletable hacks we can delete the sound ent
+
+void(vector pos, string samp, float vol, float atten) ambientsound = 
+{
+
+	s0__ = cvar_string(strcat("__",samp));
+	if (strlen(s0__) > 1) samp = s0__;
+
+// the reality of maphack and lights / ambient
+//		- if hacks are not persistent, we can NOT have static ents
+#ifdef warning
+																				syh
+																				registercvar(strcat("___ambsnd_",ftos(system_hash)),strcat(samp," org: ",vtos(pos)," e: ",ftos(num_for_edict(self))));
+
+#endifdef
+
+	if (mh)
+	if (mh.spawnflags & 36) // NOTE: should this be some other global setting so these cant be mixed with diff biomes?
+	{
+		self.noise=samp;
+		self.volume=vol;
+		self.aflag = atten;
+//		target_speaker();
+		q3_play_sound(); /// TEST this with th_0002
+
+
+		#ifdef warning
+																				if (WARNING & 524288)
+																				{
+																					bprint(" *** fa_sound ent: ");
+																					bprint(item_ident(self));
+																					bprint(" - hear: ");
+																					bprint(self.noise);
+																					bprint(" org: ");
+																					bprint(vtos(self.origin));
+																					bprint("\n");
+																				}
+		#endifdef
+
+		return;
+	}
+// std ambient sounds
+	_ambientsound(pos, samp, vol, atten);
+};
+
+#ifndef code_bots
+void(entity e, float chan, string samp, float vol, float atten) sound =
+{
+	s0__ = cvar_string(strcat("__",samp));
+	if (strlen(s0__) > 1) samp = s0__;
+
+#ifdef code_xents
+// q2 silencer for wep channel stuff
+	if (chan == CHAN_WEAPON)
+	if (e.silencer_finished)
+	{
+		if (e.silencer_finished > time)
+		{
+			vol = vol * Q2_SILENCE;
+		}
+		else
+		{
+			e.silencer_finished = 0;
+// ? #ifdef hud code test
+			stuffcmd(e, "hud_message \"Silencer used up\"\n");
+//			sprint (e, "Silencer used up\n");
+		}
+	}
+#endifdef
+
+		_sound(e, chan, samp, vol, atten);
+}
+#endifdef
+
+#endifdef

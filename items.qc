@@ -1829,7 +1829,8 @@ void() DropBackpack =
 
 #ifdef code_morph
 // toss limits Q, PK, q / pk guy code
-// CHECK: what d, q2, q3 guy drop in dm when dead
+// LATER: what d, q2, guy drop in dm when dead
+// q3 drops held wep
 
 	if ((MAP_MODE != "Q") && (MAP_MODE != "PK"))
 	if (self.class_select != "class_monster")
