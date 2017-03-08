@@ -485,7 +485,6 @@ void() grap_touch =
 	if (other == self.grap_owner)
 		return;
 
-// TDO: test - see what happens when hitting a monster / player
 	if (other.grap_firetest == 666) // 10.21.13 - entity blocked from pull by map flags or code
 	{
 // can still damage hitabbles
@@ -500,7 +499,7 @@ void() grap_touch =
 			// play hit sound
 			sound(self, CHAN_AUTO, "weapons/grapple/grapf_1.wav", 1, ATTN_NORM);
 
-			T_Damage(other, self, grapOwner, 9);
+			T_Damage(other, self, self.grap_owner, 9);
 		}
 		return;
 	}
