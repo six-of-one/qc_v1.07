@@ -106,9 +106,6 @@ entity theHub; // variable holding the hub
 #define inHubMap	theHub
 //float inHubMap;
 
-float PK_ADMINMAP;						// if true this is an admin map command that overrides custom hub call from GotoNextMap
-float custom_hub_loaded;				// if TRUE custom hub is used
-
 float st_pk_hub;				// cvar to turn off hub - fix
 
 float(float cn) bot_vote;			// bot...vote

@@ -542,92 +542,12 @@ void() hub_control_use =
 		}
 	}
 
-	PK_ADMINMAP = TRUE; // we may be a custom hub set - do not allow re loading hub
-
 	nextmap = highest.map;
 	gameover = TRUE;
 
 	self.think = execute_changelevel;
 	self.nextthink = time + 0.1;
-/*
-	if (custom_hub_loaded) // || self.map
-	{
-		pk_flags = PK_HUB2 | pk_flags; // return to custom hub after this map
-///		admin_sv_cfg(); // fix
-	}
-*/
 };
-
-//void() hub_timer_think =
-//{
-//	self.owner.think = hub_control_use;
-//	self.owner.nextthink = time + 0.1;
-//};
-
-/*
-
-deprecated
-
-/// re-write with strcat & centerprint
-
-void(float maxplayers, float votecast, float timemins, float timerel) playerVotesTimeLeft =
-{
-	msg_entity = self;
-	WriteByte(MSG_ONE, SVC_CENTERPRINT);
-
-	// '\n\n\n\n\n\n\n\n\n\n\nVotes Cast: '
-	WriteB3(MSG_ONE, 657930);
-	WriteB3(MSG_ONE, 657930);
-	WriteB3(MSG_ONE, 657930);
-	WriteB3(MSG_ONE, 5638666);
-	WriteB3(MSG_ONE, 6648943);
-	WriteB3(MSG_ONE, 4399219);
-	WriteB3(MSG_ONE, 7631713);
-	WriteB3(MSG_ONE, 8250);
-
-	WriteBFloat(MSG_ONE, votecast);
-
-	
-	// '/'
-	WriteB3(MSG_ONE, 47);
-
-	WriteBFloat(MSG_ONE, maxplayers);
-
-	// '		 Time Left:'
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 5513248);
-	WriteB3(MSG_ONE, 6647145);
-	WriteB3(MSG_ONE, 6638624);
-	WriteB3(MSG_ONE, 3830886);
-
-	if (timemins < 10)
-	{
-		// '0'
-		WriteB3(MSG_ONE, 12320);
-	}
-	else
-	{
-		// ' '
-		WriteB3(MSG_ONE, 32);
-	}
-
-	WriteBFloat(MSG_ONE, timemins);
-
-	if (timerel < 10)
-	{
-		// ':0'
-		WriteB3(MSG_ONE, 12346);
-	}
-	else
-	{
-		// ':'
-		WriteB3(MSG_ONE, 58);
-	}
-
-	WriteBFloat(MSG_ONE, timerel);
-	WriteByte(MSG_ONE, 0);
-};
-*/
 
 
 float hubStartTime;
@@ -642,31 +562,11 @@ void() hub_control_status =
 	local string str2;
 	local float timemins, timerel, votecast, maxplayers;
 	local entity pl;
-/*
-	if (self.map == "painkeep")
-	{
-		str1 = "pk ";
-	}
-	else
-	{
-		str1 = self.map;
-	}
-*/
 
 	if (first.cnt > 0)
 	{
 		if (self.attack_state == 0)
 		{
-/*
-			if (first.map == "painkeep")
-			{
-				str2 = "pk ";
-			}
-			else
-			{
-				str2 = first.map;
-			}
-*/
 
 			if (self.map == string_null)
 			{
@@ -691,16 +591,6 @@ void() hub_control_status =
 	{
 		if (self.attack_state == 1)
 		{
-/*
-			if (second.map == "painkeep")
-			{
-				str2 = "pk ";
-			}
-			else
-			{
-				str2 = second.map;
-			}
-*/
 
 			if (self.map == string_null)
 			{
@@ -779,8 +669,10 @@ void() hub_control =
 //	local float temp1;
 
 // override test
-	if (! dm_over)		// all this really does is allow the hub message to appear, no vote occurs
-	// if we're not in deathmatch, then we remove this thing
+#ifdef local_test
+ 	if (! dm_over)		// all this really does is allow the hub message to appear, no vote occurs
+#endifdef
+// if we're not in deathmatch, then we remove this thing
 	if (!deathmatch)
 	{
 		remove(self);
@@ -799,9 +691,6 @@ void() hub_control =
 	}
 	theHub = self;
 
-//	pk_map =  // deprecated - now indicates a true (recognized) pk map
-//	PK = TRUE; // *pk - in case its not an official pk hub
-
 // set pk mode
 	localcmd("hbr\n");
 
@@ -815,46 +704,25 @@ void() hub_control =
 	{
 		if (!self.wait) self.wait = 120; // Cataboligne - if no self.wait, why not just pick a default?
 		self.think = hub_control_use;
-		// create timer
-//		timer = spawn();
-//		timer.classname = "hub_control_timer";
-//		timer.think = hub_timer_think;
-//		timer.owner = self;
 
-/*
-		
+/*		
 		deprecated - this can now be controlled with:
 		
 set		__hub_control		"1"
 set		__hub_control_wait		"180"
 
-		// let server override this time
-		temp1 = (pk_flags & PK_TP_TIMEMASK) * 60;
-		if (temp1 > 0)
-			hubStartTime = self.nextthink = time + temp1;
-//			timer.nextthink = time + temp1;
-		else
 */
 			hubStartTime = self.nextthink = time + self.wait;
-//			timer.nextthink = time + self.wait;
 	}
-
-//	self.think = hub_control_status;
-//	self.nextthink = time + 30.0;
 
 // new control system for return to hub after a voted level is done
 // requires a small segment in client.qc
 
 	if (!self.map)
+	{
 		self.map = substring(world.model,5,strlen(world.model) - 5);
+	}
 
-#ifdef code_xents
-	if (filer(self.map) < 0) self.map = "arc_hub";
-#endifdef
-
-//	if (self.map)
-//	{
-//		custom_hub_loaded = TRUE;
 	localcmd("alias hub \"changelevel ");
 	localcmd(self.map);
 	localcmd("\"\n");
@@ -863,12 +731,6 @@ set		__hub_control_wait		"180"
 	localcmd("set pklevel \"");
 	localcmd(self.map);
 	localcmd("\"\n");
-//	}
-
-	// so later levels know about it...
-//	pk_flags = pk_flags | PK_SF_HUB;
-//	inHubMap = 1;
-///		admin_sv_cfg(); // fix
 };
 
 void() GoBack =
@@ -901,182 +763,6 @@ void() GoBack =
 //	self.hubstartupmessage = time + 10;
 };
 
-/*
-deprecated - entire thing replaced with strcat+
-
-void(string mapName) findAndPrintMapName =
-{
-	local entity e;
-	if (first.map == mapName) e = first;
-	else e = second;
-
-	if (mapName == "painkeep")
-	{
-		// 'PainKeep'
-		WriteB3(MSG_ONE, 6906192);
-		WriteB3(MSG_ONE, 6638446);
-		WriteB3(MSG_ONE, 28773);
-
-	}
-	else if (mapName == "pk0")
-	{
-		// 'pk0'
-		WriteB3(MSG_ONE, 3173232);
-	}
-	else if (mapName == "pk1")
-	{
-		// 'pk1'
-		WriteB3(MSG_ONE, 3238768);
-	}
-	else if (mapName == "pk2")
-	{
-		// 'pk2'
-		WriteB3(MSG_ONE, 3304304);
-	}
-	else if (mapName == "pk3")
-	{
-		// 'pk3'
-		WriteB3(MSG_ONE, 3369840);
-	}
-	else if (mapName == "pk4")
-	{
-		// 'pk4'
-		WriteB3(MSG_ONE, 3435376);
-	}
-	else if (mapName == "pk5")
-	{
-		// 'pk5'
-		WriteB3(MSG_ONE, 3500912);
-	}
-	else if (mapName == "pk6")
-	{
-		// 'pk6'
-		WriteB3(MSG_ONE, 3566448);
-	}
-	else if (mapName == "pk7")
-	{
-		// 'pk7'
-		WriteB3(MSG_ONE, 3631984);
-	}
-	else if (mapName == "pk8")
-	{
-		// 'pk8'
-		WriteB3(MSG_ONE, 3697520);
-	}
-	else if (mapName == "pk9")
-	{
-		// 'pk9'
-		WriteB3(MSG_ONE, 3763056);
-	}
-	else if (mapName == "pk10")
-	{
-		// 'pk10'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 48);
-	}
-	else if (mapName == "pk11")
-	{
-		// 'pk11'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 49);
-	}
-	else if (mapName == "pk12")
-	{
-		// 'pk12'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 50);
-	}
-	else if (mapName == "pk13")
-	{
-		// 'pk13'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 51);
-	}
-	else if (mapName == "pk14")
-	{
-		// 'pk14'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 52);
-	}
-	else if (mapName == "pk15")
-	{
-		// 'pk15'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 53);
-	}
-	else if (mapName == "pk16")
-	{
-		// 'pk16'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 54);
-	}
-	else if (mapName == "pk17")
-	{
-		// 'pk17'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 55);
-	}
-	else if (mapName == "pk18")
-	{
-		// 'pk18'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 56);
-	}
-	else if (mapName == "pk19")
-	{
-		// 'pk19'
-		WriteB3(MSG_ONE, 3238768);
-		WriteB3(MSG_ONE, 57);
-	}
-	else if (mapName == "pk20")
-	{
-		// 'pk20'
-		WriteB3(MSG_ONE, 3304304);
-		WriteB3(MSG_ONE, 48);
-	}
-	else if (e.model == "progs/hub_port.mdl")
-	{
-		if (e.mangle != '0 0 0')
-		{
-			WriteB3(MSG_ONE, e.mangle_x); // vector stored float for 9 char of map name
-			WriteB3(MSG_ONE, e.mangle_y);
-			WriteB3(MSG_ONE, e.mangle_z);
-			WriteB3(MSG_ONE, 32);
-		}
-		else
-		{
-			WriteB3(MSG_ONE, 7566691); // 'custom map' - hub admin didnt supply a vector xlate msg
-			WriteB3(MSG_ONE, 7171956);
-			WriteB3(MSG_ONE, 6384928);
-		}
-	}
-	else
-	{
-//		if (PK_ART)
-#ifdef code_pkplus
-			if (pk_art_hubmapmsg(mapName)) // Cataboligne 8.19.9 purify - pk artifacts
-				return;
-#endifdef
-
-		// 'Unknown Map, Please Extend Print Routine'
-		WriteB3(MSG_ONE, 7040597);
-		WriteB3(MSG_ONE, 7827310);
-		WriteB3(MSG_ONE, 5054574);
-		WriteB3(MSG_ONE, 2912353);
-		WriteB3(MSG_ONE, 7098400);
-		WriteB3(MSG_ONE, 7561573);
-		WriteB3(MSG_ONE, 4530277);
-		WriteB3(MSG_ONE, 6648952);
-		WriteB3(MSG_ONE, 2122862);
-		WriteB3(MSG_ONE, 6910544);
-		WriteB3(MSG_ONE, 2126958);
-		WriteB3(MSG_ONE, 7696210);
-		WriteB3(MSG_ONE, 7235956);
-		WriteB3(MSG_ONE, 101);
-	}
-};
-*/
-
 void(float maxplayers, float votecast, float timemins, float timerel) playerIntermissionVotesTimeLeft =
 {
 
@@ -1101,204 +787,7 @@ void(float maxplayers, float votecast, float timemins, float timerel) playerInte
 
    pk_centerprint(self, "\n\nCurrent voting statistics: \n\nTotal players: ", ftos(maxplayers), "                               \nRemaining to vote: ", ftos(votecast), 
                                     "                               ",s0__, s1__);
-/*
-	msg_entity = self;
-	WriteByte(MSG_ONE, SVC_CENTERPRINT);
 
-	// '\n\nCurrent voting statistics: \n\nTotal players: '
-	WriteB3(MSG_ONE, 4393482);
-	WriteB3(MSG_ONE, 7500405);
-	WriteB3(MSG_ONE, 7630437);
-	WriteB3(MSG_ONE, 7304736);
-	WriteB3(MSG_ONE, 7235956);
-	WriteB3(MSG_ONE, 7544935);
-	WriteB3(MSG_ONE, 7627124);
-	WriteB3(MSG_ONE, 7631721);
-	WriteB3(MSG_ONE, 7562089);
-	WriteB3(MSG_ONE, 663610);
-	WriteB3(MSG_ONE, 7296010);
-	WriteB3(MSG_ONE, 7102836);
-	WriteB3(MSG_ONE, 7106592);
-	WriteB3(MSG_ONE, 6650209);
-	WriteB3(MSG_ONE, 3830642);
-	WriteB3(MSG_ONE, 32);
-
-	WriteBFloat(MSG_ONE, maxplayers);
-
-	// '										 '
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-
-	// '\nRemaining to vote: '
-	WriteB3(MSG_ONE, 6640138);
-	WriteB3(MSG_ONE, 6906221);
-	WriteB3(MSG_ONE, 7235950);
-	WriteB3(MSG_ONE, 7610471);
-	WriteB3(MSG_ONE, 7741551);
-	WriteB3(MSG_ONE, 6648943);
-	WriteB3(MSG_ONE, 8250);
-
-	votecast = maxplayers - votecast;
-	WriteBFloat(MSG_ONE, votecast);
-
-	// '										 '
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-
-	if (first.cnt > 0)
-	{
-		// '\nLeading level: '
-		WriteB3(MSG_ONE, 6638602);
-		WriteB3(MSG_ONE, 6906977);
-		WriteB3(MSG_ONE, 2123630);
-		WriteB3(MSG_ONE, 7759212);
-		WriteB3(MSG_ONE, 3828837);
-		WriteB3(MSG_ONE, 32);
-
-		findAndPrintMapName(first.map);
-
-		// ', '
-		WriteB3(MSG_ONE, 8236);
-
-		WriteBFloat(MSG_ONE, first.cnt);
-
-		// '										 '
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-		WriteB3(MSG_ONE, 2105376);
-
-		if (first != second)
-		if (second.cnt > 0)
-		{
-			// '\nSecond place: '
-			WriteB3(MSG_ONE, 6640394);
-			WriteB3(MSG_ONE, 7237475);
-			WriteB3(MSG_ONE, 7348324);
-			WriteB3(MSG_ONE, 6513004);
-			WriteB3(MSG_ONE, 2112101);
-
-			findAndPrintMapName(second.map);
-
-			// ', '
-			WriteB3(MSG_ONE, 8236);
-
-			WriteBFloat(MSG_ONE, second.cnt);
-
-			// '										 '
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-			WriteB3(MSG_ONE, 2105376);
-		}
-	}
-
-	// '\nTime Remaining: '
-	WriteB3(MSG_ONE, 6902794);
-	WriteB3(MSG_ONE, 2123117);
-	WriteB3(MSG_ONE, 7169362);
-	WriteB3(MSG_ONE, 7235937);
-	WriteB3(MSG_ONE, 6778473);
-	WriteB3(MSG_ONE, 8250);
-
-	if (timemins < 10)
-	{
-		// '0'
-		WriteB3(MSG_ONE, 12320);
-	}
-	else
-	{
-		// ' '
-		WriteB3(MSG_ONE, 32);
-	}
-
-	WriteBFloat(MSG_ONE, timemins);
-
-	if (timerel < 10)
-	{
-		// ':0'
-		WriteB3(MSG_ONE, 12346);
-	}
-	else
-	{
-		// ':'
-		WriteB3(MSG_ONE, 58);
-	}
-
-	WriteBFloat(MSG_ONE, timerel);
-
-	// '										 '
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-	WriteB3(MSG_ONE, 2105376);
-
-	// '\n\nTo cancel your current vote \nand vote again, hit FIRE to re-enter.'
-	WriteB3(MSG_ONE, 5507594);
-	WriteB3(MSG_ONE, 6496367);
-	WriteB3(MSG_ONE, 6516321);
-	WriteB3(MSG_ONE, 2124901);
-	WriteB3(MSG_ONE, 7696249);
-	WriteB3(MSG_ONE, 6496370);
-	WriteB3(MSG_ONE, 7500405);
-	WriteB3(MSG_ONE, 7630437);
-	WriteB3(MSG_ONE, 7304736);
-	WriteB3(MSG_ONE, 2123124);
-	WriteB3(MSG_ONE, 7233802);
-	WriteB3(MSG_ONE, 7741540);
-	WriteB3(MSG_ONE, 6648943);
-	WriteB3(MSG_ONE, 6775072);
-	WriteB3(MSG_ONE, 7235937);
-	WriteB3(MSG_ONE, 6823980);
-	WriteB3(MSG_ONE, 2126953);
-	WriteB3(MSG_ONE, 5392710);
-	WriteB3(MSG_ONE, 7610437);
-	WriteB3(MSG_ONE, 7479407);
-	WriteB3(MSG_ONE, 6630757);
-	WriteB3(MSG_ONE, 6648942);
-	WriteB3(MSG_ONE, 11890);
-
-	WriteByte(MSG_ONE, 0);
-*/
 };
 
 
