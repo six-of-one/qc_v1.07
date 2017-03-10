@@ -167,9 +167,6 @@ void() func_arcarn =
 };
 
 
-#endifdef
-
-
 // archon_fader - fade archon colors for floor
 
 void() archon_fader =
@@ -238,3 +235,6 @@ void() archon_fadeinit =
 	self.mdl = self.model;
 	self.model = string_null;
 };
+
+
+#endifdef
