@@ -44,8 +44,6 @@ The mathematically twisted power access device transferes that power to living b
 
 void() th_arcarn =
 {
-	local float f;
-
 	self.nextthink = time + self.wait + self.cnt * random();
 
 	if (self.alpha == 0)
@@ -90,11 +88,11 @@ void() th_arcarn =
 		}
 		else if (self.alpha < 0.05)
 		{
-			f = 0;
+			self.rnd_ = 0;
 			if (self.lefty)
 			if (random() < 0.1)
-				f = self.lefty;
-			self.nextthink = time + self.wait + self.cnt * random() + f;
+				self.rnd_ = self.lefty;
+			self.nextthink = time + self.wait + self.cnt * random() + self.rnd_;
 			self.alpha = 0;
 			self.model = string_null;
 			self.solid = 0;
@@ -130,13 +128,11 @@ void() th_arcarn =
 
 void() func_arcarn =
 {
-	local float f;
-
-	f = random();
+	self.rnd_ = random();
 	if (self.mdl == string_null)
-	if (f < 0.33)
+	if (self.rnd_ < 0.33)
 		self.mdl = "maps/aarn1.bsp";
-	else if (f < 0.66)
+	else if (self.rnd_ < 0.66)
 		self.mdl = "maps/aarn2.bsp";
 	else
 		self.mdl = "maps/aarn3.bsp";
@@ -145,10 +141,10 @@ void() func_arcarn =
 	if (self.cnt < 1) self.cnt = 30;
 	if (random() < 0.2)
 	{
-		f = random();
-		if (f < 0.25) self.lefty = 30;
-		else if (f < 0.5) self.lefty = 60;
-		else if (f < 0.6) self.lefty = 80;
+		self.rnd_ = random();
+		if (self.rnd_ < 0.25) self.lefty = 30;
+		else if (self.rnd_ < 0.5) self.lefty = 60;
+		else if (self.rnd_ < 0.6) self.lefty = 80;
 	}
 
 	if (self.delay < 1) self.delay = 30; // hang time
@@ -172,3 +168,5 @@ void() func_arcarn =
 
 
 #endifdef
+
+
