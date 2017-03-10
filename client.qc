@@ -817,8 +817,7 @@ entity() SelectSpawnPoint =
 	}
 
 //	else if (deathmatch)
-	spot = find(world, classname, "info_player_deathmatch");
-	if (spot)		// make sure we have one before endless loop is run
+	if (find(world, classname, "info_player_deathmatch"))		// make sure we have one before endless loop is run
 	{
 #ifdef code_painkeep_
 		if (cvar("PK") < 1)
@@ -850,7 +849,8 @@ entity() SelectSpawnPoint =
 		}
 // pk 1 - 3 spawn picker
 #ifdef code_painkeep_
-		if (cvar("PK") < 4)	// dont task non dm starts until 4
+
+		if (!(cvar("PK") & 4))	// dont task non dm starts unless bit 4
 		{
 			f1__ = cnt_ent(self, classname,  "info_player_deathmatch");
 			spot = find_tselect(f1__, self.chain);
@@ -871,7 +871,7 @@ entity() SelectSpawnPoint =
 				thing = thing.chain;
 			}
 			if (! pcount) return spot;
-			spot = spot.chain;		// test next spot till end
+			spot = spot.next_ent;		// test next spot till end
 		}
 		spot = lastspawn; // just use this
 	}
