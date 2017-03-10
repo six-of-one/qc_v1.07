@@ -170,3 +170,71 @@ void() func_arcarn =
 #endifdef
 
 
+// archon_fader - fade archon colors for floor
+
+void() archon_fader =
+{
+	self.e__ = find (world, targetname, self.target);
+
+	if (self.delay <= 0) self.delay = 0.05; // default - 20 steps - note: really all need to be the same
+	if (self.wait <= 0) self.wait = 10; // default - 60 rels per color
+	if (self.cnt <= 0) self.cnt = 0.1; // default - tenth per alpha seq
+
+	if (self.e__.delay <= 0) self.e__.delay = 0.05;
+	if (self.e__.wait <= 0) self.e__.wait = 10;
+	if (self.e__.cnt <= 0) self.e__.cnt = 0.1;
+
+	if ((self.alpha >= 1) && !self.e__) // cycle 1 color
+	{
+		self.alpha = 0.98;
+		self.nextthink = time + self.wait;
+		self.delay = 0 - self.delay;
+	}
+	else
+	if (self.alpha < 0.01)
+	{
+//		self.alpha = 0.001; // cant set alpha at 0 - engine displays full tex
+
+		if (self.e__)
+		{
+			self.alpha = 0;
+			self.mdl = self.model;
+			self.model = string_null;
+
+			self.e__.model = self.e__.mdl;
+			self.e__.alpha = 1;
+			self.e__.nextthink = time + self.e__.wait;
+			self.e__.think = archon_fader;
+		}
+		else // no targets - cycle this color
+		{
+			self.alpha = 0.01;
+			self.nextthink = time + self.wait;
+			self.delay = 0 - self.delay;
+		}
+	}
+	else
+	{
+		if (self.e__)
+		{
+			if (self.e__.model == string_null)
+			{
+				self.e__.alpha = 0.01;
+				self.e__.model = self.e__.mdl;
+			}
+			self.e__.alpha = self.e__.alpha + self.delay;
+		}
+		self.alpha = self.alpha - self.delay;
+		self.nextthink = time + self.cnt;
+	}
+};
+
+
+// was cause the map load wouldnt set alpha correctly
+// changed because near 0 alpha was mega slowdown
+
+void() archon_fadeinit =
+{
+	self.mdl = self.model;
+	self.model = string_null;
+};
