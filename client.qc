@@ -134,6 +134,7 @@ void() DecodeLevelParms =
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
 #ifdef code_xents
+	viswep_ld(self, 1);
 #ifdef code_painkeep_
 	prC = parm11;
 #endifdef
