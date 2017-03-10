@@ -66,4 +66,8 @@ debug.qc
 
 maphack.qc
 
+// archon
+
+archon/archon.qc
+
 pk_bot/_code.qc
