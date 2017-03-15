@@ -307,7 +307,8 @@ void() turret_searchForEnemy =
 	  return;
 	}
 
-	if (!self.currentammo && !self.turret_timeout && self.health < 1)
+// changed inf turret def to rely only on timeout value
+	if ((self.turret_timeout < 1) || (self.turret_timeout > 200))
 	{
 
 		self.delay = TRUE; // KillStraker candidate
