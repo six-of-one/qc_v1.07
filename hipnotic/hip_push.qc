@@ -112,7 +112,8 @@ void() func_pushable =
 		}
 		nspawn = self;
 		self = find (world, targetname, nspawn.target);
-		if (!self) return;		// reload may correct this asp
+		if (!self) return;		// reload may correct this asp				note: after 3 secs, no re-call
+		if (strlen(self.model) < 6) return;
 		self.solid = SOLID_BSP;
 		self.movetype = MOVETYPE_NONE;
 		self.oldorigin = self.origin;

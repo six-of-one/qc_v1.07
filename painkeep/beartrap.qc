@@ -182,7 +182,8 @@ void() beartrapTouch =
 
 void() beartrap_dropBearTrap =
 {
-	local entity bt;
+//	local entity bt;
+#define	btrap	newmis
 
 	if (self.pk_beartrapammo <= 0)
 		return;
@@ -195,67 +196,67 @@ void() beartrap_dropBearTrap =
 	}
 */
 
-	bt = spawn();
+	btrap = spawn();
 
 // defs - pk 3.0 implement
-	bt.button6 = 90;		//PK_BT_TIME = 90; // def
-	bt.button7 = 15;		// PK_BT_TIMETOFOLLOW = 15;
-	bt.dmg = 2;					// PK_BT_DMG = 2;
-	bt.max_health = 50;
+	btrap.button6 = 90;		//PK_BT_TIME = 90; // def
+	btrap.button7 = 15;		// PK_BT_TIMETOFOLLOW = 15;
+	btrap.dmg = 2;					// PK_BT_DMG = 2;
+	btrap.max_health = 50;
 	
 //		self.noise3 = "weapons/btrap/bdrop_1.wav";
 
 	if (self.eweapon)
 	{
-		bt.button6 = self.eweapon.button6;
-		bt.button7 = self.eweapon.button7;
-		bt.dmg = self.eweapon.dmg;
-		bt.max_health = self.eweapon.max_health;
+		btrap.button6 = self.eweapon.button6;
+		btrap.button7 = self.eweapon.button7;
+		btrap.dmg = self.eweapon.dmg;
+		btrap.max_health = self.eweapon.max_health;
 //		self.noise3 = self.eweapon.noise3;
 	}
 
 
-	bt.owner = self;
-	bt.movetype = MOVETYPE_TOSS;
-	bt.solid = SOLID_TRIGGER;
-	bt.classname = "beartrap";
-	bt.takedamage = TRUE;
-	bt.health = bt.max_health;
-	bt.th_die = SUB_Null;
-	if (bt.health > 0) bt.th_die = beartrapDie;
-	bt.netname = "Bear Trap";
+	btrap.owner = self;
+	btrap.movetype = MOVETYPE_TOSS;
+	btrap.solid = SOLID_TRIGGER;
+	btrap.classname = "beartrap";
+	btrap.takedamage = TRUE;
+	btrap.health = btrap.max_health;
+	btrap.th_die = SUB_Null;
+	if (btrap.health > 0) btrap.th_die = beartrapDie;
+	btrap.netname = "Bear Trap";
 
 	// For the correct death messages
-	bt.pk_currentitem = PK_IT_BEARTRAP;
-	bt.weapon = IT_AXE;
+	btrap.pk_currentitem = PK_IT_BEARTRAP;
+	btrap.weapon = IT_AXE;
 
 	// Used to give a few rels go get away from the trap
-	bt.beartrap_time = time + 3;
+	btrap.beartrap_time = time + 3;
 
-	if (bt.button6 > 0)
+	if (btrap.button6 > 0)
 	{
 
 	// Kill it after 90 rels if nobody walks over it
-		bt.think = beartrapDie;
-		bt.nextthink = time + bt.button6;
+		btrap.think = beartrapDie;
+		btrap.nextthink = time + btrap.button6;
 	}
 
-	setmodel (bt, "progs/beartrap.mdl");
-	setsize (bt, '-25 -24 -0', '25 25 8');
+	setmodel (btrap, "progs/beartrap.mdl");
+	setsize (btrap, '-25 -24 -0', '25 25 8');
 
-	setorigin (bt, self.origin);
+	setorigin (btrap, self.origin);
 
 	// Throw away from you
 	makevectors (self.angles);
-	bt.velocity = (v_forward * (200 + random() * 100)) + (v_up * (200 + random() * 100));
+	btrap.velocity = (v_forward * (200 + random() * 100)) + (v_up * (200 + random() * 100));
 
-	bt.touch = beartrapTouch;
+	btrap.touch = beartrapTouch;
 
 	sound(self, CHAN_AUTO, "weapons/btrap/bdrop_1.wav", 1, ATTN_NORM);
 
 	// PAINKEEP SPLASH Make this entity splash
 #ifdef painkeep_splash
-	AddToSplash(bt);
+	AddToSplash(btrap);
 #endifdef
 };
 

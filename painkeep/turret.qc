@@ -56,7 +56,7 @@ $frame gunsearch gunfire1 gunfire2 gunfire3 gunfire4 gunmisfire1 gunmisfire2
 #define SENTRY_SDOT 0.8 // view radius
 
 // last one made, for chaos item
-entity turret;
+//entity turret;
 
 void() turret_searchForEnemy;
 void() turret_findTarget;
@@ -87,6 +87,7 @@ void(entity e, float tm) turret_KillStraker =
 void() turret_dropTurret =
 {
 //	local	entity turret;
+#define	lturret	newmis
 	local vector dir;
 
 	if (self.flags & FL_CLIENT) // NOTE: if pk*bot is set back to no client flag
@@ -150,31 +151,31 @@ void() turret_dropTurret =
 	  return;
 	}
 
-	turret = spawn ();
+	lturret = spawn ();
 
 // defs - pk 3.0 implement
 // PK_TUR_*  cant be used directly as they are shortcuts to self.*
-	turret.volume = 40;			// PK_TUR_AMMO
-	turret.dmgtime = 20;		// PK_TUR_TIME
-	turret.max_health = 300;	// PK_TUR_HEAL
-	turret.button7 = 3;			// PK_TUR_TARGOWN
-	turret.button8 = 0.15;	// PK_TUR_RELOAD
+	lturret.volume = 40;			// PK_TUR_AMMO
+	lturret.dmgtime = 20;		// PK_TUR_TIME
+	lturret.max_health = 300;	// PK_TUR_HEAL
+	lturret.button7 = 3;			// PK_TUR_TARGOWN
+	lturret.button8 = 0.15;	// PK_TUR_RELOAD
 
 									// NOTE: self must always then be firing entity
 
 	if (self.eweapon)
 	{
-		turret.volume = self.eweapon.volume;
-		turret.dmgtime = self.eweapon.dmgtime;
-		turret.max_health = self.eweapon.max_health;
-		turret.button7 = self.eweapon.button7;
-		turret.button6 = self.eweapon.button6;
-		turret.super_time = self.eweapon.super_time;
-		turret.button8 = self.eweapon.button8;
-		turret.button9 = self.eweapon.button9;
-		turret.button10 = self.eweapon.button10;
-		turret.button11 = self.eweapon.button11;
-		turret.button13 = self.eweapon.button13;
+		lturret.volume = self.eweapon.volume;
+		lturret.dmgtime = self.eweapon.dmgtime;
+		lturret.max_health = self.eweapon.max_health;
+		lturret.button7 = self.eweapon.button7;
+		lturret.button6 = self.eweapon.button6;
+		lturret.super_time = self.eweapon.super_time;
+		lturret.button8 = self.eweapon.button8;
+		lturret.button9 = self.eweapon.button9;
+		lturret.button10 = self.eweapon.button10;
+		lturret.button11 = self.eweapon.button11;
+		lturret.button13 = self.eweapon.button13;
 	}
 
 	if (self.flags & FL_CLIENT) // some qualification
@@ -184,107 +185,107 @@ void() turret_dropTurret =
 		self.currentammo = self.pk_turretammo = self.pk_turretammo - 1; // Cataboligne - 8.20.9 - moved here so wall fail doesnt eat ammo
 #endifdef
 
-	turret.owner = self;
-	turret.movetype = MOVETYPE_STEP;
-//	turret.movetype = MOVETYPE_TOSS;
-//	turret.solid = SOLID_BBOX;
-//	turret.solid = SOLID_NOT;
-	turret.classname = "turret";
-	turret.netname = "Auto sentry";
-	turret.takedamage = TRUE;
-	turret.health = turret.max_health; //PK_TUR_HEAL;
-	turret.th_die = SUB_Null; // turret_searchForEnemy; -- this was causing a badwolf loop bug when a grav well radius explosion was calling this, and the 2nd findradius was busting the .chain loop
-	if (turret.health > 0) turret.th_die = turret_deathAnim;
-	turret.currentammo = turret.ammo_cells = turret.volume; //PK_TUR_AMMO;
+	lturret.owner = self;
+	lturret.movetype = MOVETYPE_STEP;
+//	lturret.movetype = MOVETYPE_TOSS;
+//	lturret.solid = SOLID_BBOX;
+//	lturret.solid = SOLID_NOT;
+	lturret.classname = "turret";
+	lturret.netname = "Auto sentry";
+	lturret.takedamage = TRUE;
+	lturret.health = lturret.max_health; //PK_TUR_HEAL;
+	lturret.th_die = SUB_Null; // turret_searchForEnemy; -- this was causing a badwolf loop bug when a grav well radius explosion was calling this, and the 2nd findradius was busting the .chain loop
+	if (lturret.health > 0) lturret.th_die = turret_deathAnim;
+	lturret.currentammo = lturret.ammo_cells = lturret.volume; //PK_TUR_AMMO;
 // new stuff
-	turret.cnt = 0;
-	turret.AIRG_Flags = AIRG_EXCLUDEENTITY; // dont blow turret - just base
-	turret.dmg = 15;
+	lturret.cnt = 0;
+	lturret.AIRG_Flags = AIRG_EXCLUDEENTITY; // dont blow turret - just base
+	lturret.dmg = 15;
 
 	local float ri;
 	ri = random();
-	turret.state = 0;
-	if ((turret.button6 & 1) && ri < 0.6) turret.state = 1;					// (PK_TUR_VARIETY & bf )
-	else if ((turret.button6 & 2) && ri < 0.8) turret.state = 2;
-	else if ((turret.button6 & 4) && ri < 0.9) turret.state = 4;
-	else if ((turret.button6 & 8) && ri < 0.95) turret.state = 8;
-	else if ((turret.button6 & 16) && ri < 0.99) turret.state = 16;
+	lturret.state = 0;
+	if ((lturret.button6 & 1) && ri < 0.6) lturret.state = 1;					// (PK_TUR_VARIETY & bf )
+	else if ((lturret.button6 & 2) && ri < 0.8) lturret.state = 2;
+	else if ((lturret.button6 & 4) && ri < 0.9) lturret.state = 4;
+	else if ((lturret.button6 & 8) && ri < 0.95) lturret.state = 8;
+	else if ((lturret.button6 & 16) && ri < 0.99) lturret.state = 16;
 
 	ri = 1;
-	if (!turret.state)
-	while (ri < 32 && !turret.state)
+	if (!lturret.state)
+	while (ri < 32 && !lturret.state)
 	{
-		if (ri & turret.button6) turret.state = ri;
+		if (ri & lturret.button6) lturret.state = ri;
 		ri = ri * 2;
 	}
 
-	if (turret.state == 2) turret.dmg = 25;
-	else if (turret.state == 4) turret.dmg = 27;
-	else if (turret.state == 8) turret.dmg = 30;
-	else if (turret.state == 16) turret.dmg = 33.3;
+	if (lturret.state == 2) lturret.dmg = 25;
+	else if (lturret.state == 4) lturret.dmg = 27;
+	else if (lturret.state == 8) lturret.dmg = 30;
+	else if (lturret.state == 16) lturret.dmg = 33.3;
 
 // set direction
-	turret.angles = self.angles;
-	turret.v_angle = self.v_angle;
+	lturret.angles = self.angles;
+	lturret.v_angle = self.v_angle;
 
 // set turret duration
-	if (!turret.dmgtime) turret.turret_timeout = 0; // (!PK_TUR_TIME)
-	else turret.turret_timeout = time + turret.dmgtime; // PK_TUR_TIME;
+	if (!lturret.dmgtime) lturret.turret_timeout = 0; // (!PK_TUR_TIME)
+	else lturret.turret_timeout = time + lturret.dmgtime; // PK_TUR_TIME;
 
 // set when the turret can target the owner
-	if (!turret.button7) turret.turret_ownertimeout = 0;	// (!PK_TUR_TARGOWN)
-	else turret.turret_ownertimeout = time + turret.button7; //PK_TUR_TARGOWN;
+	if (!lturret.button7) lturret.turret_ownertimeout = 0;	// (!PK_TUR_TARGOWN)
+	else lturret.turret_ownertimeout = time + lturret.button7; //PK_TUR_TARGOWN;
 
 // look for enemy
-	turret.nextthink = time + 0.1;
-	turret.think = turret_searchForEnemy;
+	lturret.nextthink = time + 0.1;
+	lturret.think = turret_searchForEnemy;
 
-//		setmodel (turret, "progs/turtop.mdl"); -- remove model
-	setmodel (turret, "progs/turtop2.mdl"); // removed orange barrel flare - looks wrong with variety
+//		setmodel (lturret, "progs/turtop.mdl"); -- remove model
+	setmodel (lturret, "progs/turtop2.mdl"); // removed orange barrel flare - looks wrong with variety
 
-//	setsize (turret, '-16 -16 -16', '16 16 16');
-	setorigin (turret, self.origin);
+//	setsize (lturret, '-16 -16 -16', '16 16 16');
+	setorigin (lturret, self.origin);
 
 
-	turret.turret_base = spawn ();
-	turret.turret_base.owner = turret;
-	turret.turret_base.movetype = MOVETYPE_TOSS;
-//	turret.turret_base.solid = SOLID_BBOX;
-//	turret.turret_base.solid = SOLID_NOT;
-	turret.turret_base.classname = "turret_base";
-	turret.turret_base.netname = "Auto sentry";
+	lturret.turret_base = spawn ();
+	lturret.turret_base.owner = lturret;
+	lturret.turret_base.movetype = MOVETYPE_TOSS;
+//	lturret.turret_base.solid = SOLID_BBOX;
+//	lturret.turret_base.solid = SOLID_NOT;
+	lturret.turret_base.classname = "turret_base";
+	lturret.turret_base.netname = "Auto sentry";
 
 // Cataboligne - 6.5.10 - removed base killable because of T_Dam loop deal
 
-//	turret.turret_base.takedamage = TRUE;
-//	turret.turret_base.health = rint(PK_TUR_HEAL * 0.667);
-//	if (PK_TUR_HEAL > 0) turret.turret_base.th_die = turret_deathAnimBase;
-//	else turret.turret_base.th_die = SUB_Null;
+//	lturret.turret_base.takedamage = TRUE;
+//	lturret.turret_base.health = rint(PK_TUR_HEAL * 0.667);
+//	if (PK_TUR_HEAL > 0) lturret.turret_base.th_die = turret_deathAnimBase;
+//	else lturret.turret_base.th_die = SUB_Null;
 
 	// Throw away from you
 	makevectors (self.angles);
-	turret.velocity = turret.turret_base.velocity = (v_forward * (200 + random() * 100)) + (v_up * (200 + random() * 100));
+	lturret.velocity = lturret.turret_base.velocity = (v_forward * (200 + random() * 100)) + (v_up * (200 + random() * 100));
 
 // set direction
-	turret.turret_base.angles = self.angles;
-	turret.turret_base.v_angle = self.v_angle;
+	lturret.turret_base.angles = self.angles;
+	lturret.turret_base.v_angle = self.v_angle;
 
 // set turret duration
-//	turret.turret_timeout = time + 20;
+//	lturret.turret_timeout = time + 20;
 
 // look for enemy
-	turret.nextthink = time + 0.1;
-	turret.think = turret_searchForEnemy;
+	lturret.nextthink = time + 0.1;
+	lturret.think = turret_searchForEnemy;
 
-	setmodel(turret.turret_base, "progs/turstand.mdl");
-//	setsize(turret.turret_base, '-15 -14 -18', '9 14 1');
-//	setsize (turret, '-5 -5 -18', '5 5 1');
-//	setorigin (turret.turret_base, self.origin + self.view_ofs);
-	setorigin (turret.turret_base, self.origin);
+	setmodel(lturret.turret_base, "progs/turstand.mdl");
+//	setsize(lturret.turret_base, '-15 -14 -18', '9 14 1');
+//	setsize (lturret, '-5 -5 -18', '5 5 1');
+//	setorigin (lturret.turret_base, self.origin + self.view_ofs);
+	setorigin (lturret.turret_base, self.origin);
 
 	// PAINKEEP SPLASH Make this entity splash
 #ifdef painkeep_splash
-	AddToSplash(turret);
+	AddToSplash(lturret);
 #endifdef
 };
 
