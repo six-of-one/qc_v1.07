@@ -964,6 +964,7 @@ void() PutClientInServer =
 	self.deathtype = string_null;
 	if (self.max_health < 100) // Cataboligne - 11.1.12 - adrenaline in level add
 		self.max_health = 100;
+	self.eweapon = world;
 #else
 	self.max_health = 100;
 #endifdef
@@ -1068,7 +1069,6 @@ void() PutClientInServer =
 #ifdef code_xents
 // vw
 	self.lastweapon = self.weapon;
-	self.eweapon = world;
 
 	ominous_hum(string_null, 1); // clear any stray hum
 #endifdef
