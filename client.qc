@@ -126,13 +126,7 @@ void() DecodeLevelParms =
 	
 	self.items = parm1;
 	self.health = parm2;
-	self.armorvalue = parm3;
-	self.ammo_shells = parm4;
-	self.ammo_nails = parm5;
-	self.ammo_rockets = parm6;
-	self.ammo_cells = parm7;
-	self.weapon = parm8;
-	self.armortype = parm9 * 0.01;
+
 #ifdef code_xents
 	viswep_ld(self, 1);
 #ifdef code_painkeep_
@@ -140,6 +134,14 @@ void() DecodeLevelParms =
 #endifdef
 	pX = parm12;
 	x_decparm();
+
+	self.armorvalue = parm3;
+	self.ammo_shells = parm4;
+	self.ammo_nails = parm5;
+	self.ammo_rockets = parm6;
+	self.ammo_cells = parm7;
+	self.weapon = parm8;
+	self.armortype = parm9 * 0.01;
 
 	self.ammo_bullet = 2 * parm13 & 255;
 	self.ammo_slug = floor(parm13 / 256) & 255;
