@@ -174,7 +174,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 #ifdef warning
 									if (warnings == "tdmg")
 									{
-										bprint ("  *** T_Damage att c: ");
+										bprint ("  *** T_Damage: ");
+										bprint (ftos(damage));
+										bprint (" att c: ");
 										bprint (attacker.classname);
 										bprint (" n: ");
 										bprint (attacker.netname);
