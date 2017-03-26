@@ -470,19 +470,24 @@ WEAPONS
 
 /// NOTE: logic change in touch code has changed other to self in this call - *** any mod code that calls this must take into account
 
+#ifdef code_xents
+float mx_nails, mx_shells, mx_rockets, mx_cells;
+
 void() bound_other_ammo =
 {
-	if (self.ammo_shells > 100)
-		self.ammo_shells = 100;
-	if (self.ammo_nails > 200)
-		self.ammo_nails = 200;
-	if (self.ammo_rockets > 100)
-		self.ammo_rockets = 100;		
-	if (self.ammo_cells > 100)
-		self.ammo_cells = 100;		
+	if (newmis.ammo_shells)
+	if (self.ammo_shells > mx_shells) self.ammo_shells = mx_shells;
+
+	if (newmis.ammo_nails)
+	if (self.ammo_nails > mx_nails) self.ammo_nails = mx_nails;
+
+	if (newmis.ammo_rockets)
+	if (self.ammo_rockets > mx_rockets) self.ammo_rockets = mx_rockets;		
+
+	if (newmis.ammo_cells)
+	if (self.ammo_cells > mx_cells) self.ammo_cells = mx_cells;		
 };
 
-#ifdef code_xents
 float(float w) RankForWeapon =
 {
 	if (w < 0) return(self.eweapon.distance);
@@ -503,6 +508,24 @@ float(float w) RankForWeapon =
 };
 
 #else
+// in x_ents these are globals admin can change
+#define	mx_nails			200
+#define	mx_shells		100
+#define	mx_rockets	100
+#define	mx_cells			100
+
+void() bound_other_ammo =
+{
+	if (self.ammo_shells > mx_shells)
+		self.ammo_shells = mx_shellsv;
+	if (self.ammo_nails > mx_nails)
+		self.ammo_nails = mx_nails;
+	if (self.ammo_rockets > mx_rockets)
+		self.ammo_rockets = mx_rockets;		
+	if (self.ammo_cells > mx_cells)
+		self.ammo_cells = mx_cells;		
+};
+
 #ifndef hip_weapons
 
 float(float w) RankForWeapon =
@@ -869,11 +892,10 @@ local float		best;
 	best = W_BestWeapon();
 	self.eweapon = e2__;
 
-
 // shotgun
 	if (stemp.weapon == 1)
 	{
-		if (self.ammo_shells >= 100)
+		if (self.ammo_shells >= mx_shells)
 			return;
 		self.ammo_shells = self.ammo_shells + stemp.aflag;
 	}
@@ -881,7 +903,7 @@ local float		best;
 // spikes
 	if (stemp.weapon == 2)
 	{
-		if (self.ammo_nails >= 200)
+		if (self.ammo_nails >= mx_nails)
 			return;
 		self.ammo_nails = self.ammo_nails + stemp.aflag;
 	}
@@ -889,7 +911,7 @@ local float		best;
 //	rockets
 	if (stemp.weapon == 3)
 	{
-		if (self.ammo_rockets >= 100)
+		if (self.ammo_rockets >= mx_rockets)
 			return;
 		self.ammo_rockets = self.ammo_rockets + stemp.aflag;
 	}
@@ -897,7 +919,7 @@ local float		best;
 //	cells
 	if (stemp.weapon == 4)
 	{
-		if (self.ammo_cells >= 100)
+		if (self.ammo_cells >= mx_cells)
 			return;
 		self.ammo_cells = self.ammo_cells + stemp.aflag;
 	}
