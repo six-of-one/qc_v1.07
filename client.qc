@@ -1118,7 +1118,14 @@ void() PutClientInServer =
 #endifdef
 	
 	player_stand1 ();
-	
+
+// allow mod overloading of player stats - could change def. q1 weps easily
+	cvar_fields(self, strcat("__","player"));
+// overload morph settings
+#ifdef code_morph
+	cvar_fields(self, strcat("__","player",ftos(self.morphy)));
+#endifdef
+
 	if (deathmatch || coop)
 	{
 		makevectors(self.angles);
@@ -1147,6 +1154,7 @@ void() PutClientInServer =
 	stuffcmd(self, ".cfg\n");
 
 // respawn - if spot has an owner hack, make triggers
+// note: coop, dm
 #ifdef map_hack
 	if (spot.oh)
 	if (! (spot.oh.spawnflags & 16)) // NOTRIG flag
@@ -2434,7 +2442,6 @@ void(entity targ, entity attacker) ClientObituary =
 // code could be called to adjust f0__ track for alternate messages
 // TDO: gibbed messages - maybe @ 81
 			s1__ = cvar_string(strcat(s0__,"c"));
-			if (strlen(s1__) > 1)
 			if (isfunction(s1__))
 			{
 				e0__ = targ;
