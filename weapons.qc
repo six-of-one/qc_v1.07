@@ -2046,10 +2046,7 @@ try with alias?
 // this bypasses rcon
 	s0__ = strcat("_","c",ftos(self.impulse));
 	s1__ = cvar_string(s0__);
-	if (strlen(s1__) > 1)
-	{
-		if (isfunction(s1__)) callfunction(s1__);
-	}
+	if (isfunction(s1__)) callfunction(s1__);
 #endifdef
 
 // runes
