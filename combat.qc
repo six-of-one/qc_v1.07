@@ -192,7 +192,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	#ifdef code_xents
 									bprint (inflictor.theowner.classname);
 	#endifdef
-										bprint ("\n");
+//										bprint ("\n");
 									}
 #endifdef
 
@@ -443,6 +443,12 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 #ifdef code_painkeep_actor
 		if (targ.pkplus_actortype != PKPLUS_ACTORPENT) // pk art code here
 #endifdef
+#ifdef warning
+									if (warnings == "tdmg")
+									{
+										bprint ("\n");
+									}
+#endifdef
 		return;
 	}
 
@@ -513,6 +519,14 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 #endifdef
 
+#ifdef warning
+									if (warnings == "tdmg")
+									{
+										bprint (" taken: ");
+										bprint (ftos(take));
+										bprint ("\n");
+									}
+#endifdef
 
 // do the damage
 	targ.health = ceil(targ.health - take);
