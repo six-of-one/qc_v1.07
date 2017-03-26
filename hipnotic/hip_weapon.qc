@@ -172,6 +172,10 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 	newmis.frame = 4;
 	newmis.target = "weapons/lasercannon/laserric.wav";
 
+#ifdef code_painkeep_
+	 newmis.AIRG_Flags = AIRG_EXCLUDEENTITY; // *pk - This code excludes the Laser fire from the affect of the AirGun. 
+#endifdef
+
 	if (EWEAP) 
 	{
 		newmis.cnt = EWEAP.cnt + random() * LASER_BOUNCE;  // max bounce count

@@ -156,11 +156,6 @@ void() pulse_rebound;
 
 // air cannon / horn
 
-#define AIRG_EXCLUDEENTITY			1
-#define AIRG_STEPCONVERTEDTOFLY	2
-
-.float AIRG_Flags; // replace with cvar detect?
-
 // At the moment the AIRG_Flags variable is used only for the exclusion routine
 // Constant used on the AIRG_Flags to specifiy that we have converted this
 #define AIRG_EXCLUDEENTITY			1
