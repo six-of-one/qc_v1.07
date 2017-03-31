@@ -1155,7 +1155,7 @@ void() PutClientInServer =
 	stuffcmd(self, ".cfg\n");
 
 // client setup - allows overriding fog settings in map.cfg & such
-	stuffcmd(self, "exec client.cfg\n");
+	stuffcmd(self, "exec sclient.cfg\n");
 
 // respawn - if spot has an owner hack, make triggers
 // note: coop, dm
