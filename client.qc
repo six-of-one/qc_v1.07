@@ -1109,8 +1109,6 @@ void() PutClientInServer =
 	self.modelindex_morph = self.modelindex;
 #endifdef
 
-	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
-	
 	self.view_ofs = '0 0 22';
 
 #ifdef opgrade
@@ -1125,6 +1123,9 @@ void() PutClientInServer =
 #ifdef code_morph
 	cvar_fields(self, strcat("__","player",ftos(self.morphy)));
 #endifdef
+
+// after override - it borks model size
+	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 
 	if (deathmatch || coop)
 	{
