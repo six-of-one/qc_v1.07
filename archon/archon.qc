@@ -250,13 +250,16 @@ void() archon_fadeinit =
 
 void() archon_power =
 {
-	self.cnt = 74;
 
 	if (self.spawnflags & NOITEM) self.search_time = MAXFL;
 	else
 // dont always make items instantly
 	if (random() < 0.4)
 		self.search_time = time + 3 + random() * 5;
+
+// wait for target to spawn
+	if (time < 4) return;
+	self.th_die = SUB_Null;		// archon_power_fn;
 
 // unique id for each point
 	self.button14 = system_hash;
