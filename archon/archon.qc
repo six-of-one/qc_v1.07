@@ -237,29 +237,20 @@ void() archon_fadeinit =
 };
 
 
-
-#endifdef
-
 // spawn for archon power point color spray & create think
 // power point id is used to detect point created items
+// a good bit of fields loaded by .cfg now -- see cm2 code
 
 
 /*QUAKED archon_power (.8 .1 .8) (-8 -8 -8) (8 8 8) NOITEM NOSPRAY P_RELOAD
 */
 
+#define		NOITEM			1
+//#define		NOSPRAY		2			done earlier
+
 void() archon_power =
 {
-	if (self.alpha <= 0) self.alpha = 0.7;
-	if (self.scale <= 0) self.scale = 0.6;
-	if (self.wait <= 0) self.wait = 10;
 	self.cnt = 74;
-
-	if (self.mdl == null_string) self.mdl = "progs/arc_pp.bsp";
-	setmodel(self, self.mdl);
-
-	self.nextthink = time + 3;
-	self.think = q2_teleport_particles;
-	self.th_die = archon_power_fn;
 
 	if (self.spawnflags & NOITEM) self.search_time = MAXFL;
 	else
@@ -268,9 +259,8 @@ void() archon_power =
 		self.search_time = time + 3 + random() * 5;
 
 // unique id for each point
-	if (!arc_pwr_item) arc_pwr_item = 4000 + rint(10 * random());
-	self.button14 = arc_pwr_item;
-	arc_pwr_item = arc_pwr_item + 1 + rint(random() * 6);
+	self.button14 = system_hash;
+	syh
 
 	if (self.target)
 	{
@@ -284,7 +274,10 @@ void() archon_power =
 			self.v_angle = self.angles - self.aiment.angles; // relative angles
 		}
 		else
-			self.target = null_string;
+			self.target = string_null;
 	}
 // IMP: sounds, powers
 };
+
+#endifdef
+
