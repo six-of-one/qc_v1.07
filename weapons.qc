@@ -1307,6 +1307,7 @@ float() W_BestWeapon =
 #ifdef code_painkeep_
 	self.pk_currentitem = PK_IT_AXE;
 #endifdef
+	if (self.eweapon) self.pk_currentitem = self.eweapon.pk_currentitem;
 	return(f1__);
 };
 #else
