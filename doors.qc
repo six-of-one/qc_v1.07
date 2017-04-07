@@ -430,6 +430,10 @@ void() LinkDoors =
 	local entity	t, starte;
 	local vector	cmins, cmaxs;
 
+#ifdef code_xents
+	door_sounds_wd();				// cataboligne - 6.28.11 wd doors
+#endifdef
+
 	if (self.enemy)
 		return;		// already linked by another door
 	if (self.spawnflags & 4)
@@ -647,10 +651,6 @@ void() func_door =
 		self.noise2 = "doors/ddoor1.wav";
 	}
 
-#ifdef code_xents
-	door_sounds_wd();				// cataboligne - 6.28.11 wd doors
-#endifdef
-
 	SetMovedir();
 
 	self.max_health = self.health;
@@ -715,7 +715,7 @@ void() func_door =
 // LinkDoors can't be done until all of the doors have been spawned, so
 // the sizes can be detected properly.
 	self.think = LinkDoors;
-	self.nextthink = self.ltime + 0.1;
+	self.nextthink = self.ltime + 0.2;
 };
 
 /*
@@ -976,6 +976,7 @@ void () func_door_secret =
 
 void() door_sounds_wd =
 {
+//	registercvar(strcat("__door_",ftos(num_for_edict(self)),"_mm"),MAP_MODE);
 
 	if (self.sounds == 0)
 	if (self.noise1 == string_null || self.noise1 == "misc/null.wav")
