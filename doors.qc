@@ -61,6 +61,8 @@ void() door_hit_bottom =
 {
 #ifdef code_xents
 	if (self.sounds != DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
+		sound (self,CHAN_VOICE,"misc/null.wav",1,ATTN_NORM);
+	else
 #endifdef
 	sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
 	self.state = STATE_BOTTOM;
