@@ -1303,7 +1303,7 @@ void() grap_checkIfGrap =
 void() pk_harpoon_frames =
 {
 
-	if (self.weapon == IT_AXE && self.pk_currentitem == PK_IT_GRAPGUN && self.grap_cornerchainNext != world)
+	if (self.weapon == IT_GRAPGUN && self.pk_currentitem == PK_IT_GRAPGUN && self.grap_cornerchainNext != world)
 	{
 		if (self.grap_state == GRAP_IN || self.grap_state == GRAP_TOHARPOON)
 		{

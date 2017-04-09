@@ -28,6 +28,10 @@ float DEF_PK_ITEMS; // pk bit flags
 #define PK_IT_CLIGHT				64
 #define PK_IT_BEARTRAP			8
 
+// IT_ grap is now under
+#define IT_GRAPGUN			128
+
+
 #define PKPLUS_IT_EGO					256
 #define PKPLUS_IT_TOMB					512
 #define PKPLUS_IT_ACTOR				1024
