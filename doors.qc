@@ -60,7 +60,7 @@ void() door_hit_top =
 void() door_hit_bottom =
 {
 #ifdef code_xents
-	if (self.sounds != DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
+	if (self.sounds == DOOR_2S)				// cataboligne - 6.28.11 --- wd doors
 		sound (self,CHAN_VOICE,"misc/null.wav",1,ATTN_NORM);
 	else
 #endifdef
@@ -584,9 +584,11 @@ Key doors are allways wait -1.
 void() func_door =
 
 {
-
+	self.f__ = world.worldtype;
+// allow override for custom sounds
+	if (self.worldtype) self.f__ = self.worldtype;
 #ifndef opgrade
-	if (! world.worldtype) // == 0)
+	if (! self.f__) // == 0)
 	{
 #endifdef
 		precache_sound ("doors/medtry.wav");
@@ -597,14 +599,14 @@ void() func_door =
 	}
 	else 
 #endifdef
-				if (world.worldtype == 1)
+				if (self.f__ == 1)
 	{
 		precache_sound ("doors/runetry.wav");
 		precache_sound ("doors/runeuse.wav");
 		self.noise3 = "doors/runetry.wav";
 		self.noise4 = "doors/runeuse.wav";
 	}
-	else if (world.worldtype == 2)
+	else if (self.f__ == 2)
 	{
 		precache_sound ("doors/basetry.wav");
 		precache_sound ("doors/baseuse.wav");
