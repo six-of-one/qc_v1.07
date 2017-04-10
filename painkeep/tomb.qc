@@ -173,6 +173,7 @@ void () tombtouch =
 	}
 	else
 */
+
 	if (other.classname != "player") // && other.group != "pk*bot")
 #ifdef opgrade
 	if (! (other.flags & FL_MONSTER))
@@ -270,10 +271,13 @@ void () tomb_think =
 		self.think = SUB_Remove;
 		self.nextthink = (time + 0.1);
 	}
+	lava_touch();
 };
 
 void () tomb_checkonground =
 {
+	lava_touch();
+
 	if ( (self.flags & FL_ONGROUND) )
 	{
 		setorigin (self,(self.origin + '0 0 1'));

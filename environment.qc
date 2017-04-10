@@ -92,6 +92,21 @@ float(vector v, entity e) sky_touch =
 	return(f0__);
 };
 
+// check vars ents for lava - self call w/ th_die
+
+// default for null th_die - remove
+
+void() lava_touch =
+{
+	if (pointcontents(self.origin) != CONTENT_LAVA) return;
+
+	if (self.th_die && self.th_die != SUB_Null) self.think = self.th_die;
+	else self.think = SUB_Remove;
+
+	self.nextthink = time + 0.3;		// some fn might change this  -- e.g turret
+	other = world; 	// clear other in touch so exit happens
+};
+
 // fn(T_FireDamage) - damage from fires & hot stuff, will heal lavablobs!
 
 void (entity targ, entity inflictor, entity attacker, float damage) T_FireDamage =

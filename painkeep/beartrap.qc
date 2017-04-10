@@ -133,6 +133,7 @@ void()	btf_2 =	[$bear03, btf ] {setmodel (self, "progs/bearbld.mdl");};
 
 void() beartrapTouch =
 {
+	lava_touch();
 
 // override test
 	if (! dm_over)		// No. 6 - 017.1.1 - dm_over allows player target in sp / coop  -- __item_painkeep_beartrap_button0		"1"

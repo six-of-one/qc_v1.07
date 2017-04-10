@@ -377,6 +377,9 @@ void() turret_searchForEnemy =
 	// try to find a enemy to target....
 	turret_findTarget();
 
+// lava check after so think isnt wiped
+	lava_touch();
+
 	// next check time
 	self.nextthink = time + 0.1;
 };
