@@ -1735,8 +1735,8 @@ void() BackpackTouch =
 	self.ammo_cells = self.ammo_cells + stemp.ammo_cells;
 
 	new = stemp.items;
-	if (!new)
-		new = self.weapon;
+//	if (!new)
+//		new = self.weapon;
 
 	self.items = self.items | new;
 	
@@ -1826,6 +1826,7 @@ void() BackpackTouch =
 	self = other;
 
 // change to the weapon
+	if (new)
 	if (!deathmatch)
 	{
 #ifdef code_xents
