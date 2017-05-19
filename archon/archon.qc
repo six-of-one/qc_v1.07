@@ -26,7 +26,7 @@ The eponimus power points will provide archon power, heal, protect against Archo
 The power of the Archons comes from a quantum universe hidden all around us...
 No one knows who made the complex 4D construct, but they were made for Archons to use.
 
-The mathematically twisted power access device transferes that power to living beings.
+The mathematically twisted power access device transfers that power to living beings.
 
 */
 
