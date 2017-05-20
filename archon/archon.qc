@@ -124,6 +124,166 @@ void() altar_touch =
 };
 
 
+#ifdef spawn_func
+void() archon_altar =
+{
+	self.netname = "\bArchon Altar\b";
+	if (!self.model)
+	{
+		setmodel (self,"progs/flag.mdl");
+		if (!self.skin) self.skin = rint(2.7 + random());
+	}
+	else
+	setmodel (self, self.model);
+	setsize (self, self.mins, self.maxs);
+
+	if (!self.noise) self.noise = "items/r_item2.wav";
+
+	self.mask_x = MORPH_ALL;
+	self.class_select = "chaos_item";
+	self.touch = altar_touch;
+
+	if (!self.aflag) self.aflag = 0.5; // conversion ratio start
+	if (!self.delay) self.delay = 0.125; // allow retouch every
+
+	StartItem ();
+};
+
+
+// archon nodule - map item - gives archon pts
+
+void() archon_nodule =
+{
+	if (!self.netname) self.netname = "Nodule";
+	if (!self.model) setmodel (self,"progs/nodule1.mdl");
+	if (!self.noise) self.noise = "items/r_item2.wav";
+	if (!self.archon) self.archon = 20 + crandom() * 5;
+
+	setmodel (self, self.model);
+	setsize (self,'-8 -8 -8','8 8 8');
+	self.mins_z = self.mins_z - floor(random() * 4) * 4;
+	self.mask_x = MORPH_ALL + MORPH_ARCHON;
+	self.class_select = "x_item";
+	self.touch = x_item_touch;
+
+	StartItem ();
+};
+
+
+void() archon_ppp =
+{
+	archon_nodule(); // made from a nodule
+
+	if (random() < 0.3) self.modelflags = self.modelflags | 128; // purple light
+
+	self.netname = "Portable power point";
+	self.mask_x = MORPH_ALL;
+	setmodel (self,"progs/arc_pp.bsp");
+	self.scale = 0.2;
+	self.x_items = X_PP;
+};
+#endifdef
+
+
+
+// archon varmpire power & other power drains
+
+// spawnflags & 1 - no test for end of vampire, just take pts
+
+// .archon - pts to take every rel
+// .owner - give pts to this ent
+// .enemy - take pts from this ent
+
+void() archon_drain_thk =
+{
+	self.aflag = 0;
+	if (self.count <= 0) self.aflag = 1;
+	if (self.enemy.archon <= 0) self.aflag = 1;
+	if (self.enemy.solid == SOLID_NOT) self.aflag = 1;
+	if (self.enemy.takedamage == DAMAGE_NO) self.aflag = 1;
+
+	if (self.spawnflags & 1) // for vampire
+	{
+		if (self.enemy.bolt_target) self.aflag = 1; // note: bolt_target your own drain & he's free
+#ifdef code_morph
+		if ((self.enemy.rune_flag & RUNE_FLG_RS) && (self.enemy.mask_x & MORPH_ARCHON)) self.aflag = 1;
+#endifdef
+		if (! (self.owner.rune_flag & RUNE_VAMPIRE)) self.aflag = 1;
+
+		if (self.aflag)
+		{
+			stuffcmd(self.owner, "hud_vampire_target \"");
+			stuffcmd(self.owner, "\"\n");
+			remove(self);
+			return;
+		}
+	}
+
+	if (self.aflag)
+	{
+		if (self._alt_fire) self._alt_fire(self.enemy); // special cases
+		remove(self);
+		return;
+	}
+
+	self.nextthink = time + self.wait;
+
+	self.owner.archon = self.owner.archon + self.archon;
+	self.enemy.archon = self.enemy.archon - self.archon;
+	self.count = self.count - self.archon;
+
+#ifdef warning
+if (WARNING & 4096)
+{
+	bprint(" *** warning: \bdrain: \b");
+	bprint(self.netname);
+	bprint(" - owner: ");
+	bprint(ftos(self.owner.archon));
+	bprint(" - target: ");
+	bprint(ftos(self.enemy.archon));
+	bprint(" - this time: ");
+	bprint(ftos(self.archon));
+	bprint("\n");
+}
+#endifdef
+
+};
+
+// power drain - take ents archon pts
+
+void(entity e) power_drain =
+{
+	newmis = spawn();
+	newmis.owner = self;
+	newmis.enemy = e;
+	newmis.think = archon_drain_thk;
+	newmis.nextthink = time + 1;
+
+	newmis.wait = 1;
+	newmis.lefty = 0.2 + random() * 0.4; // percent to drain this time
+	newmis.count = e.archon * newmis.lefty;
+	newmis.archon = 1 + random() * 5; // points drained per rel
+	newmis.netname = e.netname;
+	if (newmis.netname == string_null) newmis.netname = "Unknown target";
+
+#ifdef warning
+if (WARNING & 4096)
+{
+	bprint(" *** warning: \bdrain: \b");
+	bprint(item_ident(e));
+	bprint(" - %: ");
+	bprint(ftos(newmis.lefty));
+	bprint(" - pts: ");
+	bprint(ftos(newmis.count));
+	bprint(" - /sec: ");
+	bprint(ftos(newmis.archon));
+	bprint("\n");
+}
+#endifdef
+
+};
+
+
 // archon arena block think ops
 
 void() th_arcarn =
@@ -365,6 +525,145 @@ void() archon_power =
 	}
 // IMP: sounds, powers
 };
+
+
+
+// touching a point when it activates
+
+// touching ent does not have a healtype - set one at random
+
+// enhanced - change max health a bit, if not > 1.2 (most morphs)
+// NOTE: wont bump h_m more than once per map, and wont really affect morphs
+
+void(entity e) archon_point_heal =
+{
+// heal level
+	e.healtype = 2;
+#ifdef enhanced
+	e.health_modifier = e.health_modifier + 0.16;
+#endifdef
+	if (random() < 0.5)
+	{
+#ifdef enhanced
+		if (e.health_modifier < 1.2) e.health_modifier = 0.8;
+#endifdef
+		e.healtype = 3 + rint(0.33 + random());
+	}
+	else
+	if (random() < 0.15)
+	{
+#ifdef enhanced
+		if (e.health_modifier < 1.2) e.health_modifier = e.health_modifier + 0.16;
+#endifdef
+		e.healtype = 4 + rint(0.33 + random());
+	}
+	
+};
+
+
+// TDO: move to m-chaos.qc
+
+// clear archon target reticles
+
+// e - entity that was targeted
+
+void(entity e) archon_target_clear =
+{
+	if (!e) return;
+
+	if (e.bolt_target)
+	{
+		if (e.bolt_target.classname == "gfx/reticle.spr")
+		{
+			remove(e.bolt_target); // IMP: fade remove this later
+			e.bolt_target = world;
+		}
+	}
+};
+
+
+// IMP: other effects - proof against magic spell attack too - this touch will have to be detected live
+
+// when touch fired by trigger - heal ent that touched, add points
+// trigger timing controls freq. of touch
+
+void() archon_power_touch =
+{
+	if (self.wad == "archon_power") // archon made points need debounced
+	{
+#ifdef code_morph
+		if (activator.mask_x & MORPH_ARCHON) return;
+#endifdef
+		if (self.rad_time > time) return;
+		self.rad_time = time + 1;
+		activator = other; // because this was a regular touch
+	}
+
+	if (self.goalentity) // made by an Archon, he gets some every usage
+	{
+		if (self.goalentity == other) return; // this might be a redundant check, as Archons are sent back above
+		self.goalentity.archon = self.goalentity.archon + 0.333;
+	}
+
+	if (! (self.spawnflags & NOHEAL))
+	{
+		if (!activator.healtype) archon_point_heal(activator);
+
+		if (activator.health < (activator.max_health * activator.health_modifier * activator.health_modifier)) // health < points mod
+			T_Heal(activator,activator.healtype + rint(0.33 + random()), 0);
+	}
+
+	if (! self.archon) self.archon = ARCHON_POINT;
+
+#ifdef code_morph
+	if (activator.mask_x & MORPH_ARCHON)
+		activator.archon = activator.archon + (self.archon) * 5;
+#endifdef
+
+	activator.archon = activator.archon + self.archon;
+
+// quad pts
+	if (activator.super_damage_finished > time)
+		activator.archon = activator.archon + (self.archon * 3);
+
+#ifdef code_morph
+	if (activator.mask_x & MORPH_ARCHON) return;
+#endifdef
+
+// magic protection
+	if (activator.bolt_target)
+	{
+		if (activator.bolt_target == self)
+		{
+			activator.bolt_targetTimeout = time + 10;
+			return;
+		}
+		if (activator.bolt_target.classname == "gfx/reticle.spr") // was targeted - clear it
+		{
+			archon_target_clear(activator);
+		}
+	}
+
+	if (!activator.bolt_target) // set protection
+	{
+		activator.bolt_target = self;
+		activator.bolt_targetTimeout = time + 10;		
+	}
+};
+
+// power point activator - must be targeted by multi trigger
+// calls *_touch when trigger is fired
+
+/*QUAKED archon_power_act (.8 .1 .8) (-8 -8 -8) (8 8 8) NOHEAL
+*/
+
+void() archon_power_act =
+{
+	self.model = string_null;
+	self.solid = SOLID_NOT;
+	self.use = archon_power_touch;
+};
+
 
 #endifdef
 
