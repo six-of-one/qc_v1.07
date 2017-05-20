@@ -10,3 +10,6 @@
  *
  */
 
+.float archon; // accumulates power
+
+.float xp; // experience points

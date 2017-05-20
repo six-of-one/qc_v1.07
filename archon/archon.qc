@@ -40,6 +40,90 @@ The mathematically twisted power access device transfers that power to living be
 
 
 
+// archon altar - map item - converts xp to archon pts
+
+void() altar_touch =
+{
+	if (self.attack_finished > time) return;
+
+	self.count = 1;
+// only while the "toucher" has haste active
+	if (other.rune_flag & RUNE_FLG_HS) self.count = 2;
+	if (other.rune_flag & TECH_TEIM) self.count = self.count * 2;
+
+	self.attack_finished = time + (self.delay / self.count);
+
+	if (other.xp > self.aflag)
+	{
+		self.lefty = self.lefty + 1; // usage
+		other.archon = other.archon + 1;
+
+// quad powered
+		if (other.super_damage_finished > time)
+			other.archon = other.archon + 3;
+
+		other.xp = other.xp - self.aflag;
+		if (random() < 0.002) sound (other, CHAN_ITEM, self.noise, 1, ATTN_NORM);
+
+ 		if (self.goalentity) // made by an Archon, he gets some every usage
+		{
+			if (self.goalentity == other) return; // this might be a redundant check, as Archons cant touch altars
+			self.goalentity.archon = self.goalentity.archon + 0.1;
+		}
+	}
+
+// time proceeds - convert faster
+	if (time > 600) self.delay = 0.015;
+	else if (time > 300) self.delay = 0.03;
+	else if (time > 160) self.delay = 0.06;
+
+// conversion rate - usage based
+
+// random spawn altars
+	if (self.spawnflags & 256)
+	{
+		if (self.lefty > 4000) self.aflag = 64;
+		else if (self.lefty > 2000) self.aflag = 32;
+		else if (self.lefty > 1200) self.aflag = 16;
+		else if (self.lefty > 600) self.aflag = 8;
+		else if (self.lefty > 300) self.aflag = 4;
+		else if (self.lefty > 100) self.aflag = 2;
+		else if (time > 16) self.aflag = 1; // if we started with 0.5
+	}
+	else // map spawned altars - longer throw since they wont move and reset
+	{
+		if (self.lefty > 12800)
+		{
+			self.aflag = 64;
+			if (self.lefty > 13800)
+			if (random() < 0.05) self.aflag = self.lefty = 2;
+		}
+		else if (self.lefty > 6400)
+		{
+			self.aflag = 32;
+			if (self.lefty > 7200)
+			if (random() < 0.03) self.aflag = self.lefty = 2;
+		}
+		else if (self.lefty > 3200) self.aflag = 16;
+		else if (self.lefty > 1600) self.aflag = 8;
+		else if (self.lefty > 800) self.aflag = 4;
+		else if (self.lefty > 200) self.aflag = 2;
+		else if (time > 32) self.aflag = 1; // if we started with 0.5
+	}
+
+// conversion rate gets worse as time goes by
+/*
+	if (time > 240) self.aflag = 64;
+	else if (time > 180) self.aflag = 32;
+	else if (time > 120) self.aflag = 16;
+	else if (time > 60) self.aflag = 8;
+	else if (time > 30) self.aflag = 4;
+	else if (time > 10) self.aflag = 2;
+*/
+
+};
+
+
 // archon arena block think ops
 
 void() th_arcarn =
