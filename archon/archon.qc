@@ -481,6 +481,128 @@ void() archon_fadeinit =
 };
 
 
+float arc_pwr_item; // unique id for each power point
+
+// change points spray color
+// make items for points
+// called by .th_die()
+
+// IDEA: other "color" effect besides particle spray - glowing globe ?
+// IDEA: link to item so we know when to make a new one
+
+void() archon_power_fn =
+{
+	local float f;
+	local entity e;
+
+		if (self.spawnflags & P_RELOAD) // reload model
+		if (self.super_time < time)
+		{
+			setmodel(self, self.mdl);
+			self.super_time = time + self.wait;
+		}
+
+	if (self.attack_finished < time) // spray color
+	{
+		self.attack_finished = time + 10 + random() * 5;
+		f = rint(random() * 4.3);
+		if (!f) self.cnt = 74;
+		else if (f == 1) self.cnt = 210;
+		else if (f == 2) self.cnt = 146;
+		else if (f == 3) self.cnt = 194;
+		else if (f == 4) 
+		{
+			f = rint(random() * 31.4);
+			self.cnt = 2 + (f * 8);
+		}
+	}
+/*
+	f  = (self.search_time < time);
+	if (f)
+	{
+		self.search_time = time + 5 + random() * 5;
+		if (random() < 0.1) self.search_time = self.search_time + 10 + random() * 20; // some times longer
+	}
+
+	e = findradius(self.origin, 64);
+	while (e && f)
+	{
+		if (e.flags & FL_CLIENT) f = FALSE;
+		if (e.flags & FL_ITEM)
+		if (e.button14 == self.button14) f = FALSE;
+		e = e.chain;
+	}
+
+	if (f) // no players & we dont have an item here - make one
+	{
+		e = self;
+		self = spawn(); // temp ent
+		self.origin = e.origin;
+		self.delay = self.count = 0;
+		self.wait = MC_SUPER_SHOTGUN + rint(random() * 6.4); // weps & poss quad
+		if (random() < 0.4) self.wait = -3;
+		else
+		if (random() < 0.2) self.wait = -1;
+
+		self.spawnflags = 2 | 8; // respawn on item - + spawnflag for old dynamic remove
+		self.button4 = -666; // dont catch melee mode yet...
+		func_make();
+		self.goalentity = newmis;
+		newmis.velocity = '0 0 0'; // stop eject
+		newmis.button14 = e.button14;
+		self.button4 = 0;
+
+// make ammo for weps - can only be gotten one time
+		if (newmis.items & IT_SUPER_SHOTGUN)
+		{
+			self.wait = MC_ASHELLS_LG;
+			if (random() < 0.22)
+				self.wait = MC_AEXPLSH;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+		}
+		else if (newmis.items & (IT_SUPER_NAILGUN | IT_NAILGUN))
+		{
+			self.wait = MC_ANAILS_LG;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+	}
+		else if (newmis.items & (IT_GRENADE_LAUNCHER | IT_ROCKET_LAUNCHER))
+		{
+			self.wait = MC_AROCKETS_LG;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+		}
+		else if (newmis.items & IT_LIGHTNING || newmis.pk_currentitem == PK_IT_CLIGHT)
+		{
+			self.wait = MC_ACELLS_LG;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+			func_make();
+			newmis.punchangle = MED_BOUNCE_NOW;
+		}
+
+/// this should be accomplished by the translate cmd calling the appropriate cfg - thus it wont need a check
+
+// dont make  non melee items under this rule
+
+//		if (TR_ALL == FL_TR_MELEE) item_translate(self.goalentity, TR_ALL);
+
+		remove(self);
+		self = e;
+	}
+*/
+};
+
+
 // spawn for archon power point color spray & create think
 // power point id is used to detect point created items
 // a good bit of fields loaded by .cfg now -- see cm2 code
@@ -488,9 +610,6 @@ void() archon_fadeinit =
 
 /*QUAKED archon_power (.8 .1 .8) (-8 -8 -8) (8 8 8) NOITEM NOSPRAY P_RELOAD
 */
-
-#define		NOITEM			1
-//#define		NOSPRAY		2			done earlier
 
 void() archon_power =
 {
