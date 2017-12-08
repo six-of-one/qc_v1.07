@@ -708,7 +708,7 @@ spec track by cvar
 // extra monsters
 
 /// SWITCH
-//#define xmonsters
+#define xmonsters
 
 #ifdef xmonsters
 	#ifdef module_list

@@ -168,11 +168,14 @@ void (entity bot) bot_triggered =
 		return ;
 	}
 	Botgoal.goalentity = find (world,targetname,self.target);
+#ifdef ood_code_pkbots__
+// lights only stay if targeted
 	if (Botgoal.goalentity.classname == "light")
 	{
 		bot.search_time = time;
 		return ;
 	}
+#endifdef
 	if (Botgoal.goalentity)
 	{
 		bot.search_time = (time + 3);

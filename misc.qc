@@ -54,7 +54,8 @@ void() light =
 		else
 			lightstyle(self.style, "m");
 	}
-#ifdef code_pkbots
+// these only stay if light is targeted
+#ifdef ood_code_pkbots__
 	self.classname = "light";
 #endifdef
 };
@@ -84,7 +85,7 @@ void() light_fluoro =
 #ifdef opgrade
 	if (!self.targetname) remove(self); // not targeted, so dump it
 #endifdef
-#ifdef code_pkbots__
+#ifdef ood_code_pkbots__
 	self.classname = "light";	// note remove above
 #endifdef
 };
@@ -106,7 +107,7 @@ void() light_fluorospark =
 #ifdef opgrade
 	if (!self.targetname) remove(self); // not targeted, so dump it
 #endifdef
-#ifdef code_pkbots__
+#ifdef ood_code_pkbots__
 	self.classname = "light";	// note remove above
 #endifdef
 };
@@ -121,7 +122,7 @@ void() light_globe =
 	precache_model ("progs/s_light.spr");
 	setmodel (self, "progs/s_light.spr");
 	makestatic (self);
-#ifdef code_pkbots__
+#ifdef ood_code_pkbots__
 	self.classname = "light";	// note: makestatic removes ent!
 #endifdef
 };
@@ -132,7 +133,7 @@ void() FireAmbient =
 // attenuate fast
 	ambientsound (self.origin, "ambience/fire1.wav", 0.5, ATTN_STATIC);
 	makestatic(self);
-#ifdef code_pkbots__
+#ifdef ood_code_pkbots__
 	self.classname = "light";	// note: makestatic removes ent!
 #endifdef
 };

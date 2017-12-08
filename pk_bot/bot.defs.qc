@@ -137,7 +137,10 @@ float c_skill; // holder - carry skill for bot spawning
 
 float last_time_left;
 float randombotskin;
+#ifdef ood_code_pkbots__
+// lights only stay if targeted
 float nearlight;
+#endifdef
 
 //float max_clients; // *frikbot merge
 // float active_clients;

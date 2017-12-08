@@ -163,6 +163,10 @@ vector () botaim =
 };
 
 // quakebot add
+
+// issue - lights only stay if light ent is targeted
+#ifdef ood_code_pkbots__
+
 void () botSetNearLight =
 {
 	local entity e;
@@ -174,6 +178,7 @@ void () botSetNearLight =
 		nearlight = 1;
 	}
 };
+#endifdef
 
 float () CheckBotAttack =
 {
@@ -181,11 +186,13 @@ float () CheckBotAttack =
 	local vector spot2;
 	local entity targ;
 	targ = self.enemy;
+#ifdef ood_code_pkbots__
 	botSetNearLight (); // quakebot add
 	if (!nearlight && (random () < 0.7))
 	{
 		return(0);
 	}
+#endifdef
 	if (time < self.attack_finished)
 	{
 		return (0);
