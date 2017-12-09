@@ -1455,7 +1455,10 @@ void() W_Attack =
 		else
 			player_axed1 ();
 #ifdef code_runes
-		if (rune_haste(0.28))
+// both haste runes are too fast to get to axe dmg frame
+		if (!rune_haste(0.28))
+			rune_axeatt();
+		else
 #endifdef
 		self.attack_finished = time + 0.5;
 	}
