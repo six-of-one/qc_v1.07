@@ -664,10 +664,7 @@ void() weapon_touch =
 	}
 
 
-#ifdef code_xents
-	e7__ = vchk(new, 1, self.vwepent); // get q1 std wep if we have an x_ent in that slot
-	if (!e7__) vload(self, new);
-#else
+#ifndef code_xents
 #ifdef hip_weapons
 //MED
 	else if (stemp.classname == "weapon_laser_gun")
@@ -697,15 +694,20 @@ void() weapon_touch =
 #endifdef
 #endifdef
 
-
 	else
 #ifdef noobjerr
 	{
+// NOTE: possibility of removing an improperly translated item that could rotate to something else
 		remove(stemp);
 		return;
 	}
 #else
 		objerror ("weapon_touch: unknown classname");					//opgrade protected
+#endifdef
+
+#ifdef code_xents
+	e7__ = vchk(new, 1, self.vwepent); // get q1 std wep if we have an x_ent in that slot
+	if (!e7__) vload(self, new);
 #endifdef
 
 	sprint (self, "You got the ");
