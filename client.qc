@@ -1020,6 +1020,7 @@ void() PutClientInServer =
 	self.pkplus_actortype = 0;
 #endifdef
 	self.beartrap_time = 0;
+	self.AIRG_Timeout = 0;		// keeps grav well from pulling dead cam
 	self.bt_immune_time = time + BT_BUFFER;
 	self.voteIntermission = 0;
 
