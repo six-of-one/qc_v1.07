@@ -16,10 +16,12 @@ void() SUB_regen =
 // for mk III ents - allow fields override if t_length
 	if (self.classname == "SUB_regen") self.classname = self.classvn;
 	if (self.t_length) cvar_fields(self, strcat("__",self.classname));
-#endifdef
 // moved here so crates etc, can respawn - mdl must be set by script to respawn models
-//	self.model = self.mdl;		// restore original model
 	setmodel(self, self.mdl); // restore original model x_ents version - because crates are burger kings - see mh_000547.jpg in id1/screenshots
+	if (self.pos2) setsize(self, self.pos1, self.pos2); // if defined pos{1,2} used for size override - exploder respawn issues fix
+#else
+	self.model = self.mdl;		// restore original model
+#endifdef
 
 	setorigin (self, self.origin);
 
