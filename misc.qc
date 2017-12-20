@@ -299,6 +299,9 @@ void() misc_explobox =
 	setmodel (self, "maps/b_explob.bsp");
 	precache_sound ("weapons/r_exp3.wav");
 	self.health = 20;
+#ifdef code_xents
+	if (self.th_die == SUB_Null)
+#endifdef
 	self.th_die = barrel_explode;
 	self.takedamage = DAMAGE_AIM;
 
