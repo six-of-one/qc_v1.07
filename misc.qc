@@ -300,6 +300,7 @@ void() misc_explobox =
 	precache_sound ("weapons/r_exp3.wav");
 	self.health = 20;
 #ifdef code_xents
+// so cfg for respawn can call fn_respawn
 	if (self.th_die == SUB_Null)
 #endifdef
 	self.th_die = barrel_explode;
