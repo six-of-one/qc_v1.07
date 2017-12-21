@@ -535,9 +535,8 @@ void() W_FireRocket =
 	self.punchangle_x = -2;
 
 	v0__ = self.origin + v_forward*8 + '0 0 16';
-#ifdef code_viswep__fix
-	if (!autocvar_sv_centerwep)
-		v0__ = self.origin + v_forward * VWX_ROCKETL + v_right * VWY_ROCKETL + v_up * VWZ_ROCKETL; // Cataboligne - 9.30.9 - near true position fire point
+#ifdef code_viswep
+	v0__ = self.origin + v_forward * VWX_ROCKETL + v_right * VWY_ROCKETL + v_up * VWZ_ROCKETL; // Cataboligne - 9.30.9 - near true position fire point
 #endifdef
 	launch_spike(v0__, aim(self, 1000));
 
@@ -705,8 +704,7 @@ void() W_FireLightning =
 	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 
 	org = self.origin + '0 0 16';
-#ifdef code_viswep__fix
-	if (!autocvar_sv_centerwep)
+#ifdef code_viswep
 		org = self.origin + v_right * VWY_THUNDER + v_forward * VWX_THUNDER + v_up * VWZ_THUNDER;
 #endifdef
 	
@@ -849,8 +847,7 @@ void() W_FireGrenade =
 	setmodel (newmis, "progs/grenade.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');		
 	setorigin (newmis, self.origin);
-#ifdef code_viswep__fix
-	if (!autocvar_sv_centerwep)
+#ifdef code_viswep
 		setorigin (newmis, self.origin + v_forward * VWX_GRENADEL + v_right * VWY_GRENADEL + v_up * VWZ_GRENADEL); // Cataboligne - 9.30.9 - true position fire point
 #endifdef
 
@@ -944,13 +941,16 @@ void(float ox) W_FireSpikes =
 	if (self.ammo_nails >= 2 && self.weapon == IT_SUPER_NAILGUN) ox = 0;
 
 	v0__ = aim (self, 1000);
-#ifdef code_viswep__fix
-	if (!autocvar_sv_centerwep)
-		launch_spike (self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG, v0__);
+#ifdef code_viswep
+	if (ox)
+		v1__ = self.origin + v_up * VWZ_NAILG + v_right * ox + v_right * VWY_NAILG + v_forward * VWX_NAILG;
 	else
-#endifdef
+		v1__ = self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG;
+	launch_spike (v1__, v0__);
+#else
 	launch_spike (self.origin + '0 0 16' + v_right*ox, v0__);
-	
+#endifdef
+
 // ox = 0 means super spike from SNG
 	if (!ox)
 	{
