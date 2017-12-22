@@ -536,7 +536,10 @@ void() W_FireRocket =
 
 	v0__ = self.origin + v_forward*8 + '0 0 16';
 #ifdef code_viswep
-	v0__ = self.origin + v_forward * VWX_ROCKETL + v_right * VWY_ROCKETL + v_up * VWZ_ROCKETL; // Cataboligne - 9.30.9 - near true position fire point
+#ifdef vwlaunch
+	if (self.vwlaunch)
+#endifdef
+		v0__ = self.origin + v_forward * VWX_ROCKETL + v_right * VWY_ROCKETL + v_up * VWZ_ROCKETL; // Cataboligne - 9.30.9 - near true position fire point
 #endifdef
 	launch_spike(v0__, aim(self, 1000));
 
@@ -942,10 +945,21 @@ void(float ox) W_FireSpikes =
 
 	v0__ = aim (self, 1000);
 #ifdef code_viswep
+	v1__ = self.origin + '0 0 16' + v_right*ox;
 	if (ox)
-		v1__ = self.origin + v_up * VWZ_NAILG + v_right * ox + v_right * VWY_NAILG + v_forward * VWX_NAILG;
+	{
+#ifdef vwlaunch
+		if (self.vwlaunch)
+#endifdef
+			v1__ = self.origin + v_up * VWZ_NAILG + v_right * ox + v_right * VWY_NAILG + v_forward * VWX_NAILG;
+	}
 	else
-		v1__ = self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG;
+	{
+#ifdef vwlaunch
+		if (self.vwlaunch)
+#endifdef
+			v1__ = self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG;
+	}
 	launch_spike (v1__, v0__);
 #else
 	launch_spike (self.origin + '0 0 16' + v_right*ox, v0__);
