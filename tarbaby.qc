@@ -259,16 +259,13 @@ void() tbaby_shot =
  	if (random() < 0.65)
 		return;
 
-// TDO: admin to turn off this
-#ifndef enhanced__fix
-//	if (!ENHANCED)
+// ???: admin to turn off this - what aspect ?  any tbaby having shots, or just this logic being blocked ?
 	if (self.model != "progs/lavabomb.mdl")
 	if (!self.spawnflags & TB_SUPER)
 	{
 		self.th_melee();
 		return;
 	}
-#endifdef
 
 	if (self.enemy)
 	if (vlen(self.enemy.origin - self.origin) < 300)
