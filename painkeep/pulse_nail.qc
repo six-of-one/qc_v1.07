@@ -32,13 +32,13 @@ void(float ox) W_FirePulseSpikes =
 
 	v1__ = self.origin + '0 0 16' + v_right*ox;
 
-/*
-	if (autocvar_sv_centerwep)
-		v1__ = self.origin + '0 0 16' + v_right*ox;
-	else
+#ifdef vwlaunch
+
+	if (self.vwlaunch)
 		v1__ = self.origin + v_up * VWZ_PNAILG + v_right * (ox / 2.5) + v_right * VWY_PNAILG + v_forward * VWX_PNAILG;
 
-*/
+#endifdef
+
 #ifdef code_xents
 
 	fire_missile(SPIKE_VEL, MOVETYPE_FLYMISSILE, FL_MSL | FL_PUNCH | FL_USEAMMO

@@ -230,6 +230,7 @@ void(float stat) HIP_FireLaser =
 	out = v_forward;
 	out_z = 0;
 	out = normalize(out);
+// this is buggered if vwlaunch is null & using the vwl code
    org = self.origin + ((VWZ_LASERCAN - ofs) * v_up) + (VWX_LASERCAN * out);
 	if (self.class_select == "class_monster")
 		dir = normalize (self.enemy.origin - self.origin);
@@ -793,7 +794,10 @@ W_FireProximityGrenade
 void() W_FireProximityGrenade =
 {
 	v0__ = self.origin + v_up * 16 + v_forward * 4; // scourge tail shot, chaos, no eweap def
-	if (EWEAP) v0__ = self.origin + v_up * VWZ_PROXMINE+ v_forward * VWX_PROXMINE + v_right * VWY_PROXMINE;
+#ifdef vwlaunch
+	if (self.vwlaunch)				// EWEAP test folds into this
+#endifdef
+		v0__ = self.origin + v_up * VWZ_PROXMINE+ v_forward * VWX_PROXMINE + v_right * VWY_PROXMINE;
 	NumProximityGrenades = NumProximityGrenades + 1;
 
 	fire_missile(GRENADE_VEL, MOVETYPE_TOSS, FL_GRN | FL_USEAMMO | FL_PUNCH , 0, v0__, '0 0 0', "proximity_grenade", "progs/proxbomb.mdl", self.eweapon.noise3, ProximityGrenadeTouch, 2.0, ProximityBomb, ProximityGrenadeExplode);

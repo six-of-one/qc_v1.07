@@ -708,9 +708,12 @@ void() W_FireLightning =
 
 	org = self.origin + '0 0 16';
 #ifdef code_viswep
+#ifdef vwlaunch
+	if (self.vwlaunch)
+#endifdef
 		org = self.origin + v_right * VWY_THUNDER + v_forward * VWX_THUNDER + v_up * VWZ_THUNDER;
 #endifdef
-	
+
 	traceline (org, org + v_forward*600, TRUE, self);
 
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
@@ -849,9 +852,10 @@ void() W_FireGrenade =
 
 	setmodel (newmis, "progs/grenade.mdl");
 	setsize (newmis, '0 0 0', '0 0 0');		
-	setorigin (newmis, self.origin);
 #ifdef code_viswep
 		setorigin (newmis, self.origin + v_forward * VWX_GRENADEL + v_right * VWY_GRENADEL + v_up * VWZ_GRENADEL); // Cataboligne - 9.30.9 - true position fire point
+#else
+	setorigin (newmis, self.origin);
 #endifdef
 
 #ifdef painkeep_splash
@@ -945,22 +949,23 @@ void(float ox) W_FireSpikes =
 
 	v0__ = aim (self, 1000);
 #ifdef code_viswep
+#ifdef vwlaunch
+
 	v1__ = self.origin + '0 0 16' + v_right*ox;
-	if (ox)
-	{
-#ifdef vwlaunch
-		if (self.vwlaunch)
-#endifdef
+	if (self.vwlaunch)
 			v1__ = self.origin + v_up * VWZ_NAILG + v_right * ox + v_right * VWY_NAILG + v_forward * VWX_NAILG;
-	}
+
+#else
+
+	if (ox)
+			v1__ = self.origin + v_up * VWZ_NAILG + v_right * ox + v_right * VWY_NAILG + v_forward * VWX_NAILG;
 	else
-	{
-#ifdef vwlaunch
-		if (self.vwlaunch)
-#endifdef
 			v1__ = self.origin + v_up * VWZ_SNAILG + v_right * VWY_SNAILG + v_forward * VWX_SNAILG;
-	}
+
+#endifdef
+
 	launch_spike (v1__, v0__);
+
 #else
 	launch_spike (self.origin + '0 0 16' + v_right*ox, v0__);
 #endifdef

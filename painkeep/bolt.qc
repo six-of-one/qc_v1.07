@@ -88,10 +88,13 @@ void() bolt_fire =
 		self.punchangle_x = -2;
 //		cam_punch(); // Cataboligne - 5.13.10 - cam purify - nullify fire punchangle if in cam view
 
-#ifdef code_viswep
-		org = self.origin + v_right * VWY_CHTHUNDER + v_forward * VWX_CHTHUNDER + v_up * VWZ_CHTHUNDER;
-#else
 		org = self.origin + '0 0 16';
+
+#ifdef code_viswep
+#ifdef vwlaunch
+	if (self.vwlaunch)
+#endifdef
+		org = self.origin + v_right * VWY_CHTHUNDER + v_forward * VWX_CHTHUNDER + v_up * VWZ_CHTHUNDER;
 #endifdef
 
 		traceline (org, org + v_forward*600, TRUE, self);
