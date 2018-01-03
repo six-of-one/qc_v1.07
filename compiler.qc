@@ -671,6 +671,20 @@ spec track by cvar
 
 // ******************************************************************************************************************
 
+// Last Man Standing
+// deathmatch mode play where the last man alive gets the frags
+/// SWITCH
+//#define code_lmst
+
+#ifdef code_lmst
+	#ifdef module_list
+	#message         			- last man standing 
+	#endifdef
+	#define modulein
+#endifdef
+
+// ******************************************************************************************************************
+
 // visible weapons - show player model with actual selected weapon
 #ifndef nondp
 /// SWITCH

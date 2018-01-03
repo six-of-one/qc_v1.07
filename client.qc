@@ -1378,6 +1378,14 @@ void() PlayerDeathThink =
 		return;
 	}
 
+// last man standing mode - regular respawn is blocked
+#ifdef code_lmst
+	if (LMS)
+	{
+		if (LMS == 1) return;		// no respawn until last man stands
+	}
+	else
+#endifdef
 // wait for any button down
 	if (!self.button2 && !self.button1 && !self.button0)
 		return;
