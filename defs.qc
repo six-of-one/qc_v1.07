@@ -764,6 +764,11 @@ float	intermission_running;
 .string path;
 #endifdef
 
+#ifdef ROGUE
+#messagecompiling rogue/rogdefs.qc 
+#include <rogue/rogdefs.qc >
+#endifdef
+
 #ifdef map_hack
 #messagecompiling mhdefs.qc 
 #include <mhdefs.qc>
