@@ -1577,6 +1577,8 @@ void() W_ChangeWeapon =
 
 // select a new wep
 #ifdef code_xents
+// fix cube touch returning wep issues
+	if (self.eweapon.mcode >= 1000) self.eweapon = self.pk_ent; 
 
 	if (self.impulse < 10)
 	{
@@ -1765,6 +1767,8 @@ void() CycleWeaponCommand =
 
 // check to see if any vwepent is being selected
 #ifdef code_xents
+// fix cube touch returning wep issues
+		if (self.eweapon.mcode >= 1000) self.eweapon = self.pk_ent; 
 
 		e0__ = self.vwepent;
 		while (e0__)
