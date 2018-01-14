@@ -34,9 +34,13 @@ void() push_use =
 		return;
 	}
 */
+
 // fallout fix - and fails
 	self.movetype = MOVETYPE_STEP;
 	self.owner.movetype = MOVETYPE_PUSH;
+
+// fix laser move bug
+	if (other.health <= 0) return;
 
 	makevectors(other.angles);
 	
@@ -114,9 +118,6 @@ void() func_pushable =
 		self = find (world, targetname, nspawn.target);
 		if (!self) return;		// reload may correct this asp				note: after 3 secs, no re-call
 		if (strlen(self.model) < 6) return;
-		self.solid = SOLID_BSP;
-		self.movetype = MOVETYPE_NONE;
-		self.oldorigin = self.origin;
 		self.targetname = nspawn.targetname;		// in case of a remove target on pushable
 //		nspawn.origin = self.origin; // does not relocate pushable
 	}
@@ -126,17 +127,19 @@ void() func_pushable =
 		self.angles = '0 0 0';
 
 		self.classname = "pushablewall";
-		self.solid = SOLID_BSP;
-	//	self.movetype = MOVETYPE_PUSH;
-		self.movetype = MOVETYPE_NONE;
 		setmodel (self, self.model);
 		setorigin( self, self.origin );
 		setsize (self, self.mins, self.maxs );
-		self.oldorigin = self.origin;
 
 		nspawn = spawn();
 		nspawn.targetname = self.targetname;		// in case pushable is targeted
 	}
+
+	self.solid = SOLID_BSP;
+//	self.movetype = MOVETYPE_PUSH;
+	self.movetype = MOVETYPE_NONE;
+	self.oldorigin = self.origin;
+
 	nspawn.owner = self;
 	nspawn.mangle = self.mangle;
 	nspawn.angles = self.angles;
