@@ -928,7 +928,6 @@ local float		best;
 		self.ammo_cells = self.ammo_cells + stemp.aflag;
 	}
 
-/// NIX: this will kerbob other ammo limits in x_ents --- really if inv is > max, touch fails out
 	bound_other_ammo ();
 
 	sprint (self, "You got the ");
