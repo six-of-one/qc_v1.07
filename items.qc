@@ -220,7 +220,9 @@ one point per second.
 #define	H_MEGA 2
 .float	healamount, healtype;
 void() health_touch;
+#ifndef code_xents
 void() item_megahealth_rot;
+#endifdef
 
 void() item_health =
 {	
@@ -309,10 +311,15 @@ void() health_touch =
 	if (self.healtype == 2)
 	{
 		other.items = other.items | IT_SUPERHEALTH;
+#ifdef code_xents
+		ops_rot();
+		touched(self.wait);
+#else
 		self.nextthink = time + 5;
 		self.think = item_megahealth_rot;
 		self.owner = other;
 		touched(0);
+#endifdef
 	}
 	else
 	{
@@ -323,6 +330,7 @@ void() health_touch =
 //	SUB_UseTargets();				// fire all targets / killtargets
 };	
 
+#ifndef code_xents
 void() item_megahealth_rot =
 {
 	other = self.owner;
@@ -349,6 +357,7 @@ void() item_megahealth_rot =
 		self.think = SUB_regen;
 	}
 };
+#endifdef
 
 /*
 ===============================================================================
