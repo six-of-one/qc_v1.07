@@ -49,6 +49,9 @@ void(vector org) te_gunshot = #418;
 
 void(entity own, vector start, vector end) te_lightning2 = #429;
 
+// used by hip_expl
+
+void(vector org) te_explosionsilent = #458;
 
 #ifdef escher
 

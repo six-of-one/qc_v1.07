@@ -27,9 +27,8 @@ void() exploder_fire =
 		sound(self , CHAN_AUTO, "misc/longexpl.wav", self.volume, self.speed);
 	}
 	T_RadiusDamage(self, self.owner, self.dmg, other);
-	e1__ = world;
-	if (self.spawnflags & USE_PARTICLES) e1__ = self;
-	BecomeExplosion(e1__);
+	if (self.spawnflags & USE_PARTICLES) te_explosionsilent(self.origin);		// Six - really, _really_ dont play r_exp3.wav audio
+	BecomeExplosion(world);
 };
 
 void() exploder_use =
