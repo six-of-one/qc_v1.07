@@ -674,7 +674,7 @@ spec track by cvar
 // Last Man Standing
 // deathmatch mode play where the last man alive gets the frags
 /// SWITCH
-//#define code_lmst
+#define code_lmst
 
 #ifdef code_lmst
 	#ifdef module_list

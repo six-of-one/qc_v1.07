@@ -1345,6 +1345,36 @@ void() CheckRules =
 		NextLevel();
 //		return;
 	}	
+
+// run rules for last man standing
+#ifdef code_lmst
+	if (LMS > 0)
+	{
+		LMS = cnt_ent(world, classname,  "player") + 1;
+		if (LMS < 3)
+		{
+			e0__ = find(world, classname,  "player");
+			e0__.lm_score = e0__.lm_score + 10;
+			LMS = -1;
+
+
+#ifdef warning
+//									if (warnings == "lms")
+									{
+										bprint("* LMS score - add 10, total: ");
+										bprint(ftos(e0__.lm_score));
+										bprint("< \n");
+									}
+#endifdef
+
+
+		}
+
+		self.frags = self.lm_score;	// lms score overrides frags - this way we dont have to control frag assign in obit
+	}
+#endifdef
+
+
 };
 
 //============================================================================
@@ -1369,6 +1399,10 @@ void() PlayerDeathThink =
 	{
 		if (self.button2 || self.button1 || self.button0)
 			return;
+// last man standing mode - regular respawn is blocked
+#ifdef code_lmst
+		if (LMS > 2) return;		// no respawn until last man stands
+#endifdef
 		self.deadflag = DEAD_RESPAWNABLE;
 // copy corpse now
 		CopyToBodyQue (self);
@@ -1378,14 +1412,6 @@ void() PlayerDeathThink =
 		return;
 	}
 
-// last man standing mode - regular respawn is blocked
-#ifdef code_lmst
-	if (LMS)
-	{
-		if (LMS == 1) return;		// no respawn until last man stands
-	}
-	else
-#endifdef
 // wait for any button down
 	if (!self.button2 && !self.button1 && !self.button0)
 		return;

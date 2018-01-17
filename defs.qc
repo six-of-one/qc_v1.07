@@ -789,6 +789,12 @@ float	intermission_running;
 #define	dm_over		0
 #endifdef
 
+#ifdef code_lmst
+	float LMS;		// last man standing mode when set
+
+#define		lm_score	dodmg
+#endifdef
+
 #ifdef code_archon_a
 #messagecompiling archon/_defs.qc 
 #include <archon/_defs.qc>

@@ -115,6 +115,12 @@ void(entity targ, entity attacker) Killed =
 	self.takedamage = DAMAGE_NO;
 	self.touch = SUB_Null;
 
+// start last man standing ops if enabled
+// happens after first kill following LMS victory, which turns off counting
+#ifdef code_lmst
+		if (LMS) LMS = 6;		// count starts
+#endifdef
+
 // TDO: do we need this when we start throwing weps on die?
 //	if (self.vwepent) vw_chain(self); // re chain any vweps before death - which can throw weps
 
