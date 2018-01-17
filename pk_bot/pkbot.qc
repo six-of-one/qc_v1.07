@@ -713,6 +713,11 @@ void () BotDead =
 		TELEFRAGFLAG = 0;
 	}
 	self.think = respawnBot;
+// last man standing mode - regular respawn is blocked
+#ifdef code_lmst
+	self.classname = string_null;	// make sure LMS doesnt count us
+	if (LMS > 2) self.think = BotDead;		// no respawn until last man stands
+#endifdef
 };
 
 void () BotDie =

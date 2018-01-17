@@ -118,7 +118,7 @@ void(entity targ, entity attacker) Killed =
 // start last man standing ops if enabled
 // happens after first kill following LMS victory, which turns off counting
 #ifdef code_lmst
-		if (LMS) LMS = 6;		// count starts
+		if (LMS < 0) LMS = 6;		// count starts
 #endifdef
 
 // TDO: do we need this when we start throwing weps on die?

@@ -1401,6 +1401,7 @@ void() PlayerDeathThink =
 			return;
 // last man standing mode - regular respawn is blocked
 #ifdef code_lmst
+		self.classname = string_null;	// make sure LMS doesnt count us
 		if (LMS > 2) return;		// no respawn until last man stands
 #endifdef
 		self.deadflag = DEAD_RESPAWNABLE;

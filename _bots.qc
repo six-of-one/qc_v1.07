@@ -483,6 +483,7 @@ void() bot_fixed =
 // take a shot at fixing 2 bot problems - bots getting stuck & doing nothing for a long time and being dead too long
 
 // not testing health because it didnt work right
+// all this is incompatible with LMS !
 
 void() bot_fixer =
 {
@@ -518,6 +519,9 @@ void() bot_fixer =
 
 	if (self.think == bot_fixer)
 	{
+#ifdef code_lmst
+		if (!LMS)		// cant check frags, or dead too long if LMS enabled
+#endifdef
 		while (e0__)
 		{
 			if (e0__.button16 == e0__.frags)
