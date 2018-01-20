@@ -124,6 +124,8 @@ float STAT_ARCHON 				= 66; // track archon power for power bar display
 ///					this will need to be UPDATED everytime we add, re-arrange or change items
 // note: some kind of query system could be added - via pk_mcode in server
 
+#define MC_MASK						4095;			// Six - 017.1.12 mask off upper bits used for clr_x
+
 float MC_AXE 						= 100;
 float MC_SHOTGUN 					= 101;
 float MC_SUPER_SHOTGUN 			= 102;
