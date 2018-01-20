@@ -1354,7 +1354,13 @@ void() CheckRules =
 		if (LMS < 3)
 		{
 			e0__ = find(world, classname,  "player");
-			e0__.lm_score = e0__.lm_score + 10;
+			if (e0__)
+			{
+				e0__.lm_score = e0__.lm_score + 10;
+// TDO: better signal to ply ?
+				bprint(e0__.netname);
+				bprint(" is the Last Man Standing!\n\n");
+			}
 			LMS = -1;
 
 
