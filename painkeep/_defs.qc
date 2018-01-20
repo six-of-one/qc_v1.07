@@ -224,6 +224,11 @@ void() bolt_checkTargets;
 void()	bolt_s_explode1;
 void() player_conduitJerk;
 
+// copb
+
+#define	copb_nextFartTimeout	turret_soundtimeout
+void() copb_checkFart;
+
 // pk plus
 
 #ifdef code_pkplus_

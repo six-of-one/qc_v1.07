@@ -241,18 +241,17 @@ void()	vom_stand6	=[	$stand6,	vom_stand7	] {ai_stand();};
 void()	vom_stand7	=[	$stand7,	vom_stand8	] {ai_stand();};
 void()	vom_stand8	=[	$stand8,	vom_stand9	] {ai_stand();};
 void()	vom_stand9	=[	$stand9,	vom_stand1	] {ai_stand();};
+*/
 
-// restore below, once we have pk module - have an option to include if pk module is out
+framerloop($stand1, $stand9, vom_stand1, 0.1,
+
+#ifdef code_painkeep_
 	frame_arb($stand3,
 
 		if (random() < 0.5) copb_checkFart();
 		self.copb_nextFartTimeout = time + 30 + rint(random() * 200);
 	);
-
-
-*/
-
-framerloop($stand1, $stand9, vom_stand1, 0.1,
+#endifdef
 
 	ai_stand()
 

@@ -13,7 +13,7 @@
 // recode to use a think ent to run copb effects
 
 // if reuse_fields -- pk_sndtimer, pk_tout
-#define	copb_nextFartTimeout	turret_soundtimeout
+
 #define	copb_timeout	turret_timeout
 
 
