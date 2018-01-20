@@ -108,9 +108,10 @@
 // 1.0.7.10		- code - cubes & crates
 // 1.0.7.11		- code_painkeep 3.0
 // 1.0.7.12		- code_pkbots
+// 1.0.7.13		- code_archon
 
 
-#define VERSION 	"1.0.7.12 qc++"
+#define VERSION 	"1.0.7.13 qc++"
 
 /// **************************************
 /// code weaver section

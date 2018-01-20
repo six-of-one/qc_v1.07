@@ -227,6 +227,26 @@ void() monster_scourge =
 	#endifdef
 
 
+// used by x_firecode
+
+void() ShalHome =
+{
+//	local vector	dir, vtemp;
+	self.v__ = self.enemy.origin + '0 0 10';
+
+	if (self.enemy.health < 1)
+	{
+		remove(self);
+		return;
+	}
+	self.v__ = normalize(self.v__ - self.origin);
+	if (skill == 3)
+		self.velocity = self.v__ * 350;
+	else
+		self.velocity = self.v__ * 250;
+	self.nextthink = time + 0.2;
+	self.think = ShalHome;	
+};
 
 #endifdef
 

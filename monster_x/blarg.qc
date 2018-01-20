@@ -36,6 +36,34 @@ void() blarg_leap1;
 void() blarg_stop1;
 void() blarg_bstop1;
 
+//if qmon turned off, we need
+#ifndef quakemonsters
+void() dog_bite =
+{
+//local vector	delta; replaced by define
+//local float 	ldmg;
+
+	if (!self.enemy)
+		return;
+
+	ai_charge(10);
+
+	if (!CanDamage (self.enemy, self))
+		return;
+
+//	delta = self.enemy.origin - self.origin;
+
+	if (vlen(self.enemy.origin - self.origin) > 100)
+		return;
+
+	self.ldmg_ = (random() + random() + random()) * 8;
+#ifdef monsters_plus
+	if (self.spawnflags & 4) self.dmg = self.dmg * 1.8;
+#endifdef
+	T_Damage (self.enemy, self, self, self.ldmg_);
+};
+#endifdef
+
 /*
 deprecated to dog_bite
 

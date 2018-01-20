@@ -308,12 +308,12 @@ void() manga_swing14	=[	$ki14,		manga_run1	] {ai_charge(9);};
 
 framer($ki1, $ki14, manga_swing1, manga_run1, 0.1,
 
-	frame_arb($swing1,sound(self, CHAN_WEAPON, "mon_II/manga/hiyaa.wav", 1, ATTN_NORM));
+	frame_arb($ki1,sound(self, CHAN_WEAPON, "mon_II/manga/hiyaa.wav", 1, ATTN_NORM));
 
 	ai_rep($ki1, ai_charge, 11, 1, 4, 13, 9, -6, -6, -6);
 	ai_rep($ki9, ai_charge, -6, -6, -6, 3, 8, 9, -6, -6);
 	ai_rep($ki5, highkick, 0, 200, 0, 0, 0, -200, 0, -6);
-	framerange_arb($ki5,$swing11,self.angles_y = self.angles_y + random()* 25);
+	framerange_arb($ki5,$ki11,self.angles_y = self.angles_y + random()* 25);
 );
 
 /*
