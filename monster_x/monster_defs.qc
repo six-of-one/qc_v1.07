@@ -10,6 +10,9 @@
  *
  */
 
+// enhanced monster section
+
+#ifdef monsters_plus
 
 // archon monster speed module - some monsters move differently
 
@@ -23,6 +26,11 @@
 
 // cvar ?
 #define	MON_SPEED_DIV		1
+
+#endifdef
+
+
+
 
 #endifdef
 

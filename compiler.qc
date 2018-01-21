@@ -732,6 +732,18 @@ spec track by cvar
 	#define modulein
 #endifdef
 
+// monster enhancements for all monsters - from archon mkII modules
+
+/// SWITCH
+//#define monsters_plus
+
+// no monsters compiled in - strike this
+#ifndef quakemonsters
+#ifndef xmonsters
+#undef monsters_plus
+#endifdef
+#endifdef
+
 // ******************************************************************************************************************
 
 // maphack system
