@@ -150,7 +150,7 @@ void() enforcer_fire =
 
 	self.v__ = self.origin + v_forward * 30 + v_right * 8.5 + '0 0 16';
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if ((self.spawnflags & ENF_RAIL) && (self.ammo_slug > 0))
 	{
 		X_FireRailgun();
@@ -170,11 +170,11 @@ void() enforcer_fire =
 	}
 	else if (self.spawnflags & ENF_SSG)
 	{
-		org = self.enemy.origin - self.enemy.velocity*0.2;
-		org = normalize (org - self.origin);
+		v0__ = self.enemy.origin - self.enemy.velocity*0.2;
+		v0__ = normalize (v0__ - self.origin);
 		
 		sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM); 
-		FireBullets (14, org, '0.1 0.1 0');
+		X_FireBullets (14, 6, v0__, '0.1 0.1 0');
 	}
 	else
 #endifdef
@@ -275,7 +275,7 @@ framer($attack1, $attack8, enf_atk1, enf_atk9, 0.1,
 	ai_face();
 	frame_arb($attack6,
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		if (self.spawnflags & ENF_RAIL)
 		{
 			if (self.ammo_slug > 0) enf_run1();
@@ -513,18 +513,18 @@ void() monster_enforcer =
 	self.th_die = enf_die;
 	self.th_missile = enf_atk1;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Enforcer";
 
-	if ((self.map == "dyn_sp") || (self.spawnflags & ENF_XWEP))
+	if ((self.map == "dyn_monster") || (self.spawnflags & ENF_XWEP))
 	{
 		local float r;
 
 		self.rnd_ = enf_imprv;
-		if (self.map == "dyn_sp") self.rnd_ = enf_rndenh;
+		if (self.map == "dyn_monster") self.rnd_ = enf_rndenh;
 
-		if (!self.spawnflags & ENF_XWEP) // not map specced - enhance him
-		if (random() < chance)
+		if (!(self.spawnflags & ENF_XWEP)) // not map specced - enhance him
+		if (random() < self.rnd_)
 		{
 			r = random();
 			if (r > 0.95) self.spawnflags = self.spawnflags | ENF_RAIL; // not many of these guys
@@ -536,7 +536,7 @@ void() monster_enforcer =
 					if (enf_extend & ENF_ROCK) self.spawnflags = self.spawnflags | ENF_ROCK;
 					if (enf_extend & ENF_SSG) self.spawnflags = self.spawnflags | ENF_SSG;
 				}
-				if (!self.spawnflags & enf_extend)
+				if (!(self.spawnflags & enf_extend))
 				self.spawnflags = self.spawnflags | ENF_LTN;
 			}
 		}

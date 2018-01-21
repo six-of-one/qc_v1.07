@@ -736,6 +736,8 @@ spec track by cvar
 
 /// SWITCH
 //#define monsters_plus
+/// REDO - test code up
+#define monsters_plus__
 
 // no monsters compiled in - strike this
 #ifndef quakemonsters

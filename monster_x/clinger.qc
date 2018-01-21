@@ -360,7 +360,7 @@ if (ign != A_MONSTER)
 #endifdef
 		;
 
-	if (self.map	== "dyn_sp") // Cat note: dont create a load of respawners when making random monsters
+	if (self.map	== "dyn_monster") // Cat note: dont create a load of respawners when making random monsters
 	{
 //		self.stack1 = "no_monster_wakey";
 

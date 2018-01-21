@@ -507,6 +507,7 @@ framer($shoot1, $shoot6, ogre_nail1, ogre_run1, 0.1,
 		setsize (newmis, '0 0 0', '0 0 0');		
 		newmis.classname = "MultiGrenade";
 	}
+/* folded into fire grenade code
 	else
 	{
 		newmis.touch = GrenadeTouch;
@@ -516,6 +517,7 @@ framer($shoot1, $shoot6, ogre_nail1, ogre_run1, 0.1,
 		setmodel (newmis, "progs/grenade.mdl");
 		setsize (newmis, '0 0 0', '0 0 0');
 	}
+*/
 #endifdef
 	);
 	ai_face();

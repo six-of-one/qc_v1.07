@@ -56,7 +56,7 @@ SOLDIER CODE
 #define	army_fire_grenades		0.87 // chance to fire grenades if he has some
 #define	army_canhas_grenades		5 // random grenades to give enhanced grunts
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 void() army_firenails;
 #endifdef
 
@@ -158,11 +158,11 @@ framer($shoot1, $shoot9, army_atk1, army_run1, 0.1,
 	ai_face();
 	frame_arb($shoot5,
 
-#ifdef monsters_plus
-	if ((self.ammo_rockets > 0) && (random() > 0.87 /* army_fire_grenades */) && (!self.spawnflags & ARMY_ROCK))
+#ifdef monsters_plus__
+	if ((self.ammo_rockets > 0) && (random() > 0.87 /* army_fire_grenades */) && (!(self.spawnflags & ARMY_ROCK)))
 	{
 		self.ammo_rockets = self.ammo_rockets - 1;
-		OgreFireGrenade();
+		W_FireGrenade();
 	}
 	else
 #endifdef
@@ -172,7 +172,7 @@ framer($shoot1, $shoot9, army_atk1, army_run1, 0.1,
 	frame_arb($shoot7,SUB_CheckRefire(army_atk1));
 );
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 void() army_firenails =
 {
 //	local vector d;
@@ -312,7 +312,7 @@ void() army_fire =
 	self.v__ = self.enemy.origin - self.enemy.velocity*0.2;
 	self.v__ = normalize (self.v__ - self.origin);
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	makevectors (self.angles);
    if ((self.spawnflags & 8) && (self.ammo_rockets > 0))
 	{
@@ -323,7 +323,7 @@ void() army_fire =
 	else if (self.spawnflags & ARMY_SSGUN)
 	{
 		sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM); 
-		FireBullets (14, self.v__, '0.1 0.1 0');
+		X_FireBullets (14, 4, self.v__, '0.1 0.1 0');
 	}
 	else
 #endifdef
@@ -495,7 +495,7 @@ void() monster_army =
 	self.th_pain = army_pain;
 	self.th_die = army_die;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Soldier";
 
 //	if ((enhance) || (self.spawnflags & ARMY_XWEP))
@@ -505,14 +505,14 @@ void() monster_army =
 		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
 
 		self.rnd_ = army_ofone;
-		if (self.map	== "dyn_sp") self.rnd_ = army_rndenh;
+		if (self.map	== "dyn_monster") self.rnd_ = army_rndenh;
 
-		if (!self.spawnflags & ARMY_XWEP) // not map specced - enhance him
+		if (!(self.spawnflags & ARMY_XWEP)) // not map specced - enhance him
 		if (random() < self.rnd_)
 		{
-			r = random();
-			if (r > 0.85) self.spawnflags = self.spawnflags | ARMY_ROCK;
-			else if (r > 0.6) { self.spawnflags = self.spawnflags | 4; self.ammo_shells = 25; }
+			self.rnd_ = random();
+			if (self.rnd_ > 0.85) self.spawnflags = self.spawnflags | ARMY_ROCK;
+			else if (self.rnd_ > 0.6) { self.spawnflags = self.spawnflags | 4; self.ammo_shells = 25; }
 			else self.spawnflags = self.spawnflags | ARMY_NAILS;
 		}
 
