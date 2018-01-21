@@ -516,12 +516,12 @@ void() monster_enforcer =
 #ifdef monsters_plus__
 	self.netname = "Enforcer";
 
-	if ((self.map == "dyn_monster") || (self.spawnflags & ENF_XWEP))
+	if ((self.map == "dyn_sp") || (self.spawnflags & ENF_XWEP))
 	{
 		local float r;
 
 		self.rnd_ = enf_imprv;
-		if (self.map == "dyn_monster") self.rnd_ = enf_rndenh;
+		if (self.map == "dyn_sp") self.rnd_ = enf_rndenh;
 
 		if (!(self.spawnflags & ENF_XWEP)) // not map specced - enhance him
 		if (random() < self.rnd_)

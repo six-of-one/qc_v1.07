@@ -208,7 +208,7 @@ void() clinger_die6  =[ $explode2, clinger_respawn  ]
 	if (!deathmatch) // original ops
 		remove(self);
 
-	if (self.event == "dyn_monster") // Cat note: dont create a load of respawners when making random monsters
+	if (self.event == "dyn_sp") // Cat note: dont create a load of respawners when making random monsters
 	{
 		self.health = 1; // hide from random monster corpse removal
 		self.nextthink = time + self.wait;
@@ -302,7 +302,7 @@ void() clinger_respawn = [ $idle1, clinger_idle1 ]
 
 // why were the braces here ??
 //	{
-	if (self.event == "dyn_monster" && self.angles_x == 180)
+	if (self.event == "dyn_sp" && self.angles_x == 180)
 	{
 		if (!respawning)
 		{
@@ -360,7 +360,7 @@ if (ign != A_MONSTER)
 #endifdef
 		;
 
-	if (self.map	== "dyn_monster") // Cat note: dont create a load of respawners when making random monsters
+	if (self.map	== "dyn_sp") // Cat note: dont create a load of respawners when making random monsters
 	{
 //		self.stack1 = "no_monster_wakey";
 

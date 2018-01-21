@@ -505,14 +505,14 @@ void() monster_army =
 		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
 
 		self.rnd_ = army_ofone;
-		if (self.map	== "dyn_monster") self.rnd_ = army_rndenh;
+		if (self.map	== "dyn_sp") self.rnd_ = army_rndenh;
 
 		if (!(self.spawnflags & ARMY_XWEP)) // not map specced - enhance him
 		if (random() < self.rnd_)
 		{
 			self.rnd_ = random();
 			if (self.rnd_ > 0.85) self.spawnflags = self.spawnflags | ARMY_ROCK;
-			else if (self.rnd_ > 0.6) { self.spawnflags = self.spawnflags | 4; self.ammo_shells = 25; }
+			else if (self.rnd_ > 0.6) { self.spawnflags = self.spawnflags | ARMY_SSGUN; self.ammo_shells = 25; }
 			else self.spawnflags = self.spawnflags | ARMY_NAILS;
 		}
 
