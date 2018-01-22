@@ -23,7 +23,6 @@ $frame	walk11 walk12
 // NOTE: how does this impach supes
 $frame walkeoc
 
-// CHECK: keeping this?
 // super shalrath!
 $frame lgattack1 lgattack2 lgattack3 lgattack4 lgattack5 lgattack6 lgattack7 lgattack8
 $frame lgattack9 lgattack10 lgattack11
@@ -161,11 +160,8 @@ void() fukee1 =
 #endifdef
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		{
-			s7__ = "owner"; // count monsters we own
+			s7__ = "owner";
 			self.count = cnt_ent(world, class_select, "class_monster");
-//			self.count = self.count + cnt_ent(world, classname,  "monster_wizard");
-//			self.count = self.count + cnt_ent(world, classname,  "monster_spider");
-//			self.count = self.count + cnt_ent(world, classname,  "monster_vomit");
 			if (self.count < 4 + skill)
 			{
 				self.rnd_ = random();

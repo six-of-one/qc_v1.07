@@ -373,11 +373,8 @@ framerloop($run1, $run8, ogre_run1, 0.1,
 	if ((time & SV_CKTIME) == SV_CKTIME)
 	{
 		self.count = 0;
-		s7__ = "owner"; // count monsters we own
+		s7__ = "owner";
 		self.count = cnt_ent(world, class_select, "class_monster");
-//		if (!self.spawnflags & 16) self.count = cnt_ent(world, classname,  "monster_ogre");
-//		self.count = self.count + cnt_ent(world, classname,  "monster_dog");
-//		self.count = self.count + cnt_ent(world, classname,  "monster_spider");
 		if (self.count < 4 + skill)
 		{
 			self.rnd_ = random();
