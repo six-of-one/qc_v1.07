@@ -661,12 +661,12 @@ void() W_FireLightning =
 	local	vector		org;
 	local	float		cells;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.class_select == "class_monster") // enhanced - monster firing lightning
 	{
 		v_forward = normalize (self.enemy.origin - self.origin);
 //		makevectors(v_forward);
-		wlevel = CheckWaterLevel ();
+		self.waterlevel = CheckWaterLevel ();
 		cells = 10 + random() * 10;
 	}
 	else

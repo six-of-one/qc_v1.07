@@ -368,6 +368,7 @@ void(string ms) SummonMonster =
 		if (self.aflag >= 2 + skill) // SV_MINELIM
 		{
 // count them - some could have exploded
+			s7__ = "owner"; // mines we own
 			self.aflag = cnt_ent(world, classname,  ms);
 
 // fail - he has made max number of mines
