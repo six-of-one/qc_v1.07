@@ -330,7 +330,7 @@ framerloop($stand1, $stand9, fr_stand9, 0.1,
 );
 
 
-#ifdef code_archon
+#ifdef monsters_plus__
 /*
 ================
 SummonMonster
@@ -361,14 +361,14 @@ void(string ms) SummonMonster =
 // mine limit in aflag for mine makers
 // can make 3 mines on skill 1
 
-	if (ms == null_string) // default to spike mine & check limits
+	if (ms == string_null) // default to spike mine & check limits
 	{
 		ms = "trap_spike_mine";
 
 		if (self.aflag >= 2 + skill) // SV_MINELIM
 		{
 // count them - some could have exploded
-			self.aflag = cnt_ent(world, "owner",  ms);
+			self.aflag = cnt_ent(world, classname,  ms);
 
 // fail - he has made max number of mines
 			if (self.aflag >= 2 + skill) return; // SV_MINELIM - 3 mines

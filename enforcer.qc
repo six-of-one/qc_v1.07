@@ -55,7 +55,7 @@ void(vector org, vector vec) LaunchLaser =
 {
 //	local	vector	vec;	// fx_warning
 		
-	if (self.classname == "monster_enforcer")
+	if (self.netname == "Enforcer")
 		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
 
 	vec = normalize(vec);

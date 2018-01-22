@@ -12,7 +12,7 @@
 
 // enhanced monster section
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 
 // archon monster speed module - some monsters move differently
 
@@ -43,8 +43,19 @@
 
 #endifdef
 
+// Monsters can summon minions!
 
+void(string ms) SummonMonster;
+
+#define SV_SETMINE 0.15 // chance to summon a spike mine
+#define SV_CKTIME 15 // how frequently we check - 15 rels
+#define SV_MINELIM 3 // max mines one monster can make
+
+// supervore = 65536
+// super 3x scrag = 1024
+// death knight = 64
 #define SV_MINEALLOW 66624 // allow monsters to set mines by bitmask
+
 
 // assigned monster bit codes used by vars sections		- use mask_x
 

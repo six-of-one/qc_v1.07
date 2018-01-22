@@ -517,8 +517,10 @@ framerloop($fly1, $fly14, wiz_run1, 0.1,
 	if (self.wad == "SUPER_XMAD")
 	if ((time & SV_CKTIME) == SV_CKTIME)
 	{
-		self.count = cnt_ent(world, "owner",  "monster_wizard");
-		self.count = self.count + cnt_ent(world, "owner",  "monster_spider");
+		s7__ = "owner"; // count monsters we own
+		self.count = cnt_ent(world, class_select, "class_monster");
+//		self.count = cnt_ent(world, classname,  "monster_wizard");
+//		self.count = self.count + cnt_ent(world, classname,  "monster_spider");
 		if (self.count < 4 + skill)
 		{
 			self.cnt = random();

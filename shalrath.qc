@@ -41,7 +41,7 @@ void() shalrath_pain;
 void() ShalMissile;
 void() shal_stand     =[      $walk1,       shal_stand    ] 
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.count = self.count + 1;
 
 	if (self.wad == "SUPER")
@@ -51,7 +51,7 @@ void() shal_stand     =[      $walk1,       shal_stand    ]
 		if (self.count > 5)
 		if (random() < 0.35)
 		{
-			SummonMonster(null_string);
+			SummonMonster(string_null);
 			self.count = 0;
 		}
 
@@ -99,13 +99,13 @@ framerloop($walk1, $walk12, shal_walk1, 0.1,
 framerloop($walk2, $walkeoc, shal_walk1, 0.1,
 
 	frame_arb($walk2,if (random() < 0.2) sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE));
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($walk7,
 
 		if (self.wad == "SUPER")
 		{
 			if (SV_MINEALLOW & CB_M_SVORE)
-			if ((time & SV_CKTIME) == SV_CKTIME) SummonMonster(null_string);
+			if ((time & SV_CKTIME) == SV_CKTIME) SummonMonster(string_null);
 
 			if (self.archon < 100) self.archon = self.health + random() * (self.health / 2);
 		}
@@ -151,25 +151,28 @@ framerloop($walk1, $walk12, shal_run1, 0.1,
 
 #else
 */
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // some bizzare ass compiler failure when this is in frame_arb - even tho code DOES NOT COMPILE!
 void() fukee1 =
 {
 		if (self.wad == "SUPER")
+#ifdef code_archon
 		if (sphere_a.owner != self) // dont summon while we have the sphere
+#endifdef
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		{
-			self.count = cnt_ent(world, "owner",  "monster_shalrath");
-			self.count = self.count + cnt_ent(world, "owner",  "monster_wizard");
-			self.count = self.count + cnt_ent(world, "owner",  "monster_spider");
-			self.count = self.count + cnt_ent(world, "owner",  "monster_vomit");
+			s7__ = "owner"; // count monsters we own
+			self.count = cnt_ent(world, class_select, "class_monster");
+//			self.count = self.count + cnt_ent(world, classname,  "monster_wizard");
+//			self.count = self.count + cnt_ent(world, classname,  "monster_spider");
+//			self.count = self.count + cnt_ent(world, classname,  "monster_vomit");
 			if (self.count < 4 + skill)
 			{
-				self.cnt = random();
-				if (self.cnt < 0.15) SummonMonster("monster_shalrath");
-				else if (self.cnt < 0.3) SummonMonster("monster_wizard");
-				else if (self.cnt < 0.4) SummonMonster("monster_spider");
-				else if (self.cnt < 0.6) SummonMonster("monster_vomit");
+				self.rnd_ = random();
+				if (self.rnd_ < 0.15) SummonMonster("monster_shalrath");
+				else if (self.rnd_ < 0.3) SummonMonster("monster_wizard");
+				else if (self.rnd_ < 0.4) SummonMonster("monster_spider");
+				else if (self.rnd_ < 0.6) SummonMonster("monster_vomit");
 			}
 		}
 };
@@ -178,14 +181,14 @@ void() fukee2 =
 {
 		if (self.wad == "SUPER")
 		{
-			self.cnt = random();
-			if (self.cnt < 0.05) self.weapon = 0; // got back to explody balls
+			self.rnd_ = random();
+			if (self.rnd_ < 0.05) self.weapon = 0; // got back to explody balls
 			else 
-			if (self.cnt < 0.12) // change weps
+			if (self.rnd_ < 0.12) // change weps
 			{
-				self.cnt = random();
-				if (self.cnt < 0.3) self.weapon = IT_LIGHTNING;
-				else if (self.cnt < 0.4) self.weapon = 2;
+				self.rnd_ = random();
+				if (self.rnd_ < 0.3) self.weapon = IT_LIGHTNING;
+				else if (self.rnd_ < 0.4) self.weapon = 2;
 				else self.weapon = IT_SUPER_NAILGUN;
 			}
 #ifdef local_test
@@ -199,7 +202,7 @@ void() fukee2 =
 framerloop($walk2, $walkeoc, shal_run1, 0.1,
 
 	frame_arb($walk2,if (random() < 0.2) sound(self, CHAN_VOICE, "shalrath/idle.wav", 1, ATTN_IDLE));
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($walk5,fukee1());
 #endifdef
 
@@ -255,18 +258,22 @@ framer($attack1, $attack11, shal_attack1, shal_run1, 0.1,
 	
 	frame_arb($attack1,
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		fukee2();
+#endifdef
 
+#ifdef code_archon
 		if ((sphere_a.owner == self) && self.weapon != 2) shal_run1();
 		else
+#endifdef
+#ifdef code_morph
 		if (self.weapon) player_shalrath_lightning1(); //s_shal_attackb1();
 		else
 #endifdef
 		sound (self, CHAN_VOICE, "shalrath/attack.wav", 1, ATTN_NORM)
 	);
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($attack1,
 
 		if (self.wad == "SUPER")
@@ -309,7 +316,7 @@ void() shalrath_pain =
 	sound (self, CHAN_VOICE, "shalrath/pain.wav", 1, ATTN_NORM);
 	shal_pain1();
 	self.pain_finished = time + 3;
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.wad == "SUPER") self.pain_finished = time + 5;
 #endifdef
 };
@@ -327,7 +334,7 @@ void() shalrath_die =
 		ThrowGib ("progs/gib3.mdl", self.health);
 */
 		gibbs("progs/h_shal.mdl");
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		if (self.walkframe > 0) self.scale = 1.25;	// CHECK: is test valid?
 #endifdef
 		return;
@@ -447,10 +454,10 @@ void() ShalHome =
 	self.nextthink = time + 0.2;
 	self.think = ShalHome;	
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // for homing spikes & such
 	if (self.classname != "vorespike")
-		self.angles = vectoangles(dir);
+		self.angles = vectoangles(self.v__);
 #endifdef
 };
 
@@ -459,7 +466,7 @@ void() ShalMissileTouch =
 	if (other == self.owner)
 		return;		// don't explode on owner
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.owner.class_select == "class_monster") // not a morphed player or bot
 	{
 		if (other.owner == self.owner) return; // dont blow on SV summoned monster
@@ -531,7 +538,7 @@ void() monster_shalrath =
 #endifdef
 	self.nextthink = time + 0.1 + random ()*0.1;	
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Shalrath";
 #endifdef
 
@@ -558,7 +565,7 @@ He got concerned about his smaller cousin when he heard stories about how easy S
 
 */
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 void() monster_supervore =
 {
 
