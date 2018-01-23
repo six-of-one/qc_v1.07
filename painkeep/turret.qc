@@ -204,15 +204,15 @@ void() turret_dropTurret =
 
 	local float ri;
 	ri = random();
-	lturret.state = 0;
+	lturret.state = 0;																							// pick a random bit from flags set accd. to %s
 	if ((lturret.button6 & 1) && ri < 0.6) lturret.state = 1;					// (PK_TUR_VARIETY & bf )
 	else if ((lturret.button6 & 2) && ri < 0.8) lturret.state = 2;
 	else if ((lturret.button6 & 4) && ri < 0.9) lturret.state = 4;
-	else if ((lturret.button6 & 8) && ri < 0.95) lturret.state = 8;
-	else if ((lturret.button6 & 16) && ri < 0.99) lturret.state = 16;
+	else if ((lturret.button6 & 8) && ri < 0.945) lturret.state = 8;
+	else if ((lturret.button6 & 16) && ri < 0.98) lturret.state = 16;
 
 	ri = 1;
-	if (!lturret.state)
+	if (!lturret.state)										// we didnt get a random pick - grab the lowest bit flag
 	while (ri < 32 && !lturret.state)
 	{
 		if (ri & lturret.button6) lturret.state = ri;

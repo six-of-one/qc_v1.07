@@ -289,7 +289,7 @@ void() func_spawn =
 		self.nextthink = time + 1;
 */
 
-		if (spawnchance<0.92 && monster==tempself)
+		if (spawnchance>0.08 && monster==tempself)
 		{
 			monster = self;
 		}
