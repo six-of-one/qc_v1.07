@@ -404,7 +404,7 @@ void() func_arcarn =
 	self.oldorigin = self.origin;
 	if (self.distance < 1) self.distance = 64;
 	if (self.height< 1) self.height = 32;
-	if (!self.lip) self.lip = 0.24;
+	if (!self.lip) self.lip = 0.25;
 
 	self.alpha = 0;
 	if (self.flags < 1) self.flags = 12;
