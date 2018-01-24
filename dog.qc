@@ -568,11 +568,11 @@ void() monster_dog =
 	self.waitmax = 0;
 	self.walkframe = 0;
 
-	if ((self.map == "dyn_sp") || (self.spawnflags & 6))
+	if ((self.spawnflags & MFL_ENHANCE) || (self.spawnflags & 6))
 	{
 		self.rnd_ = 0.2;
 		if (skill == 3) self.rnd_ = 0.4;
-		if (self.map == "dyn_sp") self.rnd_ = 0.8;
+		if (self.spawnflags & 262144) self.rnd_ = 0.8;			// cheat in an unused (so far) bit flag for an extra enhance chance
 
 		if (!self.spawnflags & 6) // not map specced - enhance him
 		if (random() < self.rnd_)
@@ -580,10 +580,6 @@ void() monster_dog =
 //			enhance = 2; // TWOHEAD
 			self.spawnflags = self.spawnflags | 2; // fluffy is NOT an upgrade option
 		}
-
-#ifdef testset
-		if (random() < 0.1) self.spawnflags = 4; // test a fluffy
-#endifdef
 
 		if (self.spawnflags & 4) // FLUFFY
 		{

@@ -516,12 +516,12 @@ void() monster_enforcer =
 #ifdef monsters_plus__
 	self.netname = "Enforcer";
 
-	if ((self.map == "dyn_sp") || (self.spawnflags & ENF_XWEP))
+	if ((self.spawnflags & MFL_ENHANCE) || (self.spawnflags & ENF_XWEP))
 	{
 		local float r;
 
 		self.rnd_ = enf_imprv;
-		if (self.map == "dyn_sp") self.rnd_ = enf_rndenh;
+		if (self.spawnflags & 262144) self.rnd_ = enf_rndenh;			// cheat in an unused (so far) bit flag for an extra enhance chance
 
 		if (!(self.spawnflags & ENF_XWEP)) // not map specced - enhance him
 		if (random() < self.rnd_)
@@ -543,11 +543,10 @@ void() monster_enforcer =
 
 		if (self.spawnflags & ENF_RAIL)
 		{
-//			self.th_missile = army_natk1;
-			self.ammo_slug = ceil(enf_railslugs + random() * 5); //army_canhas_grenades);
+			self.ammo_slug = ceil(enf_railslugs + random() * 5);
 		}
 		if (self.spawnflags & ENF_ROCK)
-			self.ammo_rockets = ceil((enf_railslugs * 2) + random() * 5); //army_canhas_grenades);
+			self.ammo_rockets = ceil((enf_railslugs * 2) + random() * 5);
 	}
 #endifdef
 

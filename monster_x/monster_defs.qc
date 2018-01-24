@@ -133,7 +133,35 @@ void(string ms) SummonMonster;
 #define	MON_SUPER			1.5
 #define	MON_SUPERXM			2
 
+// stats from super ogre
+#define	mon_super_chance 0.1				// chance a spawning monster can go SUPER
+#define	mon_super_xmad_chance 0.5				// chance a monster in pain can go SUPER EXTRA MAD
+#define	mon_super_emheal_chn 0.4	// chance to heal
+#define	mon_super_heal 40 					// how much a super could heal in a pain frame
+#define	mon_super_emheal 80 				// how much a super thats extra mad could heal in a pain frame
 
+/*
+pain code EXMAD
+
+			if (self.health < 250)
+			if (random() < 0.5)
+				self.scale = MON_SUPERXM;
+//				self.spawnflags = self.spawnflags | OGRE_SUPER_MAD;
+
+			if (self.health < 50)
+				self.scale = MON_SUPERXM;
+
+xmad pain ops
+		if (random() < mon_super_emheal_chn)
+			self.health = self.health + (mon_super_emheal * random());
+
+		if (self.speed > mon_superspeedup_max)
+		if (random() < mon_superspeed_chn)
+		{
+			self.speed  = self.speed - mon_superspeed_fact;
+			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
+		}
+*/
 
 #endifdef
 

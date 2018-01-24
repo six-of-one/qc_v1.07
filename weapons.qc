@@ -707,6 +707,12 @@ void() W_FireLightning =
 	self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 
 	org = self.origin + '0 0 16';
+
+#ifdef monsters_plus__
+	if (self.class_select == "class_monster") // enhanced - monster firing lightning  -- so far only enforcer sets or calls this
+		org = self.v__;
+	else
+#endifdef
 #ifdef code_viswep
 #ifdef vwlaunch
 	if (self.vwlaunch)

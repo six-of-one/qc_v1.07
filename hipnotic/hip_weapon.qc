@@ -233,7 +233,10 @@ void(float stat) HIP_FireLaser =
 // this is buggered if vwlaunch is null & using the vwl code
    org = self.origin + ((VWZ_LASERCAN - ofs) * v_up) + (VWX_LASERCAN * out);
 	if (self.class_select == "class_monster")
+	{
+		org = self.v__;
 		dir = normalize (self.enemy.origin - self.origin);
+	}
 	else
 //	org = self.origin + (1*v_forward);
 	dir = aim (self, 1000);

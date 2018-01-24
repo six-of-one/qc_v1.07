@@ -107,8 +107,6 @@ $frame soemdeath13 soemdeath14
 *
 //=============================================================================
 
-#define	OGRE_BAWSE	2
-#define	OGRE_NORMAL	4
 #define	OGRE_SUPER	8
 #define	OGRE_SUPER_MAD	16 // got extra mad
 
@@ -187,6 +185,9 @@ void() OgreFireGrenade =
 
 };
 */
+
+#define	OGRE_BAWSE	2
+#define	OGRE_NORMAL	4
 
 //=============================================================================
 
@@ -719,7 +720,7 @@ framer($death1, $death14, ogre_die1, SUB_Null, 0.1,
 		self.solid = SOLID_NOT;
 #ifdef monsters_plus
 //		if (self.spawnflags & OGRE_BOSS)
-//			self.ammo_multi_rockets = 2;
+//			self.ammo_multi_rockets = 2;			FIX:
 //		else
 		if (! self.spawnflags & OGRE_SUPER)
 //			self.ammo_rockets = 6 + random() * 4;
@@ -859,24 +860,26 @@ void() monster_ogre =
 #ifdef monsters_plus
 	self.netname = "Ogre";
 
+
 // rogue - multi ogre
 // none specified - choose random. 25% boss on normal, hard, bloodbath
-	if (rogue_map(world.model) || (self.map == "dyn_sp"))
+	if (rogue_map(world.model) || (self.spawnflags & MFL_ENHANCE))
 	if (self.spawnflags <= 1)
 	{
 		if (cvar("skill") > 0)
+		if ( random() <= 0.25 )
 		{
-			if ( random() <= 0.25 )
-			{
-				self.spawnflags = self.spawnflags | OGRE_BAWSE;
-			}
+			self.spawnflags = self.spawnflags | OGRE_BAWSE;
 		}
 	}
 
-	if (self.map	== "dyn_sp")
-	if (!self.spawnflags & OGRE_NORMAL)
-	if (random() < super_ogre_chance)
-		self.spawnflags = self.spawnflags | OGRE_SUPER;
+/*
+--- moving to gen spawn in walkmonster_start
+	if (self.spawnflags & MFL_SUPER)
+//	if (!self.spawnflags & MFL_NORMAL)
+	if (random() < mon_super_chance)
+		self.scale = MON_SUPER;
+*/
 
 	if (self.spawnflags & OGRE_BAWSE)
 	{
@@ -886,11 +889,12 @@ void() monster_ogre =
 
 //	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 
-	if (self.spawnflags & OGRE_SUPER)
+	if (self.scale >= MON_SUPER)
+//	if (self.spawnflags & OGRE_SUPER)
 	{
 		self.health = 400 + (100 * random()) + (100 * random());
 
-		self.wad = "SUPER";
+//		self.wad = "SUPER";		detect by scale
 		self.th_missile = ogre_melee; // SUPER has no grenades
 		self.walkframe = $sostand1;
 		self.waitmax = 2; // multiplier in this case
