@@ -554,11 +554,11 @@ void() W_FireRocket =
 
 // set missile speed	
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.class_select == "class_monster") // enhanced - monster firing a rocket
 	{
-		bfwd = self.enemy.origin - self.enemy.velocity*0.2;
-		newmis.velocity = normalize (bfwd - self.origin);
+		self.v__ = self.enemy.origin - self.enemy.velocity*0.2;
+		newmis.velocity = normalize (self.v__ - self.origin);
 		newmis.dmg = 80; // not as strong as player unless set that way
 	}
 #endifdef

@@ -43,6 +43,7 @@
 
 #endifdef
 
+
 // Monsters can summon minions!
 
 void(string ms) SummonMonster;
@@ -105,6 +106,33 @@ void(string ms) SummonMonster;
 #define CB_M_SUPTANK				128
 #define CB_M_TANK						256
 */
+
+
+// monster enhancements
+
+#define	MFL_ENHANCE			1048576			// allow individual monsters spawn & ops code to activate enhanced monster elements
+#define	MFL_SUPER					524288			// allow monster spawn & ops code to use SUPER & SUPER_XMAD monsters
+
+// super monster scale
+//													super ogre model		- '1.6 1.6 1.2'
+//													super ogre XMAD		- '1.9 1.9 1.4'		- in death frames '2.0 2.0 1.5'
+//													super demon model	- '1.5 1.5 1.5'
+//													super demon XMAD	- '1.9 1.9 1.9'
+//													3 head dog model		- '1.5 1.5 1.5'
+//													baby scorg model		- '0.23 0.23 0.23'
+//													mini scorg model		- '0.45 0.45 0.45'
+//													super scorg model		- '2 2 2'
+//													super scorg XMAD		- '3 3 3'
+//													super scorg Ultra		- '6 6 6'
+//													large scrag model		- '1.75 1.75 1.75'
+//													super scrag model		- '2 2 2'
+//													vorizel model				- '1.5 1.5 1.4'
+
+// code set scale / detect for SUPER monsters
+
+#define	MON_SUPER			1.5
+#define	MON_SUPERXM			2
+
 
 
 #endifdef

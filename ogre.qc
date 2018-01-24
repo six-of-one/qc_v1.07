@@ -681,7 +681,7 @@ void(entity attacker, float damage)	ogre_pain =
 		ogre_painc1 ();
 		self.pain_finished = time + self.cnt;
 	}
-	else if (self.rnd_ < 0.88)
+	else if (self.rnd_ < 0.87)
 	{
 		ogre_paind1 ();
 		self.pain_finished = time + self.cnt + 1;

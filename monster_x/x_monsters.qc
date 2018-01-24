@@ -60,6 +60,8 @@
 
 #else
 
+
+// since these are not map monsters (far as we know) there is no significance to properly "removing" them
 #ifdef unused
 
 #message         			-- exclude: extra monsters NOT compiled 

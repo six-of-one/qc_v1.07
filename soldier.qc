@@ -180,14 +180,13 @@ void() army_firenails =
 
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 	self.attack_finished = time;
-	e0__ = self.enemy;
-	self.dest = e0__.origin - e0__.velocity*0.2;
-	self.dest = normalize (self.dest - self.origin);
-	launch_spike (self.origin + '0 0 16', self.dest);
+	self.v__ = self.enemy.origin - self.enemy.velocity*0.2;
+	self.v__ = normalize (self.v__ - self.origin);
+	launch_spike (self.origin + '0 0 16', self.v__);
 };
 
-//TDO: frame this
 //GRUNT WITH NAILS*************
+/*
 void()  army_natk1   =[  $shoot1,    army_natk2   ] {ai_face();};
 void()  army_natk2   =[  $shoot2,    army_natk3   ] {ai_face();};
 void()  army_natk3   =[  $shoot3,    army_natk4   ] {ai_face();
@@ -205,6 +204,16 @@ void()  army_natk6   =[  $shoot6,    army_natk7   ] {ai_face();
 void()  army_natk7   =[  $shoot7,    army_natk8   ] {ai_face();SUB_CheckRefire (army_natk1);};
 void()  army_natk8   =[  $shoot8,    army_natk9   ] {ai_face();};
 void()  army_natk9   =[  $shoot9,    army_run1   ] {ai_face();};
+*/
+framer($shoot1, $shoot9, army_natk1, army_run1, 0.1,
+
+	framerange_arb($shoot3, $shoot6, 
+		 army_firenails();
+		 self.effects = self.effects | EF_MUZZLEFLASH;	
+	)
+);
+
+
 //*****************************
 #endifdef
 
@@ -314,7 +323,7 @@ void() army_fire =
 
 #ifdef monsters_plus__
 	makevectors (self.angles);
-   if ((self.spawnflags & 8) && (self.ammo_rockets > 0))
+   if ((self.spawnflags & ARMY_ROCK) && (self.ammo_rockets > 0))
 	{
 //		self.ammo_rockets = self.ammo_rockets - 1; - done in W_Fire
 		W_FireRocket();
@@ -498,14 +507,12 @@ void() monster_army =
 #ifdef monsters_plus__
 	self.netname = "Soldier";
 
-//	if ((enhance) || (self.spawnflags & ARMY_XWEP))
-	if (self.spawnflags & ARMY_XWEP)
+	if (self.spawnflags & MFL_ENHANCE)
 	{
-//		local float r;
 		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
 
 		self.rnd_ = army_ofone;
-		if (self.map	== "dyn_sp") self.rnd_ = army_rndenh;
+		if (self.spawnflags & 262144) self.rnd_ = army_rndenh;			// cheat in an unused (so far) bit flag for an extra enhance chance
 
 		if (!(self.spawnflags & ARMY_XWEP)) // not map specced - enhance him
 		if (random() < self.rnd_)
@@ -518,14 +525,13 @@ void() monster_army =
 
 		if (self.spawnflags & ARMY_ROCK)
 		{
-//			self.th_missile = army_natk1;
 			self.ammo_rockets = ceil(self.ammo_rockets + 20 + random() * 5); //army_canhas_grenades);
 		}
 		else
 		if (self.spawnflags & ARMY_NAILS)
 		{
 			self.th_missile = army_natk1;
-			self.ammo_nails = 15;
+			self.ammo_nails = 15;				// this is just an ammo drop - he uses infinite nails
 		}
 	}
 #endifdef

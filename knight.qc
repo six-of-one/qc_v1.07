@@ -350,7 +350,7 @@ void() monster_knight =
 	self.th_pain = knight_pain;
 	self.th_die = knight_die;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Knight";
 #endifdef
 

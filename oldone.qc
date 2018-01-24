@@ -493,7 +493,7 @@ void() monster_oldone =
 	
 	total_monsters = total_monsters + 1;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Shub Niggurath";
 #endifdef
 };

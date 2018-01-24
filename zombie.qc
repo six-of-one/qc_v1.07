@@ -700,7 +700,7 @@ void() monster_zombie =
 	}
 #endifdef
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Zomby";
 #endifdef
 
