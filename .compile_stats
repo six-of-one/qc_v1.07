@@ -2,7 +2,6 @@
                 		- qc++
                 		- opgrade
                 		- codefix
-                		- noautoaim
                 		- noobjerr
                 		- nodprint
                 		- warning
@@ -10,35 +9,41 @@
                 		- xvars
                 		- Archon (a)
                 		- hipnotic
+                		- zerstorer
                 		- code_painkeep
+                		- code_pkbots
                 		- code_frikbots
                 		- code_runes
+                		- last man standing
                 		- code_viswep
                 		- quakemonsters
+                		- xmonsters
                 		- map_hack
                 		- code_xents
 
 
-115420 strofs (of 1000000)
- 65515 numstatements (of 524288)
-  1464 numfunctions (of 16384)
-  6410 numglobaldefs (of 32768)
-   467 numfielddefs (425 unique) (of 2048)
-  6901 numpr_globals (of 65536)
+
+141256 strofs (of 1000000)
+ 85498 numstatements (of 524288)
+  1915 numfunctions (of 16384)
+  7968 numglobaldefs (of 32768)
+   512 numfielddefs (469 unique) (of 2048)
+  8526 numpr_globals (of 65536)
 Writing progs.dat
-774996 TOTAL SIZE
+996256 TOTAL SIZE
 Writing progs.lno
-102 unique precache_models
+112 unique precache_models
 Compile Complete
 
-optres_shortenifnots 550
-optres_overlaptemps 37205
-optres_constantarithmatic 331
-optres_nonvec_parms 10070
-optres_assignments 1956
-optres_unreferenced 47
+optres_shortenifnots 727
+optres_overlaptemps 48462
+optres_constantarithmatic 453
+optres_nonvec_parms 12340
+optres_assignments 2817
+optres_unreferenced 80
 optres_dupconstdefs 3
-numtemps 479
-103 warnings
+numtemps 591
+113 warnings
+
 
 

@@ -484,7 +484,7 @@ void() T_MissileTouch =
 		return;
 	}
 
-#ifdef opgrade]
+#ifdef opgrade
 	if (!self.dmg) self.dmg = 120;
 	damg = self.dmg - 20 + random()*20;
 #else

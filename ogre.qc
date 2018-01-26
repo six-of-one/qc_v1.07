@@ -495,30 +495,12 @@ framer($shoot1, $shoot6, ogre_nail1, ogre_run1, 0.1,
 
 	frame_arb($shoot3,
 
-		W_FireGrenade()
 #ifdef monsters_plus
 	if(self.spawnflags & OGRE_BAWSE)
-	{
-		newmis.touch = MultiGrenadeTouch;
-		newmis.dodmg = 60;
-		newmis.nextthink = time + 2.5;
-		newmis.think = MultiGrenadeExplode;
-		setmodel (newmis, "progs/mervup.mdl");
-		setsize (newmis, '0 0 0', '0 0 0');		
-		newmis.classname = "MultiGrenade";
-	}
-/* folded into fire grenade code
+		W_FireMultiGrenade();
 	else
-	{
-		newmis.touch = GrenadeTouch;
-		newmis.dodmg = 40;
-		newmis.nextthink = time + 2.5;
-		newmis.think = GrenadeExplode;
-		setmodel (newmis, "progs/grenade.mdl");
-		setsize (newmis, '0 0 0', '0 0 0');
-	}
-*/
 #endifdef
+		W_FireGrenade()
 	);
 	ai_face();
 );
@@ -857,13 +839,13 @@ void() monster_ogre =
 	self.th_missile = ogre_nail1;
 	self.th_pain = ogre_pain;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.netname = "Ogre";
 
 
 // rogue - multi ogre
 // none specified - choose random. 25% boss on normal, hard, bloodbath
-	if (rogue_map(world.model) || (self.spawnflags & MFL_ENHANCE))
+	if ((MAP_MODE == "r") || (self.spawnflags & MFL_ENHANCE))
 	if (self.spawnflags <= 1)
 	{
 		if (cvar("skill") > 0)
@@ -884,11 +866,11 @@ void() monster_ogre =
 	if (self.spawnflags & OGRE_BAWSE)
 	{
 		self.skin = 1;
-		self.wad = "MEGA";
+//		self.wad = "MEGA";
 	}
 
 //	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-
+/*
 	if (self.scale >= MON_SUPER)
 //	if (self.spawnflags & OGRE_SUPER)
 	{
@@ -896,9 +878,9 @@ void() monster_ogre =
 
 //		self.wad = "SUPER";		detect by scale
 		self.th_missile = ogre_melee; // SUPER has no grenades
-		self.walkframe = $sostand1;
 		self.waitmax = 2; // multiplier in this case
 	}
+*/
 #endifdef
 
 	walkmonster_start;

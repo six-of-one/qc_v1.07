@@ -21,7 +21,7 @@ $frame stand7 stand8 stand9 stand10 stand11 stand12
 
 $frame walk1 walk2 walk3 walk4 walk5 walk6
 
-$frame shoot1 shoot2
+$frame shoot1 shoot2 shoot3 shoot4
 
 $frame sting1 sting2 sting3 sting4 sting5 sting6
 $frame sting7 sting8 sting9 sting10 sting11
@@ -29,6 +29,12 @@ $frame sting7 sting8 sting9 sting10 sting11
 $frame pain1 pain2 pain3 pain4 pain5
 
 $frame death1 death2 death3 death4 death5
+
+// from 2 gun pods to 4 to 6
+$frame expand1 expand2 expand3 expand4 expand5 expand6 
+
+// makes baby scourge
+$frame pod1 pod2 pod3 pod4
 //
 
 /*
