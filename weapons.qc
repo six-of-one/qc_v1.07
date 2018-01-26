@@ -760,6 +760,14 @@ void() GrenadeTouch =
 		return;		// don't explode on owner
 	if (other.takedamage == DAMAGE_AIM)
 	{
+#ifdef ROGUE
+		if (self.classname == "MiniGrenade")
+			MiniGrenadeExplode();
+		else
+		if (self.owner.classname != "player")
+			MiniGrenadeExplode();
+		else
+#endifdef
 		GrenadeExplode();
 		return;
 	}

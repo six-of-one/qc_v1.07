@@ -30,8 +30,8 @@ void() MiniGrenadeExplode =
 
 	T_RadiusDamage (self, self.owner, self.dmg, world);
 
-	te_explosion2(self.origin, 230, 5);
-/*
+//	te_explosion2(self.origin, 230, 5);
+
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_EXPLOSION2);
 	WriteCoord (MSG_BROADCAST, self.origin_x);
@@ -39,7 +39,7 @@ void() MiniGrenadeExplode =
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 	WriteByte (MSG_BROADCAST, 230);
 	WriteByte (MSG_BROADCAST, 5);
-*/
+
 	BecomeExplosion (WORLD);
 };
 

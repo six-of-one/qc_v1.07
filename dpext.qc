@@ -52,7 +52,7 @@ void(entity own, vector start, vector end) te_lightning2 = #429;
 // used by hip_expl, #427 rogue stuff
 
 void(vector org) te_explosionsilent = #458;
-void(vector org, float color, float colorlength) te_explosion2 = #427;
+//void(vector org, float color, float colorlength) te_explosion2 = #427;
 
 #ifdef escher
 
