@@ -124,10 +124,6 @@
 #endifdef
 
 // --------------------------------------------------------------------------------------------------------------------------
-#ifdef hip_items
-// there is no specific items files - but we need to remove this
-	#undef hipitem_xlate_item
-#endifdef
 
 // this is sub-ifdef'd among * units
 
@@ -148,8 +144,6 @@
 // --------------------------------------------------------------------------------------------------------------------------
 #ifdef hip_weapons
 
-	#undef hipitem_xlate_weapon
-
 	// extruded code
 	#messagecompiling hipnotic/hip_weapon.qc 
 	#include </hip_weapon.qc>
@@ -159,8 +153,6 @@
 
 // --------------------------------------------------------------------------------------------------------------------------
 #ifdef hip_monsters
-
-	#undef hipitem_xlate_monster
 
 	#messagecompiling hipnotic/hipscrge.qc 
 	#include </hipscrge.qc>
@@ -229,54 +221,6 @@ the hipnotic code base used (at compile date indicated):
 
 // --------------------------------------------------------------------------------------------------------------------------
 
-// code affecting monsters, weapons and items
-// translate hipnotic to id1 selections
-// note - if you enable a module - its xlate will turn off
 
-#ifdef hipitem_xlate
-
-//#messagecompiling hipnotic/hip_xlate.qc 
-#include </hip_xlate.qc>
-
-	#ifdef message_all
-
-		#ifdef hipitem_xlate_item
-		#message         			-- compile: hipnotic items translated to quake 1 
-		#endifdef
-
-		#ifdef hipitem_xlate_weapon
-		#message         			-- compile: hipnotic weapons translated to quake 1 
-		#endifdef
-
-		#ifdef hipitem_xlate_monster
-		#message         			-- compile: hipnotic monsters translated to quake 1 
-		#endifdef
-
-	#endifdef
-
-#endifdef
-
-#ifdef hipitem_null
-
-//#messagecompiling hipnotic/hip_xnull.qc 
-#include </hip_xnull.qc>
-
-	#ifdef message_all
-
-		#ifdef hipitem_xlate_item
-		#message         			-- compile: hipnotic items nullified 
-		#endifdef
-
-		#ifdef hipitem_xlate_weapon
-		#message         			-- compile: hipnotic weapons nullified 
-		#endifdef
-
-		#ifdef hipitem_xlate_monster
-		#message         			-- compile: hipnotic monsters nullified 
-		#endifdef
-
-	#endifdef
-
-#endifdef
 
 
