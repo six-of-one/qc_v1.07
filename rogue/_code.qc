@@ -42,23 +42,12 @@
 
 // moved to defs.qc
 //#messagecompiling rogue/rogdefs.qc 
-//#include </hipdefs.qc>
+//#include </rogdefs.qc>
 
-
-	#messagecompiling rogue/hipsubs.qc 
-	#include </hipsubs.qc>
 
 // extruded code
 	#messagecompiling rogue/rogue_ai.qc 
 	#include </rogue_ai.qc>
-
-
-// Six - this is wrapped with debug as it produces a weird result
-	#messagecompiling rogue/hipspike.qc 
-	#include </hipspike.qc>
-
-
-
 #endifdef
 
 
@@ -75,10 +64,7 @@
 #endifdef
 
 // --------------------------------------------------------------------------------------------------------------------------
-#ifdef rogue_items
-// there is no specific items files - but we need to remove this
-	#undef rogitem_xlate_item
-#endifdef
+//ifdef rogue_items
 
 // this is sub-ifdef'd among * units
 
@@ -88,8 +74,6 @@
 
 // --------------------------------------------------------------------------------------------------------------------------
 #ifdef rogue_weapons
-
-	#undef rogitem_xlate_weapon
 
 	// extruded code
 	#messagecompiling rogue/rogue_weapon.qc 
@@ -101,7 +85,6 @@
 // --------------------------------------------------------------------------------------------------------------------------
 #ifdef rogue_monsters
 
-	#undef rogitem_xlate_monster
 
 	#messagecompiling rogue/hipscrge.qc 
 	#include </hipscrge.qc>
@@ -165,54 +148,5 @@ the rogue code base used (at compile date indicated):
 
 // --------------------------------------------------------------------------------------------------------------------------
 
-// code affecting monsters, weapons and items
-// translate rogue to id1 selections
-// note - if you enable a module - its xlate will turn off
-
-#ifdef rogitem_xlate
-
-//#messagecompiling rogue/rogue_xlate.qc 
-#include </rogue_xlate.qc>
-
-	#ifdef message_all
-
-		#ifdef rogitem_xlate_item
-		#message         			-- compile: rogue items translated to quake 1 
-		#endifdef
-
-		#ifdef rogitem_xlate_weapon
-		#message         			-- compile: rogue weapons translated to quake 1 
-		#endifdef
-
-		#ifdef rogitem_xlate_monster
-		#message         			-- compile: rogue monsters translated to quake 1 
-		#endifdef
-
-	#endifdef
-
-#endifdef
-
-#ifdef rogitem_null
-
-//#messagecompiling rogue/rogue_xnull.qc 
-#include </rogue_xnull.qc>
-
-	#ifdef message_all
-
-		#ifdef rogitem_xlate_item
-		#message         			-- compile: rogue items nullified 
-		#endifdef
-
-		#ifdef rogitem_xlate_weapon
-		#message         			-- compile: rogue weapons nullified 
-		#endifdef
-
-		#ifdef rogitem_xlate_monster
-		#message         			-- compile: rogue monsters nullified 
-		#endifdef
-
-	#endifdef
-
-#endifdef
 
 

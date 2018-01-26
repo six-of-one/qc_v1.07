@@ -9,9 +9,7 @@
  * qc - rogue multi weapons module
  *
  */
- 
- archon
-// multi_weapons.qc
+
 // pmack
 // sept 96
 
