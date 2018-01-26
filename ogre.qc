@@ -848,7 +848,7 @@ void() monster_ogre =
 // rogue - multi ogre
 // none specified - choose random. 25% boss on normal, hard, bloodbath
 	if ((MAP_MODE == "r") || (self.spawnflags & MFL_ENHANCE))
-	if (self.spawnflags <= 1)
+	if (!(self.spawnflags & 4))	// not locked as normal ogre
 	{
 		if (cvar("skill") > 0)
 		if ( random() <= 0.25 )
