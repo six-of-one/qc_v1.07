@@ -16,7 +16,7 @@
 //=============================================================================
 // Multi Grenade Code
 //=============================================================================
-void() MultiGrenadeTouch;
+#define	MultiGrenadeTouch	GrenadeTouch
 
 //================================
 //================================
@@ -38,7 +38,7 @@ void() MiniGrenadeExplode =
 	WriteByte (MSG_BROADCAST, 230);
 	WriteByte (MSG_BROADCAST, 5);
 
-	BecomeExplosion (WORLD);
+	BecomeExplosion (world);
 };
 
 //================================
@@ -49,6 +49,7 @@ void(float offsetAngle) MiniGrenadeLaunch =
 	newmis.owner = self.owner;
 	newmis.movetype = MOVETYPE_BOUNCE;
 	newmis.solid = SOLID_BBOX;
+	newmis.dmg = self.dmg;
 	newmis.classname = "MiniGrenade";
 		
 // set missile speed	
@@ -92,7 +93,6 @@ void() MultiGrenadeExplode =
 
 //================================
 //================================
-#define	MultiGrenadeTouch	GrenadeTouch
 /*
 void() MultiGrenadeTouch =
 {
@@ -121,7 +121,7 @@ void() MultiGrenadeTouch =
 //================================
 void() W_FireMultiGrenade =
 {
-	W_FireGrenade()
+	W_FireGrenade();
 
 	newmis.touch = MultiGrenadeTouch;
 	newmis.dmg = 60;
@@ -179,20 +179,19 @@ void() W_FireMultiGrenade =
 //================================
 void() MultiRocketExplode = 
 {
-	local float	damg;
 
 //	Stock Single Rocket Damage...
 //	damg = 100 + random()*20;
 
-	damg = 60 + random()*15;
+	self.dmg = 60 + random()*15;
 
 	if (other.health)
 	{
 		if (other.classname == "monster_shambler")
-			damg = damg * 0.5;	// mostly immune
+			self.dmg = self.dmg * 0.5;	// mostly immune
 		if (other.classname == "monster_dragon")
-			damg = damg * 0.5;	// mostly immune
-		T_Damage (other, self, self.owner, damg );
+			self.dmg = self.dmg * 0.5;	// mostly immune
+		T_Damage (other, self, self.owner, self.dmg );
 	}
 
 	// don't do radius damage to the other, because all the damage
@@ -211,7 +210,7 @@ void() MultiRocketExplode =
 	WriteCoord (MSG_BROADCAST, self.origin_y);
 	WriteCoord (MSG_BROADCAST, self.origin_z);
 
-	BecomeExplosion ();
+	BecomeExplosion (world);
 };
 
 //================================
@@ -235,16 +234,13 @@ void() MultiRocketTouch =
 //================================
 void() HomingMissileThink =
 {
-	local vector	dir;
-
 	if (self.enemy.health < 1)
 	{
 		remove(self);
 		return;
 	}
 
-	dir = normalize(self.enemy.origin - self.origin);
-	self.velocity = dir * 1000;
+	self.velocity = normalize(self.enemy.origin - self.origin) * 1000;
 	self.nextthink = time + 0.1;
 	self.think = HomingMissileThink;	
 };
@@ -254,22 +250,19 @@ void() HomingMissileThink =
 //================================
 void() HomingMissileAcquire =
 {
-	local vector	oldVelocity;
-	local vector	aimangle;
-
 	if ( self.delay < time )
 	{
 		MultiRocketExplode ();
 		return;
 	}
 
-	oldVelocity = self.velocity;
+	self.v__ = self.velocity;
 	makevectors (self.v_angle);
 	self.velocity = aim (self, 1000);
 	self.velocity = self.velocity * 1000;
 
-	aimangle = self.origin + self.velocity;	
-	traceline ( self.origin, aimangle, FALSE, self );
+	self.v__ = self.origin + self.velocity;	
+	traceline ( self.origin, self.v__, FALSE, self );
 	if (trace_fraction < 1)
 	{
 		if (trace_ent.flags & FL_MONSTER)
@@ -280,7 +273,7 @@ void() HomingMissileAcquire =
 		}
 	}
 	
-	self.velocity = oldVelocity;
+	self.velocity = self.v__;
 	self.v_angle = vectoangles ( self.velocity );
 	self.angles = self.v_angle;
 	self.think = HomingMissileAcquire;
@@ -291,9 +284,6 @@ void() HomingMissileAcquire =
 //================================
 void(float offset, float frameNum) MultiRocketLaunch = 
 {
-	local entity 	missile;
-	local vector	aimangle;
-
 	launch_spike('0 0 0', v_forward);
 
 //	newmis = spawn ();
@@ -315,9 +305,9 @@ void(float offset, float frameNum) MultiRocketLaunch =
 	
 	if ( coop || deathmatch)
 	{
-		aimangle = self.v_angle;
-		aimangle_y = aimangle_y + (offset * 0.66);
-		makevectors (aimangle);
+		self.v__ = self.v_angle;
+		self.v___y = self.v___y + (offset * 0.66);
+		makevectors (self.v__);
 		newmis.velocity = aim(self, 1000);
 		newmis.velocity = newmis.velocity * 1000;
 		newmis.angles = vectoangles(newmis.velocity);
@@ -332,14 +322,14 @@ void(float offset, float frameNum) MultiRocketLaunch =
 		newmis.angles = vectoangles(newmis.velocity);
 		newmis.v_angle = self.v_angle;	
 
-		aimangle = newmis.origin + newmis.velocity;
-		traceline ( newmis.origin, aimangle, FALSE, self );
+		self.v__ = newmis.origin + newmis.velocity;
+		traceline ( newmis.origin, self.v__, FALSE, self );
 		if (trace_fraction < 1)
 		{
 			if (trace_ent.flags & FL_MONSTER)
 			{
 				newmis.enemy = trace_ent;
-				newmis.think = HomingnewmisThink;
+				newmis.think = HomingMissileThink;
 				return;
 			}
 		}

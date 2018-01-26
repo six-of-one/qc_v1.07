@@ -18,6 +18,8 @@
 // ROGUE is defined or not defined in compiler.qc, the master control file
 //						  module options are set in rogue/rogue_control.qc
 
+#define		TE_EXPLOSION2		12
+
 #ifdef ROGUE
 
 	#ifdef message_top
@@ -38,7 +40,7 @@
 
 
 
-// main hip modules
+// main rogue modules
 
 // moved to defs.qc
 //#messagecompiling rogue/rogdefs.qc 
@@ -46,9 +48,8 @@
 
 
 // extruded code
-	#messagecompiling rogue/rogue_ai.qc 
-	#include </rogue_ai.qc>
-#endifdef
+//	#messagecompiling rogue/rogue_ai.qc 
+//	#include </rogue_ai.qc>
 
 
 // --------------------------------------------------------------------------------------------------------------------------
@@ -68,18 +69,17 @@
 
 // this is sub-ifdef'd among * units
 
-#messagecompiling rogue/rogitems.qc 
-#include </rogitems.qc>
+//#messagecompiling rogue/rogitems.qc 
+//#include </rogitems.qc>
 
 
 // --------------------------------------------------------------------------------------------------------------------------
-#ifdef rogue_weapons
+//#ifdef rogue_weapons
 
-	// extruded code
-	#messagecompiling rogue/rogue_weapon.qc 
-	#include </rogue_weapon.qc>
+	#messagecompiling rogue/mult_wpn.qc
+	#include </mult_wpn.qc>
 
-#endifdef
+//#endifdef
 
 
 // --------------------------------------------------------------------------------------------------------------------------
@@ -101,6 +101,7 @@
 #endifdef
 
 
+#endifdef
 
 
 /*

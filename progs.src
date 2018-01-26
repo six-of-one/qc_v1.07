@@ -41,6 +41,7 @@ monster_x/x_monsters.qc
 // hipnotic
 
 hipnotic/_code.qc
+rogue/_code.qc
 
 environment.qc
 

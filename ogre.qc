@@ -495,10 +495,12 @@ framer($shoot1, $shoot6, ogre_nail1, ogre_run1, 0.1,
 
 	frame_arb($shoot3,
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
+#ifdef ROGUE
 	if(self.spawnflags & OGRE_BAWSE)
 		W_FireMultiGrenade();
 	else
+#endifdef
 #endifdef
 		W_FireGrenade()
 	);

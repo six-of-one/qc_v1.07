@@ -579,7 +579,7 @@ spec track by cvar
 // mission pack 2
 // NOTE: you need the media files and models to load maps or have entities using this code operate as intended
 /// SWITCH
-//#define ROGUE
+#define ROGUE
 
 #ifdef ROGUE
 	#ifdef module_list

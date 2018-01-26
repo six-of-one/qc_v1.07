@@ -303,7 +303,7 @@ void() tbaby_shot =
 //=============================================================================
 
 #ifdef ROGUE
-	#define tb_mitosis
+//	#define tb_mitosis
 #endifdef
 
 #ifdef monsters_plus
@@ -327,7 +327,7 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 	{
 		if (random() < 0.2) // baby blast!
 		{
-			self.wad  = null_string; // clear flag so pain code doesnt run
+			self.wad  = string_null; // clear flag so pain code doesnt run
 			self.dmg = random() * 6;
 			while (self.dmg > 0)
 			{
@@ -366,7 +366,7 @@ void() tbaby_checknew =
 	if (!walkmove(0,0))
 	{
 //		remove(self);
-		self.model = null_string; // note - may have fade remove or crumble process later
+		self.model = string_null; // note - may have fade remove or crumble process later
 		self.think = SUB_Remove;
 		self.nextthink = time + 1;
 		return;
@@ -653,7 +653,7 @@ if ((self.cnt > 0) || (self.map	== "dyn_sp"))
 		self.skin = 0;
 	}
 	else
-	if (rogue_map(world.model) || self.cnt)
+	if ((MAP_MODE == "r") || self.cnt)
 	{
 //		skill = cvar("skill");
 		if (self.cnt) // TB_RANDOM - make a random selection

@@ -766,7 +766,7 @@ float	intermission_running;
 
 #ifdef ROGUE
 #messagecompiling rogue/rogdefs.qc 
-#include <rogue/rogdefs.qc >
+#include <rogue/rogdefs.qc>
 #endifdef
 
 #ifdef map_hack
