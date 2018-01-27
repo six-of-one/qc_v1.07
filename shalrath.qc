@@ -565,9 +565,6 @@ He got concerned about his smaller cousin when he heard stories about how easy S
 void() monster_supervore =
 {
 
-// override test
-	if (! dm_over)			// __monster_supervore_button0		"1"
-
 	monster_shalrath();		// model framed same now
 
 

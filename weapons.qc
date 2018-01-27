@@ -558,7 +558,8 @@ void() W_FireRocket =
 	if (self.class_select == "class_monster") // enhanced - monster firing a rocket
 	{
 		self.v__ = self.enemy.origin - self.enemy.velocity*0.2;
-		newmis.velocity = normalize (self.v__ - self.origin);
+		newmis.velocity = normalize (self.v__ - self.origin) * 1000;
+		newmis.angles = vectoangles(newmis.velocity);
 		newmis.dmg = 80; // not as strong as player unless set that way
 	}
 #endifdef
