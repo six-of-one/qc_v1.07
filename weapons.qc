@@ -565,8 +565,6 @@ void() W_FireRocket =
 #endifdef
 /*
 	makevectors (self.v_angle);
-//	newmis.velocity = aim(self, 1000);
-//	newmis.velocity = newmis.velocity * 1000;
 	newmis.velocity = aim(self, 1000) * 1000;
 	newmis.angles = vectoangles(newmis.velocity);
 */

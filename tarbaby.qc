@@ -606,7 +606,6 @@ void() monster_tarbaby =
 	if (self.spawnflags & TB_SUPER)
 	{
 		self.health = 200 + (80 * random());
-		self.walkframe = $lgwalk1;
 		self.waitmax = 2;
 
 		self.th_missile = tbaby_shot;

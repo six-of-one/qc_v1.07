@@ -113,6 +113,17 @@ void(string ms) SummonMonster;
 #define	MFL_ENHANCE			1048576			// allow individual monsters spawn & ops code to activate enhanced monster elements
 #define	MFL_SUPER					524288			// allow monster spawn & ops code to use SUPER & SUPER_XMAD monsters
 
+/*
+modes we have
+
+MEGA
+SUPER
+SUPER_XMAD
+
+
+
+*/
+
 // super monster scale
 //													super ogre model		- '1.6 1.6 1.2'
 //													super ogre XMAD		- '1.9 1.9 1.4'		- in death frames '2.0 2.0 1.5'
