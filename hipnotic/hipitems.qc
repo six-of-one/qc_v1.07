@@ -101,12 +101,12 @@ void() item_artifact_wetsuit =
 
 void() horn_touch =
 {
-	local	float amount;
-	local float value;
-
+//	local	float amount;
+// 	local float value;
 	if (other.classname != "player")
 		return;
-
+/*
+update - touched() does all this comment out stuff
 	if (deathmatch)
 	{
 		self.mdl = self.model;
@@ -118,15 +118,19 @@ void() horn_touch =
 
 	self.solid = SOLID_NOT;
 	self.model = string_null;
+*/
 #ifdef hip_charmed
 // this can be included by hip_items, but will not work without spawn / charm code
 	sprint (other, "You got the Horn of Conjuring\n");
 	sound (other, CHAN_VOICE, self.noise, 1, ATTN_NONE);
-	stuffcmd (other, "bf\n");
-	activator = other;
+//	stuffcmd (other, "bf\n");
+//	activator = other;
 	horn_active = 1;
 	horn_charmer = other;
-	SUB_UseTargets();				// fire all targets / killtargets
+#endifdef
+//	SUB_UseTargets();				// fire all targets / killtargets
+	touched(self.wait);
+#ifdef hip_charmed
 	horn_active = 0;
 #endifdef
 };

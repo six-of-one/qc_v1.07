@@ -198,6 +198,14 @@ void(float flg) monster_start =
 	}
 #endifdef
 
+// dup here so spawn_loop can make a charmed monster - i.e. crate & horn (new impl)
+#ifdef hip_charmed
+	if (horn_active)
+	{
+		self.charmer = horn_charmer;
+		self.charmed = 1;
+	}
+#endifdef
 };
 
 //============================================================================
