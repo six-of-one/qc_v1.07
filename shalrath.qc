@@ -567,25 +567,8 @@ void() monster_supervore =
 
 // override test
 	if (! dm_over)			// __monster_supervore_button0		"1"
-	if (deathmatch)
-	{
-		remove(self);
-		return;
-	}
 
-	precache_model ("progs/shalrath.mdl");
-	precache_model ("progs/h_shal.mdl");
-	precache_model ("progs/v_spike.mdl");
-
-	precache_sound ("shalrath/attack.wav");
-	precache_sound ("shalrath/attack2.wav");
-	precache_sound ("shalrath/death.wav");
-	precache_sound ("shalrath/idle.wav");
-	precache_sound ("shalrath/pain.wav");
-	precache_sound ("shalrath/sight.wav");
-
-	self.think = monster_start;
-	self.nextthink = time + 0.1 + random ()*0.1;
+	monster_shalrath();		// model framed same now
 
 
 	if (random() < 0.3)
@@ -593,23 +576,12 @@ void() monster_supervore =
 	else
 		self.netname = "Vaareziel";		// from Rothrin
 
-	self.solid = SOLID_SLIDEBOX;
-	self.movetype = MOVETYPE_STEP;
-	self.walkframe = $lgattack1;
 
-	setmodel (self, "progs/shalrath.mdl");
+	setmodel (self, "progs/vaarezeil.mdl");
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 800; // wowsers - NOTE: might need tweaked down a bit
 
-	self.th_stand = shal_stand;
-	self.th_walk = shal_walk1;
-	self.th_run = shal_run1;
-	self.th_die = shalrath_die;
-	self.th_pain = shalrath_pain;
-	self.th_missile = shal_attack1;
-
 	self.wad = "SUPER";
 
-//	if (ign == A_MONSTER) walkmonster_start(); // dyns have to call this
 };
 #endifdef
