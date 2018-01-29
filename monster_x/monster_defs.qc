@@ -111,45 +111,66 @@ void(string ms) SummonMonster;
 // monster enhancements
 
 #define	MFL_ENHANCE			1048576			// allow individual monsters spawn & ops code to activate enhanced monster elements
-#define	MFL_SUPER					524288			// allow monster spawn & ops code to use SUPER & SUPER_XMAD monsters
+#define	MFL_ENSUPER				524288			// allow monster spawn & ops code to use SUPER & SUPER_XMAD monsters
+
+// bigger monsters - see scale list
+#define	MFL_SXMAD					8192			// super extra mad monster
+#define	MFL_SUPER					4096			// super monster
+
+// possible enhance flags - if any are set, rnd enhance wont happen
+
+#define	MFL_ANYLOW				12542			// enhanced monster low bits
+
+
 
 /*
-modes we have
-
-MEGA
-SUPER
-SUPER_XMAD
-
-
-
-*/
-
 // super monster scale
-//													super ogre model		- '1.6 1.6 1.2'
-//													super ogre XMAD		- '1.9 1.9 1.4'		- in death frames '2.0 2.0 1.5'
-//													super demon model	- '1.5 1.5 1.5'
-//													super demon XMAD	- '1.9 1.9 1.9'
-//													3 head dog model		- '1.5 1.5 1.5'
-//													baby scorg model		- '0.23 0.23 0.23'
-//													mini scorg model		- '0.45 0.45 0.45'
-//													super scorg model		- '2 2 2'
-//													super scorg XMAD		- '3 3 3'
-//													super scorg Ultra		- '6 6 6'
-//													large scrag model		- '1.75 1.75 1.75'
-//													super scrag model		- '2 2 2'
-//													vorizel model				- '1.5 1.5 1.4'
+													super ogre model		- '1.6 1.6 1.2'
+													super ogre XMAD		- '1.9 1.9 1.4'		- in death frames '2.0 2.0 1.5'
+													super demon model	- '1.5 1.5 1.5'
+													super demon XMAD	- '1.9 1.9 1.9'
+													3 head dog model		- '1.5 1.5 1.5'
+													baby scorg model		- '0.23 0.23 0.23'
+													mini scorg model		- '0.45 0.45 0.45'
+													super scorg model		- '2 2 2'
+													super scorg XMAD		- '3 3 3'
+													super scorg Ultra		- '6 6 6'
+													large scrag model		- '1.75 1.75 1.75'
+													super scrag model		- '2 2 2'
+													vorizel model				- '1.5 1.5 1.4'
+*/
+//world.qc:		addstat(38, 2, pk_gravitywellammo); // pk ammos
+//world.qc:		addstat(39, 2, pk_turretammo); // pk ammos
 
-// code set scale / detect for SUPER monsters
 
-#define	MON_SUPER			1.5
-#define	MON_SUPERXM			2
+// stats from super ogre - these should load from cfg
+#ifdef code_painkeep_
+	// if pk is in, monsters will never use these - note .cfg adjust as detailed
+	// tests of worked:
+	//						set		mon_super_scale 	pkplus_actorammo
+	//						set		__monster_ogre_$mon_super_scale		1.6
 
-// stats from super ogre
+#define	mon_super_scale					pkplus_actorammo
+#define	mon_xmad_scale					pkplus_actortype
+#define	mon_super_chance 				pk_beartrapammo
+#define	mon_xmad_chance 				pk_explode_ammo
+#define	mon_super_emheal_chn 	pk_canpabammo
+#define	mon_super_heal  					pkplus_egoammo
+#define	mon_xmad_heal  					pkplus_tombammo
+
+// these are individual to each monster
+#define mon_enh_mask						pkplus_phoneammo
+
+#else
+// if no pk module, these are hard coded
+#define	mon_super_scale			1.5			// scale up a SUPER monster
+#define	mon_xmad_scale			2				// scale up extra mad even more
 #define	mon_super_chance 0.1				// chance a spawning monster can go SUPER
-#define	mon_super_xmad_chance 0.5				// chance a monster in pain can go SUPER EXTRA MAD
+#define	mon_xmad_chance 0.5				// chance a monster in pain can go SUPER EXTRA MAD
 #define	mon_super_emheal_chn 0.4	// chance to heal
 #define	mon_super_heal 40 					// how much a super could heal in a pain frame
 #define	mon_super_emheal 80 				// how much a super thats extra mad could heal in a pain frame
+#endifdef
 
 /*
 pain code EXMAD
@@ -160,7 +181,7 @@ pain code EXMAD
 //				self.spawnflags = self.spawnflags | OGRE_SUPER_MAD;
 
 			if (self.health < 50)
-				self.scale = MON_SUPERXM;
+				self.scale = MON_SXMAD;
 
 xmad pain ops
 		if (random() < mon_super_emheal_chn)

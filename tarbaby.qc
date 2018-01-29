@@ -226,7 +226,7 @@ void()	tbaby_jump4		=[	$jump4,	tbaby_jump5		] {ai_face();};
 */
 void()	tbaby_jump5		=[	$jump5,	tbaby_jump6		]
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (ENHANCED)
 	if (self.duration < time)
 	{

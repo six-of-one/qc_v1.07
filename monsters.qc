@@ -206,6 +206,27 @@ void(float flg) monster_start =
 		self.charmed = 1;
 	}
 #endifdef
+
+#ifdef monsters_plus__
+	if (!(self.spawnflags & MFL_ANYLOW)) // he hasnt been bumped up by some other method
+	{
+// all monsters have generic chance to enhance ability based on spawnflags
+		if (self.spawnflags & MFL_ENHANCE)
+		{
+			self.f__ = rnd_bit_mask(self.mon_enh_mask);
+			self.spawnflags = self.spawnflags | self.f;
+			if (self.f__) // load mods
+		}
+// all monsters have generic chance to SUPER size based on spawnflags
+		if (self.spawnflags & MFL_ENSUPER)
+		{
+			if (random() < self.mon_super_chance)
+			{
+				
+			}
+		}		
+	}
+#endifdef
 };
 
 //============================================================================
