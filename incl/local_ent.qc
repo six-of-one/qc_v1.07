@@ -51,6 +51,7 @@ entity locus;
 #define		f9__		locus.skin
 #define		f10__	locus.fly_sound
 #define		f11__	locus.prevweapon
+#define		f12__	locus.armortype
 
 // pre selected vector
 

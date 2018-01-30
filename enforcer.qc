@@ -417,11 +417,14 @@ void()	enf_die11	=[	$death11,	enf_die12	] {ai_forward(5);};
 void()	enf_die12	=[	$death12,	enf_die13	] {ai_forward(5);};
 void()	enf_die13	=[	$death13,	enf_die14	] {};
 void()	enf_die14	=[	$death14,	enf_die14	] {};
+
+// moved ammo set to cfg so enhance can overload it
+frame_arb($death3,self.solid = SOLID_NOT;self.ammo_cells = 5;DropBackpack(););
 */
 
 framer($death1, $death14, enf_die1, SUB_Null, 0.1,
 
-	frame_arb($death3,self.solid = SOLID_NOT;self.ammo_cells = 5;DropBackpack(););
+	frame_arb($death3,self.solid = SOLID_NOT;DropBackpack(););
 	ai_rep($death4, ai_forward, 14, 2, -6, -6, -6, 3, 5, 5);
 	frame_arb($death12,ai_forward(5)); // #cheat here
 );
@@ -441,11 +444,12 @@ void()	enf_fdie8	=[	$fdeath8,	enf_fdie9	] {};
 void()	enf_fdie9	=[	$fdeath9,	enf_fdie10	] {};
 void()	enf_fdie10	=[	$fdeath10,	enf_fdie11	] {};
 void()	enf_fdie11	=[	$fdeath11,	enf_fdie11	] {};
+	frame_arb($fdeath3,self.solid = SOLID_NOT;self.ammo_cells = 5;DropBackpack(););
 */
 
 framer($fdeath1, $fdeath11, enf_fdie1, SUB_Null, 0.1,
 
-	frame_arb($fdeath3,self.solid = SOLID_NOT;self.ammo_cells = 5;DropBackpack(););
+	frame_arb($fdeath3,self.solid = SOLID_NOT;DropBackpack(););
 );
 
 	
@@ -516,7 +520,7 @@ void() monster_enforcer =
 	self.th_die = enf_die;
 	self.th_missile = enf_atk1;
 
-#ifdef monsters_plus__
+#ifdef monsters_plus
 	self.netname = "Enforcer";
 
 	if ((self.spawnflags & MFL_ENHANCE) || (self.spawnflags & ENF_XWEP))

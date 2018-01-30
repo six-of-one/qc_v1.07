@@ -292,7 +292,7 @@ framer($pull1, $pull11, ogre_pull1, ogre_pull12, 0.1,
 // ogre_check is called in ogre_walk12, to determine if he'll pull or walk on.
 void() ogre_check =
 {
-	ai_walk(3 * self.waitmax);
+	ai_walk(3);
 
 	if ((random() <0.25) && ! (self.spawnflags & OGRE_SUPER)) // he (will) has a club - no pulling
 		ogre_pull1(); 

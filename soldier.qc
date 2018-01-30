@@ -505,6 +505,13 @@ void() monster_army =
 	self.th_die = army_die;
 
 #ifdef monsters_plus__
+	if (self.spawnflags & MFL_ENHANCE)
+	{
+		self.ammo_rockets = self.ammo_rockets  + ceil(army_canhas_grenades * random()); // give 'em some grenades
+	}
+#endifdef
+
+#ifdef monsters_plus
 	self.netname = "Soldier";
 
 	if (self.spawnflags & MFL_ENHANCE)
