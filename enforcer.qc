@@ -124,9 +124,12 @@ $frame paind17 paind18 paind19
 #define ENF_LTN 2 // lightning
 #define ENF_HLASER 4 // hip laser
 #define ENF_RAIL 8 // rail gun
-#define ENF_ROCK 16 // rockets
-#define ENF_SSG 32 // super shot gun
-#define ENF_XWEP 62 // det all x bits
+
+// 16 left out - rogue used as spawnsilent ops
+
+#define ENF_ROCK 32 // rockets
+#define ENF_SSG 64 // super shot gun
+#define ENF_XWEP 110 // det all x bits
 
 #define enf_imprv 0.4 // total chance for a better map enforcer
 #define enf_rndenh 0.9 // total chance for a better random enforcer

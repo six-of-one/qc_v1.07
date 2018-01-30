@@ -139,8 +139,6 @@ void(string ms) SummonMonster;
 													super scrag model		- '2 2 2'
 													vorizel model				- '1.5 1.5 1.4'
 */
-//world.qc:		addstat(38, 2, pk_gravitywellammo); // pk ammos
-//world.qc:		addstat(39, 2, pk_turretammo); // pk ammos
 
 
 // stats from super ogre - these should load from cfg
@@ -150,26 +148,30 @@ void(string ms) SummonMonster;
 	//						set		mon_super_scale 	pkplus_actorammo
 	//						set		__monster_ogre_$mon_super_scale		1.6
 
-#define	mon_super_scale					pkplus_actorammo
-#define	mon_xmad_scale					pkplus_actortype
-#define	mon_super_chance 				pk_beartrapammo
-#define	mon_xmad_chance 				pk_explode_ammo
-#define	mon_super_emheal_chn 	pk_canpabammo
-#define	mon_super_heal  					pkplus_egoammo
-#define	mon_xmad_heal  					pkplus_tombammo
+#define	mon_add_flags						self.pk_turretammo
+#define	mon_enh_chance					self.pk_gravitywellammo
+#define	mon_super_scale					self.pkplus_actorammo
+#define	mon_xmad_scale					self.pkplus_actortype
+#define	mon_super_chance 				self.pk_beartrapammo
+#define	mon_xmad_chance 				self.pk_explode_ammo
+#define	mon_super_emheal_chn 	self.pk_canpabammo
+#define	mon_super_heal  					self.pkplus_egoammo
+#define	mon_xmad_heal  					self.pkplus_tombammo
 
 // these are individual to each monster
-#define mon_enh_mask						pkplus_phoneammo
+#define mon_enh_mask						self.pkplus_phoneammo
 
 #else
 // if no pk module, these are hard coded
+#define	mon_add_flags				0				// extra flags "or" ops with spawnflags
+#define	mon_enh_chance			0.2			// chance to enhance a monster - requires mon_enh_mask !
 #define	mon_super_scale			1.5			// scale up a SUPER monster
 #define	mon_xmad_scale			2				// scale up extra mad even more
-#define	mon_super_chance 0.1				// chance a spawning monster can go SUPER
-#define	mon_xmad_chance 0.5				// chance a monster in pain can go SUPER EXTRA MAD
+#define	mon_super_chance		0.1			// chance a spawning monster can go SUPER
+#define	mon_xmad_chance		0.5			// chance a monster in pain can go SUPER EXTRA MAD
 #define	mon_super_emheal_chn 0.4	// chance to heal
-#define	mon_super_heal 40 					// how much a super could heal in a pain frame
-#define	mon_super_emheal 80 				// how much a super thats extra mad could heal in a pain frame
+#define	mon_super_heal 			40 			// how much a super could heal in a pain frame
+#define	mon_super_emheal		80 			// how much a super thats extra mad could heal in a pain frame
 #endifdef
 
 /*

@@ -210,21 +210,25 @@ void(float flg) monster_start =
 #ifdef monsters_plus__
 	if (!(self.spawnflags & MFL_ANYLOW)) // he hasnt been bumped up by some other method
 	{
+		self.f__ = 0;
+		self.spawnflags = self.spawnflags | mon_add_flags;		// allow cfg to add spawnflags
 // all monsters have generic chance to enhance ability based on spawnflags
 		if (self.spawnflags & MFL_ENHANCE)
+		if (random() < mon_enh_chance)
 		{
-			self.f__ = rnd_bit_mask(self.mon_enh_mask);
-			self.spawnflags = self.spawnflags | self.f;
-			if (self.f__) // load mods
+			self.f__ = rnd_bit_mask(mon_enh_mask);
+			self.spawnflags = self.spawnflags | self.f__;
 		}
 // all monsters have generic chance to SUPER size based on spawnflags
 		if (self.spawnflags & MFL_ENSUPER)
+		if (random() < mon_super_chance)
 		{
-			if (random() < self.mon_super_chance)
-			{
-				
-			}
-		}		
+			self.f__ = 1;
+			self.spawnflags = self.spawnflags | MFL_SUPER;
+		}
+
+		if (self.f__) // load mods - spawnflags cvar set must exist
+			cvar_fields(self, strcat("__",self.classname));
 	}
 #endifdef
 };
