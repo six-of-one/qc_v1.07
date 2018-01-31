@@ -154,8 +154,8 @@ void(vector org, vector vec, float light) HIP_LaunchLaser =
 	newmis.touch = HIP_LaserTouch;
 	newmis.count = 0;
 */
-	if (light)
-		newmis.effects = EF_DIMLIGHT;
+//	if (light)
+	newmis.effects = light;
 	newmis.effects = newmis.effects | EF_FULLBRIGHT;
 
 	newmis.lastvictim = self;
@@ -260,7 +260,7 @@ void(float stat) HIP_FireLaser =
 		org = org + (ofs * v_up);
 		if (random()<0.1)
 		{
-			HIP_LaunchLaser(org + v_right * VWY_LASERCAN, dir, 1);
+			HIP_LaunchLaser(org + v_right * VWY_LASERCAN, dir, EF_DIMLIGHT);
          newmis.dmg = newmis.dmg * 1.39; // = 25 if base 18
 		}
 		else

@@ -1948,6 +1948,7 @@ void() DropBackpack =
 
 	x_encparm();
 #ifdef code_painkeep_
+	if (self.class_select != "class_monster")			// fix enh monster leaving pkitem in pak
 	if (DEAD_THROW_PKI != 2)
 	{
 		item.pk_currentitem = prC;
