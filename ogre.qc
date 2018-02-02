@@ -841,13 +841,15 @@ void() monster_ogre =
 	self.th_missile = ogre_nail1;
 	self.th_pain = ogre_pain;
 
-#ifdef monsters_plus__
-	self.netname = "Ogre";
+#ifdef ROGUE
 
+#ifdef monsters_plus__
+	if (!(self.spawnflags & MFL_ENHANCE))			// bypass this for enhanced mode ogres 
+#endifdef
 
 // rogue - multi ogre
 // none specified - choose random. 25% boss on normal, hard, bloodbath
-	if ((MAP_MODE == "r") || (self.spawnflags & MFL_ENHANCE))
+	if (MAP_MODE == "r")
 	if (!(self.spawnflags & 4))	// not locked as normal ogre
 	{
 		if (cvar("skill") > 0)
@@ -857,32 +859,12 @@ void() monster_ogre =
 		}
 	}
 
-/*
---- moving to gen spawn in walkmonster_start
-	if (self.spawnflags & MFL_SUPER)
-//	if (!self.spawnflags & MFL_NORMAL)
-	if (random() < mon_super_chance)
-		self.scale = MON_SUPER;
-*/
-
+// TDO: the override should catch this - test
 	if (self.spawnflags & OGRE_BAWSE)
 	{
 		self.skin = 1;
-//		self.wad = "MEGA";
 	}
 
-//	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-/*
-	if (self.scale >= MON_SUPER)
-//	if (self.spawnflags & OGRE_SUPER)
-	{
-		self.health = 400 + (100 * random()) + (100 * random());
-
-//		self.wad = "SUPER";		detect by scale
-		self.th_missile = ogre_melee; // SUPER has no grenades
-		self.waitmax = 2; // multiplier in this case
-	}
-*/
 #endifdef
 
 	walkmonster_start;

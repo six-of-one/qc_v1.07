@@ -227,7 +227,7 @@ void(float flg) monster_start =
 			self.spawnflags = self.spawnflags | MFL_SUPER;
 		}
 
-		if (self.f__) // load mods - spawnflags cvar set must exist
+		if (self.f__) // load mods - spawnflags cvar set must exist  -- pre-set sf monsters should be loaded by the map spawn override
 			cvar_fields(self, strcat("__",self.classname));
 	}
 #endifdef

@@ -276,6 +276,12 @@ void()	enf_atk9	=[	$attack5,	enf_atk10	] {ai_face();};
 framer($attack1, $attack8, enf_atk1, enf_atk9, 0.1,
 
 	ai_face();
+	frame_arb($attack6,enforcer_fire());
+);
+
+framer($attack6, $attack10, enf_atk10, enf_run1, 0.1,
+
+	ai_face();
 	frame_arb($attack6,
 
 #ifdef monsters_plus__
@@ -290,12 +296,6 @@ framer($attack1, $attack8, enf_atk1, enf_atk9, 0.1,
 #endifdef
 		enforcer_fire()
 	);
-);
-
-framer($attack6, $attack10, enf_atk10, enf_run1, 0.1,
-
-	ai_face();
-	frame_arb($attack6,enforcer_fire());
 	frame_arb($attack10,SUB_CheckRefire (enf_atk1));
 );
 
