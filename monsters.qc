@@ -448,49 +448,30 @@ void(string ms) SummonMonster =
 	self.aflag = self.aflag + 1;
 	self.count = self.count + 1;
 };
-#endifdef
-
 
 // pain checks - super monsters
-/// NOTE - multi frame call issue - this needs called from all monster .th_pain
 
 void() pain_sup =
 {
 	if (self.sup_time > time) return;
 	self.sup_time = time + 3;
 
+	f7__ = mon_super_heal;
 	if (!(self.spawnflags & MFL_SUPER))
 	{
 		if (!(self.spawnflags & MFL_ENSUPER) || (random() > mon_super_chance)) return;
 		self.spawnflags = self.spawnflags | MFL_SUPER;
+		f7__ = 0; // set super stats
 	}
 
-	f7__ = mon_super_heal;
 // check to see if super monster gets EXTRA mad
 	if (!(self.spawnflags & MFL_SXMAD))
 	{
-		if (self.health < 250)			/// should be based on % self.max_health
+		if (f7__ && self.health < 250)			/// should be based on % self.max_health
 		if (random() < mon_xmad_chance)
-			self.spawnflags = self.spawnflags | MFL_SXMAD;
-
-		if (self.health < 50)
-			self.spawnflags = self.spawnflags | MFL_SXMAD;
-
-// just like the hulk - super monster gets bigger & a health boost when going to extra mad
-		if (self.spawnflags & MFL_SXMAD)
 		{
-			cvar_fields(self, strcat("__",self.classname));
-/// NOTE: cvar_fields can set next part with #R
-/*
-//				self.waitmax = 2.25; // multiplier in this case
-			if ((random() < 0.25) || (self.health < 20))
-				self.health = self.max_health + ((self.max_health/4) * random()) + ((self.max_health/4) * random());
-			else
-				self.health = self.health + (self.max_health/4) + (100 * random());
-			self.max_health = self.health;
-*/
-			f7__ = 0; // already healed
-//				self.th_run(); // set new frames
+			self.spawnflags = self.spawnflags | MFL_SXMAD;
+			f7__ = 0; // set xmad stats
 		}
 	}
 	else
@@ -498,6 +479,9 @@ void() pain_sup =
 // could make this one dangerous brute
 	if (random() < mon_super_emheal_chn)
 		self.health = self.health + (f7__ * random());
+
+// upscale to super or super extra mad - load new stats
+	if (!f7__) cvar_fields(self, strcat("__",self.classname));
 
 // super monsters can get faster too
 	if (self.speed > mon_superspeedup_max)
@@ -507,3 +491,7 @@ void() pain_sup =
 		if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
 	}
 };
+#endifdef
+
+
+
