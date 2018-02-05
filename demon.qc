@@ -91,9 +91,9 @@ $frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattack
 //============================================================================
 
 #define	DEMON_DBL		2
-#define	DEMON_SUPER		4
+#define	DEMON_SUPER		MFL_SUPER
 #define	DEMON_BOB		8
-#define	DEMON_SUPER_MAD		16		// got extra mad
+#define	DEMON_SUPER_MAD		MFL_SXMAD		// got extra mad
 #define	DEMON_BOOM		32		// raged and exploding
 
 #define	super_demon_chance		0.08
@@ -562,7 +562,7 @@ void()	Monster_JumpTouch =
 /*QUAKED monster_demon1 (1 0 0) (-32 -32 -24) (32 32 64) Ambush Double Super BOB MAD Boom 
 
 --------  CAT  -------
-"netname" - fast = fast ogre, slow = slow ogre
+"netname" - fast = fast demon, slow = slow demon
 "speed" - 0.1 normal, 0.05 fast, 0.2 slow
 "Double": double the demon, double the fun
 "Super": mega demon - watch out, use with care
@@ -632,7 +632,6 @@ void() monster_demon1 =
 	if (self.spawnflags & DEMON_DBL)
 	{
 		self.health = 400;
-		self.wad = "MEGA";
 
 		self.walkframe = $dblstand1;
 		self.waitmax = 2;

@@ -61,6 +61,7 @@ $frame magicc9 magicc10 magicc11
 #define	DK_FIRE_TRACK  -62346 // fire tracking flares this attack		TDO: change
 
 void() hknight_char_a1;
+void()	hknight_char_b1;
 void() hknight_run1;
 void() hk_idle_sound;
 #ifdef monsters_plus
@@ -102,13 +103,13 @@ void(float offset) hknight_shot =
 	newmis.velocity = self.v__ * 300;
 	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.spawnflags & DK)
 	{
 //-------------------------------------------------------- Martin Code -----
 //  Faster flares on higher skill levels.
-        if (skill > 2)          newmis.velocity = vec * 500;
-        else if (skill > 1)     newmis.velocity = vec * 400;
+        if (skill > 2)          newmis.velocity = self.v__ * 500;
+        else if (skill > 1)     newmis.velocity = self.v__ * 400;
 //--------------------------------------------------------------------------
 	}
 #endifdef
@@ -128,7 +129,7 @@ if ( fabs(self.origin_z - self.enemy.origin_z) > 20)
 if ( vlen (self.origin - self.enemy.origin) < 80)
 	return;		// use regular attack
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //-------------------------------------------------------- Martin Code -----
 //  This lets the death knight break the charge on Nightmare.
 	if (self.spawnflags & DK)
@@ -141,7 +142,7 @@ if ( vlen (self.origin - self.enemy.origin) < 80)
 	SUB_AttackFinished (2);
 	hknight_char_a1 ();
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //-------------------------------------------------------- Martin Code -----
 	if (self.spawnflags & DK)
 	if (random() < 0.5)
@@ -180,10 +181,10 @@ void()	hknight_stand9	=[	$stand9,	hknight_stand1	] {ai_stand();};
 
 //framer($stand1, $stand9, hknight_stand1, frd1, 0.1,ai_stand());
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 framerloop($stand1, $stand9, hknight_stand1, 0.1,
 
-	ai_stand()
+	ai_stand();
 
 	frame_arb($stand5,
 
@@ -191,7 +192,7 @@ framerloop($stand1, $stand9, hknight_stand1, 0.1,
 		if (self.spawnflags & DK)
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		if (random() < 0.5)
-			SummonMonster(null_string);
+			SummonMonster(string_null);
 	);
 );
 #endifdef
@@ -235,13 +236,13 @@ framerloop($walk1, $walk20, hknight_walk1, 0.1,
 		ai_rep($walk9, ai_walk, 3, 4, 3, 4, 6, 2, 2, 4);
 	else
 		ai_rep($walk17, ai_walk, 3, 3, 3, 2, -6, -6, -6, -6);
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($walk6,
 
 		if (SV_MINEALLOW & CB_M_HKNIGHT)
 		if (self.spawnflags & DK)
 		if ((time & SV_CKTIME) == SV_CKTIME)
-			SummonMonster(null_string);
+			SummonMonster(string_null);
 	);
 #endifdef
 );
@@ -265,7 +266,7 @@ framerloop($run1, $run8, hknight_run1, 0.1,
 
 	ai_rep($run1, ai_run, 20, 25, 18, 16, 14, 25, 21, 13);
 	frame_arb($run1,hk_idle_sound(); CheckForCharge ());
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($run5,
 
 	if (self.spawnflags & DK)
@@ -486,11 +487,11 @@ framer($char_a1, $char_a16, hknight_char_a1, hknight_run1, 0.1,
 
 	ai_rep($char_a1, ai_charge, 20, 25, 18, 16, 14, 20, 21, 13);
 	ai_rep($char_a9, ai_charge, 20, 20, 18, 16, 14, 25, 21, 13);
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		frame_arb($char_a1,
 
 //-------------------------------------------------------- Martin Code -----
-        sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);  };
+        sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);
 //--------------------------------------------------------------------------
 		);
 		frame_arb($char_a12,
@@ -632,7 +633,7 @@ framer($w_attack1, $w_attack22, hknight_watk1, hknight_run1, 0.1,
 	framerange_arb($w_attack17,$w_attack19,ai_melee());
 	ai_rep($w_attack17, ai_charge, 1, 3, 4, 6, 7, 3, -6, -6);
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		frame_arb($w_attack15,
 
 //-------------------------------------------------------- Martin Code -----
@@ -862,8 +863,8 @@ void(entity attacker, float damage)	hknight_pain =
 
 	sound (self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM);
 
-#ifdef monsters_plus
-	if (!self.spawnflags & DK)
+#ifdef monsters_plus__
+	if (!(self.spawnflags & DK))
 #endifdef
 	if (time - self.pain_finished > 5)
 	{	// allways go into pain frame if it has been a while
@@ -950,7 +951,7 @@ void() monster_hell_knight =
 	setsize (self, '-16 -16 -24', '16 16 40');
 	self.health = 250;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	self.th_stand = hknight_stand1;
 #else
 	self.th_stand = fr_stand9;

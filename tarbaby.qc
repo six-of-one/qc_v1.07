@@ -45,13 +45,13 @@ $frame lgexp
 
 */
 // super tarbaby - just because
-#define TB_SUPER	64
+#define TB_SUPER	MFL_SUPER
 
 #define SUPER_SPAWN_CHANCE	0.1
 // how much a super spawn could heal in a pain frame
-#define super_spawn_emheal	40
+#define super_spawn_emheal	mon_xmad_heal
 // chance to heal
-#define super_spawn_emheal_chn	0.1
+#define super_spawn_emheal_chn		mon_super_emheal_chn
 
 
 void()	tbaby_stand1	=[	$walk1,		tbaby_stand1	] {ai_stand();};
@@ -138,12 +138,14 @@ void()	Tar_JumpTouch =
 {
 //	local	float	ldmg;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (other.takedamage)// && other.classname != self.classname)
 	if (other.classname != "monster_tarbaby")
-	if (other.classname != "monster_lavabomb")
+//	if (other.classname != "monster_lavabomb") // use tarbaby class now
 	if (other.classname != "monster_vomit")
+#ifdef code_morph
 	if (other.morphy !=  IMP_MCTHON)
+#endifdef
 	{
 		self.duration = time + 5;
 #else
@@ -153,8 +155,8 @@ void()	Tar_JumpTouch =
 		if ( vlen(self.velocity) > 400 )
 		{
 			self.ldmg_ = 10 + 10*random();
-#ifdef monsters_plus
-			if (self.spawnflags & TB_SUPER) self.dmg = self.dmg * 4;
+#ifdef monsters_plus__
+			if (self.spawnflags & TB_SUPER) self.ldmg_ = self.ldmg_ * 4;
 #endifdef
 			T_Damage (other, self, self, self.ldmg_);	
 			sound (self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
@@ -321,8 +323,6 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 {
 	self.dmg = 120;	// TDO: override
 #ifdef monsters_plus
-	ai_frame(self.walkframe);
-
 	if (self.spawnflags & TB_SUPER)
 	{
 		if (random() < 0.2) // baby blast!
@@ -450,42 +450,40 @@ super tarbaby just mitosis regular babies for now
 
 void(float ign) tbaby_mitosis =
 {
-	local entity    e;
-
 	newmis = world;
 	if (( random() < 0.35 ) || ign)
 	{
 		newmis = e = spawn();
-		e.classname = self.classname;
-		e.netname = self.netname;
-		e.movetype = MOVETYPE_STEP;
-		setsize (e, '-16 -16 -24', '16 16 40');
-		e.health = 80;
+		e0__.classname = self.classname;
+		e0__.netname = self.netname;
+		e0__.movetype = MOVETYPE_STEP;
+		setsize (e0__, '-16 -16 -24', '16 16 40');
+		e0__.health = 80;
 // chaos improvements - handle lava bomb
 		if (self.model == "progs/lavabomb.mdl")
-			e.health = 160;
+			e0__.health = 160;
 		else if (self.skin == 1)
-			e.health = 60;
+			e0__.health = 60;
 		else if (self.skin == 2)
-			e.health = 100;
+			e0__.health = 100;
 
-		e.owner = self;
+		e0__.owner = self;
 		self.th_pain = SUB_Null;
 		
 		setmodel (e, self.model);
-		e.solid = SOLID_SLIDEBOX;
-		e.skin = self.skin;
+		e0__.solid = SOLID_SLIDEBOX;
+		e0__.skin = self.skin;
 		if (self.class_select == "class_monster") 
-			e.frame = self.frame;
+			e0__.frame = self.frame;
 		
 		setorigin (e, self.origin);              
-		e.think = tbaby_checknew;
-		e.nextthink = time + 0.5;
+		e0__.think = tbaby_checknew;
+		e0__.nextthink = time + 0.5;
 
 		sound (e, CHAN_VOICE, "blob/mytosis.wav", 1, ATTN_NORM);
 	}
 
-	if (self.wad == "SUPER")
+	if (self.spawnflags & MFL_SUPER)
 	if (self.class_select == "class_monster") 
 	if (self.pain_finished < time)
 	{
@@ -610,7 +608,6 @@ void() monster_tarbaby =
 
 		self.th_missile = tbaby_shot;
 		self.th_pain = tbaby_mitosis;
-		self.wad = "SUPER";
 	}
 
 //	if (ign != A_MONSTER || self.cnt > 0)

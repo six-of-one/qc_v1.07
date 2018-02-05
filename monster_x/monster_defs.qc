@@ -55,7 +55,7 @@ void(string ms) SummonMonster;
 // supervore = 65536
 // super 3x scrag = 1024
 // death knight = 64
-#define SV_MINEALLOW 66624 // allow monsters to set mines by bitmask
+#define SV_MINEALLOW 66752 // allow monsters to set mines by bitmask
 
 
 // assigned monster bit codes used by vars sections		- use mask_x
@@ -116,6 +116,7 @@ void(string ms) SummonMonster;
 // bigger monsters - see scale list
 #define	MFL_SXMAD					8192			// super extra mad monster
 #define	MFL_SUPER					4096			// super monster
+#define	MFL_BSUP						12288		// both super flags
 
 // possible enhance flags - if any are set, rnd enhance wont happen
 
@@ -173,6 +174,10 @@ void(string ms) SummonMonster;
 #define	mon_super_heal 			40 			// how much a super could heal in a pain frame
 #define	mon_super_emheal		80 			// how much a super thats extra mad could heal in a pain frame
 #endifdef
+
+#define	mon_superspeed_chn				0.1 // chance per pain frame a super monster will speed up
+#define	mon_superspeed_fact			0.001 // speed up factor per instance
+#define	mon_superspeedup_max		0.085 // 1.176 times faster - max super monsters can speed up
 
 /*
 pain code EXMAD
