@@ -168,16 +168,19 @@ void(string ms) SummonMonster;
 #define	mon_enh_chance			0.2			// chance to enhance a monster - requires mon_enh_mask !
 #define	mon_super_scale			1.5			// scale up a SUPER monster
 #define	mon_xmad_scale			2				// scale up extra mad even more
-#define	mon_super_chance		0.1			// chance a spawning monster can go SUPER
-#define	mon_xmad_chance		0.5			// chance a monster in pain can go SUPER EXTRA MAD
+#define	mon_super_chance		0.04			// chance a spawning monster can go SUPER
+#define	mon_xmad_chance		0.15			// chance a monster in pain can go SUPER EXTRA MAD
 #define	mon_super_emheal_chn 0.4	// chance to heal
 #define	mon_super_heal 			40 			// how much a super could heal in a pain frame
 #define	mon_super_emheal		80 			// how much a super thats extra mad could heal in a pain frame
 #endifdef
 
-#define	mon_superspeed_chn				0.1 // chance per pain frame a super monster will speed up
+#define	mon_superspeed_chn				0.05 // chance per pain test unit a super monster will speed up
 #define	mon_superspeed_fact			0.001 // speed up factor per instance
 #define	mon_superspeedup_max		0.085 // 1.176 times faster - max super monsters can speed up
+
+// time signal for super ops like self healing
+#define	sup_time	invisible_time
 
 /*
 pain code EXMAD

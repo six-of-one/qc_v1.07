@@ -263,7 +263,7 @@ void() tbaby_shot =
 
 // ???: admin to turn off this - what aspect ?  any tbaby having shots, or just this logic being blocked ?
 	if (self.model != "progs/lavabomb.mdl")
-	if (!self.spawnflags & TB_SUPER)
+	if (!(self.spawnflags & TB_SUPER))
 	{
 		self.th_melee();
 		return;
@@ -546,8 +546,8 @@ If you want a specific type, select "Blue", "Green", or "Spots".
 #define	TB_BLUE		2
 #define	TB_GREEN	4
 #define	TB_HELLS	8
-#define	TB_LAVA		16
-#define	TB_RANDOM	32
+#define	TB_LAVA		32
+#define	TB_RANDOM	64
 
 
 void() monster_tarbaby =

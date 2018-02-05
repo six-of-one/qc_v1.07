@@ -632,58 +632,6 @@ void(float dist) ai_forward =
 void(float dist) ai_back =
 {
 	walkmove ( (self.angles_y+180), dist);
-
-// pain checks - super monsters
-/// NOTE - multi frame call issue - this needs called from all monster .th_pain
-/*
-#ifdef monsters_plus__
-
-	if (self.pain_finished > time)		// in pain frames
-	if (self.spawnflags & MFL_SUPER)
-	{
-		f7__ = mon_super_heal;
-// check to see if super monster gets EXTRA mad
-		if (!(self.spawnflags & MFL_SXMAD))
-		{
-			if (self.health < 250)
-			if (random() < 0.5)
-				self.spawnflags = self.spawnflags | MFL_SXMAD;
-
-			if (self.health < 50)
-				self.spawnflags = self.spawnflags | MFL_SXMAD;
-
-// just like the hulk - super monster gets bigger & a health boost when going to extra mad
-			if (self.spawnflags & MFL_SXMAD)
-			{
-				cvar_fields(self, strcat("__",self.classname));
-/// NOTE: cvar_fields can set next part with #R
-/*
-//				self.waitmax = 2.25; // multiplier in this case
-				if ((random() < 0.25) || (self.health < 20))
-					self.health = self.max_health + ((self.max_health/4) * random()) + ((self.max_health/4) * random());
-				else
-					self.health = self.health + (self.max_health/4) + (100 * random());
-				self.max_health = self.health;
-*//*
-				f7__ = 0; // already healed
-//				self.th_run(); // set new frames
-			}
-		}
-		else
-			f7__ = mon_xmad_heal;
-// could make this one dangerous brute
-		if (random() < mon_super_emheal_chn)
-			self.health = self.health + (f7__ * random());
-
-		if (self.speed > mon_superspeedup_max)
-		if (random() < mon_superspeed_chn)
-		{
-			self.speed  = self.speed - mon_superspeed_fact;
-			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
-		}
-	}
-#endifdef
-*/
 };
 
 
