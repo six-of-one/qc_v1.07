@@ -511,7 +511,7 @@ void() monster_army =
 	}
 #endifdef
 
-#ifdef monsters_plus
+#ifdef monsters_plus_unused
 	self.netname = "Soldier";
 
 	if (self.spawnflags & MFL_ENHANCE)

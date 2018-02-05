@@ -108,7 +108,7 @@ void(string ms) SummonMonster;
 */
 
 
-// monster enhancements
+// monster enhancements - allow upgrade flags
 
 #define	MFL_ENHANCE			1048576			// allow individual monsters spawn & ops code to activate enhanced monster elements
 #define	MFL_ENSUPER				524288			// allow monster spawn & ops code to use SUPER & SUPER_XMAD monsters
