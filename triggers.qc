@@ -731,7 +731,7 @@ local vector	org;
 	}
 #endifdef
 
-	if (other.classname == "player")
+	if ((other.classname == "player") || (other.class_select == "class_monster"))		// fix monster teleport issues
 	{
 #ifdef code_xents
 		if (! (self.spawnflags & NONDIR))

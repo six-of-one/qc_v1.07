@@ -58,13 +58,13 @@ $frame magicc9 magicc10 magicc11
 #define	dk_imp  0.2 // total chance for a better map hknight
 #define	dk_track  0.4 // chance a straight shot will be trackers
 #define	dk_track_dmg  20 // damage done by tracker
-#define	DK_FIRE_TRACK  -62346 // fire tracking flares this attack		TDO: change
+#define	DK_FIRE_TRACK  -666 // fire tracking flares this attack		TDO: change
 
 void() hknight_char_a1;
 void()	hknight_char_b1;
 void() hknight_run1;
 void() hk_idle_sound;
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //-------------------------------------------------------- Martin Code -----
 //TDO: update all his code to qc++  
 
@@ -80,39 +80,36 @@ void() DK_DeathBlow;
 
 void(float offset) hknight_shot =
 {
-#define offang self.v__
-#define offang_y self.dest1_y
+#define offang self.dest2
+#define offang_y self.dest2_y
 //	local	vector	offang;
-	local	vector	org; //, vec;
+//	local	vector	org; //, vec;
 	
 	offang = vectoangles (self.enemy.origin - self.origin);
-	offang_y = offang_y + offset * 6;		// offang - v__
+	if (f1__ != -10) offang_y = offang_y + offset * 6;		// offang - dest2
 	
 	makevectors (offang);
 
-	org = self.origin + self.mins + self.size*0.5 + v_forward * 20;
+	self.v__ = self.origin + self.mins + self.size*0.5 + v_forward * 20;
 
 // set missile speed
-	self.v__ = normalize (v_forward);
-	self.v___z = 0 - self.v___z + (random() - 0.5)*0.1;
+	v3__ = normalize (v_forward);
+	v3___z = offset*0.1 - v3___z + (random() - 0.5)*0.1;
 	
-	launch_spike (org, self.v__);
+	launch_spike (self.v__, v3__);
 	newmis.classname = "knightspike";
 	setmodel (newmis, "progs/k_spike.mdl");
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);		
-	newmis.velocity = self.v__ * 300;
-	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+	newmis.velocity = v3__ * 300;
 
 #ifdef monsters_plus__
+//  Faster death knight flares on higher skill levels.		mod from -- Martin Code --
 	if (self.spawnflags & DK)
-	{
-//-------------------------------------------------------- Martin Code -----
-//  Faster flares on higher skill levels.
-        if (skill > 2)          newmis.velocity = self.v__ * 500;
-        else if (skill > 1)     newmis.velocity = self.v__ * 400;
-//--------------------------------------------------------------------------
-	}
+		newmis.velocity = v3__ * (300 + (100 * skill));
 #endifdef
+
+	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+
 #undef offang
 #undef offang_y
 };
@@ -390,7 +387,7 @@ framer($magica1, $magica14, hknight_magica1, hknight_run1, 0.1,
 
 	if (self.frame < $magica7 || self.frame > $magica12) ai_face();
 	else
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	ai_rep($magica7, DK_Vertical, 3, 2, 1, 0, -1, -2, -6, -6);
 #else
 	ai_rep($magica7, hknight_shot, -2, -1, 0, 1, 2, 3, -6, -6);
@@ -420,13 +417,13 @@ framer($magicb1, $magicb13, hknight_magicb1, hknight_run1, 0.1,
 	if (self.frame < $magicb7 || self.frame > $magicb12)
 	{
 		ai_face();
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		self.aflag = 0;
 #endifdef
 	}
 	else
 	{
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		frame_arb($magicb7,if (random() < 0.4) self.aflag = DK_FIRE_TRACK);
 		ai_rep($magicb7, DK_Straight, self.aflag, self.aflag, self.aflag, self.aflag, self.aflag, self.aflag, -6, -6);
 #else
@@ -524,18 +521,18 @@ framerloop($char_b1, $char_b6, hknight_char_b1, 0.1,
 
 	ai_rep($char_b1, ai_charge, 23, 17, 12, 22, 18, 8, -6, -6);
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		frame_arb($char_b1,
 
-	if (self.spawnflags & DK)
-		DK_SwordSwing();
-	else
-		CheckContinueCharge();
+			if (self.spawnflags & DK)
+				DK_SwordSwing();
+			else
+				CheckContinueCharge();
 		);
 		frame_arb($char_b6,
 
-	if (self.spawnflags & DK)
-		DK_CheckForSwing();
+			if (self.spawnflags & DK)
+				DK_CheckForSwing();
 		);
 #else
 	frame_arb($char_b1,CheckContinueCharge ());
@@ -644,7 +641,7 @@ framer($w_attack1, $w_attack22, hknight_watk1, hknight_run1, 0.1,
 #endifdef
 );
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // Cataboligne - 12.4.12 - tracking flares
 // this might be a code_archon module
 
@@ -658,7 +655,9 @@ void() dk_track_touch =
 		return;		// don't explode on owner
 
 	if (other.classname != "monster_hell_knight") // dont blow on hell knights - smart missile tech
+#ifdef code_morph
 	if (other.morphy != CB_HKNIGHT)
+#endifdef
 	if (other.takedamage == DAMAGE_AIM)
 	{
 		MiniGrenadeExplode();
@@ -672,7 +671,7 @@ void() dk_track_touch =
 #endifdef
 
 //============================================================================
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // start Martin big chunk
 // mod by Patrick Martin : cimartin@flash.net - the "death knight", an improved hell knight
 
@@ -746,7 +745,7 @@ void() DK_HellKnight_ChooseMagic =
 {
         local   float   r;
 
-	if (!self.spawnflags & DK) // not a death knight
+	if (!(self.spawnflags & DK)) // not a death knight
 	{
 		hknight_magicc1();
 		return;
@@ -757,7 +756,7 @@ void() DK_HellKnight_ChooseMagic =
                 hknight_magica1();      // vertical spread
         else if (r < 0.5)
                 hknight_magicb1();      // straight blast - can turn into tracers
-	else
+			else
                 hknight_magicc1();      // regular spread
 };
 
@@ -768,26 +767,9 @@ void() DK_HellKnight_ChooseMagic =
 //--------------------------------------------------------------------------
 void(float offset) DK_Vertical =
 {
-	local	vector	org, vec;
-
-	self.dest = vectoangles (self.enemy.origin - self.origin);
-
-	makevectors (self.dest);
-
-	org = self.origin + self.mins + self.size*0.5 + v_forward * 20;
-
-	// set missile speed
-	vec = normalize (v_forward);
-	vec_z = offset*0.1 - vec_z + (random() - 0.5)*0.1;
-
-	launch_spike (org, vec);
-	newmis.classname = "knightspike";
-	setmodel (newmis, "progs/k_spike.mdl");
-	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);		
-	if (skill > 2)          newmis.velocity = vec * 500;
-	else if (skill > 1)     newmis.velocity = vec * 400;
-	else                    newmis.velocity = vec * 300;
-	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
+	f1__ = -10;
+	hknight_shot(offset);
+	f1__ = 0;
 };
 
 //-------------------------------------------------------- New Code --------
@@ -797,26 +779,24 @@ void(float offset) DK_Vertical =
 //--------------------------------------------------------------------------
 void(float tr) DK_Straight =
 {
-	local	vector	org, vec;
+//	local	vector	org, vec;
 	
 	self.dest = vectoangles (self.enemy.origin - self.origin);
 
 	makevectors (self.dest);
 
-	org = self.origin + '0 0 20'; 
+	self.v__ = self.origin + '0 0 20'; 
 
 	// set missile speed
-	vec = normalize (v_forward);
-	vec_z = 0 - vec_z;
+	v3__ = normalize (v_forward);
+	v3___z = 0 -v3___z;
 
-	launch_spike (org, vec);
+	launch_spike (self.v__, v3__);
 	newmis.classname = "knightspike";
 	setmodel (newmis, "progs/k_spike.mdl");
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
-	if (skill > 2)       newmis.velocity = vec * 900;
-	else if (skill > 1)  newmis.velocity = vec * 600;
-	else if (skill > 0)  newmis.velocity = vec * 450;
-	else                 newmis.velocity = vec * 300;
+	newmis.velocity = v3__ * 300;
+	if (self.spawnflags & DK) newmis.velocity = v3__ * (300 + (100 * skill));
 	sound (self, CHAN_WEAPON, "hknight/attack1.wav", 1, ATTN_NORM);
 
 	if (tr == DK_FIRE_TRACK) Track_Missile(newmis, dk_track_touch, 20); // dk_track_dmg);
@@ -887,7 +867,7 @@ void() hknight_melee =
 	hknight_type = hknight_type + 1; // #enhance this
 
 	sound (self, CHAN_WEAPON, "hknight/slash1.wav", 1, ATTN_NORM);
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.spawnflags & DK)
 //-------------------------------------------------------- Martin Code -----
 //  Use the new attack occasionally (5% per skill) or if:
@@ -963,14 +943,9 @@ void() monster_hell_knight =
 	self.th_pain = hknight_pain;
 	self.th_die = hknight_die;
 
-#ifdef monsters_plus
+#ifdef monsters_plus_remove
 	self.netname = "Hell Knight";
 
-
-#ifdef local_test
-// REMOVE
-self.spawnflags = self.spawnflags | DK;
-#endifdef
 
 	if (!self.spawnflags & HK_STATUE)
 	if ((self.map == "dyn_sp") || (self.spawnflags & DK))

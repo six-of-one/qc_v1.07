@@ -520,7 +520,7 @@ void() monster_enforcer =
 	self.th_die = enf_die;
 	self.th_missile = enf_atk1;
 
-#ifdef monsters_plus_unused
+#ifdef monsters_plus_remove
 	self.netname = "Enforcer";
 
 	if ((self.spawnflags & MFL_ENHANCE) || (self.spawnflags & ENF_XWEP))
