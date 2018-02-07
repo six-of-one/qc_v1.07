@@ -366,7 +366,6 @@ framerloop($run1, $run8, ogre_run1, 0.1,
 #ifdef monsters_plus__
 	frame_arb($run5,
 	if (self.spawnflags & OGRE_SUPER)
-	if (SV_MINEALLOW & CB_M_OGRE)
 	if ((time & SV_CKTIME) == SV_CKTIME)
 	{
 		s7__ = "owner";

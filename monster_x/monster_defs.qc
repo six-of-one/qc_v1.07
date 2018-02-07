@@ -26,9 +26,9 @@
 // speed contants for monsters
 // slowing down too much or speeding up too much looks "funny" (admittedly chaotic tho), try to say in limits
 
-#define MON_NORM 0.1 // base think speed for animation frames
-#define MON_FAST 0.07 // 1.429 times faster
-#define MON_SLOW 0.16 // 0.625 times slower
+#define	MON_NORM		0.1 // base think speed for animation frames
+#define	MON_FAST		0.07 // 1.429 times faster
+#define	MON_SLOW		0.16 // 0.625 times slower
 // divisor - divide monsters speed up by this value --- > 1 slows monsters, < 1 speeds up monsters
 // shoot poison potions to slow monsters down
 // note: this is a global effect that happens to all .speed controled monsters - .lip is an individual monster speed divisor
@@ -55,7 +55,7 @@ void(string ms) SummonMonster;
 // supervore = 65536
 // super 3x scrag = 1024
 // death knight = 64
-#define SV_MINEALLOW 66752 // allow monsters to set mines by bitmask
+#define SV_MINEALLOW 66624 // allow monsters to set mines by bitmask
 
 
 // assigned monster bit codes used by vars sections		- use mask_x
@@ -120,7 +120,7 @@ void(string ms) SummonMonster;
 
 // possible enhance flags - if any are set, rnd enhance wont happen
 
-#define	MFL_ANYLOW				12542			// enhanced monster low bits
+#define	MFL_ANYLOW				12526			// enhanced monster low bits  -- 16 is excluded since hip / rogue used it on some for spawn silent
 
 
 
@@ -182,28 +182,6 @@ void(string ms) SummonMonster;
 // time signal for super ops like self healing
 #define	sup_time	invisible_time
 
-/*
-pain code EXMAD
-
-			if (self.health < 250)
-			if (random() < 0.5)
-				self.scale = MON_SUPERXM;
-//				self.spawnflags = self.spawnflags | OGRE_SUPER_MAD;
-
-			if (self.health < 50)
-				self.scale = MON_SXMAD;
-
-xmad pain ops
-		if (random() < mon_super_emheal_chn)
-			self.health = self.health + (mon_super_emheal * random());
-
-		if (self.speed > mon_superspeedup_max)
-		if (random() < mon_superspeed_chn)
-		{
-			self.speed  = self.speed - mon_superspeed_fact;
-			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
-		}
-*/
 
 #endifdef
 

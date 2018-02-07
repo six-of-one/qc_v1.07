@@ -113,12 +113,13 @@ will duck back out and catch it.
 #define W_LAVA 2 // lava wixard
 #define W_POISON 4 // poison wixard
 #define W_2HEAD 8 // 2 heads
-#define W_SPIKE 16 // xtra spikes
-#define W_LGSPIKE 32 // large with xtra spikes
+#define W_SPIKE 32 // xtra spikes
+// super is now an extra bit
+//#define W_LGSPIKE 32 // large with xtra spikes
 #define W_3SPIKE 64 // 3 heads xtra spikes
-#define W_SUP3SPIKE 128 // super size 3 heads xtra spikes
-#define W_UPG 254 // any upgrade bit
-#define W_UPGM 240 // all mega upgrade bits - no 2 head, no lava, and no poison
+//#define W_SUP3SPIKE 128 // super size 3 heads xtra spikes
+#define W_UPG 110 // any upgrade bit
+#define W_UPGM 96 // all mega upgrade bits - no 2 head, no lava, and no poison
 
 #define wl_track 0.6 // chance a shot will be tracker
 #define wl_track_dmg 20  // damage done by tracker explode

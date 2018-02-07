@@ -94,6 +94,8 @@ $frame rxlaytorun1
 // end dog framing
 */
 
+#define	FLUFFY		4
+
 void() dog_leap1;
 void() dog_run1;
 
@@ -122,8 +124,8 @@ void() dog_bite =
 		return;
 
 	self.ldmg_ = (random() + random() + random()) * 8;
-#ifdef monsters_plus
-	if (self.spawnflags & 4) self.dmg = self.dmg * 1.8;
+#ifdef monsters_plus__
+	if (self.spawnflags & FLUFFY) self.dmg = self.dmg * 1.8;
 #endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
@@ -228,10 +230,10 @@ void() dog_run12	=[	$run12  ,	dog_run1	] {ai_run(32);};
 framerloop($run1, $run12, dog_run1, 0.1,
 
 	frame_arb($run1  ,if (random() < 0.2) sound(self, CHAN_VOICE, "dog/idle.wav", 1, ATTN_IDLE));
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($run5,
 
-		if (self.spawnflags & 4)
+		if (self.spawnflags & FLUFFY)
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		if (random() < 0.25)
 			SummonMonster("monster_dog");

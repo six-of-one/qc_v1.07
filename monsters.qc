@@ -208,6 +208,8 @@ void(float flg) monster_start =
 #endifdef
 
 #ifdef monsters_plus__
+	if (!self.scale) self.scale = 1;			// used to make adjustments for super monsters
+
 	if (!(self.spawnflags & MFL_ANYLOW)) // he hasnt been bumped up by some other method
 	{
 		self.f__ = 0;
@@ -453,7 +455,7 @@ void(string ms) SummonMonster =
 
 void() pain_sup =
 {
-	if (self.sup_time > time) return;
+	if ((self.sup_time > time) ||  (self.class_select != "class_monster")) return;
 	self.sup_time = time + 3;
 
 	f7__ = mon_super_heal;
@@ -467,7 +469,7 @@ void() pain_sup =
 // check to see if super monster gets EXTRA mad
 	if (!(self.spawnflags & MFL_SXMAD))
 	{
-		if (f7__ && self.health < 250)			/// should be based on % self.max_health
+		if (f7__ && self.health < (self.max_health * 0.33))			// max_health set by cvar overload or start code
 		if (random() < mon_xmad_chance)
 		{
 			self.spawnflags = self.spawnflags | MFL_SXMAD;
@@ -480,6 +482,7 @@ void() pain_sup =
 	if (random() < mon_super_emheal_chn)
 		self.health = self.health + (f7__ * random());
 
+/// TDO: hulk sound effects !
 // upscale to super or super extra mad - load new stats
 	if (!f7__) cvar_fields(self, strcat("__",self.classname));
 
