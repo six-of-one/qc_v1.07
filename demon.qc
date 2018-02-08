@@ -213,8 +213,8 @@ framerloop($leap1, $leap10, demon1_jump1, 0.1,
 		self.velocity = v_forward * 600 + '0 0 250';
 		if (self.flags & FL_ONGROUND)
 			self.flags = self.flags - FL_ONGROUND;
-		self.dmg = 40;
-		self.jump_vel = 400;
+//		self.dmg = 40;
+//		self.jump_vel = 400;
 
 	);
 	frame_arb($leap10,self.nextthink = time + 3);
@@ -248,13 +248,13 @@ framer($attacka1, $attacka15, demon1_atta1, demon1_run1, 0.1,
 	frame_arb($attacka5, Demon_Melee(200)
 
 #ifdef monsters_plus
-		if (self.spawnflags & 6) Demon_Melee(200);
+		if (self.spawnflags & DEMON_DBL) Demon_Melee(200);
 #endifdef
 	);
 	frame_arb($attacka11, Demon_Melee(-200)
 
 #ifdef monsters_plus
-		if (self.spawnflags & 6) Demon_Melee(-200);
+		if (self.spawnflags & DEMON_DBL) Demon_Melee(-200);
 #endifdef
 	);
 
@@ -425,11 +425,18 @@ float()	DemonCheckAttack =
 		return TRUE;
 	}
 
-// NOTE: cm2 code set these in monster setup
+#ifdef monsters_plus__
+	if (self.dest2 == '0 0 0')
+	{
+#endifdef
 
-	self.dest2_x = 100;		// spot2_
+	self.dest2_x = 100;		// spot2_			set default - fiend test
 	self.dest2_y = 200;		// spot2_
 	self.dest2_z = 0;			// spot2_
+
+#ifdef monsters_plus__
+	}
+#else
 
 	if (self.classname == "monster_dog" || self.classname == "monster_blarg")
 	{
@@ -444,6 +451,7 @@ float()	DemonCheckAttack =
 		self.dest2_y = 240;	// spot2_
 		self.dest2_z = 1;		// spot2_
 	}
+#endifdef
 
 	if (CheckDemonJump())
 	{

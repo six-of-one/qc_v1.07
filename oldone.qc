@@ -487,14 +487,10 @@ void() monster_oldone =
 	self.nextthink = time + 0.1;	
 	self.takedamage = DAMAGE_YES;
 	self.th_pain = nopain;
-// IDEA: something different in DM if shubs is bit mapped in - like a gibs fountain explode
+// IDEA: something different in DM if shubs is bit mapped in - like a long run gibs fountain explode
 	self.th_die = finale_1;
 	shub = self;
 	
 	total_monsters = total_monsters + 1;
-
-#ifdef monsters_plus__
-	self.netname = "Shub Niggurath";
-#endifdef
 };
 

@@ -502,7 +502,12 @@ framer($die1, $die18, manga_die1, SUB_Null, 0.1,
 void() manga_die =
 {
 // check for gib
-	if (self.health < -80)
+	self.dmg = -80;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowHead ("progs/gib3.mdl", self.health);

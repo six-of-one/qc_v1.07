@@ -420,7 +420,13 @@ framer($death1, $death14, heximp_death1, SUB_Null, 0.1,
 
 void() heximp_death =
 {
-	if (self.health < -35)
+// check for gib
+	self.dmg = -35;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowGib ("progs/gib1.mdl", self.health);

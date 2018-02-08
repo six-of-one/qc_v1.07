@@ -159,8 +159,8 @@ void(string ms) SummonMonster;
 #define	mon_super_heal  					self.pkplus_egoammo
 #define	mon_xmad_heal  					self.pkplus_tombammo
 #define	mon_gibdmg  							self.dmg_save
-#define	mon_meleedmg  					self.dodmg
-
+#define	mon_jumpdmg  						self.dodmg
+ 
 // these are individual to each monster
 #define mon_enh_mask						self.pkplus_phoneammo
 

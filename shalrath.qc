@@ -536,10 +536,6 @@ void() monster_shalrath =
 #endifdef
 	self.nextthink = time + 0.1 + random ()*0.1;	
 
-#ifdef monsters_plus_remove
-	self.netname = "Shalrath";
-#endifdef
-
 };
 
 //=================================================================

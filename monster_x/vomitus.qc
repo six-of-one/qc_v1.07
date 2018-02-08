@@ -417,8 +417,14 @@ void()	vom_dieb2	=[	$die2,	vom_run1	]
 
 void() vom_die =
 {
+// check for gib
+	self.dmg = -60;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
 // check for explosion (hey it's tarbabys big brother)
-	if (self.health < -60)
+	if (self.health < self.dmg)
 	{
 		vom_dieb1();
 		return; 
@@ -778,8 +784,6 @@ if (ign != A_MONSTER)
 	if (self.netname == CFAST) self.speed = MON_FAST;
 	else if (self.netname == CSLOW) self.speed = MON_SLOW;
 */
-
-	self.netname = "Vomitus";
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;

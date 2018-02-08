@@ -689,8 +689,13 @@ void(entity attacker, float damage)     raptor1_stumble =
 
 void() raptor_die = 
 {
+	self.dmg = -80;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
 // check for gib
-	if (self.health < -80)
+	if (self.health < self.dmg)
 	{
 /*
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -716,8 +721,13 @@ void() raptor_die =
 
 void() raptor_limp = 
 {
+// check for gib - if x_mon cfg doesnt set this limp wont gib him
+#ifdef monsters_plus__
+	if (self.health < mon_gibdmg)
+#else
 // check for gib
 	if (self.health < -80)
+#endifdef
 	{
 /*
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -847,7 +857,7 @@ if (ign != A_MONSTER)
 //	self._jump = raptor1_jump1;
 //	self._jump2 = raptor1_jump11;
 
-	self.jump_vel = 400;
+//	self.jump_vel = 400;
 //	self.dodmg = 40;
 
 	walkmonster_start;

@@ -236,8 +236,13 @@ framer($death1, $death10, spid_death1, SUB_Null, 0.1,SUB_Null());
 
 void() spider_die =
 {
+	self.dmg = -90;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
 // check for gib
-	if (self.health < -90)
+	if (self.health < self.dmg)
 	{
 /*
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);

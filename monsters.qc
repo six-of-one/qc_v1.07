@@ -209,6 +209,7 @@ void(float flg) monster_start =
 
 #ifdef monsters_plus__
 	if (!self.scale) self.scale = 1;			// used to make adjustments for super monsters
+	if (!self.jump_vel) self.jump_vel = 300;			// jumpers velocity test for damage
 
 	if (!(self.spawnflags & MFL_ANYLOW)) // he hasnt been bumped up by some other method
 	{
@@ -291,18 +292,17 @@ void() raptor1_run1;
 
 void()	Monster_JumpTouch =
 {
-//	local	float	ldmg;
 
 	if (self.health <= 0)
 		return;
 
-	if (!self.dmg) self.dmg = 10;
+	if (!mon_jumpdmg) mon_jumpdmg = 10;
 
 	if (other.takedamage)
 	{
 		if ( vlen(self.velocity) > self.jump_vel)
 		{
-			self.ldmg_ = self.dmg + 10*random();
+			self.ldmg_ = mon_jumpdmg + 10*random();
 			T_Damage (other, self, self, self.ldmg_);	
 		}
 	}

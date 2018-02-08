@@ -415,7 +415,12 @@ void() young_die =
 		self.owner.cnt = self.owner.cnt + 1;
 
 // check for gib
-	if (self.health < -30)
+	self.dmg = -30;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowGib ("progs/gib1.mdl", self.health);

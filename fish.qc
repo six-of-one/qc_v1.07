@@ -178,7 +178,12 @@ framer($death1, $death21, f_death1, SUB_Null, 0.1,
 void() fish_die =
 {
 // check for gib
-	if (self.health < -20)
+	self.dmg = -20;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowGib ("progs/gib1.mdl", self.health);
@@ -256,10 +261,6 @@ void() monster_fish =
 #endifdef
 	self.th_pain = fish_pain;
 	self.th_melee = f_attack1;
-
-#ifdef monsters_plus__
-	self.netname = "Fishy";
-#endifdef
 
 	swimmonster_start;
 };

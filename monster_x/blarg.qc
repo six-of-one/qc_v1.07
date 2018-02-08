@@ -56,10 +56,7 @@ void() dog_bite =
 	if (vlen(self.enemy.origin - self.origin) > 100)
 		return;
 
-	self.ldmg_ = (random() + random() + random()) * 8;
-#ifdef monsters_plus
-	if (self.spawnflags & 4) self.dmg = self.dmg * 1.8;
-#endifdef
+	self.ldmg_ = (random() + random() + random()) * 8 * self.scale;
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
 #endifdef
@@ -137,7 +134,13 @@ void()  blarg_pain =
 
 void() blarg_stop =
 {
-	if (self.health < -100)
+	self.dmg = -100;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+// check for gib
+	if (self.health < self.dmg)
 	{
 /*
 		sound(self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -530,7 +533,7 @@ if (ign != A_MONSTER)
 // jumptouch multi
 //	self._jump = blarg_leap1;
 //	self._jump2 = blarg_run8;
-	self.jump_vel = 300;
+//	self.jump_vel = 300;
 //	self.dodmg = 5;
 
 	walkmonster_start;

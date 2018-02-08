@@ -393,7 +393,12 @@ framer($death1, $death11, sham_death1, SUB_Null, 0.1,
 void() sham_die =
 {
 // check for gib
-	if (self.health < -60)
+	self.dmg = -60;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -455,10 +460,6 @@ void() monster_shambler =
 	self.th_melee = sham_melee;
 	self.th_missile = sham_magic1;
 	self.th_pain = sham_pain;
-
-#ifdef monsters_plus__
-	self.netname = "Shambler";
-#endifdef
 
 	walkmonster_start;
 };

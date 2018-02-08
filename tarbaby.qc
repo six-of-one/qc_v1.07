@@ -47,12 +47,6 @@ $frame lgexp
 // super tarbaby - just because
 #define TB_SUPER	MFL_SUPER
 
-#define SUPER_SPAWN_CHANCE	0.1
-// how much a super spawn could heal in a pain frame
-#define super_spawn_emheal	mon_xmad_heal
-// chance to heal
-#define super_spawn_emheal_chn		mon_super_emheal_chn
-
 
 void()	tbaby_stand1	=[	$walk1,		tbaby_stand1	] {ai_stand();};
 
@@ -483,26 +477,7 @@ void(float ign) tbaby_mitosis =
 	}
 
 	pain_sup();
-/*
-	if (self.spawnflags & MFL_SUPER)
-	if (self.class_select == "class_monster") 
-	if (self.pain_finished < time)
-	{
-		if (random() < mon_super_emheal_chn)
-		{
-			self.health = self.health + (mon_super_heal * random());
-		}
 
-		if (self.speed > mon_superspeedup_max)
-		if (random() < (mon_superspeed_chn * 5))
-		{
-			self.speed  = self.speed - mon_superspeed_fact;
-			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
-		}
-
-		self.pain_finished = time + 2;
-	}
-*/
 };
 
 //=============================================================================

@@ -123,9 +123,9 @@ void() dog_bite =
 	if (vlen(self.enemy.origin - self.origin) > 100)
 		return;
 
-	self.ldmg_ = (random() + random() + random()) * 8;
+	self.ldmg_ = (random() + random() + random()) * 8 * self.scale;
 #ifdef monsters_plus__
-	if (self.spawnflags & FLUFFY) self.dmg = self.dmg * 1.8;
+	if (self.spawnflags & FLUFFY) self.ldmg_ = self.ldmg_ * 1.8;
 #endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
@@ -315,8 +315,6 @@ framerloop($leap1, $leap9, dog_leap1, 0.1,
 		self.velocity = v_forward * 300 + '0 0 200';
 		if (self.flags & FL_ONGROUND)
 			self.flags = self.flags - FL_ONGROUND;
-		self.dmg = 10;
-		self.jump_vel = 300;
 	);
 	if (self.frame == $stand1) self.frame = $leap9;
 );
@@ -363,7 +361,7 @@ void() dog_pain =
 #ifdef monsters_plus__
 	if (self.spawnflags & FLUFFY) // FLUFFY
 	{
-// should this use pain_sup ?
+// should this use pain_sup ? - fluffster has no super flags
 		if ((random() < 0.1) || (self.health < 60))
 			self.health = self.health + (30 * random());
 		if (random() < 0.05)

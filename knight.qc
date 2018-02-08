@@ -292,7 +292,12 @@ framer($deathb1, $deathb11, knight_dieb1, SUB_Null, 0.1,frame_arb($deathb3,self.
 void() knight_die =
 {
 // check for gib
-	if (self.health < -40)
+	self.dmg = -40;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -349,10 +354,6 @@ void() monster_knight =
 	self.th_melee = knight_atk1;
 	self.th_pain = knight_pain;
 	self.th_die = knight_die;
-
-#ifdef monsters_plus__
-	self.netname = "Knight";
-#endifdef
 
 	walkmonster_start;
 };
