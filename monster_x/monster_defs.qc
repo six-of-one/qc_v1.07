@@ -158,6 +158,8 @@ void(string ms) SummonMonster;
 #define	mon_super_emheal_chn 	self.pk_canpabammo
 #define	mon_super_heal  					self.pkplus_egoammo
 #define	mon_xmad_heal  					self.pkplus_tombammo
+#define	mon_gibdmg  							self.dmg_save
+#define	mon_meleedmg  					self.dodmg
 
 // these are individual to each monster
 #define mon_enh_mask						self.pkplus_phoneammo
@@ -172,7 +174,7 @@ void(string ms) SummonMonster;
 #define	mon_xmad_chance		0.15			// chance a monster in pain can go SUPER EXTRA MAD
 #define	mon_super_emheal_chn 0.4	// chance to heal
 #define	mon_super_heal 			40 			// how much a super could heal in a pain frame
-#define	mon_super_emheal		80 			// how much a super thats extra mad could heal in a pain frame
+#define	mon_xmad_heal		80 			// how much a super thats extra mad could heal in a pain frame
 #endifdef
 
 #define	mon_superspeed_chn				0.05 // chance per pain test unit a super monster will speed up
@@ -182,6 +184,7 @@ void(string ms) SummonMonster;
 // time signal for super ops like self healing
 #define	sup_time	invisible_time
 
+#define FL_DEMONBOOM				65536 // demon on overload!
 
 #endifdef
 

@@ -321,8 +321,11 @@ self.takedamage = DAMAGE_NO;
 };
 void()	tbaby_die2	=[	$exp,		tbaby_run1	] 
 {
-	self.ldmg_ = 120 * self.scale;	// TDO: override
+	self.ldmg_ = 120;
+
 #ifdef monsters_plus__
+	if (mon_gibdmg) self.ldmg_ = mon_gibdmg;
+
 	if (self.spawnflags & TB_SUPER)
 	{
 		if (random() < 0.2) // baby blast!
@@ -335,7 +338,7 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 				item_eject(newmis, GEN_BOUNCE);
 				self.cnt = self.cnt - 1;
 			}
-			remove(self);
+			remove(self);		// FIX: respawnable map monsters
 			return;
 		}
 //		self.dmg = 220;

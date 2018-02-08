@@ -265,14 +265,14 @@ framer($attack1, $attack8, dog_atta1, dog_run1, 0.1,
 	}
 	else
 		ai_charge(10);
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($attack5,
 
 	if (self.spawnflags & 6) dog_bite(); // 2 or 3 head - 2nd bite
 	);
 	frame_arb($attack6,
 
-	if (self.spawnflags & 4) // fluffy sometimes gets 3rd bite
+	if (self.spawnflags & FLUFFY) // fluffy sometimes gets 3rd bite
 	if (random() < 0.3)
 		dog_bite();
 	);
@@ -360,16 +360,17 @@ void() dog_pain =
 {
 	sound (self, CHAN_VOICE, "dog/dpain1.wav", 1, ATTN_NORM);
 
-#ifdef monsters_plus
-	if (self.spawnflags & 4) // FLUFFY
+#ifdef monsters_plus__
+	if (self.spawnflags & FLUFFY) // FLUFFY
 	{
+// should this use pain_sup ?
 		if ((random() < 0.1) || (self.health < 60))
 			self.health = self.health + (30 * random());
 		if (random() < 0.05)
 			self.health = self.health + (30 * random());
-//		self.max_health = self.health;
-		dog_walk4(); // has no pain frames
-		return;
+
+//		dog_walk4(); // has no pain frames
+		if (random() < mon_super_emheal_chn) return;
 	}
 #endifdef
 
@@ -410,8 +411,8 @@ framer($deathb1, $deathb9, dog_dieb1, SUB_Null, 0.1,SUB_Null());
 void() dog_die =
 {
 	self.dmg = -35;
-#ifdef monsters_plus
-	if (self.spawnflags & 4) self.dmg = -100;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
 #endifdef
 
 // check for gib
@@ -564,7 +565,7 @@ void() monster_dog =
 	self.th_melee = dog_atta1;
 	self.th_missile = dog_leap1;
 
-#ifdef monsters_plus
+#ifdef monsters_plus_remove
 	self.netname = "Doggy";
 
 	self.waitmax = 0;

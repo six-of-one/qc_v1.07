@@ -92,6 +92,7 @@ $frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattack
 
 #define	DEMON_DBL		2
 #define	DEMON_SUPER		MFL_SUPER
+// black orange beast - not done
 #define	DEMON_BOB		8
 #define	DEMON_SUPER_MAD		MFL_SXMAD		// got extra mad
 #define	DEMON_BOOM		32		// raged and exploding
@@ -314,10 +315,10 @@ void() demon_die =
 {
 // check for gib
 	self.dmg = -80;
-#ifdef monsters_plus
-	if (self.spawnflags & DEMON_DBL) self.dmg = -100;
-	if (self.spawnflags & DEMON_SUPER) self.dmg = -350;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
 
+#ifdef code_morph
 	if (self.flags & FL_DEMONBOOM) // heh heh - little enhancement, mostly for player morph
 	{
 		self.attack_finished = 0; // make sure we boom
@@ -325,14 +326,12 @@ void() demon_die =
 		return;
 	}
 #endifdef
+#endifdef
 
 	if (self.health < self.dmg)
 	{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowHead ("progs/h_demon.mdl", self.health);
-#ifdef monsters_plus
-		if (self.spawnflags & DEMON_SUPER) self.scale = 1.6;
-#endifdef
 		ThrowGib ("progs/gib1.mdl", self.health);
 		ThrowGib ("progs/gib1.mdl", self.health);
 		ThrowGib ("progs/gib1.mdl", self.health);
@@ -478,7 +477,7 @@ void(float side)	Demon_Melee =
 		
 	sound (self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
 	self.ldmg_ = 10 + 5*random();
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.spawnflags & DEMON_SUPER_MAD) self.ldmg_ = 60 + 60*random();
 	else
 	if (self.spawnflags & DEMON_SUPER) self.ldmg_ = 20 + 20*random();

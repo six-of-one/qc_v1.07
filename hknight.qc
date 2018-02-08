@@ -342,7 +342,12 @@ framer($deathb1, $deathb9, hknight_dieb1, SUB_Null, 0.1,
 void() hknight_die =
 {
 // check for gib
-	if (self.health < -40)
+	self.dmg = -40;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -844,6 +849,8 @@ void(entity attacker, float damage)	hknight_pain =
 	sound (self, CHAN_VOICE, "hknight/pain1.wav", 1, ATTN_NORM);
 
 #ifdef monsters_plus__
+	pain_sup();
+
 	if (!(self.spawnflags & DK))
 #endifdef
 	if (time - self.pain_finished > 5)

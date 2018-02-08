@@ -602,26 +602,24 @@ framer($death2, $death8, wiz_death2, SUB_Null, 0.1,frame_arb($death3,self.solid 
 void() wiz_die =
 {
 	self.dmg = -40;
-#ifdef monsters_plus
-	if (self.wad == "SUPER") self.dmg = -200;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
 #endifdef
 
 // check for gib
 	if (self.health < self.dmg)
 	{
-#ifdef monsters_plus
-		if (self.spawnflags & 160) // larger scrags - 32 & 128
-			self.scale = 1.8;
-		if (self.spawnflags & 200) // 2 & 3 head & 3 head super - 8, 64 & 128
+#ifdef monsters_plus__
+		if (self.spawnflags & 72) // 2 & 3 head - 8, 64
 		{
 			ThrowGib ("progs/h_wizard.mdl", self.health);
-			if (self.spawnflags & W_SUP3SPIKE) newmis.scale = 1.8; // 3 head lrg
+			nspawn.scale = self.scale;
 			newmis.nextthink = time + 60 + random()*60;
 		}
-		if (self.spawnflags & 192) // both 3 heads - 64 & 128
+		if (self.spawnflags & W_3SPIKE) // 3 heads
 		{
 			ThrowGib ("progs/h_wizard.mdl", self.health);
-			if (self.spawnflags & W_SUP3SPIKE) newmis.scale = 1.8; // 3 head lrg
+			nspawn.scale = self.scale;
 			newmis.nextthink = time + 60 + random()*60;
 		}
 #endifdef

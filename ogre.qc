@@ -595,55 +595,10 @@ void(entity attacker, float damage)	ogre_pain =
 	self.rnd_ = random();
 
 #ifdef monsters_plus__
-	self.cnt = 1;
-
-	if (self.spawnflags & OGRE_SUPER)
-	{
-// check to see if super ogre gets EXTRA mad
-		if (!(self.spawnflags & OGRE_SUPER_MAD))
-		{
-			if (self.health < 250)
-			if (random() < 0.5)
-				self.spawnflags = self.spawnflags | OGRE_SUPER_MAD;
-
-			if (self.health < 50)
-				self.spawnflags = self.spawnflags | OGRE_SUPER_MAD;
-
-// just like the hulk - super ogre gets bigger & a health boost when going to extra mad
-			if (self.spawnflags & OGRE_SUPER_MAD)
-			{
-//				self.waitmax = 2.25; // multiplier in this case
-				if ((random() < 0.25) || (self.health < 20))
-					self.health = 800 + (200 * random()) + (200 * random());
-				else
-					self.health = self.health + 200 + (100 * random());
-				self.max_health = self.health;
-
-				self.th_missile = ogre_smash1; // XMAD ogre has forgotten grenades, maybe he could throw boulders
-//				self.th_run(); // set new frames
-			}
-		}
-// could make this one dangerous brute
-		else
-		if (random() < mon_super_emheal_chn)
-			self.health = self.health + (mon_xmad_heal * random());
-
-		if (self.speed > mon_superspeedup_max)
-		if (random() < mon_superspeed_chn)
-		{
-			self.speed  = self.speed - mon_superspeed_fact;
-			if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
-		}
-
-		self.cnt = 2;
-		self.pain_finished = time + 3.5; // set a default
-
-		if (self.rnd_ > 0.75) return;
-
-	}
+	pain_sup();
 #endifdef
 
-	self.pain_finished = time + self.cnt;
+	self.pain_finished = time + 1;
 	if (self.rnd_ < 0.25)
 	{
 		ogre_pain1 ();
@@ -659,12 +614,12 @@ void(entity attacker, float damage)	ogre_pain =
 	else if (self.rnd_ < 0.87)
 	{
 		ogre_paind1 ();
-		self.pain_finished = time + self.cnt + 1;
+		self.pain_finished = time + 2;
 	}
 	else
 	{
 		ogre_paine1 ();
-		self.pain_finished = time + self.cnt + 1;
+		self.pain_finished = time + 2;
 	}
 };
 
@@ -744,7 +699,7 @@ void() ogre_die =
 {
 	self.dmg = -80;
 #ifdef monsters_plus__
-	if (self.spawnflags & MFL_BSUP) self.dmg = -300;
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
 #endifdef
 
 // check for gib

@@ -429,8 +429,13 @@ framer($pain1, $pain5, army_conduitPain1, army_conduitPain6, 0.1,SUB_Null(););
 
 void() army_die =
 {
+	self.dmg = -35;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
 // check for gib
-	if (self.health < -35)
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);

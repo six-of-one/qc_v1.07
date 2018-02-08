@@ -320,7 +320,12 @@ void() shalrath_pain =
 void() shalrath_die =
 {
 // check for gib
-	if (self.health < -90)
+	self.dmg = -90;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
@@ -330,9 +335,6 @@ void() shalrath_die =
 		ThrowGib ("progs/gib3.mdl", self.health);
 */
 		gibbs("progs/h_shal.mdl");
-#ifdef monsters_plus__
-		if (self.walkframe > 0) self.scale = 1.25;	// CHECK: is test valid?
-#endifdef
 		return;
 	}
 
@@ -534,7 +536,7 @@ void() monster_shalrath =
 #endifdef
 	self.nextthink = time + 0.1 + random ()*0.1;	
 
-#ifdef monsters_plus__
+#ifdef monsters_plus_remove
 	self.netname = "Shalrath";
 #endifdef
 

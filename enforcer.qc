@@ -455,8 +455,13 @@ framer($fdeath1, $fdeath11, enf_fdie1, SUB_Null, 0.1,
 	
 void() enf_die =
 {
+	self.dmg = -35;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
 // check for gib
-	if (self.health < -35)
+	if (self.health < self.dmg)
 	{
 /*
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
