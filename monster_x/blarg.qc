@@ -56,7 +56,11 @@ void() dog_bite =
 	if (vlen(self.enemy.origin - self.origin) > 100)
 		return;
 
-	self.ldmg_ = (random() + random() + random()) * 8 * self.scale;
+	self.ldmg_ = (random() + random() + random()) * 8
+#ifdef monsters_plus__
+																				* self.scale
+#endifdef
+						;
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
 #endifdef
@@ -527,8 +531,6 @@ if (ign != A_MONSTER)
 	self.th_die = blarg_stop;
 	self.pain_finished = time + 3;
 //	self._killmsg = blarg_killmsg;
-
-// FIX ***
 
 // jumptouch multi
 //	self._jump = blarg_leap1;

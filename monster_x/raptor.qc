@@ -851,8 +851,6 @@ if (ign != A_MONSTER)
 	self.th_pain = raptor1_pain;
 //	self._killmsg = raptor_killmsg;
 
-// FIX ***
-
 // jumptouch multi
 //	self._jump = raptor1_jump1;
 //	self._jump2 = raptor1_jump11;

@@ -490,7 +490,13 @@ void() scourge_die =
 	remove (self.lastvictim);
 	self.spawnsilent = 0;
 	scourge_think();
-	if (self.health < -35)
+// check for gib
+	self.dmg = -35;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 {
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowHead ("progs/h_scourg.mdl", self.health);

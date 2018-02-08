@@ -146,13 +146,14 @@ void()	Tar_JumpTouch =
 	if (other.takedamage && other.classname != self.classname)
 	{
 #endifdef
-		if ( vlen(self.velocity) > 400 )
+		if ( vlen(self.velocity) > self.jump_vel )
 		{
-			self.ldmg_ = 10 + 10*random();
+			self.ldmg_ = (mon_jumpdmg + 10*random())
 #ifdef monsters_plus__
-			if (self.spawnflags & TB_SUPER) self.ldmg_ = self.ldmg_ * self.scale;
+																					* self.scale;
 #endifdef
-			T_Damage (other, self, self, self.ldmg_);	
+							;
+			T_Damage (other, self, self, self.ldmg_);
 			sound (self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
 		}
 	}

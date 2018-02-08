@@ -123,9 +123,12 @@ void() dog_bite =
 	if (vlen(self.enemy.origin - self.origin) > 100)
 		return;
 
-	self.ldmg_ = (random() + random() + random()) * 8 * self.scale;
+	self.ldmg_ = (random() + random() + random()) * 8
 #ifdef monsters_plus__
+																					* self.scale;
 	if (self.spawnflags & FLUFFY) self.ldmg_ = self.ldmg_ * 1.8;
+#else
+							;
 #endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };

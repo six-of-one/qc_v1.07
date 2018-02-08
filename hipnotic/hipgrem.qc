@@ -1302,7 +1302,13 @@ void() gremlin_die =
 	vec = normalize (damage_attacker.origin - self.origin);
 	dot = vec * v_forward;
 
-	if (self.health < -35)
+// check for gib
+	self.dmg = -35;
+#ifdef monsters_plus__
+	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+#endifdef
+
+	if (self.health < self.dmg)
 		{
 		sound (self, CHAN_VOICE, "player/udeath.wav", 1, ATTN_NORM);
 		ThrowHead ("progs/h_grem.mdl", self.health);
@@ -2161,7 +2167,7 @@ void()	Gremlin_JumpTouch =
 /*
 	if (other.takedamage)
 	{
-		if ( vlen(self.velocity) > 400 )
+		if ( vlen(self.velocity) > self.jump_vel )
 		{
 			ldmg = 40 + 10*random();
 			T_Damage (other, self, self, ldmg);

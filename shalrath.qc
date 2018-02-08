@@ -36,6 +36,8 @@ $frame	lgwalk11 lgwalk12
 
 $frame lgattackb1 lgattackb2 lgattackb3 lgattackb4
 
+#define		SUPER_VORE		MFL_SUPER
+
 void() shalrath_pain;
 void() ShalMissile;
 void() shal_stand     =[      $walk1,       shal_stand    ] 
@@ -43,7 +45,7 @@ void() shal_stand     =[      $walk1,       shal_stand    ]
 #ifdef monsters_plus__
 	self.count = self.count + 1;
 
-	if (self.wad == "SUPER")
+	if (self.spawnflags & SUPER_VORE)
 	{
 		if (SV_MINEALLOW & CB_M_SVORE)
 		if ((time & SV_CKTIME) == SV_CKTIME)
@@ -101,7 +103,7 @@ framerloop($walk2, $walkeoc, shal_walk1, 0.1,
 #ifdef monsters_plus__
 	frame_arb($walk7,
 
-		if (self.wad == "SUPER")
+		if (self.spawnflags & SUPER_VORE)
 		{
 			if (SV_MINEALLOW & CB_M_SVORE)
 			if ((time & SV_CKTIME) == SV_CKTIME) SummonMonster(string_null);
@@ -154,7 +156,7 @@ framerloop($walk1, $walk12, shal_run1, 0.1,
 // some bizzare ass compiler failure when this is in frame_arb - even tho code DOES NOT COMPILE!
 void() fukee1 =
 {
-		if (self.wad == "SUPER")
+		if (self.spawnflags & SUPER_VORE)
 #ifdef code_archon
 		if (sphere_a.owner != self) // dont summon while we have the sphere
 #endifdef
@@ -175,7 +177,7 @@ void() fukee1 =
 
 void() fukee2 =
 {
-		if (self.wad == "SUPER")
+		if (self.spawnflags & SUPER_VORE)
 		{
 			self.rnd_ = random();
 			if (self.rnd_ < 0.05) self.weapon = 0; // got back to explody balls
@@ -272,7 +274,7 @@ framer($attack1, $attack11, shal_attack1, shal_run1, 0.1,
 #ifdef monsters_plus__
 	frame_arb($attack1,
 
-		if (self.wad == "SUPER")
+		if (self.spawnflags & SUPER_VORE)
 		if (random() < 0.8) ShalMissile();
 	);
 #endifdef
@@ -313,7 +315,7 @@ void() shalrath_pain =
 	shal_pain1();
 	self.pain_finished = time + 3;
 #ifdef monsters_plus__
-	if (self.wad == "SUPER") self.pain_finished = time + 5;
+	if (self.spawnflags & SUPER_VORE) self.pain_finished = time + 5;
 #endifdef
 };
 
@@ -575,8 +577,6 @@ void() monster_supervore =
 	setmodel (self, "progs/vaarezeil.mdl");
 	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
 	self.health = 800; // wowsers - NOTE: might need tweaked down a bit
-
-	self.wad = "SUPER";
 
 };
 #endifdef
