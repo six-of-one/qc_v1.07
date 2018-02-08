@@ -611,56 +611,6 @@ void() monster_demon1 =
 	self.th_missile = demon1_jump1;			// jump attack
 	self.th_pain = demon1_pain;
 
-#ifdef monsters_plus
-	self.netname = "Fiend";
-
-
-	if (self.map == "dyn_sp")
-	if (random() < super_demon_chance)
-		self.spawnflags = self.spawnflags | DEMON_SUPER;
-	else
-	if (random() < dbl_demon_chance)
-		self.spawnflags = self.spawnflags | DEMON_DBL;
-
-	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-
-// Cataboligne - 11.24.12 - super & double code
-	if (self.spawnflags & DEMON_SUPER)
-	{
-		self.health = 600 + (100 * random()) + (100 * random());
-		self.wad = "SUPER";
-
-		self.walkframe = $superstand1;
-		self.waitmax = 4;
-// jumptouch multi
-		self.dodmg = 90;
-	}
-	else
-	if (self.spawnflags & DEMON_DBL)
-	{
-		self.health = 400;
-
-		self.walkframe = $dblstand1;
-		self.waitmax = 2;
-// jumptouch multi
-		self.dodmg = 60;
-	}
-	else
-	{
-		self.health = 300;
-
-// jumptouch multi
-		self.dodmg = 40;
-	}
-/*
-jt stuff
-// jumptouch multi /b
-	self.jump_vel = 400;
-	self._jump = demon1_jump1;
-	self._jump2 = demon1_jump11;
-*/
-#endifdef
-
 	walkmonster_start;
 };
 

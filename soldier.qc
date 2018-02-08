@@ -516,37 +516,5 @@ void() monster_army =
 	}
 #endifdef
 
-#ifdef monsters_plus_unused
-	self.netname = "Soldier";
-
-	if (self.spawnflags & MFL_ENHANCE)
-	{
-		self.ammo_rockets = ceil(5 * random()); // give 'em some grenades
-
-		self.rnd_ = army_ofone;
-		if (self.spawnflags & 262144) self.rnd_ = army_rndenh;			// cheat in an unused (so far) bit flag for an extra enhance chance
-
-		if (!(self.spawnflags & ARMY_XWEP)) // not map specced - enhance him
-		if (random() < self.rnd_)
-		{
-			self.rnd_ = random();
-			if (self.rnd_ > 0.85) self.spawnflags = self.spawnflags | ARMY_ROCK;
-			else if (self.rnd_ > 0.6) { self.spawnflags = self.spawnflags | ARMY_SSGUN; self.ammo_shells = 25; }
-			else self.spawnflags = self.spawnflags | ARMY_NAILS;
-		}
-
-		if (self.spawnflags & ARMY_ROCK)
-		{
-			self.ammo_rockets = ceil(self.ammo_rockets + 20 + random() * 5); //army_canhas_grenades);
-		}
-		else
-		if (self.spawnflags & ARMY_NAILS)
-		{
-			self.th_missile = army_natk1;
-			self.ammo_nails = 15;				// this is just an ammo drop - he uses infinite nails
-		}
-	}
-#endifdef
-
 	walkmonster_start;
 };

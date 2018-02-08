@@ -563,42 +563,5 @@ void() monster_dog =
 	self.th_melee = dog_atta1;
 	self.th_missile = dog_leap1;
 
-#ifdef monsters_plus_remove
-	self.netname = "Doggy";
-
-	self.waitmax = 0;
-	self.walkframe = 0;
-
-	if ((self.spawnflags & MFL_ENHANCE) || (self.spawnflags & 6))
-	{
-		self.rnd_ = 0.2;
-		if (skill == 3) self.rnd_ = 0.4;
-		if (self.spawnflags & 262144) self.rnd_ = 0.8;			// cheat in an unused (so far) bit flag for an extra enhance chance
-
-		if (!self.spawnflags & 6) // not map specced - enhance him
-		if (random() < self.rnd_)
-		{
-//			enhance = 2; // TWOHEAD
-			self.spawnflags = self.spawnflags | 2; // fluffy is NOT an upgrade option
-		}
-
-		if (self.spawnflags & 4) // FLUFFY
-		{
-			setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-			self.health = 300;
-			self.walkframe = $rxattack1;
-			self.wad = "SUPER";
-			self.waitmax = 4;
-			self.dodmg = 30; // jump touch damage
-		}
-		else if (self.spawnflags & 2) // two head
-		{
-			self.health = 50;
-			self.walkframe = $thattack1;
-			self.waitmax = 2;
-		}
-	}
-#endifdef
-
 	walkmonster_start;
 };

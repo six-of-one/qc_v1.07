@@ -811,7 +811,6 @@ void() monster_wizard =
 	self.th_die = wiz_die;
 
 #ifdef monsters_plus
-	self.netname = "Scragg"; // check: these
 
 	self.a__ = FALSE;
 

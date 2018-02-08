@@ -950,31 +950,5 @@ void() monster_hell_knight =
 	self.th_pain = hknight_pain;
 	self.th_die = hknight_die;
 
-#ifdef monsters_plus_remove
-	self.netname = "Hell Knight";
-
-
-	if (!self.spawnflags & HK_STATUE)
-	if ((self.map == "dyn_sp") || (self.spawnflags & DK))
-	{
-		self.rnd_ = dk_imp;
-		if (skill == 3) self.rnd_ = 0.4; // dk_imp + dk_imp;
-		if (self.map == "dyn_sp") self.rnd_ = dk_rnd;
-
-		if (!self.spawnflags & DK) // not map specced - enhance him
-		if (random() < self.rnd_)
-			self.spawnflags = self.spawnflags | DK;
-
-		if (self.spawnflags & DK)
-		{
-			self.skin = 2;
-			if (random() < 0.3) self.skin = 1;
-			self.health = 350;
-			if ((random() < 0.25) || (self.skin == 1)) self.health = 350 + random() * 100;
-			self.wad = "MEGA";
-		}
-	}
-#endifdef
-
 	walkmonster_start;
 };

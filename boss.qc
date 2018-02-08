@@ -346,9 +346,6 @@ void() monster_boss =
 	total_monsters = total_monsters + 1;
 
 #ifdef monsters_plus__
-//	cthon didnt have fast mode inits
-//	self.netname = "Cthon";
-
 	if (deathmatch) boss_awake();
 	else
 #endifdef
