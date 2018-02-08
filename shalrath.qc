@@ -470,7 +470,7 @@ void() ShalMissileTouch =
 	if (self.owner.class_select == "class_monster") // not a morphed player or bot
 	{
 		if (other.owner == self.owner) return; // dont blow on SV summoned monster
-		if (other.model == "progs/shalrath.mdl") return; // dont blow on other monster vore / supervore
+		if (other.classname == "monster_shalrath") return; // dont blow on other monster vore / supervore
 	}
 #endifdef
 
@@ -561,22 +561,10 @@ He got concerned about his smaller cousin when he heard stories about how easy S
 
 */
 
-#ifdef monsters_plus__
+#ifdef monsters_plus_remove
 void() monster_supervore =
 {
-
-	monster_shalrath();		// model framed same now
-
-
-	if (random() < 0.3)
-		self.netname = "Vorerel";
-	else
-		self.netname = "Vaareziel";		// from Rothrin
-
-
-	setmodel (self, "progs/vaarezeil.mdl");
-	setsize (self, VEC_HULL2_MIN, VEC_HULL2_MAX);
-	self.health = 800; // wowsers - NOTE: might need tweaked down a bit
-
+	self.spawnflags = self.spawnflags | SUPER_VORE;
+	monster_shalrath();
 };
 #endifdef

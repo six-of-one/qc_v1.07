@@ -317,9 +317,9 @@ void() Wiz_FastFire =
 		if (self.spawnflags & W_LAVA)
 		{
 			setmodel (newmis, "progs/lavaball.mdl");
-			newmis.classname = "fireballwep";
+			newmis.classname = "fireballwep";					// FIX: not coded
 
-			if (self.wad == "BIG") // BOOM!
+			if (self.spawnflags & MFL_SUPER) // BOOM!
 			{
 				sound (self, CHAN_WEAPON, "chaos/incoming.wav", 1, ATTN_NORM);
 //				newmis.velocity = vec*600;
@@ -337,7 +337,7 @@ void() Wiz_FastFire =
 			}
 		}
 		else
-		if (self.wad == "BIG") // BOOM!
+		if (self.spawnflags & MFL_SUPER) // BOOM!
 		{
 			newmis.velocity = self.v__ * 400;
 			newmis.frame = 1;
@@ -438,7 +438,7 @@ framerloop($hover1, $hover8, wiz_stand1, 0.1,
 #ifdef monsters_plus
 	frame_arb($hover3,
 		if (SV_MINEALLOW & CB_M_SCRAG)
-		if (self.spawnflags & W_SUP3SPIKE)
+		if (self.spawnflags & MFL_SUPER)
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		if (random() < 0.5)
 			SummonMonster(null_string);
@@ -467,7 +467,7 @@ framerloop($hover1, $hover8, wiz_walk1, 0.1,
 #ifdef monsters_plus
 	frame_arb($hover3,
 		if (SV_MINEALLOW & CB_M_SCRAG)
-		if (self.spawnflags & W_SUP3SPIKE)
+		if (self.spawnflags & MFL_SUPER)
 		if ((time & SV_CKTIME) == SV_CKTIME)
 			SummonMonster(null_string);
 	);
@@ -515,7 +515,7 @@ framerloop($fly1, $fly14, wiz_run1, 0.1,
 	frame_arb($fly1,Wiz_idlesound());
 
 #ifdef monsters_plus
-	if (self.wad == "SUPER_XMAD")
+	if (self.spawnflags & MFL_SUPER)
 	if ((time & SV_CKTIME) == SV_CKTIME)
 	{
 		s7__ = "owner";
@@ -567,7 +567,7 @@ self.velocity_y = -200 + 400*random();
 self.velocity_z = 100 + 100*random();
 self.flags = self.flags - (self.flags & FL_ONGROUND);
 sound (self, CHAN_VOICE, "wizard/wdeath.wav", 1, ATTN_NORM);
-#ifdef monsters_plus
+#ifdef monsters_plus_remove
 // fake death frames on 3 heads, 2 heads are "magically" gone
 	if (self.spawnflags & (W_3SPIKE | W_SUP3SPIKE))
 	{
@@ -641,7 +641,7 @@ void(entity attacker, float damage) Wiz_Pain =
 	sound (self, CHAN_VOICE, "wizard/wpain.wav", 1, ATTN_NORM);
 	if (random()*70 > damage)
 		return;		// didn't flinch
-#ifdef monsters_plus
+#ifdef monsters_plus_remove
 	if (self.spawnflags & W_3SPIKE) return; // fake pain frames - not using
 	if (self.spawnflags & W_SUP3SPIKE) return;
 #endifdef

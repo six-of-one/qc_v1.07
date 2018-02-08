@@ -97,10 +97,6 @@ $frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattack
 #define	DEMON_SUPER_MAD		MFL_SXMAD		// got extra mad
 #define	DEMON_BOOM		32		// raged and exploding
 
-#define	super_demon_chance		0.08
-#define	dbl_demon_chance		0.25
-#define	super_demon_emheal		100		// how much a super demon thats extra mad could heal in a pain frame
-#define	super_demon_emheal_chn		0.33		// chance to heal
 
 /*
 void()	demon1_stand1	=[	$stand1,	demon1_stand2	] {ai_stand();};
@@ -437,7 +433,7 @@ float()	DemonCheckAttack =
 #ifdef monsters_plus__
 	}
 #else
-
+// now loaded from cfg file for each monster
 	if (self.classname == "monster_dog" || self.classname == "monster_blarg")
 	{
 		self.dest2_x = 80;	// spot2_
