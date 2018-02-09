@@ -565,6 +565,7 @@ float() FindTarget =
 #ifdef code_archon
 // Cataboligne 9.11.3 purify - chase cam
 // cam death view workaround
+// TDO: needs adjusted when we get here - cam not the same
 	if (client.solid == SOLID_NOT)
 		return FALSE;
 #endifdef

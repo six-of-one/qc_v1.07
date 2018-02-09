@@ -211,6 +211,10 @@ void(float flg) monster_start =
 	if (!self.scale) self.scale = 1;			// used to make adjustments for super monsters
 	if (!self.jump_vel) self.jump_vel = 300;			// jumpers velocity test for damage
 
+#ifdef hip_charmed
+// charmed dont go super xmad
+	if (!self.charmed)
+#endifdef
 	if (!(self.spawnflags & MFL_ANYLOW)) // he hasnt been bumped up by some other method
 	{
 		self.f__ = 0;

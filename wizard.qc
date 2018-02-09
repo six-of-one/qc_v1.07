@@ -220,7 +220,7 @@ float()	WizardCheckAttack =
 			
 	if (enemy_range == RANGE_MELEE)
 	{
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		if (self.spawnflags & W_LAVA) // lava wizards can "flame ON" with an enemy in melee range
 		{
 			self.attack_state = AS_MELEE;
@@ -312,7 +312,7 @@ void() Wiz_FastFire =
 		newmis.owner = self.owner;
 		newmis.classname = "wizspike";
 		setmodel (newmis, "progs/w_spike.mdl");
-#ifdef monsters_plus
+#ifdef monsters_plus__
 		newmis.wad = self.wad;
 		if (self.spawnflags & W_LAVA)
 		{
@@ -332,7 +332,7 @@ void() Wiz_FastFire =
 				sound (self, CHAN_WEAPON, "boss1/throw.wav", 1, ATTN_NORM);
 				newmis.velocity = self.v__ * (700 + (ceil(3 * random()) * 100));
 				newmis.frame = 22 + floor(random() * 1.4);
-				newmis.touch = fire_fly_touch;
+				newmis.touch = fire_touch;				// fire_fly_touch; FIX: not impl
 				newmis.dmg = 20;
 			}
 		}
@@ -352,7 +352,7 @@ void() Wiz_FastFire =
 	remove (self);
 };
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // Wiz fire repeating - some scragg get a lot more attacks
 
 void(float wf_fwd, float wf_rt, vector wf_v, float wf_tm) Wiz_Firerep =
@@ -361,13 +361,13 @@ void(float wf_fwd, float wf_rt, vector wf_v, float wf_tm) Wiz_Firerep =
 	newmis.owner = self;
 	newmis.spawnflags = self.spawnflags;
 	newmis.nextthink = time + 1;
-	setsize(newmis, v0, v0);
+	setsize(newmis, '0 0 0', '0 0 0');
 	setorigin (newmis, self.origin + wf_v + v_forward * wf_fwd + v_right * wf_rt);
 	newmis.enemy = self.enemy;
 	newmis.nextthink = time + wf_tm;
 	newmis.think = Wiz_FastFire;
 	if (wf_rt <= 0)
-		newmis.movedir = v0 - v_right;
+		newmis.movedir = '0 0 0' - v_right;
 	else
 		newmis.movedir = v_right;
 };
@@ -435,13 +435,13 @@ void()	wiz_stand8	=[	$hover8,		wiz_stand1	] {ai_stand();};
 framerloop($hover1, $hover8, wiz_stand1, 0.1,
 
 	ai_stand();
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($hover3,
 		if (SV_MINEALLOW & CB_M_SCRAG)
 		if (self.spawnflags & MFL_SUPER)
 		if ((time & SV_CKTIME) == SV_CKTIME)
 		if (random() < 0.5)
-			SummonMonster(null_string);
+			SummonMonster(string_null);
 	);
 #endifdef
 
@@ -464,12 +464,12 @@ framerloop($hover1, $hover8, wiz_walk1, 0.1,
 
 	ai_walk(8);
 	frame_arb($hover1,Wiz_idlesound());
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	frame_arb($hover3,
 		if (SV_MINEALLOW & CB_M_SCRAG)
 		if (self.spawnflags & MFL_SUPER)
 		if ((time & SV_CKTIME) == SV_CKTIME)
-			SummonMonster(null_string);
+			SummonMonster(string_null);
 	);
 #endifdef
 );
@@ -514,7 +514,7 @@ framerloop($fly1, $fly14, wiz_run1, 0.1,
 	ai_run(16);
 	frame_arb($fly1,Wiz_idlesound());
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.spawnflags & MFL_SUPER)
 	if ((time & SV_CKTIME) == SV_CKTIME)
 	{
@@ -567,24 +567,6 @@ self.velocity_y = -200 + 400*random();
 self.velocity_z = 100 + 100*random();
 self.flags = self.flags - (self.flags & FL_ONGROUND);
 sound (self, CHAN_VOICE, "wizard/wdeath.wav", 1, ATTN_NORM);
-#ifdef monsters_plus_remove
-// fake death frames on 3 heads, 2 heads are "magically" gone
-	if (self.spawnflags & (W_3SPIKE | W_SUP3SPIKE))
-	{
-		if (self.spawnflags & W_LAVA)
-		{
-			lavablob_die_explode8(); // boom!
-			if (deathmatch) remove(self);
-			return;
-		}
-/*		else
-		{
-			if (self.spawnflags & W_3SPIKE) self.walkframe = $sxhover1; // both these lop off 2 heads...idea - throw 2 scrag heads out
-			if (self.spawnflags & W_SUP3SPIKE) self.walkframe = $lsxhover1;
-		}
-*/
-	}
-#endifdef
 };
 /*
 void()	wiz_death2	=[	$death2,		wiz_death3	] {};
@@ -641,10 +623,6 @@ void(entity attacker, float damage) Wiz_Pain =
 	sound (self, CHAN_VOICE, "wizard/wpain.wav", 1, ATTN_NORM);
 	if (random()*70 > damage)
 		return;		// didn't flinch
-#ifdef monsters_plus_remove
-	if (self.spawnflags & W_3SPIKE) return; // fake pain frames - not using
-	if (self.spawnflags & W_SUP3SPIKE) return;
-#endifdef
 
 	wiz_pain1 ();
 };
@@ -658,7 +636,7 @@ void() Wiz_Missile =
 };
 */
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 // flame ON
 
 // notes: added 28 numglobaldefs (of 32768)
@@ -686,53 +664,61 @@ void(vector torg, float am, float mds, float tdz, float tds) firestrike_flame =
 		v1_y = mds + crandom() * (tds - (mds * 0.5));
 		v1_z = crandom() * tdz + (tdz * 0.6); // 60% ratio upwards
 		c1 = pointcontents(torg + v1);
+#ifdef code_viswep
+// requires flamer module
 		if (c1 != CONTENT_WATER && c1 != CONTENT_SOLID && c1 != CONTENT_SKY) // IDEA - sky_touch?
 			SpawnTouchFlame(torg + v1);
 		if (random() < 0.08)
 		sound (newmis, CHAN_BODY, "flm/burning.wav", 1, ATTN_NORM);
+#endifdef
 	}
 };
 
-void () wizard_firestrike1  = [ $hover1,  wizard_firestrike2  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(self.waitmax / 2.0); };
+framer($hover3, $hover7, wizard_firestrike3, wiz_run1, 0.1,
+
+	frame_arb($hover3, firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4));
+	frametwo_arb($hover5,$hover6, firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4));
+	frametwo_arb($hover4,$hover7,ai_walk(4));
+
+);
+
+void () wizard_firestrike1  = [ $hover1,  wizard_firestrike2  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4); };
 void () wizard_firestrike2  = [ $hover2,  wizard_firestrike3  ]
 {
 	#define MAX_EFFECT_DIST 180 // no effect at all beyond this dist
-	local entity head, f;
 
-	head = findradius(self.origin, MAX_EFFECT_DIST);
-	while (head)
+	e0__ = findradius(self.origin, MAX_EFFECT_DIST);
+	while (e0__)
 	{
-		if (head != self)
-//		if (head.takedamage) - for when non slidebox stuff can burn
-		if (head.solid == SOLID_SLIDEBOX)  // this is one for sure that we might want FL_CLIENT, FL_MONSTER so its more inclusive
+		if (e0__ != self)
+//		if (e0__.takedamage) - for when non slidebox stuff can burn
+		if (e0__.solid == SOLID_SLIDEBOX)  // this is one for sure that we might want FL_CLIENT, FL_MONSTER so its more inclusive
 		{
-			if (head.takedamage)
+			if (e0__.takedamage)
 			{
-				if (head.waterlevel < 2)
+				if (e0__.waterlevel < 2)
 				if (random() < 0.9)
-				if (!head.flags & FL_ONFIRE) // set em on fire
+				if (!(e0__.flags & FL_ONFIRE)) // set em on fire
 				{
-					head.flags = head.flags | FL_ONFIRE;
-					f = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, ' 0 0 -30000', v0, v0, v0, v0, string_null, string_null, SUB_Null, 0.1, BurnThem, SUB_Null, self, world);
-					f.enemy = head;
+					e0__.flags = e0__.flags | FL_ONFIRE;
+					nspawn = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, ' 0 0 -30000', '0 0 0', '0 0 0', '0 0 0', '0 0 0', string_null, string_null, SUB_Null, 0.1, BurnThem, SUB_Null, self, world);
+					nspawn.enemy = e0__;
 				}
-				T_FireDamage (head, self, self, 5 + (random() * 5) - head.waterlevel * 3); // IDEA build up pyro?
+				T_FireDamage (e0__, self, self, 5 + (random() * 5) - e0__.waterlevel * 3); // IDEA build up pyro?
 			}
 		}
-		head = head.chain;
+		e0__ = e0__.chain;
 	}
-	 ai_walk(self.waitmax / 2.0);
+	 ai_walk(4);
 };
-void () wizard_firestrike3  = [ $hover3,  wizard_firestrike4  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(self.waitmax / 2.0); };
-void () wizard_firestrike4  = [ $hover4,  wizard_firestrike5  ] { ai_walk(self.waitmax / 2.0); };
-void () wizard_firestrike5  = [ $hover5,  wizard_firestrike6  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(self.waitmax / 2.0); };
-void () wizard_firestrike6  = [ $hover6,  wizard_firestrike7  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(self.waitmax / 2.0); };
-void () wizard_firestrike7  = [ $hover7,  wiz_run1           ] { ai_walk(self.waitmax / 2.0); };
+/*
+void () wizard_firestrike3  = [ $hover3,  wizard_firestrike4  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4); };
+void () wizard_firestrike4  = [ $hover4,  wizard_firestrike5  ] { ai_walk(4); };
+void () wizard_firestrike5  = [ $hover5,  wizard_firestrike6  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4); };
+void () wizard_firestrike6  = [ $hover6,  wizard_firestrike7  ] { firestrike_flame(self.origin, 2 + random() * 2, 32, 80 / 1.6, 80); ai_walk(4); };
+void () wizard_firestrike7  = [ $hover7,  wiz_run1           ] { ai_walk(4); };
+*/
 
-void() Wiz_Flame =
-{
-	wizard_firestrike1();
-};
 #endifdef
 
 /*QUAKED monster_wizard (1 0 0) (-16 -16 -24) (16 16 40) Ambush Lava Poison Twohead Spike LargeSpike TripleSpike ExlTripleSpike
@@ -858,7 +844,7 @@ void() monster_wizard =
 			self.health = 480;
 			self.walkframe = $lsxhover1;
 			self.waitmax = 16;
-			self.wad = "SUPER";
+
 			setsize (self, '-24 -24 -44', '24 24 60');
 		}
 		else if (self.spawnflags & W_3SPIKE)
@@ -866,13 +852,13 @@ void() monster_wizard =
 			self.health = 280;
 			self.walkframe = $sx3hover1;
 			self.waitmax = 10;
-			self.wad = "SUPER";
+
 		}
 		else if (self.spawnflags & W_SPIKE)
 		{
 			self.health = 180;
 			self.walkframe = $sxhover1;
-			self.wad = "MEGA";
+
 		}
 		else if (self.spawnflags & W_2HEAD)
 		{
@@ -888,7 +874,7 @@ void() monster_wizard =
 				self.health = 160;
 				if (random() < 0.25) self.health = 200 + random() * 100;
 			}
-			self.wad = "MEGA";
+
 			self.th_melee = Wiz_Flame;
 		}
 	}
