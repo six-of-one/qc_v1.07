@@ -627,12 +627,20 @@ float() FindTarget =
 
 void(float dist) ai_forward =
 {
-	walkmove (self.angles_y, dist);
+	walkmove (self.angles_y, dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);
 };
 
 void(float dist) ai_back =
 {
-	walkmove ( (self.angles_y+180), dist);
+	walkmove ( (self.angles_y+180), dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);
 };
 
 
@@ -669,7 +677,11 @@ stagger back a bit
 */
 void(float dist) ai_painforward =
 {
-	walkmove (self.ideal_yaw, dist);
+	walkmove (self.ideal_yaw, dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);
 };
 
 /*
@@ -683,7 +695,11 @@ void(float dist) ai_walk =
 {
 //	local vector		mtemp;	// fx_warning
 
-	movedist = dist;
+	movedist = dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+								;
 
 #ifdef xmonsters
 	if (self.classname == "monster_dragon")
@@ -708,7 +724,11 @@ void(float dist) ai_walk =
 	else
 #endifdef 	
 
-	movetogoal (dist);
+	movetogoal (dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);
 };
 
 
@@ -920,7 +940,11 @@ void(float dist) ai_run =
 //	local	float	axis;	// fx_warning
 //	local	float	direct, ang_rint, ang_floor, ang_ceil;	// fx_warning
 
-	movedist = dist;
+	movedist = dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		;
 // see if the enemy is dead
 #ifdef code_archon
 // Cataboligne 9.11.3 purify - chase cam
@@ -1051,7 +1075,11 @@ void(float dist) ai_run =
 #endifdef
 		
 // head straight in
-	movetogoal(dist);		// done in C code...
+	movetogoal(dist
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);	// done in C code...
 };
 
 
