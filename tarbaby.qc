@@ -25,25 +25,7 @@ $frame jump1 jump2 jump3 jump4 jump5 jump6
 $frame fly1 fly2 fly3 fly4
 
 $frame exp
-/*
-	monster enhance - what to do with all this ?
 
-// larger spawn
-$frame lgwalk1 lgwalk2 lgwalk3 lgwalk4 lgwalk5 lgwalk6 lgwalk7 lgwalk8 lgwalk9 lgwalk10
-$frame lgwalk11 lgwalk12 lgwalk13 lgwalk14 lgwalk15 lgwalk16 lgwalk17 lgwalk18 lgwalk19
-$frame lgwalk20 lgwalk21 lgwalk22 lgwalk23 lgwalk24 lgwalk25
-
-$frame lgrun1 lgrun2 lgrun3 lgrun4 lgrun5 lgrun6 lgrun7 lgrun8 lgrun9 lgrun10 lgrun11 lgrun12 lgrun13
-$frame lgrun14 lgrun15 lgrun16 lgrun17 lgrun18 lgrun19 lgrun20 lgrun21 lgrun22 lgrun23
-$frame lgrun24 lgrun25
-
-$frame lgjump1 lgjump2 lgjump3 lgjump4 lgjump5 lgjump6
-
-$frame lgfly1 lgfly2 lgfly3 lgfly4
-
-$frame lgexp
-
-*/
 // super tarbaby - just because
 #define TB_SUPER	MFL_SUPER
 

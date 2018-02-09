@@ -51,8 +51,6 @@ SOLDIER CODE
 #define	ARMY_XWEP		14 // det all x bits
 
 // idea: admin ?
-#define	army_ofone		0.2 // total chance for a better map grunt
-#define	army_rndenh		0.8 // total chance for a better random grunt
 #define	army_fire_grenades		0.87 // chance to fire grenades if he has some
 #define	army_canhas_grenades		5 // random grenades to give enhanced grunts
 

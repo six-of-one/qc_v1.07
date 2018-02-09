@@ -47,64 +47,6 @@ $frame bdeath7 bdeath8 bdeath9 bdeath10
 
 $frame pull1 pull2 pull3 pull4 pull5 pull6 pull7 pull8 pull9 pull10 pull11
 
-/*
-// super (boss) ogre frames
-
-$frame	sostand1 sostand2 sostand3 sostand4 sostand5 sostand6 sostand7 sostand8 sostand9
-
-$frame sowalk1 sowalk2 sowalk3 sowalk4 sowalk5 sowalk6 sowalk7
-$frame sowalk8 sowalk9 sowalk10 sowalk11 sowalk12 sowalk13 sowalk14 sowalk15 sowalk16
-
-$frame sorun1 sorun2 sorun3 sorun4 sorun5 sorun6 sorun7 sorun8
-
-$frame soswing1 soswing2 soswing3 soswing4 soswing5 soswing6 soswing7
-$frame soswing8 soswing9 soswing10 soswing11 soswing12 soswing13 soswing14
-
-$frame sosmash1 sosmash2 sosmash3 sosmash4 sosmash5 sosmash6 sosmash7
-$frame sosmash8 sosmash9 sosmash10 sosmash11 sosmash12 sosmash13 sosmash14
-
-$frame soshoot1 soshoot2 soshoot3 soshoot4 soshoot5 soshoot6
-
-$frame sopain1 sopain2 sopain3 sopain4 sopain5
-
-$frame sopainb1 sopainb2 sopainb3
-
-$frame sopainc1 sopainc2 sopainc3 sopainc4 sopainc5 sopainc6
-
-$frame sopaind1 sopaind2 sopaind3 sopaind4 sopaind5 sopaind6 sopaind7 sopaind8 sopaind9 sopaind10
-$frame sopaind11 sopaind12 sopaind13 sopaind14 sopaind15 sopaind16
-
-$frame sopaine1 sopaine2 sopaine3 sopaine4 sopaine5 sopaine6 sopaine7 sopaine8 sopaine9 sopaine10
-$frame sopaine11 sopaine12 sopaine13 sopaine14 sopaine15
-
-$frame sodeath1 sodeath2 sodeath3 sodeath4 sodeath5 sodeath6
-$frame sodeath7 sodeath8 sodeath9 sodeath10 sodeath11 sodeath12
-$frame sodeath13 sodeath14
-
-$frame sobdeath1 sobdeath2 sobdeath3 sobdeath4 sobdeath5 sobdeath6
-$frame sobdeath7 sobdeath8 sobdeath9 sobdeath10
-
-$frame sopull1 sopull2 sopull3 sopull4 sopull5 sopull6 sopull7 sopull8 sopull9 sopull10 sopull11
-
-// super ogre - extra mad
-
-$frame	soemsstand1 soemsstand2 soemsstand3 soemsstand4 soemsstand5 soemsstand6 soemsstand7 soemsstand8 soemsstand9
-
-$frame soemwalk1 soemwalk2 soemwalk3 soemwalk4 soemwalk5 soemwalk6 soemwalk7
-$frame soemwalk8 soemwalk9 soemwalk10 soemwalk11 soemwalk12 soemwalk13 soemwalk14 soemwalk15 soemwalk16
-
-$frame soemrun1 soemrun2 soemrun3 soemrun4 soemrun5 soemrun6 soemrun7 soemrun8
-
-$frame soemsswing1 soemsswing2 soemsswing3 soemsswing4 soemsswing5 soemsswing6 soemsswing7
-$frame soemsswing8 soemsswing9 soemsswing10 soemsswing11 soemsswing12 soemsswing13 soemsswing14
-
-$frame soemsmash1 soemsmash2 soemsmash3 soemsmash4 soemsmash5 soemsmash6 soemsmash7
-$frame soemsmash8 soemsmash9 soemsmash10 soemsmash11 soemsmash12 soemsmash13 soemsmash14
-
-$frame soemdeath1 soemdeath2 soemdeath3 soemdeath4 soemdeath5 soemdeath6
-$frame soemdeath7 soemdeath8 soemdeath9 soemdeath10 soemdeath11 soemdeath12
-$frame soemdeath13 soemdeath14
-*
 //=============================================================================
 
 #define	OGRE_SUPER	8
@@ -218,15 +160,17 @@ void(float side) chainsaw =
 	if (vlen(self.enemy.origin - self.origin) > 100)
 		return;
 		
-	self.ldmg_ = (random() + random() + random()) * 4;
+	self.ldmg_ = (random() + random() + random()) * 4
 
 #ifdef monsters_plus__
 // one of those "BIG" ogres - bump damage by model scale factor
-	if (self.spawnflags & MFL_BSUP) self.ldmg_ = self.ldmg_ * self.scale;
+							* self.scale;
 
 	if ((side) && (side < 2))
 	if (self.spawnflags & OGRE_SUPER)
 		sound (self, CHAN_VOICE, "zombie/z_hit.wav", 1, ATTN_IDLE); // 10.13.13
+#else
+													;
 #endifdef
 
 	T_Damage (self.enemy, self, self, self.ldmg_);

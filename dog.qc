@@ -31,68 +31,6 @@ $frame stand1 stand2 stand3 stand4 stand5 stand6 stand7 stand8 stand9
 
 $frame walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8
 
-/*
-	Archon: wwe do with this?
-$frame sleep1 sleep2 sleep3 sleep4
-
-// two headed dog - woof woof - woof woof
-
-$frame thattack1 thattack2 thattack3 thattack4 thattack5 thattack6 thattack7 thattack8
-
-$frame thdeath1 thdeath2 thdeath3 thdeath4 thdeath5 thdeath6 thdeath7 thdeath8 thdeath9
-
-// placeholder for addative
-$frame dummyb1 dummyb2 dummyb3 dummyb4 dummyb5 dummyb6 dummyb7 dummyb8
-$frame dummyb9
-
-$frame thpain1 thpain2 thpain3 thpain4 thpain5 thpain6
-
-// placeholder for addative
-$frame fakeb1 fakeb2 fakeb3 fakeb4 fakeb5 fakeb6 fakeb7 fakeb8 fakeb9 fakeb10
-$frame fakeb11 fakeb12 fakeb13 fakeb14 fakeb15 fakeb16
-
-$frame thrun1 thrun2 thrun3 thrun4 thrun5 thrun6 thrun7 thrun8 thrun9 thrun10 thrun11 thrun12
-
-$frame thleap1 thleap2 thleap3 thleap4 thleap5 thleap6 thleap7 thleap8 thleap9
-
-$frame thstand1 thstand2 thstand3 thstand4 thstand5 thstand6 thstand7 thstand8 thstand9
-
-$frame thwalk1 thwalk2 thwalk3 thwalk4 thwalk5 thwalk6 thwalk7 thwalk8
-
-$frame thsleep1 thsleep2 thsleep3 thsleep4
-
-// Fluffy - WOOF WOOF - WOOF WOOF - WOOF WOOF!
-
-$frame rxattack1 rxattack2 rxattack3 rxattack4 rxattack5 rxattack6 rxattack7 rxattack8
-
-$frame rxdeath1 rxdeath2 rxdeath3 rxdeath4 rxdeath5 rxdeath6 rxdeath7 rxdeath8 rxdeath9
-
-// placeholder for addative
-$frame dummyc1 dummyc2 dummyc3 dummyc4 dummyc5 dummyc6 dummyc7 dummyc8
-$frame dummyc9
-
-$frame fakepc1 fakepc2 fakepc3 fakepc4 fakepc5 fakepc6
-
-$frame faked1 faked2 faked3 faked4 faked5 faked6 faked7 faked8 faked9 faked10
-$frame faked11 faked12 faked13 faked14 faked15 faked16
-
-
-$frame rxrun1 rxrun2 rxrun3 rxrun4 rxrun5 rxrun6 rxrun7 rxrun8 rxrun9 rxrun10 rxrun11 rxrun12
-
-$frame rxleap1 rxleap2 rxleap3 rxleap4 rxleap5 rxleap6 rxleap7 rxleap8 rxleap9
-
-$frame rxstand1 rxstand2 rxstand3 rxstand4 rxstand5 rxstand6 rxstand7 rxstand8 rxstand9
-
-$frame rxwalk1 rxwalk2 rxwalk3 rxwalk4 rxwalk5 rxwalk6 rxwalk7 rxwalk8
-
-$frame rxsleep1 rxsleep2 rxsleep3 rxsleep4
-
-$frame rxlaydown1 rxlaydown2 rxlaydown3 rxlaydown4 rxlaydown5
-
-$frame rxlaytorun1
-
-// end dog framing
-*/
 
 #define	FLUFFY		4
 

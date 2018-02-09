@@ -29,65 +29,6 @@ $frame death1 death2 death3 death4 death5 death6 death7 death8 death9
 $frame attacka1 attacka2 attacka3 attacka4 attacka5 attacka6 attacka7 attacka8
 $frame attacka9 attacka10 attacka11 attacka12 attacka13 attacka14 attacka15
 
-/*
-	Archon: wwe do with this?
-// dbl demon / black orange beast w/ skin + tail
-
-$frame dblstand1 dblstand2 dblstand3 dblstand4 dblstand5 dblstand6 dblstand7 dblstand8 dblstand9
-$frame dblstand10 dblstand11 dblstand12 dblstand13
-
-$frame dblwalk1 dblwalk2 dblwalk3 dblwalk4 dblwalk5 dblwalk6 dblwalk7 dblwalk8
-
-$frame dblrun1 dblrun2 dblrun3 dblrun4 dblrun5 dblrun6
-
-$frame dblleap1 dblleap2 dblleap3 dblleap4 dblleap5 dblleap6 dblleap7 dblleap8 dblleap9 dblleap10
-$frame dblleap11 dblleap12
-
-$frame dblpain1 dblpain2 dblpain3 dblpain4 dblpain5 dblpain6
-
-$frame dbldeath1 dbldeath2 dbldeath3 dbldeath4 dbldeath5 dbldeath6 dbldeath7 dbldeath8 dbldeath9
-
-$frame dblattacka1 dblattacka2 dblattacka3 dblattacka4 dblattacka5 dblattacka6 dblattacka7 dblattacka8
-$frame dblattacka9 dblattacka10 dblattacka11 dblattacka12 dblattacka13 dblattacka14 dblattacka15
-
-// super demon
-$frame superstand1 superstand2 superstand3 superstand4 superstand5 superstand6 superstand7 superstand8 superstand9
-$frame superstand10 superstand11 superstand12 superstand13
-
-$frame superwalk1 superwalk2 superwalk3 superwalk4 superwalk5 superwalk6 superwalk7 superwalk8
-
-$frame superrun1 superrun2 superrun3 superrun4 superrun5 superrun6
-
-$frame superleap1 superleap2 superleap3 superleap4 superleap5 superleap6 superleap7 superleap8 superleap9 superleap10
-$frame superleap11 superleap12
-
-$frame superpain1 superpain2 superpain3 superpain4 superpain5 superpain6
-
-$frame superdeath1 superdeath2 superdeath3 superdeath4 superdeath5 superdeath6 superdeath7 superdeath8 superdeath9
-
-$frame superattacka1 superattacka2 superattacka3 superattacka4 superattacka5 superattacka6 superattacka7 superattacka8
-$frame superattacka9 superattacka10 superattacka11 superattacka12 superattacka13 superattacka14 superattacka15
-
-// extra mad
-
-$frame semstand1 semstand2 semstand3 semstand4 semstand5 semstand6 semstand7 semstand8 semstand9
-$frame semstand10 semstand11 semstand12 semstand13
-
-$frame semwalk1 semwalk2 semwalk3 semwalk4 semwalk5 semwalk6 semwalk7 semwalk8
-
-$frame semrun1 semrun2 semrun3 semrun4 semrun5 semrun6
-
-$frame semleap1 semleap2 semleap3 semleap4 semleap5 semleap6 semleap7 semleap8 semleap9 semleap10
-$frame semleap11 semleap12
-
-$frame sempain1 sempain2 sempain3 sempain4 sempain5 sempain6
-
-$frame semdeath1 semdeath2 semdeath3 semdeath4 semdeath5 semdeath6 semdeath7 semdeath8 semdeath9
-
-$frame semattacka1 semattacka2 semattacka3 semattacka4 semattacka5 semattacka6 semattacka7 semattacka8
-$frame semattacka9 semattacka10 semattacka11 semattacka12 semattacka13 semattacka14 semattacka15
-
-*/
 //============================================================================
 
 #define	DEMON_DBL		2

@@ -20,21 +20,9 @@ $frame death1 death2 death3 death4 death5 death6 death7
 
 $frame	walk1 walk2 walk3 walk4 walk5 walk6 walk7 walk8 walk9 walk10
 $frame	walk11 walk12
-// NOTE: how does this impach supes
+
 $frame walkeoc
 
-// super shalrath!
-$frame lgattack1 lgattack2 lgattack3 lgattack4 lgattack5 lgattack6 lgattack7 lgattack8
-$frame lgattack9 lgattack10 lgattack11
-
-$frame lgpain1 lgpain2 lgpain3 lgpain4 lgpain5
-
-$frame lgdeath1 lgdeath2 lgdeath3 lgdeath4 lgdeath5 lgdeath6 lgdeath7
-
-$frame	lgwalk1 lgwalk2 lgwalk3 lgwalk4 lgwalk5 lgwalk6 lgwalk7 lgwalk8 lgwalk9 lgwalk10
-$frame	lgwalk11 lgwalk12
-
-$frame lgattackb1 lgattackb2 lgattackb3 lgattackb4
 
 #define		SUPER_VORE		MFL_SUPER
 
