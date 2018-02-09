@@ -533,6 +533,10 @@ local vector	org;
 			return;
 	}
 
+#ifdef opgrade
+	if (other.teleport_time > time) return; // debounce - includes players & monsters with items...
+#endifdef
+
 #ifdef code_archon
 	if (self.aflag != -6) // archon forced teleport, but only once
 #endifdef
