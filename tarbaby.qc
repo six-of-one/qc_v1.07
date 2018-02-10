@@ -381,7 +381,7 @@ void() tbaby_checknew =
 // Cataboligne - 11.14.12 - fast / slow code
 #ifdef mon_speed
 	if (self.speed <= 0) self.speed = MON_NORM;
-	self.lip = 1; // local speed divisor
+	self.speed_div = 1; // local speed divisor
 
 // server controls set all monsters fast or slow if not specced - this includes random monsters
 //	else 
