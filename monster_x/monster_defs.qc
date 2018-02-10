@@ -37,7 +37,7 @@
 #define	speed_div		lip
 
 // super monsters have a chance to speed up on thier own during pain frames
-#define mon_superspeed_chn 0.1 // chance per pain frame a super monster will speed up
+#define mon_superspeed_chn 0.05 // chance per pain frame a super monster will speed up
 #define mon_superspeed_fact 0.001 // speed up factor per instance
 #define mon_superspeedup_max 0.085 // 1.176 times faster - max super monsters can speed up
 
@@ -142,14 +142,25 @@ void(string ms) SummonMonster;
 */
 
 
-// stats from super ogre - these should load from cfg
+
+#define	gibdmg  										dmg_save
+#define	jumpdmg  									dodmg
+#define	meleedmg									orbitPosition
+
+// time signal for super ops like self healing
+#define	sup_time									invisible_time
+#define	mon_add_flags						self.pk_turretammo
+// these are individual to each monster
+#define mon_enh_mask						self.pkplus_phoneammo
+
+
 #ifdef code_painkeep_
 	// if pk is in, monsters will never use these - note .cfg adjust as detailed
 	// tests of worked:
 	//						set		mon_super_scale 	pkplus_actorammo
 	//						set		__monster_ogre_$mon_super_scale		1.6
 
-#define	mon_add_flags						self.pk_turretammo
+// stats for super monsters - these should load from cfg
 #define	mon_enh_chance					self.pk_gravitywellammo
 #define	mon_super_scale					self.pkplus_actorammo
 #define	mon_xmad_scale					self.pkplus_actortype
@@ -158,15 +169,14 @@ void(string ms) SummonMonster;
 #define	mon_super_emheal_chn 	self.pk_canpabammo
 #define	mon_super_heal  					self.pkplus_egoammo
 #define	mon_xmad_heal  					self.pkplus_tombammo
-#define	gibdmg  										dmg_save
-#define	jumpdmg  									dodmg
- 
-// these are individual to each monster
-#define mon_enh_mask						self.pkplus_phoneammo
+
 
 #else
-// if no pk module, these are hard coded
-#define	mon_add_flags				0				// extra flags "or" ops with spawnflags
+// must use these or code breaks
+.float		pk_turretammo;
+.float		pkplus_phoneammo;
+.float		orbitPosition;
+// if no pk module, these are hard now coded
 #define	mon_enh_chance			0.2			// chance to enhance a monster - requires mon_enh_mask !
 #define	mon_super_scale			1.5			// scale up a SUPER monster
 #define	mon_xmad_scale			2				// scale up extra mad even more
@@ -177,13 +187,7 @@ void(string ms) SummonMonster;
 #define	mon_xmad_heal		80 			// how much a super thats extra mad could heal in a pain frame
 #endifdef
 
-#define	mon_superspeed_chn				0.05 // chance per pain test unit a super monster will speed up
-#define	mon_superspeed_fact			0.001 // speed up factor per instance
-#define	mon_superspeedup_max		0.085 // 1.176 times faster - max super monsters can speed up
-
-// time signal for super ops like self healing
-#define	sup_time	invisible_time
-
+// move this ?
 #define FL_DEMONBOOM				65536 // demon on overload!
 
 #endifdef

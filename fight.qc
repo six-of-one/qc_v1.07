@@ -190,7 +190,11 @@ void(float d) ai_charge =
 #endifdef
 
 	ai_face ();	
-	movetogoal (d);		// done in C code...
+	movetogoal (d
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		);		// done in C code...
 };
 
 // note: *_side only called by knight so far
