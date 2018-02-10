@@ -360,7 +360,11 @@ void() tbaby_checknew =
 		self.th_stand = tbaby_stand1;
 		self.th_walk = tbaby_walk1;
 		self.th_run = tbaby_run1;
+#ifdef monsters_plus__
 		self.th_missile = tbaby_shot;
+#else
+		self.th_missile = tbaby_jump1;
+#endifdef
 		self.th_melee = tbaby_jump1;
 		self.th_die = tbaby_die1;
 
@@ -396,8 +400,10 @@ void() tbaby_checknew =
 	self.th_stand ();
 	self.nextthink = self.nextthink + random()*0.5;
 
+#ifdef monsters_plus__
 	if (self.model == "progs/lavabomb.mdl")
 		self.th_missile = tbaby_shot;
+#endifdef
 
 	self.class_select = "class_monster";
 
@@ -446,7 +452,9 @@ void(float ign) tbaby_mitosis =
 		
 		setorigin (e0__, self.origin);
 */
+#ifdef monsters_plus__
 		newmis.spawnflags = newmis.spawnflags - (newmis.spawnflags & MFL_BSUP);		// dont mitosis into a super | xmad
+#endifdef
 		cvar_fields(newmis, strcat("__",newmis.classname));		// load em up - updates health & so
 		newmis.think = tbaby_checknew;
 		newmis.nextthink = time + 0.5;
@@ -454,7 +462,9 @@ void(float ign) tbaby_mitosis =
 		sound (newmis, CHAN_VOICE, "blob/mytosis.wav", 1, ATTN_NORM);
 	}
 
+#ifdef monsters_plus__
 	pain_sup();
+#endifdef
 
 };
 

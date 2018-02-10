@@ -265,7 +265,9 @@ void() ogre_walk16	=[	$walk16,	ogre_walk1	] {ai_walk(4);};
 framerloop($walk1, $walk16, ogre_walk1, 0.1,
 
 	frame_arb($walk3,if (random() < 0.2) sound(self, CHAN_VOICE, "ogre/ogidle.wav", 1, ATTN_IDLE));
+#ifdef monsters_plus__
 	frame_arb($walk12,if ((self.spawnflags & MFL_ENHANCE)  && (random() <0.25) && ! (self.spawnflags & MFL_BSUP))  ogre_pull1());
+#endifdef
 	frame_arb($walk6,
 
 		if (random() < 0.1) 

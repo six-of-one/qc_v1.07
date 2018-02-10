@@ -12,6 +12,9 @@
 
 // enhanced monster section
 
+// using this no matter what
+#define	jumpdmg  									dodmg
+
 #ifdef monsters_plus__
 
 // archon monster speed module - some monsters move differently
@@ -144,7 +147,6 @@ void(string ms) SummonMonster;
 
 
 #define	gibdmg  										dmg_save
-#define	jumpdmg  									dodmg
 #define	meleedmg									orbitPosition
 
 // time signal for super ops like self healing
