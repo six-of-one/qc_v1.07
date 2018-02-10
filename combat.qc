@@ -186,10 +186,14 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 										bprint (attacker.classname);
 										bprint (" n: ");
 										bprint (attacker.netname);
+										bprint (" scale: ");
+										bprint (ftos(attacker.scale));
 										bprint (" targ c: ");
 										bprint (targ.classname);
 										bprint (" n: ");
 										bprint (targ.netname);
+										bprint (" hl: ");
+										bprint (ftos(targ.health));
 										bprint (" inf c: ");
 										bprint (inflictor.classname);
 										bprint (" n: ");
