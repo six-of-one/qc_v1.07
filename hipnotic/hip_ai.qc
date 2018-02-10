@@ -217,6 +217,10 @@ void() ai_turn_in_place =
 {
 	local float delta;
 
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
 	self.nextthink = time + 0.1;
 	enemy_yaw = vectoyaw(self.enemy.origin - self.origin);
 	delta = fabs(self.angles_y - enemy_yaw);
@@ -246,6 +250,10 @@ void() ai_run_dodge =
 	local float	ofs;
 	local float newyaw;
 
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
 /*
 // attempt to jump over missiles
 	if (self.enemy.weaponframe == 1)

@@ -10,6 +10,12 @@ void() knight_bow1;
 void(entity etemp, entity stemp, entity stemp, float dmg) T_Damage;
 /*
 
+Cataboligne - morph adapted ai_* code
+
+checks for morphs in monster / player interactions - handles "no attack" situations
+adds water move for monsters - no more waterbreathers or lava changelings!
+merged this in with ai.qc now that #ifdef is used -- no more morph_ai.qc
+
 .enemy
 Will be world if not currently angry at anyone.
 
@@ -100,6 +106,7 @@ void() movetarget_f =
 
 /*QUAKED path_corner (0.5 0.3 0) (-8 -8 -8) (8 8 8)
 Monsters will continue walking towards the next target corner.
+"delay" delay to wait before proceeding to next segment;
 */
 void() path_corner =
 {
@@ -264,7 +271,44 @@ float(entity targ) infront =
 #endifdef
 };
 
+/*
+	mk II version
+Cataboligne - modified 3.23.8 to handle different mod checks
 
+self - ent cone point centers on
+sdot - the search area (cone?) - esentially a cosine fn (cos(ang of cone point) = sdot)
+vang - view angle vector, self.angles used if v0
+vorg - alternate origin for non immediat ops
+=============
+
+of called with ( targ, 0, v0, v0 ) operates exactly as q100
+
+*/
+float(entity targ, float sdot, vector vang, vector vorg) infront =
+{
+	local vector	vec, org;
+	local float		dot, tdot;
+	
+	org = self.origin;
+	if (vorg != v0) org = vorg;
+
+	if (vang == v0) makevectors (self.angles);
+	else makevectors (vang);
+
+	tdot = sdot;
+	if (!tdot) tdot = 0.3;
+
+	vec = normalize (targ.origin - org);
+	dot = vec * v_forward;
+	
+	if ( dot > tdot) // 0.3)
+	{
+		return TRUE;
+	}
+	return FALSE;
+};
+
+*/
 //============================================================================
 
 /*
@@ -350,7 +394,14 @@ void() SightSound =
 	else if (self.classname == "monster_zombie")
 		sound (self, CHAN_VOICE, "zombie/z_idle.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_dog")
+	{
 		sound (self, CHAN_VOICE, "dog/dsight.wav", 1, ATTN_NORM);
+#ifdef monsters_plus__
+		if (self.spawnflags & 6) // 2 or 3 heads
+		if (random() < 0.4)
+#endifdef	
+			sound (self, CHAN_WEAPON, "dog/dsight.wav", 1, ATTN_NORM); // idea - slight delay somehow?
+	}
 	else if (self.classname == "monster_hell_knight")
 		sound (self, CHAN_VOICE, "hknight/sight1.wav", 1, ATTN_NORM);
 	else if (self.classname == "monster_tarbaby")
@@ -383,10 +434,21 @@ void() SightSound =
 		{
 		if (self.stoleweapon == 0)
 			sound (self, CHAN_VOICE, "grem/sight1.wav", 1, ATTN_NORM);
+// * gremlin sounds
+//		sound (self, CHAN_VOICE, rnd_string(v0, "gremlin/sight1.wav","gremlin/sight2.wav","gremlin/sight4.wav",null_string,"gremlin/sight3.wav"), 1, ATTN_NORM);
+
 		}
 //MED
 	else if (self.classname == "monster_scourge")
+	{
+// TDO: adjust
+#ifdef monsters_special__
+		if (self.noise1)
+			sound (self, CHAN_VOICE, self.noise1, 1, ATTN_NORM);
+		else
+#endifdef
 		sound (self, CHAN_VOICE, "scourge/sight.wav", 1, ATTN_NORM);
+	}
 //MED
 	else if (self.classname == "monster_armagon")
 		sound (self, CHAN_VOICE, "armagon/sight.wav", 1, 0.1);
@@ -395,6 +457,10 @@ void() SightSound =
 
 void() FoundTarget =
 {
+#ifdef code_morph
+	if (morph_clichk(self.enemy)) return; // we used to be friends, so others wont wake or see...
+#endifdef
+
 	if (self.enemy.classname == "player")
 	{
 #ifdef hip_charmed
@@ -444,6 +510,11 @@ To avoid spending too much time, only a single client (or fakeclient) is
 checked each frame.  This means multi player games will have slightly
 slower noticing monsters.
 ============
+Cataboligne -
+
+when morphed, your "type" of creature will be friends until - you shoot them
+which you cannot do if morph friendly fire is not allowed - they are your "type" after all...
+
 */
 float() FindTarget =
 {
@@ -596,6 +667,10 @@ float() FindTarget =
 	}
 #endifdef 
 	
+// Cataboligne - monsters will be friendly with certain player morphed forms
+#ifdef code_morph
+	if (morph_clichk(client)) return FALSE; // friends...for now
+#endifdef 
 //
 // got one
 //
@@ -624,9 +699,22 @@ float() FindTarget =
 
 
 //=============================================================================
+// Cataboligne - 11.14.12 - fast / slow code
+// 	uses self.speed as a distance value modifier
+//		self.lip is monsters speed divisor
+//		MON_SPEED_DIV is global monster speed divisor
+//	0.2 - half speed monster
+//	0.05 - double speed monster
+
+/// NOTE - .weaponframe use *** will interfere with new monster frame code sets for more complex monsters - search for weaponframe use ***
 
 void(float dist) ai_forward =
 {
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	walkmove (self.angles_y, dist
 #ifdef monsters_plus__
 																					* self.scale
@@ -636,6 +724,11 @@ void(float dist) ai_forward =
 
 void(float dist) ai_back =
 {
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	walkmove ( (self.angles_y+180), dist
 #ifdef monsters_plus__
 																					* self.scale
@@ -677,6 +770,11 @@ stagger back a bit
 */
 void(float dist) ai_painforward =
 {
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	walkmove (self.ideal_yaw, dist
 #ifdef monsters_plus__
 																					* self.scale
@@ -695,11 +793,26 @@ void(float dist) ai_walk =
 {
 //	local vector		mtemp;	// fx_warning
 
+#ifdef mon_speed
+	if (self.speed > 0)
+	{
+		if (self.lip <= 0) self.lip = 1; // local speed divisor
+		movedist = self.scale * dist * ((0.1 / self.speed) / self.lip) / MON_SPEED_DIV;
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+	}
+
+#else
 	movedist = dist
 #ifdef monsters_plus__
 																					* self.scale
 #endifdef
 								;
+#endifdef
+
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
 
 #ifdef xmonsters
 	if (self.classname == "monster_dragon")
@@ -741,6 +854,11 @@ The monster is staying in one place for a while, with slight angle turns
 */
 void() ai_stand =
 {
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	if (FindTarget ())
 		return;
 	
@@ -763,10 +881,22 @@ don't move, but turn towards ideal_yaw
 */
 void() ai_turn =
 {
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	if (FindTarget ())
 		return;
 	
 	ChangeYaw ();
+#ifdef mon_speed
+	if (self.speed > 0)
+	{
+		if (self.lip <= 0) self.lip = 1; // local speed divisor
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+	}
+#endifdef
 };
 
 //=============================================================================
@@ -910,7 +1040,12 @@ Strafe sideways, but stay at aproximately the same range
 void() ai_run_slide =
 {
 //	local float	ofs;
-	
+
+#ifdef monsters_plus
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	if (self.flags & FL_FROZEN) return; // monster frozen
+#endifdef
+
 	self.ideal_yaw = enemy_yaw;
 	ChangeYaw ();
 	if (self.lefty)
@@ -940,16 +1075,57 @@ void(float dist) ai_run =
 //	local	float	axis;	// fx_warning
 //	local	float	direct, ang_rint, ang_floor, ang_ceil;	// fx_warning
 
+#ifdef mon_speed
+	if (self.speed > 0)
+	{
+		if (self.lip <= 0) self.lip = 1; // local speed divisor
+		movedist = self.scale * dist * ((0.1 / self.speed) / self.lip) / MON_SPEED_DIV;
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+	}
+
+#else
 	movedist = dist
 #ifdef monsters_plus__
 																					* self.scale
 #endifdef
-		;
+								;
+#endifdef
+
+#ifdef monsters_plus
+	if (self.flags & FL_MONSTER)
+	{
+		if (self.flags & FL_FROZEN) return; // monster frozen
+
+// check for monsters that while not stuck in solid may not be able to move
+// no idea if any map features will trip this that should not
+// IMP: restore some version of this at a later release date (beta | final)
+// note: out of level handled by falling check code
+/*
+		if (framecount & 3 == 3 && random() < 0.5) { self.oldorigin = self.origin; self.wait = time + 5; } // give monster chance to move
+
+		if (self.origin == self.oldorigin && self.wait < time)
+		if (self.movetarget.classname != "chaos_teleport_restore")
+		{
+if (WARNING & 4) bprint("monster move check\n");
+			self.movetarget = chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, v0, v0, v0, v0, v0, "chaos_teleport_restore", null_string, SUB_Null, 1, chaos_teleport_restore_think, SUB_Null, self, world);
+			self.movetarget.search_time = time + 3;
+			self.movetarget.oldorigin = self.origin;
+			chaos_spawn(MOVETYPE_NONE, SOLID_NOT, 0, 0, v0, v0, v0, v0, v0, "splinch_kill", null_string, SUB_Null, 1, splinch_kill, SUB_Null, self, world);
+		}
+*/
+//	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
+	}
+#endifdef
+
 // see if the enemy is dead
 #ifdef code_archon
 // Cataboligne 9.11.3 purify - chase cam
 	// change detection method so monsters won't keep attacking
 	// a dead player with health reset to one (no view tilting hack for cam view)
+/* was in mk II
+	if (self.enemy.solid == SOLID_NOT || (self.charmed && (self.charmer == self.enemy)))
+	//if (self.enemy.health <= 0 || (self.charmed && (self.charmer == self.enemy)))
+*/
 	if (self.enemy.solid == SOLID_NOT)
 #else
 	if (self.enemy.health <= 0)

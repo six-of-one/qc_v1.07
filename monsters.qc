@@ -495,12 +495,14 @@ void() pain_sup =
 	if (!f7__) cvar_fields(self, strcat("__",self.classname));
 
 // super monsters can get faster too
+#ifdef mon_speed
 	if (self.speed > mon_superspeedup_max)
 	if (random() < mon_superspeed_chn)
 	{
 		self.speed  = self.speed - mon_superspeed_fact;
 		if (self.speed < mon_superspeedup_max) self.speed = mon_superspeedup_max;
 	}
+#endifdef
 };
 #endifdef
 
