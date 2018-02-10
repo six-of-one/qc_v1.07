@@ -462,18 +462,6 @@ if (ign != A_MONSTER)
 	precache_sound("shalrath/idle.wav");
 	precache_sound("shalrath/pain.wav");
 	precache_sound("shalrath/sight.wav");
-/*
-	self.think = walkmonster_start; // ok for map monsters
-	self.nextthink = time + 0.1 + random ()*0.1;    
-}
-
-// Cataboligne - 11.14.12 - fast / slow code
-	if (self.speed <= 0) self.speed = MON_NORM;
-	self.lip = 1; // local speed divisor
-// map specced
-	if (self.netname == CFAST) self.speed = MON_FAST;
-	else if (self.netname == CSLOW) self.speed = MON_SLOW;
-*/
 
 	self.netname = "Phase spider";
 

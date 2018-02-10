@@ -822,15 +822,6 @@ if (ign != A_MONSTER)
 	precache_sound("mon_II/raptor/ridle3.wav");
 	precache_sound("mon_II/raptor/ridle4.wav");
 	precache_sound("mon_II/raptor/rsight.wav");
-//}
-/*
-// Cataboligne - 11.14.12 - fast / slow code
-	if (self.speed <= 0) self.speed = MON_NORM;
-	self.lip = 1; // local speed divisor
-// map specced
-	if (self.netname == CFAST) self.speed = MON_FAST;
-	else if (self.netname == CSLOW) self.speed = MON_SLOW;
-*/
 
 	self.netname = "Velociraptor";
 

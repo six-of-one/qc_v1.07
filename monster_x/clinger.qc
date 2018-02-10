@@ -326,16 +326,6 @@ void() clinger_respawn = [ $idle1, clinger_idle1 ]
 */
 void() monster_clinger
 {
-/*
-if (ign != A_MONSTER)
-{
-	if (M_MONSTER < 0)
-	{
-		self.think = remove_monster;
-		self.nextthink = time + 2 + (random() * REMOVE_MON_SPREAD);
-		return;
-	}
-*/
 // override test
 	if (! dm_over)			// __monster_clinger_button0		"1"
 //	if (!M_MONSTER_II & CB_M_CLING)

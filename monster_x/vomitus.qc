@@ -774,16 +774,6 @@ if (ign != A_MONSTER)
 	precache_sound ("blob/hit1.wav");
 	precache_sound ("blob/land1.wav");
 	precache_sound ("blob/sight1.wav");
-//}
-
-/*
-// Cataboligne - 11.14.12 - fast / slow code
-	if (self.speed <= 0) self.speed = MON_NORM;
-	self.lip = 1; // local speed divisor
-// map specced
-	if (self.netname == CFAST) self.speed = MON_FAST;
-	else if (self.netname == CSLOW) self.speed = MON_SLOW;
-*/
 
 	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_STEP;
