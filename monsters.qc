@@ -300,13 +300,13 @@ void()	Monster_JumpTouch =
 	if (self.health <= 0)
 		return;
 
-	if (!mon_jumpdmg) mon_jumpdmg = 10;
+	if (!self.jumpdmg) self.jumpdmg = 10;
 
 	if (other.takedamage)
 	{
 		if ( vlen(self.velocity) > self.jump_vel)
 		{
-			self.ldmg_ = (mon_jumpdmg + 10*random())
+			self.ldmg_ = (self.jumpdmg + 10*random())
 #ifdef monsters_plus__
 																					* self.scale
 #endifdef

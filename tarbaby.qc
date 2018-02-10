@@ -130,7 +130,7 @@ void()	Tar_JumpTouch =
 #endifdef
 		if ( vlen(self.velocity) > self.jump_vel )
 		{
-			self.ldmg_ = (mon_jumpdmg + 10*random())
+			self.ldmg_ = (self.jumpdmg + 10*random())
 #ifdef monsters_plus__
 																					* self.scale;
 #endifdef
