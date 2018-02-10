@@ -49,13 +49,6 @@ $frame pull1 pull2 pull3 pull4 pull5 pull6 pull7 pull8 pull9 pull10 pull11
 
 //=============================================================================
 
-#define	OGRE_SUPER	8
-#define	OGRE_SUPER_MAD	16 // got extra mad
-
-#define super_ogre_chance 0.1
-#define super_ogre_emheal 80 // how much a super ogre thats extra mad could heal in a pain frame
-#define super_ogre_emheal_chn 0.4 // chance to heal
-
 /*
 void() OgreGrenadeExplode =
 {

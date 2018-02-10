@@ -423,9 +423,7 @@ void(float side)	Demon_Melee =
 	sound (self, CHAN_WEAPON, "demon/dhit2.wav", 1, ATTN_NORM);
 	self.ldmg_ = 10 + 5*random();
 #ifdef monsters_plus__
-	if (self.spawnflags & DEMON_SUPER_MAD) self.ldmg_ = 60 + 60*random();
-	else
-	if (self.spawnflags & DEMON_SUPER) self.ldmg_ = 20 + 20*random();
+	if (self.spawnflags & MFL_BSUP) self.ldmg_ = self.meleedmg + self.meleedmg*random();
 #endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);	
 
