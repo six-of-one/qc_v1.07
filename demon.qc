@@ -253,7 +253,7 @@ void() demon_die =
 // check for gib
 	self.dmg = -80;
 #ifdef monsters_plus__
-	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+	if (self.gibdmg < self.dmg) self.dmg = self.gibdmg;
 
 #ifdef code_morph
 	if (self.flags & FL_DEMONBOOM) // heh heh - little enhancement, mostly for player morph

@@ -691,7 +691,7 @@ void() raptor_die =
 {
 	self.dmg = -80;
 #ifdef monsters_plus__
-	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+	if (self.gibdmg < self.dmg) self.dmg = self.gibdmg;
 #endifdef
 
 // check for gib
@@ -723,7 +723,7 @@ void() raptor_limp =
 {
 // check for gib - if x_mon cfg doesnt set this limp wont gib him
 #ifdef monsters_plus__
-	if (self.health < mon_gibdmg)
+	if (self.health < self.gibdmg)
 #else
 // check for gib
 	if (self.health < -80)

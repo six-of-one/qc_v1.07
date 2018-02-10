@@ -140,7 +140,7 @@ void() blarg_stop =
 {
 	self.dmg = -100;
 #ifdef monsters_plus__
-	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+	if (self.gibdmg < self.dmg) self.dmg = self.gibdmg;
 #endifdef
 
 // check for gib

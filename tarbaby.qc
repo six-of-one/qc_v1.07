@@ -301,7 +301,7 @@ void()	tbaby_die2	=[	$exp,		tbaby_run1	]
 	self.ldmg_ = 120;
 
 #ifdef monsters_plus__
-	if (mon_gibdmg) self.ldmg_ = mon_gibdmg;
+	if (self.gibdmg) self.ldmg_ = self.gibdmg;
 
 	if (self.spawnflags & TB_SUPER)
 	{

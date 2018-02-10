@@ -420,7 +420,7 @@ void() vom_die =
 // check for gib
 	self.dmg = -60;
 #ifdef monsters_plus__
-	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+	if (self.gibdmg < self.dmg) self.dmg = self.gibdmg;
 #endifdef
 
 // check for explosion (hey it's tarbabys big brother)

@@ -344,7 +344,7 @@ void() hknight_die =
 // check for gib
 	self.dmg = -40;
 #ifdef monsters_plus__
-	if (mon_gibdmg < self.dmg) self.dmg = mon_gibdmg;
+	if (self.gibdmg < self.dmg) self.dmg = self.gibdmg;
 #endifdef
 
 	if (self.health < self.dmg)
