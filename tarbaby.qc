@@ -382,11 +382,6 @@ void() tbaby_checknew =
 #ifdef mon_speed
 	if (self.speed <= 0) self.speed = MON_NORM;
 	self.speed_div = 1; // local speed divisor
-
-// server controls set all monsters fast or slow if not specced - this includes random monsters
-//	else 
-//	if (FAST_MONSTER & CB_M_TARBABY) self.speed = MON_FAST;
-//	else if (SLOW_MONSTER & CB_M_TARBABY) self.speed = MON_SLOW;
 #endifdef
 
 
