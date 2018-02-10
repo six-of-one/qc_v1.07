@@ -701,7 +701,7 @@ float() FindTarget =
 //=============================================================================
 // Cataboligne - 11.14.12 - fast / slow code
 // 	uses self.speed as a distance value modifier
-//		self.lip is monsters speed divisor
+//		self.lip - self.speed_div is monsters speed divisor
 //		MON_SPEED_DIV is global monster speed divisor
 //	0.2 - half speed monster
 //	0.05 - double speed monster
@@ -710,7 +710,7 @@ float() FindTarget =
 
 void(float dist) ai_forward =
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -724,7 +724,7 @@ void(float dist) ai_forward =
 
 void(float dist) ai_back =
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -770,7 +770,7 @@ stagger back a bit
 */
 void(float dist) ai_painforward =
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -796,9 +796,9 @@ void(float dist) ai_walk =
 #ifdef mon_speed
 	if (self.speed > 0)
 	{
-		if (self.lip <= 0) self.lip = 1; // local speed divisor
-		movedist = self.scale * dist * ((0.1 / self.speed) / self.lip) / MON_SPEED_DIV;
-		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+		if (self.speed_div <= 0) self.speed_div = 1; // local speed divisor
+		movedist = self.scale * dist * ((0.1 / self.speed) / self.speed_div) / MON_SPEED_DIV;
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.speed_div);
 	}
 
 #else
@@ -809,7 +809,7 @@ void(float dist) ai_walk =
 								;
 #endifdef
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -854,7 +854,7 @@ The monster is staying in one place for a while, with slight angle turns
 */
 void() ai_stand =
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -881,7 +881,7 @@ don't move, but turn towards ideal_yaw
 */
 void() ai_turn =
 {
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -893,8 +893,8 @@ void() ai_turn =
 #ifdef mon_speed
 	if (self.speed > 0)
 	{
-		if (self.lip <= 0) self.lip = 1; // local speed divisor
-		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+		if (self.speed_div <= 0) self.speed_div = 1; // local speed divisor
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.speed_div);
 	}
 #endifdef
 };
@@ -1041,7 +1041,7 @@ void() ai_run_slide =
 {
 //	local float	ofs;
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 //	if (framecount & 3 == 3 && self.weaponframe != framecount) WaterMove(); // Cataboligne - 2.27.8 - water move for monsters
 	if (self.flags & FL_FROZEN) return; // monster frozen
 #endifdef
@@ -1078,9 +1078,9 @@ void(float dist) ai_run =
 #ifdef mon_speed
 	if (self.speed > 0)
 	{
-		if (self.lip <= 0) self.lip = 1; // local speed divisor
-		movedist = self.scale * dist * ((0.1 / self.speed) / self.lip) / MON_SPEED_DIV;
-		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.lip);
+		if (self.speed_div <= 0) self.speed_div = 1; // local speed divisor
+		movedist = self.scale * dist * ((0.1 / self.speed) / self.speed_div) / MON_SPEED_DIV;
+		self.nextthink = time + (self.speed * MON_SPEED_DIV * self.speed_div);
 	}
 
 #else
@@ -1091,7 +1091,7 @@ void(float dist) ai_run =
 								;
 #endifdef
 
-#ifdef monsters_plus
+#ifdef monsters_plus__
 	if (self.flags & FL_MONSTER)
 	{
 		if (self.flags & FL_FROZEN) return; // monster frozen

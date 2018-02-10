@@ -16,7 +16,7 @@
 
 // archon monster speed module - some monsters move differently
 
-//#define mon_speed
+#define mon_speed
 #ifdef mon_speed
 // speed divsors:
 //		< 1 - slow down
