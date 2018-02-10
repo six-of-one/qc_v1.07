@@ -283,7 +283,7 @@ vorg - alternate origin for non immediat ops
 
 of called with ( targ, 0, v0, v0 ) operates exactly as q100
 
-*/
+
 float(entity targ, float sdot, vector vang, vector vorg) infront =
 {
 	local vector	vec, org;
