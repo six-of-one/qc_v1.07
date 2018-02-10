@@ -241,7 +241,14 @@ void() ai_melee =
 	if (vlen(self.enemy.origin - self.origin) > 60)
 		return;
 		
-	self.ldmg_ = (random() + random() + random()) * 3;
+	self.ldmg_ = (random() + random() + random()) * 3
+#ifdef monsters_plus__
+																					* self.scale;
+       if (self.meleedmg) self.ldmg_ = (random() + random() + random()) * self.meleedmg * self.scale;          // allow override if set
+#else
+                                                       ;
+#endifdef
+
 	T_Damage (self.enemy, self, self, self.ldmg_);
 };
 

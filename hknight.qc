@@ -824,11 +824,14 @@ void() DK_DeathBlow =
 	if (vlen(self.dest) > 90)  return;
 	if (!CanDamage (self.enemy, self))  return;
 
-//	d1 = random();  d2 = random();  d3 = random();
-	self.dmg = (random() + random() + random()) * 30;
-	if (self.dmg < 15)  self.dmg = 15;
-	if (self.health < 20)  self.dmg = self.dmg + 15;  // really berserk!
-	T_Damage (self.enemy, self, self, self.dmg);
+	self.ldmg_ = (random() + random() + random()) * 30
+#ifdef monsters_plus__
+																					* self.scale
+#endifdef
+		;
+	if (self.ldmg_ < 15)  self.ldmg_ = 15;
+	if (self.health < 20)  self.ldmg_ = self.ldmg_ + 15;  // really berserk!
+	T_Damage (self.enemy, self, self, self.ldmg_);
 };
 
 // end Martin big chunk

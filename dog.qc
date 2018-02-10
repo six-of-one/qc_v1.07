@@ -64,7 +64,7 @@ void() dog_bite =
 	self.ldmg_ = (random() + random() + random()) * 8
 #ifdef monsters_plus__
 																					* self.scale;
-	if (self.spawnflags & FLUFFY) self.ldmg_ = self.ldmg_ * 1.8;
+	if (self.meleedmg) self.ldmg_ = (random() + random() + random()) * self.meleedmg * self.scale;          // allow override if set
 #else
 							;
 #endifdef

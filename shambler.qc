@@ -131,7 +131,13 @@ void() sham_smash10    =[      $smash10,      sham_smash11   ] {
 	if (!CanDamage (self.enemy, self))
 		return;
 		
-	self.ldmg_ = (random() + random() + random()) * 40;
+	self.ldmg_ = (random() + random() + random()) * 40
+#ifdef monsters_plus__
+																					* self.scale;
+	if (self.meleedmg) self.ldmg_ = (random() + random() + random()) * self.meleedmg * self.scale;          // allow override if set
+#else
+							;
+#endifdef
 	T_Damage (self.enemy, self, self, self.ldmg_);
 	sound (self, CHAN_VOICE, "shambler/smack.wav", 1, ATTN_NORM);
 

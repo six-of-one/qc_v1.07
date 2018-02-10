@@ -158,6 +158,7 @@ void(float side) chainsaw =
 #ifdef monsters_plus__
 // one of those "BIG" ogres - bump damage by model scale factor
 							* self.scale;
+	if (self.meleedmg) self.ldmg_ = (random() + random() + random()) * self.meleedmg * self.scale;			// allow override if set
 
 	if ((side) && (side < 2))
 	if (self.spawnflags & OGRE_SUPER)
