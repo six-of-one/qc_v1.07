@@ -510,5 +510,20 @@ void() pain_sup =
 };
 #endifdef
 
+// remove dynamic monsters that time out
+// tweak to remove anything
 
-
+void() rmon_loop =
+{
+	e0__ = cnt_ent(self, class_select, self.netname);			// class_monster
+	
+	while (e0__.chain)
+	{
+		e0__ = e0__.chain;
+		if (reload_ck(e0__))					// this end must have map = "dyn_sp" or "map_sp"
+		if (e0__.rad_time < time)
+		{
+			T_Damage (e0__, world, world, e0__.health + 100);			// note - needs remove after gib
+		}
+	}
+};
