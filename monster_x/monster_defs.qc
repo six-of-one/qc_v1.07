@@ -29,7 +29,7 @@
 // speed contants for monsters
 // slowing down too much or speeding up too much looks "funny" (admittedly chaotic tho), try to say in limits
 
-#define	MON_NORM		0.1 // base think speed for animation frames
+#define	MON_NORM		0.1 // base think speed for animation frames - injected in framer with spud
 #define	MON_FAST		0.07 // 1.429 times faster
 #define	MON_SLOW		0.16 // 0.625 times slower
 // divisor - divide monsters speed up by this value --- > 1 slows monsters, < 1 speeds up monsters
@@ -43,6 +43,12 @@
 #define mon_superspeed_chn 0.05 // chance per pain frame a super monster will speed up
 #define mon_superspeed_fact 0.001 // speed up factor per instance
 #define mon_superspeedup_max 0.085 // 1.176 times faster - max super monsters can speed up
+
+#define spud	if (self.flags & FL_MONSTER) {self.nextthink = time + (self.speed * MON_SPEED_DIV * self.speed_div);}
+
+#else
+
+#define spud {}
 
 #endifdef
 

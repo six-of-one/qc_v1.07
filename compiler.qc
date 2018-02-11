@@ -878,13 +878,14 @@ spec track by cvar
 // t_time - nextthink interval used in the _entire_ loop - unless adjusted in excode
 // sframe - start_frame of the loop
 // eframe - end_frame of the loop
+// spud - monster speed control code macro inject
 /// excode --- run any arbitrary code - SUB_Null() __MUST__ be put in for nothing, you can NOT leave this blank!
 
-#define framer(sframe,eframe,t_on,t_to,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; if (self.frame == eframe) {self.think = t_to;} excode;}
+#define framer(sframe,eframe,t_on,t_to,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; if (self.frame == eframe) {self.think = t_to;} spud; excode;}
 
 // self loop - does not think to a t_to on eframe
 
-#define framerloop(sframe,eframe,t_on,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; excode;}
+#define framerloop(sframe,eframe,t_on,t_time,excode) void() t_on {if (self.think != t_on|| self.frame < sframe || self.frame >= eframe){self.frame = sframe - 1; self.think = t_on;} self.frame = self.frame + 1; self.nextthink = time + t_time; spud; excode;}
 
 /*
 
