@@ -508,7 +508,6 @@ void() pain_sup =
 	}
 #endifdef
 };
-#endifdef
 
 // remove dynamic monsters that time out
 // tweak to remove anything
@@ -536,3 +535,4 @@ void() rmon_loop =
 	else
 		remove(self);
 };
+#endifdef
