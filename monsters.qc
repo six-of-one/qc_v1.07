@@ -515,7 +515,8 @@ void() pain_sup =
 
 void() rmon_loop =
 {
-	e0__ = cnt_ent(self, class_select, self.netname);			// class_monster
+	cnt_ent(self, class_select, self.netname);			// class_monster
+	e0__ = self;
 	
 	while (e0__.chain)
 	{
@@ -523,7 +524,15 @@ void() rmon_loop =
 		if (reload_ck(e0__))					// this end must have map = "dyn_sp" or "map_sp"
 		if (e0__.rad_time < time)
 		{
-			T_Damage (e0__, world, world, e0__.health + 100);			// note - needs remove after gib
+			if (e0__.health > 0)
+				T_Damage (e0__, world, world, e0__.health - e0__.gibdmg + 50);			// note - needs head remove after gib
+			else
+				remove(e0__);
 		}
 	}
+
+	if (self.delay > 0)
+		self.nextthink = time + self.delay; // run as a loop
+	else
+		remove(self);
 };
