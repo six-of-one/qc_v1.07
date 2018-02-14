@@ -115,6 +115,7 @@ void()	Tar_JumpTouch =
 //	local	float	ldmg;
 
 #ifdef monsters_plus__
+	self.ldmg_ = 0;
 	if (other.takedamage)// && other.classname != self.classname)
 	if (other.classname != "monster_tarbaby")
 //	if (other.classname != "monster_lavabomb") // use tarbaby class now
@@ -139,7 +140,8 @@ void()	Tar_JumpTouch =
 			sound (self, CHAN_WEAPON, "blob/hit1.wav", 1, ATTN_NORM);
 		}
 	}
-	else
+//	else
+	if (!self.ldmg_)
 		sound (self, CHAN_WEAPON, "blob/land1.wav", 1, ATTN_NORM);
 
 	self.touch = SUB_Null;
@@ -206,6 +208,7 @@ void()	tbaby_jump4		=[	$jump4,	tbaby_jump5		] {ai_face();};
 void()	tbaby_jump5		=[	$jump5,	tbaby_jump6		]
 {
 #ifdef monsters_plus__
+// fix tarbabys getting stuck flying
 	if (self.duration < time)
 	{
 		self.duration = MAXFL;
