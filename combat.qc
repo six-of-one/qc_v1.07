@@ -61,9 +61,12 @@ void(entity targ, entity attacker) Killed =
 
 	oself = self;
 	self = targ;
-	
+
+#ifdef monsters_plus__
+	if (self.flags & FL_CLIENT)			// so super monsters can have full neg dmg
+#endifdef
 	if (self.health < -99)
-		self.health = -99;		// don't let sbar look bad if a player
+		self.health = -99;		// don't let sbar look bad if a player			- this blocks gibbing some super monsters
 
 #ifdef hip_charmed
 //MED

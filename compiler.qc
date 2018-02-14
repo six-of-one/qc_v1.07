@@ -979,8 +979,13 @@ void() t_on
 
 // ent var subs for generic floats - NOT a reliable store		-- ** same as matched below **
 // always check sub var prior to each use
+// bubble_count is used via rnd_ for spawn_loop - was causing explobox issues when they use spawn_loop
 
+#ifdef code_xents
+#define f__			button14
+#else
 #define f__			bubble_count
+#endifdef
 
 // ent var sub for generic vectors - NOT a reliable store
 
