@@ -414,7 +414,7 @@ void() player_nail1   =[$nailatt1, player_nail1  ]
 #ifdef code_xents
 // so xwep can use nail fire frames with custom fire_code
 	z2__ = W_FireSpikes;
-	if (EWEAP.fire_code && (EWEAP.fire_code != SUB_Null)) z2__ = EWEAP.fire_code;			// check for eweapon override on firing nail guns
+	if (self.eweapon.fire_code && (self.eweapon.fire_code != SUB_Null)) z2__ = self.eweapon.fire_code;			// check for eweapon override on firing nail guns
 	if (!(self.weaponframe & 1))
 	{
 		self.frame = $nailatt2;		// run 2 model frames in loop

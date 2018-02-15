@@ -10,6 +10,13 @@
  *
  */
 
+// play that funky music
+
+void() lavaGunFired =
+{
+	sound (self, CHAN_WEAPON, "lavagun/snail.wav", 1, ATTN_NORM);	
+};
+
 void(float ox) W_FireLavaSpikes =
 {
 //	local vector	dir;
@@ -44,6 +51,11 @@ void(float ox) W_FireLavaSpikes =
 	newmis.classname = "lava_spike";
 	setmodel (newmis, "progs/lspike.mdl");	
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);	
-	if (EWEAP) newmis.armortype = EWEAP.armortype;
+	if (self.eweapon)
+	{
+		newmis.armortype = self.eweapon.armortype;
+		self.eweapon.think = lavaGunFired;
+		self.eweapon.nextthink = time + 0.7;
+	}
 
 };
