@@ -79,6 +79,9 @@
 	#messagecompiling rogue/mult_wpn.qc
 	#include </mult_wpn.qc>
 
+	#messagecompiling rogue/lava_wpn.qc
+	#include </lava_wpn.qc>
+
 //#endifdef
 
 

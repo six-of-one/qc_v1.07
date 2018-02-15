@@ -82,21 +82,25 @@ void() player_pnail1	 =[$nailatt1, player_pnail2]
 		player_run ();
 		return;
 	}
-	self.weaponframe = self.weaponframe + 1;
-	if (self.weaponframe == 5)
-		self.weaponframe = 1;
-	SuperDamageSound();
-	if (!(self.weaponframe & 1))
-	{
-		self.frame = $nailatt2;
-		W_FirePulseSpikes (-4);
-	}
-	else
-	W_FirePulseSpikes (4);
 #ifdef code_runes
 	if (rune_haste(0.3))
 #endifdef
 	self.attack_finished = time + 0.6;
+
+	self.weaponframe = self.weaponframe + 1;
+	if (self.weaponframe >= 5)
+		self.weaponframe = 1;
+	SuperDamageSound();
+
+	z2__ = W_FirePulseSpikes;
+	if (EWEAP.fire_code && (EWEAP.fire_code != SUB_Null)) z2__ = EWEAP.fire_code;			// check for eweapon override on firing pulsed nail guns
+	if (!(self.weaponframe & 1))
+	{
+		self.frame = $nailatt2;
+		z2__(-4);
+	}
+	else
+		z2__(4);
 };
 
 void() player_pnail2	 =[$nailatt2, player_pnail1]

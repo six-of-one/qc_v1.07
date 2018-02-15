@@ -119,6 +119,7 @@ entity locus;
 
 #define		z0__		locus.think1
 #define		z1__		locus.blocked
+#define		z2__		locus.th_walk
 
 // TESTING
 

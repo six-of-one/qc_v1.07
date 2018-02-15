@@ -411,13 +411,26 @@ void() player_nail1   =[$nailatt1, player_nail1  ]
 	SuperDamageSound();
 //	W_FireSpikes (4);
 	self.attack_finished = time + 0.2;
+#ifdef code_xents
+// so xwep can use nail fire frames with custom fire_code
+	z2__ = W_FireSpikes;
+	if (EWEAP.fire_code && (EWEAP.fire_code != SUB_Null)) z2__ = EWEAP.fire_code;			// check for eweapon override on firing nail guns
 	if (!(self.weaponframe & 1))
 	{
-		self.frame = $nailatt2;
+		self.frame = $nailatt2;		// run 2 model frames in loop
+		z2__(-4);
+	}
+	else
+	z2__(4);
+#else
+	if (!(self.weaponframe & 1))
+	{
+		self.frame = $nailatt2;		// run 2 model frames in loop
 		W_FireSpikes (-4);
 	}
 	else
 	W_FireSpikes (4);
+#endifdef
 };
 /*
 void() player_nail2   =[$nailatt2, player_nail1  ]
@@ -443,13 +456,20 @@ void() player_light1   =[$light1, player_light1  ]
 
 	if (!self.button0)
 		{player_run ();return;}
+	self.attack_finished = time + 0.2;
 	self.weaponframe = self.weaponframe + 1;
 	if (self.weaponframe >= 5)
 		self.weaponframe = 1;
 	SuperDamageSound();
+#ifdef code_xents
+// so xwep can use lightning frames with custom fire_code
+	z2__ = W_FireLightning;
+	if (EWEAP.fire_code && (EWEAP.fire_code != SUB_Null)) z2__ = EWEAP.fire_code;			// check for eweapon override on firing nail guns
+	z2__();
+#else
 	W_FireLightning();
-	self.attack_finished = time + 0.2;
-	if (!(self.weaponframe & 1)) self.frame = $light2;
+#endifdef
+	if (!(self.weaponframe & 1)) self.frame = $light2;		// run 2 model frames in loop
 };
 /*
 void() player_light2   =[$light2, player_light1  ]
