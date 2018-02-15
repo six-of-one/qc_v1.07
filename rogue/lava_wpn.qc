@@ -44,5 +44,6 @@ void(float ox) W_FireLavaSpikes =
 	newmis.classname = "lava_spike";
 	setmodel (newmis, "progs/lspike.mdl");	
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);	
+	if (EWEAP) newmis.armortype = EWEAP.armortype;
 
 };
