@@ -44,8 +44,12 @@ void(float ox) W_FireLavaSpikes =
 	self.currentammo = self.ammo_lava_nails = self.ammo_lava_nails - 1;
 */
 
+	f7__ = self.ammo_nails;
+	self.ammo_nails = 6;				// so super or regular ng can fire
 
 	W_FireSpikes(ox);
+
+	self.ammo_nails = f7__;
 
 // make it hot
 	newmis.classname = "lava_spike";

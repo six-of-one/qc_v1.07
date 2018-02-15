@@ -1311,6 +1311,7 @@ void() W_SetCurrentAmmo =
 #ifdef code_xents
 
 // using e0__, e1__, f0__, f1__
+// new code - will not auto switch to anything with a rank < 10 - the axe
 
 float() W_BestWeapon =
 {
@@ -1346,7 +1347,6 @@ float() W_BestWeapon =
 #ifndef hip_weapons
 float() W_BestWeapon =
 {
-// new code - will not auto switch to anything with a rank < 10 - the axe
 	local	float	it;
 	
 	it = self.items;
@@ -2104,7 +2104,7 @@ try with alias?
 #else
 																								8
 #ifdef hip_weapons
-		|| (self.impulse >= 225 && self.impulse <= 226)
+		|| (self.impulse >= 224 && self.impulse <= 228)
 #endifdef
 #endifdef
 		)
