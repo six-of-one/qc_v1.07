@@ -21,14 +21,14 @@
 void(vector p1, vector p2, entity from, float damage) PlasmaDamage =
 {
 	local entity		e1, e2;
-	local vector		f;
+//	local vector		f;
 	
-	f = p2 - p1;
-	normalize (f);
-	f_x = 0 - f_y;
-	f_y = f_x;
-	f_z = 0;
-	f = f*16;
+	v0__ = p2 - p1;
+	normalize (v0__);
+	v0___x = 0 - v0___y;
+	v0___y = v0___x;
+	v0___z = 0;
+	v0__ = v0__*16;
 
 	e1 = e2 = world;
 
@@ -45,7 +45,7 @@ void(vector p1, vector p2, entity from, float damage) PlasmaDamage =
 	}
 	e1 = trace_ent;
 
-	traceline (p1 + f, p2 + f, FALSE, self);
+	traceline (p1 + v0__, p2 + v0__, FALSE, self);
 	if (trace_ent != e1 && trace_ent.takedamage)
 	{
 		particle (trace_endpos, '0 0 100', 225, damage*4);
@@ -53,7 +53,7 @@ void(vector p1, vector p2, entity from, float damage) PlasmaDamage =
 	}
 	e2 = trace_ent;
 
-	traceline (p1 - f, p2 - f, FALSE, self);
+	traceline (p1 - v0__, p2 - v0__, FALSE, self);
 	if (trace_ent != e1 && trace_ent != e2 && trace_ent.takedamage)
 	{
 		particle (trace_endpos, '0 0 100', 225, damage*4);
