@@ -172,7 +172,7 @@ void(vector org, vector dir) launch_plasma =
 	newmis.classname = "plasma";
 	
 // set newmis speed	
-	newmis.velocity = dir * 0.01;
+	newmis.velocity = dir * 0.06;
 	newmis.avelocity = '300 300 300';
 	newmis.angles = vectoangles(newmis.velocity);
 	newmis.touch = PlasmaTouch;
@@ -235,5 +235,7 @@ void() W_FirePlasma =
 
 // slower fire rate
 	if (self.eweapon) self.attack_finished = time + self.eweapon.attack_finished;
+	self.button0 = 0;
+	player_run ();
 };
 
