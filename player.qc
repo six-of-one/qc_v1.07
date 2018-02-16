@@ -464,7 +464,7 @@ void() player_light1   =[$light1, player_light1  ]
 #ifdef code_xents
 // so xwep can use lightning frames with custom fire_code
 	z2__ = W_FireLightning;
-	if (EWEAP.fire_code && (EWEAP.fire_code != SUB_Null)) z2__ = EWEAP.fire_code;			// check for eweapon override on firing nail guns
+	if (self.eweapon.fire_code && (self.eweapon.fire_code != SUB_Null)) z2__ = self.eweapon.fire_code;			// check for eweapon override on firing nail guns
 	z2__();
 #else
 	W_FireLightning();

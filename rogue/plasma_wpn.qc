@@ -232,5 +232,9 @@ void() W_FirePlasma =
 #else
 	launch_plasma (self.origin + v_forward*24 + '0 0 16', v1__);
 #endifdef
+
+// testing
+// plasma fire cancels out to player_run after 1 shot
+	self.button0 = 0;
 };
 
