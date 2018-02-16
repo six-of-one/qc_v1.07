@@ -2014,7 +2014,8 @@ void() CheckPowerups =
 			self.items = self.items - (self.items & IT_SUIT);
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
-/*
+
+#ifdef code_archon
 	Archon has:
 // turn off suit skins
 			if (self.mask_x & CB_HUMAN)
@@ -2022,7 +2023,8 @@ void() CheckPowerups =
 			{
 				self.skin = 0;
 			}
-*/
+#endifdef
+
 		}
 	}
 
@@ -2842,9 +2844,72 @@ void(entity targ, entity attacker) ClientObituary =
             if (attacker.classname == "monster_armagon")
                bprint (" was outgunned by Armagon\n");
 #endifdef
+#ifdef ROGUE_
+// monsters
+				if (attacker.classname == "monster_eel")
+					bprint (" was electrified by an Eel\n");
+				if (attacker.classname == "monster_wrath")
+					bprint (" was disintegrated by a Wrath\n");
+				if (attacker.classname == "monster_super_wrath")
+					bprint (" was obliterated by an Overlord\n");
+				if (attacker.classname == "monster_sword")
+					bprint (" was slit open by a Phantom Swordsman\n");
+				if (attacker.classname == "monster_lava_man")
+					bprint (" fries in Hephaestus' fury\n");
+				if (attacker.classname == "monster_morph")
+					bprint (" was crushed by a Guardian\n");
+				if (attacker.classname == "monster_mummy")
+					bprint (" was Mummified\n");
+#endifdef
 #endifdef
 				return;
 			}
+
+#ifdef ROGUE_
+			if (attacker.classname == "ltrail_start" || 
+				attacker.classname == "ltrail_relay")
+			{
+				bprint (" rode the lightning\n");
+				return;
+			}
+			if (attacker.classname == "pendulum")
+			{
+				bprint (" was cleaved in two\n");
+				return;
+			}
+			if (attacker.classname == "buzzsaw")
+			{
+				bprint (" was sliced to pieces\n");
+				return;
+			}
+			if (attacker.classname == "plasma")
+			{
+				bprint ( " was turned to plasma\n");
+				return;
+			}
+			if (attacker.classname == "Vengeance")
+			{
+				// vengeance sphere doesn't count as a negative frag
+				targ.frags = targ.frags + 1;
+				bprint ( " was purged by the Vengeance Sphere\n");
+				return;
+			}
+			if (attacker.classname == "power_shield")
+			{
+				// shield attacks should count for frags too..
+				// shield death doesn't count as a negative frag
+				targ.frags = targ.frags + 1;
+				attacker.owner.frags = attacker.owner.frags + 1;
+				TeamAssists(targ, attacker.owner);			//PGM
+
+				deathstring = " was smashed by ";
+				deathstring2 = "\n";
+				bprint (deathstring);
+				bprint (attacker.owner.netname);
+				bprint (deathstring2);
+				return;
+			}
+#endifdef
 
 			// tricks and traps
 			if (attacker.classname == "explo_box")
