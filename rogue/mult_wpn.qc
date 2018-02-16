@@ -13,6 +13,11 @@
 // pmack
 // sept 96
 
+// Cat - just use rockets for now
+
+#define 		ammo_multi_rockets		ammo_rockets
+
+
 //=============================================================================
 // Multi Grenade Code
 //=============================================================================
@@ -126,6 +131,7 @@ void() W_FireMultiGrenade =
 	newmis.touch = MultiGrenadeTouch;
 	newmis.dmg = 60;
 	if (self.classname == "player") newmis.dmg = 90;
+	if (self.eweapon) newmis.dmg = self.eweapon.dmg;
 	newmis.nextthink = time + 2.5;			// 1; // rogue orig
 	newmis.think = MultiGrenadeExplode;
 	setmodel (newmis, "progs/mervup.mdl");
@@ -133,6 +139,9 @@ void() W_FireMultiGrenade =
 	newmis.classname = "MultiGrenade";
 /*
 // Cat - just use rockets for now
+	
+NOTE: if ammo_multi_rockets is restored use of W_FireGrenade needs fixed !
+
 	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
 //	self.currentammo = self.ammo_multi_rockets = self.ammo_multi_rockets - 1;
 
@@ -183,15 +192,17 @@ void() MultiRocketExplode =
 //	Stock Single Rocket Damage...
 //	damg = 100 + random()*20;
 
-	self.dmg = 60 + random()*15;
+	if (!self.dmg) self.dmg = 60;
+
+	self.ldmg_ = self.dmg + random()*15;
 
 	if (other.health)
 	{
 		if (other.classname == "monster_shambler")
-			self.dmg = self.dmg * 0.5;	// mostly immune
+			self.ldmg_ = self.ldmg_ * 0.5;	// mostly immune
 		if (other.classname == "monster_dragon")
-			self.dmg = self.dmg * 0.5;	// mostly immune
-		T_Damage (other, self, self.owner, self.dmg );
+			self.ldmg_ = self.ldmg_ * 0.5;	// mostly immune
+		T_Damage (other, self, self.owner, self.ldmg_ );
 	}
 
 	// don't do radius damage to the other, because all the damage
@@ -199,7 +210,7 @@ void() MultiRocketExplode =
 //	Stock single rocket damage.
 //	T_RadiusDamage (self, self.owner, 120, other);
 
-	T_RadiusDamage (self, self.owner, 75, other);
+	T_RadiusDamage (self, self.owner, self.dmg + 15, other);
 
 //	sound (self, CHAN_WEAPON, "weapons/r_exp3.wav", 1, ATTN_NORM);
 	self.origin = self.origin - 8*normalize(self.velocity);
@@ -220,7 +231,8 @@ void() MultiRocketTouch =
 	if (other == self.owner)
 		return;		// don't explode on owner
 
-	if (pointcontents(self.origin) == CONTENT_SKY)
+//	if (pointcontents(self.origin) == CONTENT_SKY)
+	if (sky_touch('0 0 0', self))
 	{
 		remove(self);
 		return;
@@ -302,7 +314,9 @@ void(float offset, float frameNum) MultiRocketLaunch =
 
 	setsize (newmis, '0 0 0', '0 0 0');		
 	setorigin (newmis, self.origin + v_forward*8 + '0 0 16');
-	
+
+	if (self.eweapon) newmis.dmg = self.eweapon.dmg;
+
 	if ( coop || deathmatch)
 	{
 		self.v__ = self.v_angle;
@@ -341,15 +355,17 @@ void(float offset, float frameNum) MultiRocketLaunch =
 	if ((self.rune_flag & RUNE_FLG_HS) || (self.rune_flag & TECH_TEIM))
 		newmis.velocity = newmis.velocity * 2;
 #endifdef
+
+#ifdef painkeep_splash
+			AddToSplash(newmis);
+#endifdef
 };
 
 //================================
 //================================
 void() W_FireMultiRocket =
 {
-// Cat - just use rockets for now
-	self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-//	self.currentammo = self.ammo_multi_rockets = self.ammo_multi_rockets - 1;
+	self.currentammo = self.ammo_multi_rockets = self.ammo_multi_rockets - 1;
 	
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
@@ -360,229 +376,3 @@ void() W_FireMultiRocket =
 	MultiRocketLaunch ( 5, 0 );
 	MultiRocketLaunch ( 10, 1 );
 };
-
-
-/*
-
-Blocked until further research is done, have our own plasma weps anyways
-
-//=============================================================================
-// Plasma Gun Code
-//=============================================================================
-void(vector p1, vector p2, entity from, float damage) PlasmaDamage =
-{
-	local entity		e1, e2;
-	local vector		f;
-	
-	f = p2 - p1;
-	normalize (f);
-	f_x = 0 - f_y;
-	f_y = f_x;
-	f_z = 0;
-	f = f*16;
-
-	e1 = e2 = world;
-
-	traceline (p1, p2, FALSE, self);
-	if (trace_ent.takedamage)
-	{
-//		particle (trace_endpos, '0 0 100', 225, damage*4);
-		spawn_particle = 225;
-		SpawnBlood (trace_ent, trace_endpos, '0 0 100' * 10, damage * 2);
-		T_Damage (trace_ent, from, from.owner, damage);
-		if (self.classname == "player")
-		{
-			if (other.classname == "player")
-				trace_ent.velocity_z = trace_ent.velocity_z + 400;
-		}
-	}
-	e1 = trace_ent;
-
-	traceline (p1 + f, p2 + f, FALSE, self);
-	if (trace_ent != e1 && trace_ent.takedamage)
-	{
-//		particle (trace_endpos, '0 0 100', 225, damage*4);
-		spawn_particle = 225;
-		SpawnBlood (trace_ent, trace_endpos, '0 0 100' * 10, damage * 2);
-		T_Damage (trace_ent, from, from.owner, damage);
-	}
-	e2 = trace_ent;
-
-	traceline (p1 - f, p2 - f, FALSE, self);
-	if (trace_ent != e1 && trace_ent != e2 && trace_ent.takedamage)
-	{
-//		particle (trace_endpos, '0 0 100', 225, damage*4);
-		spawn_particle = 225;
-		SpawnBlood (trace_ent, trace_endpos, '0 0 100' * 10, damage * 2);
-		T_Damage (trace_ent, from, from.owner, damage);
-	}
-};
-
-//================================
-//================================
-void(entity current, float doDamage) PlasmaDischarge =
-{
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_LIGHTNING2);
-	WriteEntity (MSG_BROADCAST, current);
-	WriteCoord (MSG_BROADCAST, current.origin_x);
-	WriteCoord (MSG_BROADCAST, current.origin_y);
-	WriteCoord (MSG_BROADCAST, current.origin_z);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-
-	sound (self, CHAN_VOICE, "weapons/lhit.wav", 1, ATTN_NORM);
-	if (doDamage == 1)
-        PlasmaDamage (self.origin, current.origin, self, 50);
-};
-
-//================================
-//================================
-void() PlasmaGroundOut = 
-{
-	local entity 	current, start;
-	local float		monstersHit;
-	
-	monstersHit = 0;
-	current = findradius ( self.origin, 320 );
-	start = current;
-	while ( monstersHit < 5 )
-	{
-		if ( current.flags & FL_MONSTER || current.classname == "player")
-		{
-			if ( current != self.owner )
-			{
-				traceline ( self.origin, current.origin, TRUE, world );
-				if (trace_fraction == 1)
-				{
-					monstersHit = monstersHit + 1;
-					PlasmaDischarge ( current, 1 );
-				}
-			}
-		}
-		current = current.chain;
-		if (start == current || !current)
-			return;
-	}
-};
-
-//================================
-//================================
-void() PlasmaTouch = 
-{
-	local float	damg;
-
-	if (other == self.owner)
-		return;		// don't explode on owner
-
-	if (pointcontents(self.origin) == CONTENT_SKY)
-	{
-		remove(self);
-		return;
-	}
-
-	damg = 80 + random()*20;
-	sound (self, CHAN_WEAPON, "plasma/explode.wav", 1, ATTN_NORM);
-	
-	if (other.health)
-	{
-		if (other.classname == "monster_shambler")
-			damg = damg * 0.5;	// mostly immune
-		T_Damage (other, self, self.owner, damg );
-	}
-
-	// don't do radius damage to the other, because all the damage
-	// was done in the impact
-	T_RadiusDamage (self, self.owner, 70, other);
-
-	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
-	WriteByte (MSG_BROADCAST, TE_EXPLOSION2);
-	WriteCoord (MSG_BROADCAST, self.origin_x);
-	WriteCoord (MSG_BROADCAST, self.origin_y);
-	WriteCoord (MSG_BROADCAST, self.origin_z);
-	WriteByte (MSG_BROADCAST, 244);
-	WriteByte (MSG_BROADCAST, 3);
-
-	PlasmaGroundOut();
-	remove (self);
-};
-
-//================================
-//================================
-void() PlasmaLaunch =
-{
-	self.velocity = normalize(self.velocity);
-	self.velocity = self.velocity * 1250;
-#ifdef code_runes
-	if ((self.owner.rune_flag & RUNE_FLG_HS) || (self.owner.rune_flag & TECH_TEIM))
-		self.velocity = self.velocity * 2;
-#endifdef
-
-	self.nextthink = time + 5;
-	self.think = SUB_Remove;
-};
-
-void(vector org, vector dir) launch_plasma =
-{
-	launch_spike(org, v_forward);
-
-//	newmis = spawn ();
-//	newmis.owner = self;
-//	newmis.movetype = MOVETYPE_FLYMISSILE;
-//	newmis.solid = SOLID_BBOX;
-	newmis.classname = "plasma";
-	
-// set missile speed	
-	newmis.velocity = dir * 0.01;
-	newmis.avelocity = '300 300 300';
-	newmis.angles = vectoangles(newmis.velocity);
-	newmis.touch = PlasmaTouch;
-
-	setmodel (newmis, "progs/plasma.mdl");
-	setsize (newmis, '0 0 0', '0 0 0');		
-//	setorigin (newmis, org);
-
-	sound (newmis, CHAN_WEAPON, "plasma/flight.wav", 1, ATTN_NORM);
-	if (!deathmatch && !coop)
-		newmis.effects = EF_BRIGHTLIGHT;
-	
-// set missile duration
-	newmis.think = PlasmaLaunch;
-	newmis.nextthink = time + 0.1;
-};
-
-//================================
-//================================
-void() W_FirePlasma = 
-{
-	local float		cells;
-	local vector 	dir;
-	
-	if (self.ammo_plasma < 1)
-	{
-		self.weapon = W_BestWeapon ();
-		W_SetCurrentAmmo ();
-		return;
-	}
-
-// explode if under water
-	if (self.waterlevel > 1)
-	{
-		cells = self.ammo_plasma;
-		self.ammo_plasma = 0;
-		W_SetCurrentAmmo ();
-		T_RadiusDamage (self, self, 35*cells, world);
-		return;
-	}
-	self.currentammo = self.ammo_plasma = self.ammo_plasma - 1;
-//	UpdateAmmoCounts (self);
-	sound (self, CHAN_WEAPON, "plasma/fire.wav", 0.5, ATTN_NORM);
-	self.punchangle_x = -2;
-
-	makevectors (self.v_angle);
-	dir = aim ( self, 1000 );
-	launch_plasma (self.origin + v_forward*24 + '0 0 16', dir);
-};
-
-*/

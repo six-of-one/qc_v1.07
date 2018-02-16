@@ -82,6 +82,9 @@
 	#messagecompiling rogue/lava_wpn.qc
 	#include </lava_wpn.qc>
 
+	#messagecompiling rogue/plasma_wpn.qc
+	#include </plasma_wpn.qc>
+
 //#endifdef
 
 

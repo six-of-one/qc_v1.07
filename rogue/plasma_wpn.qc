@@ -9,7 +9,11 @@
  * qc - rogue plasma weapons module
  *
  */
- 
+
+
+// hack for now
+
+#define		ammo_plasma		ammo_cells
  
 //=============================================================================
 // Plasma Gun Code
@@ -110,30 +114,31 @@ void() PlasmaGroundOut =
 //================================
 void() PlasmaTouch = 
 {
-	local float	damg;
-
 	if (other == self.owner)
 		return;		// don't explode on owner
 
-	if (pointcontents(self.origin) == CONTENT_SKY)
+//	if (pointcontents(self.origin) == CONTENT_SKY)
+	if (sky_touch('0 0 0', self))
 	{
 		remove(self);
 		return;
 	}
 
-	damg = 80 + random()*20;
+	if (!self.dmg) self.dmg = 80;
+
+	self.ldmg_ = self.dmg + random()*20;
 	sound (self, CHAN_WEAPON, "plasma/explode.wav", 1, ATTN_NORM);
 	
 	if (other.health)
 	{
 		if (other.classname == "monster_shambler")
-			damg = damg * 0.5;	// mostly immune
-		T_Damage (other, self, self.owner, damg );
+			self.ldmg_ = self.ldmg_ * 0.5;	// mostly immune
+		T_Damage (other, self, self.owner, self.ldmg_ );
 	}
 
 	// don't do radius damage to the other, because all the damage
 	// was done in the impact
-	T_RadiusDamage (self, self.owner, 70, other);
+	T_RadiusDamage (self, self.owner, self.dmg - 10, other);
 
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
 	WriteByte (MSG_BROADCAST, TE_EXPLOSION2);
@@ -160,31 +165,31 @@ void() PlasmaLaunch =
 
 void(vector org, vector dir) launch_plasma =
 {
-	local entity	missile, mpuff;
-
-	missile = spawn ();
-	missile.owner = self;
-	missile.movetype = MOVETYPE_FLYMISSILE;
-	missile.solid = SOLID_BBOX;
-	missile.classname = "plasma";
+	newmis = spawn ();
+	newmis.owner = self;
+	newmis.movetype = MOVETYPE_FLYMISSILE;
+	newmis.solid = SOLID_BBOX;
+	newmis.classname = "plasma";
 	
-// set missile speed	
-	missile.velocity = dir * 0.01;
-	missile.avelocity = '300 300 300';
-	missile.angles = vectoangles(missile.velocity);
-	missile.touch = PlasmaTouch;
-	
-	setmodel (missile, "progs/plasma.mdl");
-	setsize (missile, '0 0 0', '0 0 0');		
-	setorigin (missile, org);
+// set newmis speed	
+	newmis.velocity = dir * 0.01;
+	newmis.avelocity = '300 300 300';
+	newmis.angles = vectoangles(newmis.velocity);
+	newmis.touch = PlasmaTouch;
 
-	sound (missile, CHAN_WEAPON, "plasma/flight.wav", 1, ATTN_NORM);
+	if (self.eweapon) newmis.dmg = self.eweapon.dmg;
+
+	setmodel (newmis, "progs/plasma.mdl");
+	setsize (newmis, '0 0 0', '0 0 0');		
+	setorigin (newmis, org);
+
+	sound (newmis, CHAN_WEAPON, "plasma/flight.wav", 1, ATTN_NORM);
 	if (!deathmatch && !coop)
-		missile.effects = EF_BRIGHTLIGHT;
+		newmis.effects = EF_BRIGHTLIGHT;
 	
-// set missile duration
-	missile.think = PlasmaLaunch;
-	missile.nextthink = time + 0.1;
+// hang time till it flies
+	newmis.think = PlasmaLaunch;
+	newmis.nextthink = time + 0.1;
 };
 
 //================================
@@ -204,19 +209,28 @@ void() W_FirePlasma =
 // explode if under water
 	if (self.waterlevel > 1)
 	{
-		cells = self.ammo_plasma;
+		f4__ = self.ammo_plasma;
 		self.ammo_plasma = 0;
 		W_SetCurrentAmmo ();
-		T_RadiusDamage (self, self, 35*cells, world);
+		T_RadiusDamage (self, self, 35 * f4__, world);
 		return;
 	}
 	self.currentammo = self.ammo_plasma = self.ammo_plasma - 1;
-	UpdateAmmoCounts (self);
+//	UpdateAmmoCounts (self);
 	sound (self, CHAN_WEAPON, "plasma/fire.wav", 0.5, ATTN_NORM);
 	self.punchangle_x = -2;
 
 	makevectors (self.v_angle);
-	dir = aim ( self, 1000 );
-	launch_plasma (self.origin + v_forward*24 + '0 0 16', dir);
+	v1__ = aim ( self, 1000 );
+#ifdef code_viswep
+	v0__ = self.origin + v_forward*24 + '0 0 16';
+#ifdef vwlaunch
+	if (self.vwlaunch)
+#endifdef
+		v0__ = self.origin + v_right * VWY_THUNDER + v_forward * VWX_THUNDER + v_up * VWZ_THUNDER;
+	launch_plasma (v0__, v1__);
+#else
+	launch_plasma (self.origin + v_forward*24 + '0 0 16', v1__);
+#endifdef
 };
 
