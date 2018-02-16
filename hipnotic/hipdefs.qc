@@ -139,8 +139,13 @@ void() ai_run_dodge;
 .string	  spawnmodel;
 .void()	  spawnthink;
 .entity	  spawnmaster;
-.vector	  spawnmins;
-.vector	  spawnmaxs;
+	#ifdef opgrade
+		#define	spawnmins		pos1
+		#define	spawnmaxs		pos2
+	#else
+		.vector	  spawnmins;
+		.vector	  spawnmaxs;
+	#endifdef
 #endifdef
 
 // used by spawn, scourge, player
